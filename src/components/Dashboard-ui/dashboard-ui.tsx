@@ -12,6 +12,8 @@ import {
   TrendingUp,
   Search,
 } from "lucide-react";
+
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -48,6 +50,8 @@ interface SidebarItemProps {
   text: string;
   active?: boolean;
   hasSubmenu?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
 }
 
 interface OrderStatProps {
@@ -64,18 +68,23 @@ interface StoresStatProps {
 interface TopHeaderProps {
   userName: string;
   userImage?: string;
+  onMenuClick: () => void;
+  width?: number;
 }
-const TopHeader: React.FC<TopHeaderProps> = ({ userName, userImage }) => (
-  <div className="bg-purple-600 text-white px-6 py-3 flex items-center justify-between">
-    {/* Logo */}
-    <div className="text-xl font-bold">
-      <Logo />
-    </div>
-
-    {/* Search Bar */}
-    <div className="flex-1 max-w-2xl mx-8">
+const TopHeader: React.FC<TopHeaderProps> = ({
+  userName,
+  userImage,
+  onMenuClick,
+  width = 0,
+}) => (
+  <div className="bg-purple-600 text-white px-3 sm:px-4 md:px-6 py-2 md:py-3 flex flex-wrap items-center justify-between gap-2">
+  
+  <div className={`${width <= 375 ? 'hidden' : 'block'} text-lg md:text-xl font-bold`}>
+ <Logo />
+</div>
+    <div className="flex-1 w-full sm:w-auto max-w-2xl mx-2 md:mx-8 order-3 sm:order-2">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
         <input
           type="text"
           placeholder="Search"
@@ -84,14 +93,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({ userName, userImage }) => (
       </div>
     </div>
 
-    {/* Right Section */}
-    <div className="flex items-center space-x-6">
-      {/* Website URL */}
-      <button className="flex items-center space-x-2 px-3 py-1.5 bg-white rounded-lg text-sm hover:bg-white/20 transition-colors">
-        {/* <div className="flex items-center space-x-2"> */}
-        <span className="text-sm text-black">www.design-mart.com</span>
+    <div className="flex items-center gap-2 sm:gap-4 md:gap-6 order-2 sm:order-3">
+      <button className="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-white rounded-lg text-sm hover:bg-white/20 transition-colors">
+        <span className={`${width <= 375 ? 'hidden' : 'block'} text-sm text-black`} >www.design-mart.com</span>
         <svg
-          className="h-4 w-4 stroke-balck"
+          className="h-4 w-4 stroke-black"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -105,20 +111,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({ userName, userImage }) => (
         </svg>
       </button>
 
-      {/* DHAAM AI Button */}
-      <button className="px-3 py-1.5 bg-white/10 rounded-lg text-sm hover:bg-white/20 transition-colors">
+      <button className={`${width <= 375 ? 'hidden' : 'block'} px-2 sm:px-3 py-1.5 bg-white/10 rounded-lg text-xs sm:text-sm hover:bg-white/20 transition-colors whitespace-nowrap`}>
         DHAAM AI
       </button>
 
-      {/* Notifications */}
       <button className="relative p-2 bg-white hover:bg-white/10 rounded-lg">
         <Bell className="h-5 w-5 text-black" />
         <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
       </button>
 
-      {/* User Profile */}
-      <button className="flex items-center p-1 space-x-3 bg-white text-black rounded-lg">
-        <span className="text-sm font-medium">{userName}</span>
+      <button className="flex items-center p-1 space-x-2 sm:space-x-3 bg-white text-black rounded-lg">
+        <span className="hidden sm:inline text-sm font-medium">{userName}</span>
         <img
           src={userImage || "/api/placeholder/32/32"}
           alt={userName}
@@ -134,15 +137,20 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   text,
   active = false,
   hasSubmenu = false,
+  children,
+  onClick,
 }) => (
-  <div
-    className={`flex items-center px-4 py-2 my-1 rounded-lg cursor-pointer ${
-      active ? "bg-gray-100" : "hover:bg-background-grey"
-    }`}
-  >
-    <div className="text-gray-600 mr-3">{icon}</div>
-    <span className="text-gray-700 flex-1">{text}</span>
-    {hasSubmenu && <ChevronDown className="h-4 w-4 text-gray-400" />}
+  <div onClick={onClick}>
+    <div
+      className={`flex items-center px-4 py-2 my-1 rounded-lg cursor-pointer ${
+        active ? "bg-gray-100" : "hover:bg-background-grey"
+      }`}
+    >
+      <div className="text-gray-600 mr-3">{icon}</div>
+      <span className="text-gray-700 flex-1">{text}</span>
+      {/* {hasSubmenu && <ChevronDown className="h-4 w-4 text-gray-400" />} */}
+    </div>
+    {children}
   </div>
 );
 
@@ -165,21 +173,90 @@ const StoresStat: React.FC<StoresStatProps> = ({ title, value }) => (
 );
 
 const DashboardLayout = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+  // Show sidebar by default at 834px
+  const showSidebar = width >= 834;
+
   return (
     <div className="flex flex-col h-screen">
-      <TopHeader userName="Aman Kumar" />
+      <TopHeader
+        userName="Aman Kumar"
+        onMenuClick={toggleSidebar}
+        width={width}
+      />
 
       <div className="flex flex-1 overflow-hidden">
+        {/* Overlay for mobile */}
+        {isSidebarOpen && width < 834 && (
+          <div
+            className="fixed inset-0 bg-gray-600 bg-opacity-50 z-20"
+            onClick={toggleSidebar}
+          />
+        )}
+
         {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-gray-200">
-          <div className="p-6">
-            {/* <h1 className="text-xl font-bold text-purple-600 mb-8">Dhaam</h1> */}
+        <div
+          className={`
+          fixed sm:relative inset-y-0 left-0 
+          transform ${
+            isSidebarOpen || showSidebar ? "translate-x-0" : "-translate-x-full"
+          }
+          transition-transform duration-300 ease-in-out
+          w-64 bg-white border-r border-gray-200 z-30
+        `}
+        >
+          <div className="p-4 md:p-6">
+            {width < 834 && (
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-xl font-bold text-purple-600">Dhaam</h1>
+                <button
+                  onClick={toggleSidebar}
+                  className="p-2 rounded-md hover:bg-gray-100"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
 
             <nav className="space-y-1">
-              <SidebarItem icon={<GetStarted />} text="Get Started" />
+              <SidebarItem
+                icon={<GetStarted />}
+                text="Get Started"
+                onClick={() => width < 834 && toggleSidebar()}
+              />
               <SidebarItem icon={<Dashboard />} text="Dashboard" active />
               <SidebarItem icon={<Orders />} text="Orders" hasSubmenu />
-              <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
+              <SidebarItem icon={<Menu />} text="Menu" hasSubmenu>
+                <div className="pl-8 mt-1 space-y-1">
+                  <div className="text-gray-600 py-1">List</div>
+                  <div className="text-gray-600 py-1">List</div>
+                  <div className="text-gray-600 py-1">List</div>
+                  <div className="text-gray-600 py-1">List</div>
+                  <div className="text-gray-600 py-1">List</div>
+                </div>
+              </SidebarItem>
               <SidebarItem icon={<Customers />} text="Customers" />
               <SidebarItem icon={<Stores />} text="Stores" hasSubmenu />
               <SidebarItem icon={<Settings />} text="Setting" hasSubmenu />
@@ -188,42 +265,64 @@ const DashboardLayout = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden">
           {/* Header */}
-          <header className=" px-6 py-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Analytics
-                </h2>
+          <header className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+              <div className="flex items-center gap-4">
+                {width < 834 && (
+                  <button
+                    onClick={toggleSidebar}
+                    className="p-2 rounded-md hover:bg-white/10"
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
+                )}
+                <Logo className="h-8" />
               </div>
-              <div className="flex items-center space-x-6">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
                 <button className="p-2 hover:bg-gray-100 rounded-full">
                   <Clock className="h-5 w-5 text-gray-600" />
                 </button>
-                <div className="flex items-center space-x-3">
-                  <span className="text-gray-600">Auto Refresh</span>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <span className="text-gray-600 text-sm sm:text-base">
+                    Auto Refresh
+                  </span>
                   <div className="w-12 h-6 bg-purple-600 rounded-full relative cursor-pointer">
                     <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
-                <button className="bg-white px-4 py-2 border border-gray-200 rounded-md text-gray-600">
-                  Today
-                </button>
-                <button className="px-4 py-2 bg-purple-600 text-white rounded-md">
-                  Customise
-                </button>
+                <div className="flex gap-2 sm:gap-3 ml-auto sm:ml-0">
+                  <button className="bg-white px-3 sm:px-4 py-2 border border-gray-200 rounded-md text-gray-600 text-sm">
+                    Today
+                  </button>
+                  <button className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-md text-sm">
+                    Customise
+                  </button>
+                </div>
               </div>
             </div>
           </header>
 
           {/* Dashboard Content */}
-          <div className="p-6">
-            <div className="grid grid-cols-2 gap-6">
+          <div className="h-[calc(100vh-130px)] overflow-y-auto p-3  sm:p-4 md:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
               {/* Revenue Card */}
               <Card className="bg-white">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color">
+                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color text-sm sm:text-base">
                     Revenue
                     <button className="flex justify-items-center p-1.5 items-center rounded-md border-solid border-grey-border border-y-[1px] border-x-[1px]">
                       <ChevronRight />
@@ -232,12 +331,17 @@ const DashboardLayout = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mb-4">
-                    <h3 className="text-3xl font-bold text-gray-900">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
                       $10000000.00
                     </h3>
                   </div>
-                  <div>
-                    <LineChart width={450} height={80} data={revenueData}>
+                  <div className="w-full overflow-x-auto">
+                    <LineChart
+                      width={350}
+                      height={80}
+                      data={revenueData}
+                      className="w-full min-w-[350px]"
+                    >
                       <XAxis dataKey="time" />
                       <YAxis />
                       <Tooltip />
@@ -256,7 +360,7 @@ const DashboardLayout = () => {
               {/* Orders Card */}
               <Card className="bg-white">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color">
+                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color text-sm sm:text-base">
                     Orders
                     <button className="flex justify-items-center p-1.5 items-center rounded-md border-solid border-grey-border border-y-[1px] border-x-[1px]">
                       <ChevronRight />
@@ -264,11 +368,7 @@ const DashboardLayout = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-background-grey grid grid-cols-4 gap-4 p-4">
-                    {/* <OrderStat title="Completed" value="1000" icon="✓" />
-                    <OrderStat title="Dispatched" value="1000" icon="🚚" />
-                    <OrderStat title="Pending" value="1000" icon="⏰" />
-                    <OrderStat title="Cancelled" value="1000" icon="✕" /> */}
+                  <div className="bg-background-grey grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4">
                     <OrderStat
                       title="Completed"
                       value="1000"
@@ -294,9 +394,9 @@ const DashboardLayout = () => {
               </Card>
 
               {/* New Customers Card */}
-              <Card className={"bg-white"}>
+              <Card className="bg-white">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color">
+                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color text-sm sm:text-base">
                     New customers
                     <button className="flex justify-items-center p-1.5 items-center rounded-md border-solid border-grey-border border-y-[1px] border-x-[1px]">
                       <ChevronRight />
@@ -304,7 +404,7 @@ const DashboardLayout = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                     6543
                   </h3>
                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -315,17 +415,21 @@ const DashboardLayout = () => {
                   </div>
                   <div className="mt-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Title here</span>
-                      <span className="text-sm text-gray-600">00%</span>
+                      <span className="text-xs sm:text-sm text-gray-600">
+                        Title here
+                      </span>
+                      <span className="text-xs sm:text-sm text-gray-600">
+                        00%
+                      </span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Stores Card */}
-              <Card className={"bg-white"}>
+              <Card className="bg-white">
                 <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color">
+                  <CardTitle className="flex justify-between items-center font-base font-medium text-headding-color text-sm sm:text-base">
                     Stores
                     <button className="flex justify-items-center p-1.5 items-center rounded-md border-solid border-grey-border border-y-[1px] border-x-[1px]">
                       <ChevronRight />
@@ -333,7 +437,7 @@ const DashboardLayout = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-4 gap-4 p-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4">
                     <StoresStat title="Active Store" value="10" />
                     <StoresStat title="Inactive Store" value="10" />
                     <StoresStat title="Open Store" value="10" />
