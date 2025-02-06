@@ -299,12 +299,12 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           <button
             className={`relative p-2 ${
               isMobile ? "text-white hover:bg-white/10" : "bg-white"
-            } rounded-lg`}
+            } rounded-custom border border-reloadBorder`}
           >
             <Bell
               className={`h-5 w-5 ${isMobile ? "text-white" : "text-gray-900"}`}
             />
-            <div className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full" />
+            {/* <div className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full" /> */}
           </button>
 
           {/* User Profile */}
@@ -536,27 +536,31 @@ const DashboardLayout = () => {
         <div className="flex-1 overflow-hidden">
           {/* Header */}
           {isTablet && (
-            <div className="px-4 py-3">
+            <div className="px-5 py-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3"></div>
-
                 {/* <div className="flex items-center gap-4"> */}
                 <h1 className="text-xl font-semibold font-inter font-[600]">
                   Analytics
                 </h1>
-                <button className="p-2 rounded-lg bg-white/10">
+                <button className="p-2  hover:bg-gray-100 rounded-custom  bg-reloadBackground">
                   <svg
-                    className="w-5 h-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
                     fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
+                    <g clip-path="url(#clip0_4512_275)">
+                      <path
+                        d="M14.66 15.66C13.352 16.9694 11.6305 17.7848 9.78879 17.9673C7.94705 18.1498 6.09901 17.6881 4.55952 16.6608C3.02004 15.6335 1.88436 14.1042 1.34597 12.3335C0.807587 10.5628 0.899804 8.66015 1.60691 6.94979C2.31402 5.23944 3.59227 3.82716 5.22389 2.95357C6.85551 2.07998 8.73954 1.79914 10.555 2.15888C12.3705 2.51863 14.005 3.4967 15.1802 4.92647C16.3554 6.35624 16.9985 8.14925 17 10H15C15.0012 8.61181 14.521 7.26614 13.6413 6.1923C12.7615 5.11846 11.5366 4.38291 10.1753 4.11097C8.81404 3.83904 7.40056 4.04755 6.17577 4.70098C4.95098 5.35442 3.99066 6.41233 3.45845 7.69446C2.92625 8.97659 2.85509 10.4036 3.25711 11.7323C3.65913 13.061 4.50944 14.2092 5.66315 14.9813C6.81687 15.7533 8.20259 16.1014 9.58419 15.9662C10.9658 15.8311 12.2578 15.221 13.24 14.24L14.66 15.66ZM12 10H20L16 14L12 10Z"
+                        fill="#949494"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_4512_275">
+                        <rect width="20" height="20" fill="white" />
+                      </clipPath>
+                    </defs>
                   </svg>
                 </button>
                 <div className="flex items-center gap-2">
@@ -564,24 +568,99 @@ const DashboardLayout = () => {
                     Auto Refresh
                   </span>
                   <div className="w-12 h-6 bg-purple-600 rounded-full relative">
-                    <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="41"
+                      height="24"
+                      viewBox="0 0 41 24"
+                      fill="none"
+                    >
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="39"
+                        height="21"
+                        rx="10.5"
+                        fill="#7C43DF"
+                        stroke="#7C43DF"
+                      />
+                      <g filter="url(#filter0_dd_4512_259)">
+                        <circle cx="29" cy="11" r="9" fill="white" />
+                      </g>
+                      <defs>
+                        <filter
+                          id="filter0_dd_4512_259"
+                          x="17"
+                          y="0"
+                          width="24"
+                          height="24"
+                          filterUnits="userSpaceOnUse"
+                          color-interpolation-filters="sRGB"
+                        >
+                          <feFlood
+                            flood-opacity="0"
+                            result="BackgroundImageFix"
+                          />
+                          <feColorMatrix
+                            in="SourceAlpha"
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha"
+                          />
+                          <feOffset dy="1" />
+                          <feGaussianBlur stdDeviation="1" />
+                          <feColorMatrix
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in2="BackgroundImageFix"
+                            result="effect1_dropShadow_4512_259"
+                          />
+                          <feColorMatrix
+                            in="SourceAlpha"
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha"
+                          />
+                          <feOffset dy="1" />
+                          <feGaussianBlur stdDeviation="1.5" />
+                          <feColorMatrix
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in2="effect1_dropShadow_4512_259"
+                            result="effect2_dropShadow_4512_259"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in="SourceGraphic"
+                            in2="effect2_dropShadow_4512_259"
+                            result="shape"
+                          />
+                        </filter>
+                      </defs>
+                    </svg>
                   </div>
                 </div>
-                <button className="flex items-center gap-8  px-8 sm:px-2 py-2  rounded-md text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
+                <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
                   Today
                   <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
                   >
                     <path
-                      d="M4 4V2M12 4V2M4 7H12M2 14H14C14.5523 14 15 13.5523 15 13V4C15 3.44772 14.5523 3 14 3H2C1.44772 3 1 3.44772 1 4V13C1 13.5523 1.44772 14 2 14Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      d="M4.66667 4.08333V1.75M9.33333 4.08333V1.75M4.08333 6.41667H9.91667M2.91667 12.25H11.0833C11.7277 12.25 12.25 11.7277 12.25 11.0833V4.08333C12.25 3.439 11.7277 2.91667 11.0833 2.91667H2.91667C2.27233 2.91667 1.75 3.439 1.75 4.08333V11.0833C1.75 11.7277 2.27233 12.25 2.91667 12.25Z"
+                      stroke="#949494"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
                     />
                   </svg>
                 </button>
@@ -747,7 +826,7 @@ const DashboardLayout = () => {
                     </div>
                   </div>
                   <div className="flex gap-2 sm:gap-5 ml-auto sm:ml-0">
-                    <button className="flex items-center gap-2 bg-white px-2 sm:px-2 py-2 border border-gray-200 rounded-md text-gray-600 text-sm font-inter font-[600] border-custom">
+                    <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
                       Today
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -759,13 +838,13 @@ const DashboardLayout = () => {
                         <path
                           d="M4.66667 4.08333V1.75M9.33333 4.08333V1.75M4.08333 6.41667H9.91667M2.91667 12.25H11.0833C11.7277 12.25 12.25 11.7277 12.25 11.0833V4.08333C12.25 3.439 11.7277 2.91667 11.0833 2.91667H2.91667C2.27233 2.91667 1.75 3.439 1.75 4.08333V11.0833C1.75 11.7277 2.27233 12.25 2.91667 12.25Z"
                           stroke="#949494"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
                         />
                       </svg>
                     </button>
-                    <button className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-md text-sm font-inter font-semibold">
+                    <button className="px-3 sm:px-4 py-2 bg-bgButton text-white rounded-md text-sm font-inter text-sm font-[600] leading-[15.6px]">
                       Customise
                     </button>
                   </div>

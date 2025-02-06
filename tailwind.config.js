@@ -19,7 +19,8 @@ module.exports = {
         "background-grey": "#F5F5F5",
         "store-card": "#FCFCFC",
         "reloadBackground": "#DBDBDB",
-        "backgroundWhite": "#FFF"
+        "backgroundWhite": "#FFF",
+        "bgButton": "#7C43DF"
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -28,6 +29,7 @@ module.exports = {
       },
       borderRadius: {
         'custom': '6px',
+        
       },
     },
     fontFamily: {
