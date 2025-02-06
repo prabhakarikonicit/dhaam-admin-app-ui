@@ -175,6 +175,17 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     <div className=" flex flex-col">
       {/* Top Bar */}
       <div className=" bg-[#7C43DF] flex items-center px-3 py-3 gap-3">
+      {isMobile && (
+              <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
+                
+                <GlobeAlt />
+                <span className="text-sm sm:px-1 md:px-1  font-inter font-[600] leading-[15.6px] text-gray-900">
+                  www.design-mart.com
+                </span>
+                <ExternalLink />
+                
+              </button>
+            )}
         {isMobile && (
           <button
             onClick={onMenuClick}
@@ -239,16 +250,16 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 } text-sm focus:outline-none`}
               />
             </div>
-
+            
             {!isMobile && (
               <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
                 
-
+                <GlobeAlt />
                 <span className="text-sm sm:px-1 md:px-1 font-inter font-[600] leading-[15.6px] text-gray-900">
                   www.design-mart.com
                 </span>
-
                 <ExternalLink />
+                
               </button>
             )}
           </div>
@@ -317,7 +328,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
       {/* Mobile Analytics Header */}
       {isMobile && (
         <div className="flex items-center justify-between p-3 bg-hidden">
-          <h1 className="text-xl sm:text-xl font-inter font-[600] text-gray-800">
+          <h1 className="text-xl sm:text-xl px-6 font-inter font-[600] text-gray-800">
             Analytics
           </h1>
           <div className="flex items-center gap-2">
@@ -509,7 +520,7 @@ const DashboardLayout = () => {
             <div className="px-5 py-3">
               <div className="flex items-center justify-between">
                 {/* <div className="flex items-center gap-4"> */}
-                <h1 className="text-xl font-semibold font-inter font-[600]">
+                <h1 className="text-xl px-6 font-semibold font-inter font-[600]">
                   Analytics
                 </h1>
                 <button className="p-2  hover:bg-gray-100 rounded-custom  bg-reloadBackground">
@@ -653,7 +664,7 @@ const DashboardLayout = () => {
                       </svg>
                     </button>
                   )} */}
-                  <h2 className="text-lg sm:text-xl font-inter font-[600] text-gray-800">
+                  <h2 className="text-lg px-6 sm:text-xl font-inter font-[600] text-gray-800">
                     Analytics
                   </h2>
 
