@@ -234,7 +234,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </div>
 
             {!isMobile && (
-              <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-3">
+              <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="14"
@@ -250,7 +250,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                   />
                 </svg>
 
-                <span className="text-sm gap:6 font-medium text-gray-900">
+                <span className="text-sm sm:px-1 md:px-1 font-inter font-[600] leading-[15.6px] text-gray-900">
                   www.design-mart.com
                 </span>
 
@@ -318,7 +318,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </button>
           ) : (
             <button className="flex items-center gap-2 pl-2 pr-1 py-1 bg-white rounded-lg">
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm font-inter text-sm font-[600] leading-[15.6px]">
                 {userName}
               </span>
               <img
