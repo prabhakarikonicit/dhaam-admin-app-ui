@@ -32,6 +32,7 @@ import { ReactComponent as Dispatched } from "../../lib/Images/dispatched.svg";
 import { ReactComponent as GetStarted } from "../../lib/Images/getStarted.svg";
 import { ReactComponent as InfoIcon } from "../../lib/Images/info-icon.svg";
 import { ReactComponent as Logo } from "../../lib/Images/logo.svg";
+import logo2 from "../../lib/Images/logo.png"; 
 import { ReactComponent as Menu } from "../../lib/Images/menu.svg";
 import { ReactComponent as Orders } from "../../lib/Images/orders.svg";
 import { ReactComponent as Pending } from "../../lib/Images/pending.svg";
@@ -298,11 +299,11 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {/* Notification Bell */}
           <button
             className={`relative p-2 ${
-              isMobile ? "text-white hover:bg-white/10" : "bg-white"
+              isMobile ? "bg-backgroundWhite  hover:bg-white/10" : "bg-backgroundWhite"
             } rounded-custom border border-reloadBorder`}
           >
             <Bell
-              className={`h-5 w-5 ${isMobile ? "text-white" : "text-gray-900"}`}
+              className={`h-5 w-5 ${isMobile ? "bg-backgroundWhite" : "bg-white "}`}
             />
             {/* <div className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full" /> */}
           </button>
@@ -719,6 +720,7 @@ const DashboardLayout = () => {
                     Analytics
                   </h2>
                   <Logo className="h-8" />
+                  {/* <logo2 className="h-8" /> */}
                 </div>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
                   <button className="p-2 hover:bg-gray-100 rounded-custom  bg-reloadBackground">
