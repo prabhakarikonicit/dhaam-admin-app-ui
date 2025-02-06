@@ -38,7 +38,8 @@ module.exports = {
     },
 =======
         "reloadBackground": "#DBDBDB",
-        "backgroundWhite": "#FFF"
+        "backgroundWhite": "#FFF",
+        "bgButton": "#7C43DF"
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -47,6 +48,7 @@ module.exports = {
       },
       borderRadius: {
         'custom': '6px',
+        
       },
     },
     fontFamily: {
