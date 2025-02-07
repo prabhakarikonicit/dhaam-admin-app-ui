@@ -36,9 +36,9 @@ import { ReactComponent as Logo } from "../../lib/Images/logo.svg";
 import { ReactComponent as GlobeAlt } from "../../lib/Images/globe-alt.svg";
 
 import { ReactComponent as ExternalLink } from "../../lib/Images/external-link.svg";
-import { ReactComponent as ToggleOn} from "../../lib/Images/Toggle on.svg";
+import { ReactComponent as ToggleOn } from "../../lib/Images/Toggle on.svg";
 
-import logo2 from "../../lib/Images/logo.png"; 
+import logo2 from "../../lib/Images/logo.png";
 import { ReactComponent as Menu } from "../../lib/Images/menu.svg";
 import { ReactComponent as Orders } from "../../lib/Images/orders.svg";
 import { ReactComponent as Pending } from "../../lib/Images/pending.svg";
@@ -168,24 +168,13 @@ const TopHeader: React.FC<TopHeaderProps> = ({
   onMenuClick,
   width = 0,
 }) => {
+  // const isMobile = width < 640 && width <= 466;
   const isMobile = width < 640;
-  const myScreen = width <= 767;
 
   return (
     <div className=" flex flex-col">
       {/* Top Bar */}
       <div className=" bg-[#7C43DF] flex items-center px-3 py-3 gap-3">
-      {isMobile && (
-              <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
-                
-                <GlobeAlt />
-                <span className="text-sm sm:px-1 md:px-1  font-inter font-[600] leading-[15.6px] text-gray-900">
-                  www.design-mart.com
-                </span>
-                <ExternalLink />
-                
-              </button>
-            )}
         {isMobile && (
           <button
             onClick={onMenuClick}
@@ -250,16 +239,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
                 } text-sm focus:outline-none`}
               />
             </div>
-            
+
             {!isMobile && (
               <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
-                
                 <GlobeAlt />
                 <span className="text-sm sm:px-1 md:px-1 font-inter font-[600] leading-[15.6px] text-gray-900">
                   www.design-mart.com
                 </span>
                 <ExternalLink />
-                
               </button>
             )}
           </div>
@@ -292,11 +279,15 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           {/* Notification Bell */}
           <button
             className={`relative p-2 ${
-              isMobile ? "bg-backgroundWhite  hover:bg-white/10" : "bg-backgroundWhite"
+              isMobile
+                ? "bg-backgroundWhite  hover:bg-white/10"
+                : "bg-backgroundWhite"
             } rounded-custom border border-reloadBorder`}
           >
             <Bell
-              className={`h-5 w-5 ${isMobile ? "bg-backgroundWhite" : "bg-white "}`}
+              className={`h-5 w-5 ${
+                isMobile ? "bg-backgroundWhite" : "bg-white "
+              }`}
             />
             {/* <div className="absolute top-1.5 right-1.5 h-2 w-2 bg-red-500 rounded-full" /> */}
           </button>
@@ -334,8 +325,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
           <div className="flex items-center gap-2">
             <button className="flex items-center gap-8  px-8 sm:px-2 py-2  rounded-md text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
               Today
-              <Calendar/>
- 
+              <Calendar />
             </button>
             <button className="p-2 hover:bg-white/10 mx-3 font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-lg">
               <svg
@@ -524,7 +514,7 @@ const DashboardLayout = () => {
                   Analytics
                 </h1>
                 <button className="p-2  hover:bg-gray-100 rounded-custom  bg-reloadBackground">
-                  <Reload/>
+                  <Reload />
                 </button>
                 <div className="flex items-center gap-2">
                   <span className="text-textHeading text-[14px] leading-[21px] font-inter font-[500] sm:text-[14px] item-center">
@@ -611,7 +601,7 @@ const DashboardLayout = () => {
                 </div>
                 <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
                   Today
-                  <Calendar/>
+                  <Calendar />
                 </button>
                 <button className="p-2 hover:bg-white/10 mx-3 font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-lg">
                   <svg
@@ -667,7 +657,6 @@ const DashboardLayout = () => {
                   <h2 className="text-lg px-6 sm:text-xl font-inter font-[600] text-gray-800">
                     Analytics
                   </h2>
-
                 </div>
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
                   <button className="p-2 hover:bg-gray-100 rounded-custom  bg-reloadBackground">
@@ -678,13 +667,13 @@ const DashboardLayout = () => {
                       Auto Refresh
                     </span>
                     <div className="w-12 h-6 bg-purple-600 rounded-full relative cursor-pointer">
-                      <ToggleOn/>
+                      <ToggleOn />
                     </div>
                   </div>
                   <div className="flex gap-2 sm:gap-5 ml-auto sm:ml-0">
                     <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-sm font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
                       Today
-                      <Calendar/>
+                      <Calendar />
                     </button>
                     <button className="px-3 sm:px-4 py-2 bg-bgButton text-white rounded-md text-sm font-inter text-sm font-[600] leading-[15.6px]">
                       Customise
@@ -695,118 +684,126 @@ const DashboardLayout = () => {
             </header>
           )}
           {/* Dashboard Content */}
-          <div className="h-[calc(100vh-130px)] overflow-y-auto p-3  sm:p-4 md:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4 md:gap-6">
+          <div className="h-[calc(100vh-130px)] overflow-y-auto p-3 sm:p-4 md:p-6">
+            <div className="grid grid-cols-12  sm:grid-cols-12 md:grid-cols-12 gap-3 sm:gap-4 md:gap-6 mb-6">
               {/* Revenue Card */}
-              <Card className="bg-white">
-                <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center text-sm font-medium">
-                    <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                      Revenue
-                      <Info className="w-4 h-4 text-gray-400" />
+              <div className="col-span-12 sm:col-span-12 md:col-span-4 ">
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-sm font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Revenue
+                        <Info className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="mb-4">
+                      <h3 className="text-[22px] sm:text-[22px] md:text-[22px] font-inter font-[600] text-gray-900 leading-[1.75]">
+                        $10000000.00
+                      </h3>
                     </div>
-                    <button className="p-1.5 rounded-md border border-gray-200">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-4">
-                    <h3 className="text-[22px] sm:text-[22px] md:text-[22px] font-inter font-[600] text-gray-900 leading-[1.75]">
-                      $10000000.00
-                    </h3>
-                  </div>
-                  <div className="w-full overflow-x-auto">
-                    <LineChart
-                      width={350}
-                      height={80}
-                      data={revenueData}
-                      className="w-full min-w-[350px]"
-                    >
-                      <XAxis dataKey="time" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke="#8884d8"
-                        strokeWidth={2}
-                        dot={{ r: 4 }}
+                    <div className="w-full overflow-x-auto">
+                      <LineChart
+                        width={300}
+                        height={80}
+                        data={revenueData}
+                        className="w-full min-w-[300px]"
+                      >
+                        <XAxis dataKey="time" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line
+                          type="monotone"
+                          dataKey="value"
+                          stroke="#8884d8"
+                          strokeWidth={2}
+                          dot={{ r: 4 }}
+                        />
+                      </LineChart>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="col-span-12 sm:col-span-12 md:col-span-8">
+                {/* Orders Card */}
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-sm font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Orders
+                        <Info className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-background-grey grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4 md:font-inter">
+                      <OrderStat
+                        title="Completed"
+                        value="1000"
+                        icon={<Completed />}
                       />
-                    </LineChart>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Orders Card */}
-              <Card className="bg-white">
-                <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center text-sm font-medium">
-                    <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                      Orders
-                      <Info className="w-4 h-4 text-gray-400" />
+                      <OrderStat
+                        title="Dispatched"
+                        value="1000"
+                        icon={<Dispatched />}
+                      />
+                      <OrderStat
+                        title="Pending"
+                        value="1000"
+                        icon={<Pending />}
+                      />
+                      <OrderStat
+                        title="Cancelled"
+                        value="1000"
+                        icon={<Cancled />}
+                      />
                     </div>
-                    <button className="p-1.5 rounded-md border border-gray-200">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-background-grey grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4 md:font-inter">
-                    <OrderStat
-                      title="Completed"
-                      value="1000"
-                      icon={<Completed />}
-                    />
-                    <OrderStat
-                      title="Dispatched"
-                      value="1000"
-                      icon={<Dispatched />}
-                    />
-                    <OrderStat
-                      title="Pending"
-                      value="1000"
-                      icon={<Pending />}
-                    />
-                    <OrderStat
-                      title="Cancelled"
-                      value="1000"
-                      icon={<Cancled />}
-                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-12 gap-3 sm:gap-4 md:gap-6">
+              <div className="col-span-12 sm:col-span-12 md:col-span-6">
+                {/* New Customers Card */}
+                <Card className="bg-white h-full">
+                  <div className="space-y-4">
+                    <NewCustomersCard />
+                    {/* <StoresCard /> */}
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* New Customers Card */}
-              <Card className="bg-white">
-                <div className="space-y-4">
-                  <NewCustomersCard />
-                  {/* <StoresCard /> */}
-                </div>
-              </Card>
-
+                </Card>
+              </div>
               {/* Stores Card */}
-              <Card className="bg-white">
-                <CardHeader className="pb-2">
-                  <CardTitle className="flex justify-between items-center text-sm font-medium">
-                    <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                      Stores
-                      <Info className="w-4 h-4 text-cardTitle font-inter text-sm font-[600]" />
+              <div className="col-span-12 sm:col-span-12 md:col-span-6">
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-sm font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Stores
+                        <Info className="w-4 h-4 text-cardTitle font-inter text-sm font-[600]" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <StoresStat title="Active store" value="10" />
+                      <StoresStat title="Inactive store" value="10" />
+                      <StoresStat title="Open store" value="10" />
+                      <StoresStat title="Closed store" value="10" />
                     </div>
-                    <button className="p-1.5 rounded-md border border-gray-200">
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <StoresStat title="Active store" value="10" />
-                    <StoresStat title="Inactive store" value="10" />
-                    <StoresStat title="Open store" value="10" />
-                    <StoresStat title="Closed store" value="10" />
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
