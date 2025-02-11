@@ -1,20 +1,4 @@
-import {
-  // Menu,
-  Bell,
-  Clock,
-  // Settings,
-  ChevronDown,
-  Package,
-  Users,
-  Store,
-  List,
-  LayoutDashboard,
-  TrendingUp,
-  Search,
-  Info,
-  // ExternalLink,
-} from "lucide-react";
-
+import { Bell, Search, Info } from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   Card,
@@ -34,10 +18,8 @@ import { ReactComponent as GetStarted } from "../../lib/Images/getStarted.svg";
 import { ReactComponent as InfoIcon } from "../../lib/Images/info-icon.svg";
 import { ReactComponent as Logo } from "../../lib/Images/logo.svg";
 import { ReactComponent as GlobeAlt } from "../../lib/Images/globe-alt.svg";
-
 import { ReactComponent as ExternalLink } from "../../lib/Images/external-link.svg";
 import { ReactComponent as ToggleOn } from "../../lib/Images/Toggle on.svg";
-
 import logo2 from "../../lib/Images/logo.png";
 import { ReactComponent as Menu } from "../../lib/Images/menu.svg";
 import { ReactComponent as Orders } from "../../lib/Images/orders.svg";
@@ -88,10 +70,10 @@ interface ProgressItem {
 
 const NewCustomersCard = () => {
   const progressItems: ProgressItem[] = [
-    { title: "Title here", percentage: 40, color: "bg-purple-500" },
-    { title: "Title here", percentage: 30, color: "bg-blue-500" },
-    { title: "Title here", percentage: 15, color: "bg-orange-500" },
-    { title: "Title here", percentage: 15, color: "bg-green-500" },
+    { title: "Title here", percentage: 5, color: "bg-purple-500" },
+    { title: "Title here", percentage: 35, color: "bg-blue-500" },
+    { title: "Title here", percentage: 8, color: "bg-orange-500" },
+    { title: "Title here", percentage: 16, color: "bg-green-500" },
   ];
 
   const totalWidth = progressItems.reduce(
@@ -116,11 +98,11 @@ const NewCustomersCard = () => {
         <h3 className="text-3xl font-inter text-cardValue font-[600] leading-[33px] mb-4">
           6543
         </h3>
-        <div className="flex w-full h-2 rounded-full overflow-hidden">
+        <div className="flex w-full h-[33px] gap-x-1 rounded-custom4x overflow-hidden">
           {progressItems.map((item, index) => (
             <div
               key={index}
-              className={`h-full ${item.color}`}
+              className={`h-full md:gap-2 sm:gap-2 rounded-custom4x ${item.color}`}
               style={{ width: `${(item.percentage / totalWidth) * 100}%` }}
             />
           ))}
@@ -253,7 +235,6 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         </div>
 
         {/* Desktop-only website link */}
-
         {/* Right section */}
         <div className="flex items-center gap-3">
           {!isMobile && (
