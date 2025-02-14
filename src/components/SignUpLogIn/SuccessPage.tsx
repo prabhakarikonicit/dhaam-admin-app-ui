@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { CheckIcon } from "lucide-react";
-
+import DashboardLayout from "../Dashboard-ui/dashboard-ui";
 interface SuccessPageProps {
   onDashboardClick?: () => void;
 }
 
 const SuccessPage: React.FC<SuccessPageProps> = ({ onDashboardClick }) => {
+
+  const [ShowDashboard, setShowDashboard] = useState(false);
+  if (ShowDashboard) {
+    return <DashboardLayout />;
+  }
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col m-5 items-center justify-center">
-      <div className="w-full max-w-[572px] h-[650px] md:w-full bg-white rounded-custom20px shadow-lg p-8">
+    <div className="min-h-screen bg-gradient-to-l from-[#D3B4D9]/60 to-[#C2BAC2]/20 bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-[572px] h-[590px] md:w-full bg-white rounded-custom20px shadow-lg p-8">
         {/* Logo */}
         <div className="flex items-center justify-center mb-[7rem]">
           <svg
@@ -58,7 +63,7 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ onDashboardClick }) => {
         </div>
 
         {/* Success Icon */}
-        <div className="flex justify-center  ">
+        <div className="flex justify-center ">
           <div className="w-100 h-20 rounded-custom20px flex items-center justify-center">
             {/* <CheckIcon className="w-10 h-10 text-green-500" /> */}
             <svg
@@ -124,11 +129,11 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ onDashboardClick }) => {
         </div>
 
         {/* Success Message */}
-        <div className="text-center space-y-4 mt-[6rem]">
-          <h1 className="text-[32px] font-inter font-[700] text-paragraphBlack mt-[3rem] leading-[48px]">
+        <div className="text-center space-y-8 mt-[9rem]">
+          <h1 className="md:text-[32px] lg:text-[32px] xl:text-[32px] sm:text-[32px] text-[28px] font-inter font-[700] text-paragraphBlack mt-[3rem] leading-[48px]">
             Account created successfully!
           </h1>
-          <p className="text-[20px] font-inter  text-paragraph mb-[4rem]">
+          <p className="md:text-[25px] lg:text-[25px] xl:text-[25px] sm:text-[20px] text-[16px]  font-inter  text-paragraph mb-[4rem]">
             Welcome aboard! Start your success journey with Dhaam!
           </p>
         </div>
@@ -136,8 +141,9 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ onDashboardClick }) => {
         {/* Dashboard Button */}
         <div className="flex items-center justify-center">
           <button
-            onClick={onDashboardClick}
-            className="w-[354px] h-[40px] bg-purple-600 text-white py-3 px-4 mt-[2rem] rounded-custom8px hover:bg-purple-700 transition-colors duration-200  text-[14px] font-inter font-[600] flex items-center justify-center gap-2"
+           onClick={() => setShowDashboard(true)}
+
+            className="w-[354px] h-[40px] bg-purple-600 text-white py-3 px-4 mt-[4rem] rounded-custom8px hover:bg-purple-700 transition-colors duration-200  text-[14px] font-inter font-[600] flex items-center justify-center gap-2"
           >
             Go to Dashboard
             <svg
