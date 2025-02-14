@@ -13,7 +13,7 @@ const App = () => {
 
   const handleOTPVerify = (otp: string) => {
     console.log('OTP Verified:', otp);
-    // Add your verification logic here
+    // Add your verification logic heresdfgsdfg
   };
 
   const handleClose = () => {
