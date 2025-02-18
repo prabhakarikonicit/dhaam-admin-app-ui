@@ -8,12 +8,17 @@ module.exports = {
   theme: {
     screens: {
       sm: "640px",
-      md: "840px", // Changed from 768px to 835px
+      md: "840px", 
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
     },
     extend: {
+      backgroundImage: {
+        'linear-bg': "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
+        'main-bg': "url('./lib/Images/signup.jpg')",
+        // 'main-bg': "linear-gradient(to right, rgba(213, 161, 220, 0.9), rgba(225, 198, 224, 0.1)), url('./lib/Images/bg.png')",
+      },
       colors: {
         "headding-color": "#636363",
         menuSubHeadingColor: "#4F4F4F",
@@ -70,6 +75,7 @@ module.exports = {
     // },
 
     fontSize: {
+      "11px": "11px", 
       sm: "0.75rem", // 12px
       "14px": "0.875rem", // 14px
       base: "1rem", // 16px

@@ -87,18 +87,18 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
         <h2 className="text-[25px] font-inter font-[700] leading-[37.5px] text-verifyOtp mb-2">
           Verify OTP
         </h2>
-        <p className="text-headding-color font-inter font-[500] leading-[21px] text-[14px] mb-6">
+        <p className="text-headding-color font-inter font-[500] leading-[21px] text-[11px] sm:text-[14px]md:text-[14px] mb-6">
           We have sent an OTP to{" "}
-          <span className="font-inter font-[700] leading-[21px] text-gray-900">
+          <span className="font-inter font-[700] leading-[21px] text-[11px] sm:text-[14px]md:text-[14px] text-gray-900">
             {email}
           </span>{" "}
-          <button className="font-inter font-[700] text-menuSubHeadingColor hover:underline ml-1">
+          <button className="font-inter font-[700] text-menuSubHeadingColor  text-[11px] sm:text-[14px]md:text-[14px] hover:underline ml-1">
             Edit
           </button>
         </p>
 
         {/* OTP Input Fields */}
-        <div className="flex flex-wrap sm:flex-wrap gap-3  mb-6">
+        <div className="flex flex-wrap gap-[0.80rem] sm:gap-3 mb-6">
           {otp.map((digit, index) => (
             <input
               key={index}
@@ -108,7 +108,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
               ref={(el) => (inputRefs.current[index] = el)}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`w-14 sm:w-14  h-12 text-center font-inter bg-store-card border-2 border-bgButton rounded-custom8px
+              className={`w-11 gap-1 sm:gap-4 sm:w-14 md:w-14 h-12 text-center font-inter bg-store-card border-2 border-bgButton rounded-custom8px
                 ${index === 0 ? "border-bgButton" : "border-1 border-reloadBorder"}
                 focus:outline-none focus:border-purple-500 focus:ring-0 focus:ring-purple-500`}
             />

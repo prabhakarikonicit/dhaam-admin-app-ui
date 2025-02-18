@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Eye, Mail, ChevronDown, Lock } from "lucide-react";
 import Saly from "../../lib/Images/Saly-10.png";
-
+import BusinessSignup from "./BusinessSignup";
+import OTPVerification from "./OTPVerification";
 interface FormFieldProps {
   type: string;
   placeholder: string;
@@ -23,12 +24,14 @@ const FormField: React.FC<FormFieldProps> = ({
   return (
     <div className="relative h-[56px] mb-4">
       <div
-        className={`absolute inset-0 rounded-[12px] bg-white ${
-          isFocused ? "ring-1 ring-headding-color" : "border border-[#E5E7EB]"
+        className={`absolute rounded-[12px] bg-whit ${
+          isFocused
+            ? "ring-1 ring-menuSubHeadingColor"
+            : "border border-[#E5E7EB]"
         }`}
       />
 
-      <div className="relative flex items-center h-full px-4 mr-2">
+      <div className="relative flex items-center h-[40px] px-4 mr-2 space-x-4 border border-reloadBorder rounded-custom8px">
         {/* Left Icons */}
         {type === "email" && (
           <svg
@@ -116,96 +119,209 @@ const FormField: React.FC<FormFieldProps> = ({
 
 const SignUPLogIN: React.FC = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [showOTP, setShowOTP] = useState(false);
 
+  const [showBusinessSignup, setShowBusinessSignup] = useState(false);
+  if (showBusinessSignup) {
+    return <BusinessSignup />;
+  }
+  const handleClose = () => {
+    setShowOTP(false);
+  };
+
+  const handleOTPVerify = () => {
+    setShowOTP(false);
+    // Add any additional logic after verification
+  };
+  const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsLogin(true);
+    setShowOTP(true);
+    setShowBusinessSignup(false);
+  };
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen mt-5 mb-5 ms-5 me-5 ">
+    <div className="flex flex-col  lg:flex-row md:gap-0 sm:gap-0 sm:flex-row min-h-screen mt-5 mb-5 sm:ms-5 lg:ms-5 me-5 ms-0 me-0">
       {/* Left Section */}
-      <div className="w-full lg:w-[676px] rounded-custom20px bg-bgButton p-6 lg:p-12 flex flex-col justify-center items-center">
-        <h1 className="text-[32px] lg:text-[40px] font-inter leading-[45px] lg:leading-[60px] font-[700] text-whiteColor ">
-          Welcome to Dhaam
+      <div className="relative w-full lg:w-[676px] xl:w-full hidden md:block sm:w-[610px] sm:block rounded-custom20px overflow-hidden">
+        {/* Base background image layer */}
+        <div className="absolute inset-0 bg-main-bg bg-cover bg-center bg-no-repeat" />
+
+        {/* Colored overlay layer */}
+        <div className="absolute inset-0 bg-bgButton opacity-75 " />
+
+        {/* Content container */}
+        <div className="relative z-10 p-6 lg:p-12 flex flex-col justify-center items-center">
+          <h1 className="text-[32px] sm:text-[25px] lg:text-[40px] sm:mt-20 text-center font-inter leading-[45px] lg:leading-[60px] font-[700] text-whiteColor">
+            Welcome Back to Dhaam
+          </h1>
+
+          <p className="text-[16px] lg:text-[18px] font-inter leading-[24px] text-center lg:leading-[27px] font-[500] text-whiteColor">
+            Your Gateway to Effortless Business.
+          </p>
+
+          <div className="mt-4">
+            <img
+              src={Saly}
+              alt="Welcome Illustration"
+              className="w-full max-w-[507px] h-[384px] mx-auto"
+            />
+          </div>
+        </div>
+      </div>
+      {/* <div className="w-full lg:w-[676px] xl:w-full hidden md:block sm:w-[610px] sm:block rounded-custom20px bg-main-bg  opacity-50 bg-cover bg-center bg-no-repeat p-6 lg:p-12 flex flex-col justify-center item-center">
+        <div className="bg-bgButton">
+        <h1 className="text-[32px] sm:text-[25px] lg:text-[40px] sm:mt-20 text-center font-inter leading-[45px] lg:leading-[60px] font-[700] text-whiteColor">
+          Welcome Back to Dhaam
         </h1>
-        <p className="text-[16px] lg:text-[18px] font-inter leading-[24px] lg:leading-[27px] font-[500] text-whiteColor">
+        <p className="text-[16px] lg:text-[18px] font-inter leading-[24px] text-center lg:leading-[27px] font-[500] text-whiteColor">
           Your Gateway to Effortless Business.
         </p>
-        <div className=" ">
+        <div className="">
           <img
             src={Saly}
             alt="Welcome Illustration"
             className="w-full max-w-[507px] h-[384px] mx-auto"
           />
         </div>
+        </div>
+      </div> */}
+
+      <div className="block md:hidden sm:hidden flex flex-col justify-center items-center">
+        <h1 className="block text-[23px] lg:text-[40px] font-inter leading-[48px] lg:leading-[60px] font-[700] text-purpleColor">
+          Welcome Back to Dhaam
+        </h1>
+        <p className="block text-[14px] lg:text-[18px] font-inter leading-[24px] lg:leading-[27px] font-[500] text-headding-color">
+          Your Gateway to Effortless Business.
+        </p>
       </div>
 
       {/* Right Section */}
-      <div className="w-full lg:w-1/2 md:w-full p-6 lg:p-12 flex flex-col mt-6">
-        <div className="flex justify-start max-w-md mx-auto w-full gap mb-8 lg:mb-12 text-whiteColor text-cardValue bg-background-grey p-[8px] text-[14px] font-inter leading-[27px] font-[500] rounded-custom8px">
-          <button className="px-4 lg:px-6 py-2 bg-bgButton text-white rounded-lg">
+      <div className="w-full lg:w-[800px] xl:w-full md:w-full p-6 lg:p-12 sm:p-1 flex flex-col sm:mt-6 md:6 mt-6 p-0 sm:p-0">
+        <div className="flex justify-center max-w-[30rem] md:max-w-[26rem] sm:max-w-[26rem] mx-auto w-full mb-8 lg:mb-12 text-whiteColor text-cardValue bg-background-grey p-[8px] px-0 text-[12px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] font-inter leading-[27px] font-[500] rounded-custom8px">
+          <button
+            onClick={() => setIsLogin(false)}
+            className={`px-[4px] sm:pe-4 md:pe-4 lg:px-6 py-2 sm:py-2 md:py-2 font-inter ${
+              !isLogin
+                ? "bg-bgButton text-white"
+                : "bg-background-grey text-cardValue"
+            } rounded-lg`}
+          >
             Create Account
           </button>
-          <button className="px-4 lg:px-20 py-2 bg-background-grey text-cardValue ">Login</button>
+          <button
+            onClick={() => setIsLogin(true)}
+            className={`px-20 ms-5 sm:ms-2 lg:ms-2 xl:ms-2 md:ms-2 sm:px-20 md:px-20 lg:px-20 py-2 font-inter ${
+              isLogin
+                ? "bg-bgButton text-white"
+                : "bg-background-grey text-cardValue"
+            } rounded-lg`}
+          >
+            Login
+          </button>
         </div>
 
-        <div className="max-w-md mx-auto w-full">
-          <form className="space-y-4 lg:space-y-6">
-            <FormField type="email" placeholder="aman.ku" />
-
-            <FormField
-              type="tel"
-              placeholder="Enter Phone Number"
-              prefix="+91"
-            />
-
-            <div className="space-y-2">
-              <FormField type="password" placeholder="Password" />
-              <ul className="text-[14px] text-gray-600 space-y-2 mt-2">
-                <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
-                  <svg
-                    className="w-4 h-4 text-green-500 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
+        <div className="max-w-[28rem] mx-auto w-full">
+          <form className="space-y-4 lg:space-y-6 ms-8">
+            {isLogin ? (
+              // Login Form
+              <>
+                <FormField type="email" placeholder="Enter Email" />
+                <FormField type="password" placeholder="Password" />
+                <button
+                  onClick={handleLoginClick}
+                  className="w-full text-white bg-bgButton py-4 rounded-custom8px border-1 border-solid border-btnBorder font-inter text-[14px] mb-4"
+                >
+                  Login
+                </button>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="remember"
+                      className="w-4 h-4 border border-gray-300 rounded"
                     />
-                  </svg>
-                  Cannot contain your name or email address
-                </li>
-                <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
-                  <svg
-                    className="w-4 h-4 text-green-500 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  At least 8 characters
-                </li>
-                <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
-                  <svg
-                    className="w-4 h-4 text-green-500 flex-shrink-0"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  Contains a number or symbol
-                </li>
-              </ul>
-            </div>
+                    <label
+                      htmlFor="remember"
+                      className="ml-2 text-[14px] font-inter  text-cardValue"
+                    >
+                      Remember me
+                    </label>
+                  </div>
+                  <div className="pe-5">
+                    <a
+                      href="#"
+                      className="text-[14px] font-inter font-[600px] text-cardValue hover:underline"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                </div>
+              </>
+            ) : (
+              // Signup Form
+              <>
+                <FormField type="email" placeholder="aman.ku" />
+                <FormField
+                  type="tel"
+                  placeholder="Enter Phone Number"
+                  prefix="+91"
+                />
+                <div className="space-y-2">
+                  <FormField type="password" placeholder="Password" />
+                  <ul className="text-[14px] text-gray-600 space-y-2 mt-2">
+                    <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
+                      <svg
+                        className="w-4 h-4 text-green-500 flex-shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Cannot contain your name or email address
+                    </li>
+                    <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
+                      <svg
+                        className="w-4 h-4 text-green-500 flex-shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      At least 8 characters
+                    </li>
+                    <li className="flex items-center gap-2 text-[12px] font-inter leading-[15.6px] font-[400]">
+                      <svg
+                        className="w-4 h-4 text-green-500 flex-shrink-0"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Contains a number or symbol
+                    </li>
+                  </ul>
+                </div>
 
-            <button className="w-full text-white bg-bgButton py-4 rounded-custom8px border-1 border-solid border-btnBorder font-inter text-[14px]">
-              Signup for free
-            </button>
+                <button
+                  onClick={() => setShowBusinessSignup(true)}
+                  className="w-full text-white bg-bgButton py-4 rounded-custom8px border-1 border-solid border-btnBorder font-inter text-[14px]"
+                >
+                  Signup for free
+                </button>
+              </>
+            )}
 
             <div className="relative text-center my-6">
               <div className="absolute inset-0 flex items-center justify-between">
@@ -230,7 +346,7 @@ const SignUPLogIN: React.FC = () => {
                   <path d="M1 1H177" stroke="#C2C2C2" strokeLinecap="round" />
                 </svg>
               </div>
-              <span className="relative bg-white px-4 text-[14px] font-inter font-[400] text-gray-500">
+              <span className="relative bg-white px-2 text-[14px] font-inter font-[400] text-gray-500">
                 OR
               </span>
             </div>
@@ -271,20 +387,16 @@ const SignUPLogIN: React.FC = () => {
               </svg>
               Continue with google
             </button>
-
-            <p className="text-paragraph text-center py-4 rounded-custom8px font-inter font-[400] text-[11px] leading-[14.3px]">
-              By signing up to create an account I accept Company's{" "}
-              <a
-                href="#"
-                className="text-paragraphBlack hover:underline text-center py-4 font-inter font-[400] text-[11px]"
-              >
-                Terms of use & Privacy Policy
-              </a>
-              .
-            </p>
           </form>
         </div>
       </div>
+      {showOTP && (
+        <OTPVerification
+          email="aman@gmail.com"
+          onClose={handleClose}
+          onVerify={handleOTPVerify}
+        />
+      )}
     </div>
   );
 };
