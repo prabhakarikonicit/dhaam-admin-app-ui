@@ -196,14 +196,14 @@ const TopHeader: React.FC<TopHeaderProps> = ({
         {/* Search */}
 
         <div className="flex-1 relative">
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4 justify-center ">
             <div
-              className={`flex items-center bg-reloadBackground sm:w-1/2 md:w-1/2 py-[2px] ${
+              className={`flex items-center bg-reloadBackground p-0 justify-start sm:w-1/2 md:w-1/2 py-[2px] ${
                 isMobile ? "bg-white" : "bg-white"
               } rounded-lg`}
             >
               <div
-                className={`absolute inset-y-0 left-0 pl-3   flex items-center pointer-events-none font-inter font-[600] bg-backgroundWhite rounded-custom `}
+                className={`absolute inset-y-0 left-50 pl-3 flex items-center pointer-events-none font-inter font-[600] bg-backgroundWhite rounded-custom `}
               >
                 <Search
                   className={`h-4 w-4 ${
@@ -223,7 +223,7 @@ const TopHeader: React.FC<TopHeaderProps> = ({
             </div>
 
             {!isMobile && (
-              <button className="hidden md:flex sm:flex items-center h-9 bg-backgroundWhite rounded-lg px-4">
+              <button className="hidden md:flex sm:flex items-center h-[30px] bg-backgroundWhite rounded-lg px-4 ">
                 <GlobeAlt />
                 <span className="text-sm sm:px-1 md:px-1 font-inter font-[600] leading-[15.6px] text-gray-900">
                   www.design-mart.com
@@ -420,7 +420,7 @@ const DashboardLayout = () => {
             isSidebarOpen || showSidebar ? "translate-x-0" : "-translate-x-full"
           }
           transition-transform duration-300 ease-in-out
-          w-64 bg-white border-r border-gray-200 z-30
+          w-[240px] bg-white border-r border-gray-200 z-30
         `}
         >
           <div className="p-4 md:p-6">
