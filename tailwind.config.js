@@ -41,6 +41,7 @@ module.exports = {
         reloadBackground: "#DBDBDB",
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
+        subMenus: "#F2F2F2"
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -48,6 +49,8 @@ module.exports = {
          "btnBorder":"#5D32A7",
          "bgButton": "#7C43DF",
         "cardTitle": "#949494",
+        "menuSubHeadingColor": "#4F4F4F",
+
 
       },
       borderRadius: {
@@ -63,9 +66,13 @@ module.exports = {
       krona: "Krona One",
       roboto: "Roboto",
     },
+
+    
     fontWeight: {
       400: "400",
       550: "550",
+      500: "500",
+
       600: "600",
       500: "500",
       700: "700",
