@@ -22,9 +22,9 @@ const App = () => {
   return (
     <div className="App">
     
-      {/* <DashboardLayout /> */}
+      <DashboardLayout />
       {/* <Step4SingupForm/> */}
-      <SignUPLogIN />   
+      {/* <SignUPLogIN />    */}
       {/* <BusinessSignup/> */}
       {/* <SuccessPage/> */}
       {/* <OTPVerification 
