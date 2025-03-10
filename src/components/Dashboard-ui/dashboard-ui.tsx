@@ -1,11 +1,11 @@
 import { Bell, Search, Info } from "lucide-react";
 import { useState, useEffect } from "react";
-import SidebarItemProps from './Settings';
+import GeneralComponent from "../Settings/General/GeneralComponent";
+import IntegrationComponent from "../Settings/Integration/IntegrationComponent";
+import ConfigurationsComponent from "../Settings/configurations/configurationscomponent";
 
 
-import SettingsComponent from './SettingMenuComponent';
-
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -40,15 +40,6 @@ const revenueData = [
   { time: "6:00 PM", value: 60 },
   { time: "10:00 PM", value: 100 },
 ];
-
-interface SidebarItemProps {
-  icon: React.ReactNode;
-  text: string;
-  active?: boolean;
-  hasSubmenu?: boolean;
-  children?: React.ReactNode;
-  onClick?: () => void;
-}
 
 interface OrderStatProps {
   title: string;
@@ -342,6 +333,18 @@ const TopHeader: React.FC<TopHeaderProps> = ({
     </div>
   );
 };
+interface SidebarItemProps {
+  icon: React.ReactNode;
+  text: string;
+  active?: boolean;
+  hasSubmenu?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  subItems?: Array<{ text: string }>;
+  onSubItemClick?: (item: string) => void;
+  selectedSubItem?: string | null;
+}
+
 const SidebarItem: React.FC<SidebarItemProps> = ({
   icon,
   text,
@@ -349,23 +352,126 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   hasSubmenu = false,
   children,
   onClick,
-}) => (
-  <div onClick={onClick}>
-    <div
-      className={`flex items-center px-4 py-2 my-1 rounded-lg cursor-pointer ${
-        active ? "bg-gray-100" : "hover:bg-background-grey"
-      }`}
-    >
-      <div className="text-gray-600 mr-3">{icon}</div>
-      <span className="text-gray-700 flex-1 font-inter text-[14px] leading-[21px] font-[500]">
-        {text}
-      </span>
-      {/* {hasSubmenu && <ChevronDown className="h-4 w-4 text-gray-400" />} */}
-    </div>
-    {children}
-  </div>
-);
+  subItems,
+  onSubItemClick,
+  selectedSubItem,
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  const handleClick = () => {
+    if (hasSubmenu) {
+      setIsExpanded(!isExpanded);
+    }
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  const handleSubItemClick = (item: string) => {
+    if (onSubItemClick) {
+      onSubItemClick(item);
+    }
+  };
+
+  return (
+    <div>
+      <div
+        onClick={handleClick}
+        className={`flex items-center px-4 py-2 my-1 rounded-lg cursor-pointer ${
+          active
+            ? "bg-subMenus"
+            : isExpanded
+            ? "bg-gray-100"
+            : "hover:bg-gray-50"
+        }`}
+      >
+        <div className="text-gray-600 mr-3">{icon}</div>
+        <span className="text-gray-700 flex-1 font-inter text-[14px] leading-[21px] font-[500]">
+          {text}
+        </span>
+        {hasSubmenu && (
+          <ChevronDown
+            className={`h-4 w-4 text-gray-400 transform transition-transform ${
+              isExpanded ? "rotate-180" : ""
+            }`}
+          />
+        )}
+      </div>
+      {isExpanded && subItems && (
+        <div className="ml-4">
+          {subItems.map((item, index) => (
+            <div
+              key={index}
+              className={`flex items-center px-4 py-2 my-1 rounded-lg cursor-pointer ${
+                selectedSubItem === item.text
+                  ? "bg-subMenus"
+                  : "hover:bg-gray-50"
+              }`}
+              onClick={() => handleSubItemClick(item.text)}
+            >
+              <span className="text-gray-700 flex-1 font-inter text-[14px] leading-[21px] font-[500]">
+                {item.text}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      {children}
+    </div>
+  );
+};
+interface SidebarNavProps {
+  onSettingsSubItemClick: (item: string) => void;
+  onItemClick: (view: string) => void;
+  currentView: string;
+}
+
+const SidebarNav: React.FC<SidebarNavProps> = ({
+  onSettingsSubItemClick,
+  onItemClick,
+  currentView,
+}) => {
+  const [selectedSubItem, setSelectedSubItem] = useState<string | null>(null);
+  const settingsSubItems = [
+    { text: "General" },
+    { text: "Integration" },
+    { text: "Configurations" },
+    { text: "Marketplace Design" },
+  ];
+  const handleSubItemClick = (item: string) => {
+    setSelectedSubItem(item);
+    onSettingsSubItemClick(item);
+  };
+  return (
+    <nav className="space-y-1">
+      <SidebarItem
+        icon={<GetStarted />}
+        text="Get Started"
+        onClick={() => onItemClick("get-started")}
+        active={currentView === "get-started"}
+      />
+      <SidebarItem
+        icon={<Dashboard />}
+        text="Dashboard"
+        onClick={() => onItemClick("dashboard")}
+        active={currentView === "dashboard"}
+      />
+      <SidebarItem icon={<Orders />} text="Orders" hasSubmenu />
+      <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
+      <SidebarItem icon={<Customers />} text="Customers" />
+      <SidebarItem icon={<Stores />} text="Stores" hasSubmenu />
+      <SidebarItem
+        icon={<Settings />}
+        text="Settings"
+        hasSubmenu={true}
+        subItems={settingsSubItems}
+        selectedSubItem={selectedSubItem}
+        onSubItemClick={handleSubItemClick}
+        active={currentView === "settings"}
+      />
+    </nav>
+  );
+};
 const OrderStat: React.FC<OrderStatProps> = ({ title, value, icon }) => (
   <div className="bg-white rounded-lg flex flex-col w-full p-4 shadow-sm">
     {/* Title */}
@@ -383,13 +489,26 @@ const OrderStat: React.FC<OrderStatProps> = ({ title, value, icon }) => (
   </div>
 );
 
-
-
 const DashboardLayout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [width, setWidth] = useState(window.innerWidth);
-  const [currentView, setCurrentView] = useState('dashboard');
-
+  const [currentView, setCurrentView] = useState("dashboard");
+  const [selectedSettingsItem, setSelectedSettingsItem] = useState<
+    string | null
+  >(null);
+  const handleSettingsSubItemClick = (item: string) => {
+    setSelectedSettingsItem(item);
+    setCurrentView("settings");
+  };
+  const handleItemClick = (view: string) => {
+    setCurrentView(view);
+    if (view === "dashboard") {
+      setSelectedSettingsItem(null);
+    }
+    if (width < 640) {
+      toggleSidebar();
+    }
+  };
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -402,143 +521,154 @@ const DashboardLayout = () => {
   const isLaptop = width > 835;
   const showCloseIcon = width < 375;
   const renderContent = () => {
-    if (currentView === 'settings' || currentView === 'general') {
-      return <SettingsComponent />;
+    if (currentView === "settings") {
+      // Only show settings content when General is selected
+      if (selectedSettingsItem === "General") {
+        return <GeneralComponent />;
+      } 
+      else if (selectedSettingsItem === "Integration"){
+        console.log("selectedSettingsItem", selectedSettingsItem)
+        return <IntegrationComponent />;
+      }
+      else if (selectedSettingsItem === "Configurations"){
+      
+        return <ConfigurationsComponent />;
+      }
+      return null;
     }
 
-    return (
-
-      <div className="flex-1 overflow-hidden">
-
-      {isTablet && (
-        <div className="px-5 py-3">
-          <div className="flex items-center justify-between">
-            {/* <div className="flex items-center gap-4"> */}
-            <h1 className="text-xl px-6 font-semibold font-inter font-[600]">
-              Analytics
-            </h1>
-            <button className="p-2  hover:bg-gray-100 rounded-custom  bg-reloadBackground">
-              <Reload />
-            </button>
-            <div className="flex items-center gap-2">
-              <span className="text-textHeading text-[14px] leading-[21px] font-inter font-[500] sm:text-[14px] item-center">
-                Auto Refresh
-              </span>
-              <div className="w-12 h-6 bg-purple-600 rounded-full relative">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="41"
-                  height="24"
-                  viewBox="0 0 41 24"
-                  fill="none"
-                >
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="39"
-                    height="21"
-                    rx="10.5"
-                    fill="#7C43DF"
-                    stroke="#7C43DF"
-                  />
-                  <g filter="url(#filter0_dd_4512_259)">
-                    <circle cx="29" cy="11" r="9" fill="white" />
-                  </g>
-                  <defs>
-                    <filter
-                      id="filter0_dd_4512_259"
-                      x="17"
-                      y="0"
-                      width="24"
+    if (currentView === "dashboard") {
+      return (
+        <div className="flex-1 overflow-hidden">
+          {isTablet && (
+            <div className="px-5 py-3">
+              <div className="flex items-center justify-between">
+                {/* <div className="flex items-center gap-4"> */}
+                <h1 className="text-xl px-6 font-semibold font-inter font-[600]">
+                  Analytics
+                </h1>
+                <button className="p-2  hover:bg-gray-100 rounded-custom  bg-reloadBackground">
+                  <Reload />
+                </button>
+                <div className="flex items-center gap-2">
+                  <span className="text-textHeading text-[14px] leading-[21px] font-inter font-[500] sm:text-[14px] item-center">
+                    Auto Refresh
+                  </span>
+                  <div className="w-12 h-6 bg-purple-600 rounded-full relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="41"
                       height="24"
-                      filterUnits="userSpaceOnUse"
-                      color-interpolation-filters="sRGB"
+                      viewBox="0 0 41 24"
+                      fill="none"
                     >
-                      <feFlood
-                        flood-opacity="0"
-                        result="BackgroundImageFix"
+                      <rect
+                        x="0.5"
+                        y="0.5"
+                        width="39"
+                        height="21"
+                        rx="10.5"
+                        fill="#7C43DF"
+                        stroke="#7C43DF"
                       />
-                      <feColorMatrix
-                        in="SourceAlpha"
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                        result="hardAlpha"
-                      />
-                      <feOffset dy="1" />
-                      <feGaussianBlur stdDeviation="1" />
-                      <feColorMatrix
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-                      />
-                      <feBlend
-                        mode="normal"
-                        in2="BackgroundImageFix"
-                        result="effect1_dropShadow_4512_259"
-                      />
-                      <feColorMatrix
-                        in="SourceAlpha"
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                        result="hardAlpha"
-                      />
-                      <feOffset dy="1" />
-                      <feGaussianBlur stdDeviation="1.5" />
-                      <feColorMatrix
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                      />
-                      <feBlend
-                        mode="normal"
-                        in2="effect1_dropShadow_4512_259"
-                        result="effect2_dropShadow_4512_259"
-                      />
-                      <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="effect2_dropShadow_4512_259"
-                        result="shape"
-                      />
-                    </filter>
-                  </defs>
-                </svg>
+                      <g filter="url(#filter0_dd_4512_259)">
+                        <circle cx="29" cy="11" r="9" fill="white" />
+                      </g>
+                      <defs>
+                        <filter
+                          id="filter0_dd_4512_259"
+                          x="17"
+                          y="0"
+                          width="24"
+                          height="24"
+                          filterUnits="userSpaceOnUse"
+                          color-interpolation-filters="sRGB"
+                        >
+                          <feFlood
+                            flood-opacity="0"
+                            result="BackgroundImageFix"
+                          />
+                          <feColorMatrix
+                            in="SourceAlpha"
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha"
+                          />
+                          <feOffset dy="1" />
+                          <feGaussianBlur stdDeviation="1" />
+                          <feColorMatrix
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in2="BackgroundImageFix"
+                            result="effect1_dropShadow_4512_259"
+                          />
+                          <feColorMatrix
+                            in="SourceAlpha"
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                            result="hardAlpha"
+                          />
+                          <feOffset dy="1" />
+                          <feGaussianBlur stdDeviation="1.5" />
+                          <feColorMatrix
+                            type="matrix"
+                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in2="effect1_dropShadow_4512_259"
+                            result="effect2_dropShadow_4512_259"
+                          />
+                          <feBlend
+                            mode="normal"
+                            in="SourceGraphic"
+                            in2="effect2_dropShadow_4512_259"
+                            result="shape"
+                          />
+                        </filter>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+                <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
+                  Today
+                  <Calendar />
+                </button>
+                <button className="p-2 hover:bg-white/10 mx-3 font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-lg">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                  >
+                    <path
+                      d="M10 6C8.89543 6 8 5.10457 8 4C8 2.89543 8.89543 2 10 2C11.1046 2 12 2.89543 12 4C12 5.10457 11.1046 6 10 6Z"
+                      fill="#212121"
+                    />
+                    <path
+                      d="M10 12C8.89543 12 8 11.1046 8 10C8 8.89543 8.89543 8 10 8C11.1046 8 12 8.89543 12 10C12 11.1046 11.1046 12 10 12Z"
+                      fill="#212121"
+                    />
+                    <path
+                      d="M10 18C8.89543 18 8 17.1046 8 16C8 14.8954 8.89543 14 10 14C11.1046 14 12 14.8954 12 16C12 17.1046 11.1046 18 10 18Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                </button>
+                {/* </div> */}
               </div>
             </div>
-            <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
-              Today
-              <Calendar />
-            </button>
-            <button className="p-2 hover:bg-white/10 mx-3 font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-lg">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M10 6C8.89543 6 8 5.10457 8 4C8 2.89543 8.89543 2 10 2C11.1046 2 12 2.89543 12 4C12 5.10457 11.1046 6 10 6Z"
-                  fill="#212121"
-                />
-                <path
-                  d="M10 12C8.89543 12 8 11.1046 8 10C8 8.89543 8.89543 8 10 8C11.1046 8 12 8.89543 12 10C12 11.1046 11.1046 12 10 12Z"
-                  fill="#212121"
-                />
-                <path
-                  d="M10 18C8.89543 18 8 17.1046 8 16C8 14.8954 8.89543 14 10 14C11.1046 14 12 14.8954 12 16C12 17.1046 11.1046 18 10 18Z"
-                  fill="#212121"
-                />
-              </svg>
-            </button>
-            {/* </div> */}
-          </div>
-        </div>
-      )}
+          )}
 
-      {isLaptop && (
-        <header className="hidden sm:block px-3 sm:px-4 md:px-6 py-3 sm:py-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-            <div className="flex items-center gap-4">
-              {/* {width < 834 && (
+          {isLaptop && (
+            <header className="hidden sm:block px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                <div className="flex items-center gap-4">
+                  {/* {width < 834 && (
                 <button
                   onClick={toggleSidebar}
                   className="p-2 rounded-md hover:bg-white/10"
@@ -558,163 +688,164 @@ const DashboardLayout = () => {
                   </svg>
                 </button>
               )} */}
-              <h2 className="text-lg px-6 sm:text-xl font-inter font-[600] text-gray-800">
-                Analytics
-              </h2>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
-              <button className="p-2 hover:bg-gray-100 rounded-custom  bg-reloadBackground">
-                <Reload />
-              </button>
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <span className="text-textHeading text-[14px] leading-[21px] font-inter font-[500] sm:text-[14px] item-center">
-                  Auto Refresh
-                </span>
-                <div className="w-12 h-6 bg-purple-600 rounded-full relative cursor-pointer">
-                  <ToggleOn />
+                  <h2 className="text-lg px-6 sm:text-xl font-inter font-[600] text-gray-800">
+                    Analytics
+                  </h2>
                 </div>
-              </div>
-              <div className="flex gap-2 sm:gap-5 ml-auto sm:ml-0">
-                <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
-                  Today
-                  <Calendar />
-                </button>
-                <button className="px-3 sm:px-4 py-2 bg-bgButton text-white rounded-md text-[12px] font-inter text-[12px] font-[600] leading-[15.6px]">
-                  Customise
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-      )}
-      <div className="h-[calc(100vh-130px)] overflow-y-auto p-3 sm:p-4 md:p-6">
-        <div className="grid grid-cols-12 sm:grid-cols-12 md:grid-cols-12 gap-3 sm:gap-4 md:gap-6 mb-6">
-          {/* Revenue Card */}
-          <div className="col-span-12 sm:col-span-12 md:col-span-4">
-            <Card className="bg-white h-full">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex justify-between items-center text-[12px] font-medium">
-                  <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                    Revenue
-                    <Info className="w-4 h-4 text-gray-400" />
-                  </div>
-                  <button className="p-1.5 rounded-md border border-gray-200">
-                    <ChevronRight className="w-4 h-4" />
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
+                  <button className="p-2 hover:bg-gray-100 rounded-custom  bg-reloadBackground">
+                    <Reload />
                   </button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4">
-                  <h3 className="text-[22px] sm:text-[22px] md:text-[22px] font-inter font-[600] text-gray-900 leading-[1.75]">
-                    $10000000.00
-                  </h3>
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <span className="text-textHeading text-[14px] leading-[21px] font-inter font-[500] sm:text-[14px] item-center">
+                      Auto Refresh
+                    </span>
+                    <div className="w-12 h-6 bg-purple-600 rounded-full relative cursor-pointer">
+                      <ToggleOn />
+                    </div>
+                  </div>
+                  <div className="flex gap-2 sm:gap-5 ml-auto sm:ml-0">
+                    <button className="flex items-center gap-x-20 px-2 sm:px-2 py-2 border border-gray-200 rounded-custom text-gray-600 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder">
+                      Today
+                      <Calendar />
+                    </button>
+                    <button className="px-3 sm:px-4 py-2 bg-bgButton text-white rounded-md text-[12px] font-inter text-[12px] font-[600] leading-[15.6px]">
+                      Customise
+                    </button>
+                  </div>
                 </div>
-                <div className="w-full overflow-x-auto">
-                  <LineChart
-                    width={300}
-                    height={80}
-                    data={revenueData}
-                    className="w-full min-w-[300px]"
-                  >
-                    <XAxis dataKey="time" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line
-                      type="monotone"
-                      dataKey="value"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                      dot={{ r: 4 }}
-                    />
-                  </LineChart>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </header>
+          )}
+          <div className="h-[calc(100vh-130px)] overflow-y-auto p-3 sm:p-4 md:p-6">
+            <div className="grid grid-cols-12 sm:grid-cols-12 md:grid-cols-12 gap-3 sm:gap-4 md:gap-6 mb-6">
+              {/* Revenue Card */}
+              <div className="col-span-12 sm:col-span-12 md:col-span-4">
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-[12px] font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Revenue
+                        <Info className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="mb-4">
+                      <h3 className="text-[22px] sm:text-[22px] md:text-[22px] font-inter font-[600] text-gray-900 leading-[1.75]">
+                        $10000000.00
+                      </h3>
+                    </div>
+                    <div className="w-full overflow-x-auto">
+                      <LineChart
+                        width={300}
+                        height={80}
+                        data={revenueData}
+                        className="w-full min-w-[300px]"
+                      >
+                        <XAxis dataKey="time" />
+                        <YAxis />
+                        <Tooltip />
+                        <Line
+                          type="monotone"
+                          dataKey="value"
+                          stroke="#8884d8"
+                          strokeWidth={2}
+                          dot={{ r: 4 }}
+                        />
+                      </LineChart>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
 
-          {/* Orders Card */}
-          <div className="col-span-12 sm:col-span-12 md:col-span-8">
-            <Card className="bg-white h-full">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex justify-between items-center text-[12px] font-medium">
-                  <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                    Orders
-                    <Info className="w-4 h-4 text-gray-400" />
+              {/* Orders Card */}
+              <div className="col-span-12 sm:col-span-12 md:col-span-8">
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-[12px] font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Orders
+                        <Info className="w-4 h-4 text-gray-400" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-background-grey grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4 md:font-inter">
+                      <OrderStat
+                        title="Completed"
+                        value="1000"
+                        icon={<Completed />}
+                      />
+                      <OrderStat
+                        title="Dispatched"
+                        value="1000"
+                        icon={<Dispatched />}
+                      />
+                      <OrderStat
+                        title="Pending"
+                        value="1000"
+                        icon={<Pending />}
+                      />
+                      <OrderStat
+                        title="Cancelled"
+                        value="1000"
+                        icon={<Cancled />}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Bottom Cards */}
+            <div className="grid grid-cols-12 gap-3 sm:gap-4 md:gap-6">
+              {/* New Customers Card */}
+              <div className="col-span-12 sm:col-span-12 md:col-span-6">
+                <Card className="bg-white h-full">
+                  <div className="space-y-4">
+                    <NewCustomersCard />
                   </div>
-                  <button className="p-1.5 rounded-md border border-gray-200">
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-background-grey grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 p-2 sm:p-4 md:font-inter">
-                  <OrderStat
-                    title="Completed"
-                    value="1000"
-                    icon={<Completed />}
-                  />
-                  <OrderStat
-                    title="Dispatched"
-                    value="1000"
-                    icon={<Dispatched />}
-                  />
-                  <OrderStat
-                    title="Pending"
-                    value="1000"
-                    icon={<Pending />}
-                  />
-                  <OrderStat
-                    title="Cancelled"
-                    value="1000"
-                    icon={<Cancled />}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+                </Card>
+              </div>
+
+              {/* Stores Card */}
+              <div className="col-span-12 sm:col-span-12 md:col-span-6">
+                <Card className="bg-white h-full">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="flex justify-between items-center text-[12px] font-medium">
+                      <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
+                        Stores
+                        <Info className="w-4 h-4 text-cardTitle font-inter text-[12px] font-[600]" />
+                      </div>
+                      <button className="p-1.5 rounded-md border border-gray-200">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <StoresStat title="Active store" value="10" />
+                      <StoresStat title="Inactive store" value="10" />
+                      <StoresStat title="Open store" value="10" />
+                      <StoresStat title="Closed store" value="10" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Bottom Cards */}
-        <div className="grid grid-cols-12 gap-3 sm:gap-4 md:gap-6">
-          {/* New Customers Card */}
-          <div className="col-span-12 sm:col-span-12 md:col-span-6">
-            <Card className="bg-white h-full">
-              <div className="space-y-4">
-                <NewCustomersCard />
-              </div>
-            </Card>
-          </div>
-
-          {/* Stores Card */}
-          <div className="col-span-12 sm:col-span-12 md:col-span-6">
-            <Card className="bg-white h-full">
-              <CardHeader className="pb-2">
-                <CardTitle className="flex justify-between items-center text-[12px] font-medium">
-                  <div className="flex justify-between items-center font-inter text-headding-color text-base font-[500] leading-[24px] sm:text-base gap-2">
-                    Stores
-                    <Info className="w-4 h-4 text-cardTitle font-inter text-[12px] font-[600]" />
-                  </div>
-                  <button className="p-1.5 rounded-md border border-gray-200">
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  <StoresStat title="Active store" value="10" />
-                  <StoresStat title="Inactive store" value="10" />
-                  <StoresStat title="Open store" value="10" />
-                  <StoresStat title="Closed store" value="10" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-      </div>
-    );
+      );
+    }
+    return null;
   };
-
   return (
     <div className="flex flex-col h-screen">
       <TopHeader
@@ -736,14 +867,18 @@ const DashboardLayout = () => {
         <div
           className={`
             fixed sm:relative inset-y-0 left-0 
-            transform ${isSidebarOpen || showSidebar ? "translate-x-0" : "-translate-x-full"}
+            transform ${
+              isSidebarOpen || showSidebar
+                ? "translate-x-0"
+                : "-translate-x-full"
+            }
             transition-transform duration-300 ease-in-out
             w-[240px] bg-white border-r border-gray-200 z-30
           `}
         >
-          <div className="p-4 md:p-6">
+          <div className=" md:p-6">
             {width < 640 && (
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center">
                 <h1 className="text-xl font-bold text-purple-600">Dhaam</h1>
                 {showCloseIcon && (
                   <button
@@ -767,43 +902,18 @@ const DashboardLayout = () => {
                 )}
               </div>
             )}
-
-            <nav className="space-y-1">
-              <SidebarItem
-                icon={<GetStarted />}
-                text="Get Started"
-                onClick={() => {
-                  setCurrentView('dashboard');
-                  if (width < 640) toggleSidebar();
-                }}
+              <SidebarNav
+                onSettingsSubItemClick={handleSettingsSubItemClick}
+                onItemClick={handleItemClick}
+                currentView={currentView}
               />
-              <SidebarItem 
-                icon={<Dashboard />} 
-                text="Dashboard" 
-                active={currentView === 'dashboard'}
-                onClick={() => setCurrentView('dashboard')}
-              />
-              <SidebarItem icon={<Orders />} text="Orders" hasSubmenu />
-              <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
-              <SidebarItem icon={<Customers />} text="Customers" />
-              <SidebarItem icon={<Stores />} text="Stores" hasSubmenu />
-              <SidebarItem 
-                icon={<Settings />} 
-                text="Settings" 
-                hasSubmenu={true}
-                active={currentView === 'settings' || currentView === 'general'}
-                onClick={() => setCurrentView('general')}
-              />
-            </nav>
+           
+            {/* </nav> */}
           </div>
         </div>
 
-        
-                
         {/* Main Content Area */}
-        <div className="flex-1 overflow-hidden">
-          {renderContent()}
-        </div>
+        <div className="flex-1 overflow-hidden">{renderContent()}</div>
       </div>
     </div>
   );

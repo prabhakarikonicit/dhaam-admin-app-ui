@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import SettingsComponent from './SettingMenuComponent';
+import SettingsComponent from '../Settings/General/GeneralComponent';
 
 interface SidebarItemProps {
   icon: React.ReactNode;

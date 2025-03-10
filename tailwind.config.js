@@ -14,6 +14,8 @@ module.exports = {
       "2xl": "1536px",
     },
     extend: {
+
+      
       backgroundImage: {
         'linear-bg': "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
         'main-bg': "url('./lib/Images/signup.jpg')",
@@ -33,7 +35,14 @@ module.exports = {
         verifyOtp:"#333333",
         purpleColor: "#7C43DF",
         validationSucColor:"#575757",
-
+       cancelPlanText: "#BB1B1",
+       primary: "#2242B4",
+       customWhiteColor:"#EAFBEC",
+       yellow: "#735C17",
+       customWhite: "#FBE9E9",
+       billingNumber : "#1D3796",
+       green: "#125E1B",
+       headingBlack:"000B33"
       },
       backgroundColor: {
         "background-grey": "#F5F5F5",
@@ -41,7 +50,11 @@ module.exports = {
         reloadBackground: "#DBDBDB",
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
-        subMenus: "#F2F2F2"
+        subMenus: "#F2F2F2",
+        primary: "#EAEDFB",
+        green:"#2C6333",
+        yellow: "#FFD557",
+        maroon:"#9C1616"
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -57,7 +70,11 @@ module.exports = {
         custom: "6px",
         custom4x: "4px",
         custom8px: "8px",
+        custom12px: "12px",
+        custom18px: "18px",
+
         custom20px: "20px",
+        custom80px: "80px",
         custom100px: "100px",
       },
     },
