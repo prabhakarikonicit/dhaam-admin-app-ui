@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import GeneralComponent from "../Settings/General/GeneralComponent";
 import IntegrationComponent from "../Settings/Integration/IntegrationComponent";
 import ConfigurationsComponent from "../Settings/configurations/configurationscomponent";
-
+import MarketPlaceDesignComponent from "../Settings/marketplacedesign/marketplacedesigncomponent";
 
 import { ChevronDown } from "lucide-react";
 import {
@@ -437,6 +437,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     { text: "Integration" },
     { text: "Configurations" },
     { text: "Marketplace Design" },
+    
   ];
   const handleSubItemClick = (item: string) => {
     setSelectedSubItem(item);
@@ -533,6 +534,10 @@ const DashboardLayout = () => {
       else if (selectedSettingsItem === "Configurations"){
       
         return <ConfigurationsComponent />;
+      }
+      else if (selectedSettingsItem === "Marketplace Design"){
+      
+        return <MarketPlaceDesignComponent />;
       }
       return null;
     }

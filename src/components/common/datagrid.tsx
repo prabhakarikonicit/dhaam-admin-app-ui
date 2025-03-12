@@ -141,7 +141,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
 
       <table className="w-full border-collapse">
         <thead>
-          <tr className="border-b border-gray-200">
+          <tr className="border-b border-gray-200 bg-background-grey">
             <th className="p-4">
               <input
                 type="checkbox"

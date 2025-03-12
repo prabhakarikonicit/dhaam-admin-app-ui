@@ -67,13 +67,16 @@ module.exports = {
 
       },
       borderRadius: {
+        custom4px: "4px",
         custom: "6px",
         custom4x: "4px",
+        custom7px: "7px",
         custom8px: "8px",
         custom12px: "12px",
         custom18px: "18px",
-
+        custom28px: "28px",
         custom20px: "20px",
+        custom44px: "44px",
         custom80px: "80px",
         custom100px: "100px",
       },
