@@ -45,26 +45,26 @@ const CustomerAppDesign: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50">
+    <div className="p-0 max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-semibold">Branding</h1>
+        <h1 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color">Branding</h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 text-sm">Cancel</button>
-          <button className="px-4 py-2 text-sm bg-white border rounded-lg">
+          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack">Cancel</button>
+          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
             Save
           </button>
         </div>
       </div>
       <div className="bg-background-grey p-5">
-        <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-1">
+        <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-1">
           Customer App Design
         </h2>
-        <p className="text-[12px] font-inter text-cardTitle mb-6">
+        <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-6">
           Customize the visual identity of your marketplace by configuring
           colors, typography, and logos to ensure a consistent brand experience.
         </p>
       </div>
-      <div className="bg-white rounded-lg p-6 mb-6">
+      <div className="bg-white rounded-lg p-5 mb-6">
         <ColorPicker
           label="App Primary Colour"
           description="Choose the main colour for the app theme."
@@ -106,8 +106,8 @@ const CustomerAppDesign: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-lg font-medium mb-2">Onboarding Banner Carousel</h2>
-        <p className="text-[12px] font-inter text-cardTitle ">
+        <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Onboarding Banner Carousel</h2>
+        <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle ">
           {" "}
           Configure the onboarding experience by adding a set of carousel
           banners, titles, and descriptions to guide users through key
@@ -115,7 +115,7 @@ const CustomerAppDesign: React.FC = () => {
         </p>
         <div className="mb-6 mt-4">
           <div className="flex items-start mb-1">
-            <h3 className="text-base font-medium">
+            <h3 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]">
               Onboarding Banner 1 (512 x 512 pixels)
             </h3>
             <button className="ml-2 text-gray-400">
@@ -135,7 +135,7 @@ const CustomerAppDesign: React.FC = () => {
               </svg>
             </button>
           </div>
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] text-gray-500 mb-2">
             Upload the first onboarding banner image.
           </p>
           {/* <input 
@@ -162,16 +162,16 @@ const CustomerAppDesign: React.FC = () => {
           onDelete={() => handleFileDelete("mainLogo")}
         />
         <div className="mb-3">
-          <p className="text-sm text-gray-500 mb-2">Title 1</p>
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 1</p>
           <input
             type="text"
-            className="w-full border rounded-md p-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
             placeholder="Enter website title"
           />
-          <p className="text-sm text-gray-500 mb-2">Description 1</p>
+          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 1</p>
           <input
             type="text"
-            className="w-full border rounded-md p-2"
+            className="w-full text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
             placeholder="Enter website title"
           />
         </div>
@@ -182,14 +182,42 @@ const CustomerAppDesign: React.FC = () => {
           onUpload={(file) => handleFileUpload(file, "ogImage")}
           onDelete={() => handleFileDelete("ogImage")}
         />
-
+        <div className="mb-3">
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 2</p>
+          <input
+            type="text"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            placeholder="Enter website title"
+          />
+          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 2</p>
+          <input
+            type="text"
+            className="w-full text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            placeholder="Enter website title"
+          />
+        </div>
         <FileUpload
-          label="Thank You Page Banner"
+          label="Onboarding Banner 3"
           dimensions="1080 × 1200 pixels"
-          description="Set a banner for the order confirmation page."
+          description="Upload the first onboarding banner image.."
           onUpload={(file) => handleFileUpload(file, "thankYouBanner")}
           onDelete={() => handleFileDelete("thankYouBanner")}
         />
+
+        <div className="mb-3">
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 3</p>
+          <input
+            type="text"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            placeholder="Enter website title"
+          />
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 3</p>
+          <input
+            type="text"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            placeholder="Enter website title"
+          />
+        </div>
       </div>
     </div>
   );

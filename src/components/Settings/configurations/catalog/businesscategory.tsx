@@ -266,7 +266,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
   };
 
   return (
-    <div className="rounded-lg p-4 ">
+    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex items-center justify-between p-6  border border-grey-border mt-2 rounded-custom12px bg-backgroundWhite">
         <div className="flex items-center">

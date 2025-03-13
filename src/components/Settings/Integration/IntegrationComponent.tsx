@@ -297,8 +297,8 @@ const IntegrationComponent: React.FC = () => {
     <div className="h-[calc(100vh-64px)] flex gap-8 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">Integration</h2>
-        <div className="space-y-2 bg-backgroundWhite p-4 pb-20 rounded-custom">
+        <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">Integration</h2>
+        <div className="space-y-2 bg-backgroundWhite h-screen  p-4 pb-20 rounded-custom">
           {menuItems.map((item) => (
             <div
               key={item.id}

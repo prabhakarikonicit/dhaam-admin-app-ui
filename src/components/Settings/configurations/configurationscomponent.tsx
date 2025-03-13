@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Catalog from "./catalog/catalog";
 import Commission from "./commission/commission";
 import Store from "./store/store";
-import{ Branding, LoginPage} from "./branding/branding";
+import { Branding, LoginPage } from "./branding/branding";
 
 // Payment Gateway Icon
 const PaymentGatewayIcon = () => (
@@ -308,7 +308,7 @@ const ConfigurationsComponent: React.FC = () => {
           <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto hide-scrollbar py-2 px-4 bg-backgroundWhite"
+              className="flex overflow-x-auto hide-scrollbar py-2 px-4 bg-backgroundWhite "
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
@@ -336,13 +336,15 @@ const ConfigurationsComponent: React.FC = () => {
 
         {/* Content Area */}
         <div className="flex-1 p-4 overflow-y-auto">
-          {selectedItem === "Catalog" && <Catalog />} 
-          {selectedItem === "Commission" && <Commission onSave={() => {}} onCancel={() => {}} />}
-     {selectedItem === "Store" && <Store/>}
-     {selectedItem === "Branding" && <Branding /> &&  <LoginPage />}
-{selectedItem === "Login" && <LoginPage />}
+          {selectedItem === "Catalog" && <Catalog />}
+          {selectedItem === "Commission" && (
+            <Commission onSave={() => {}} onCancel={() => {}} />
+          )}
+          {selectedItem === "Store" && <Store />}
+          {selectedItem === "Branding" && <Branding /> && <LoginPage />}
+          {selectedItem === "Login" && <LoginPage />}
 
-      {/*  {selectedItem === "Email" && <Email />}
+          {/*  {selectedItem === "Email" && <Email />}
           {selectedItem === "Delivery Management System" && <Delivery/>} */}
         </div>
       </div>
@@ -353,10 +355,10 @@ const ConfigurationsComponent: React.FC = () => {
     <div className="h-[calc(100vh-64px)] flex gap-8 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">
           Configurations
         </h2>
-        <div className="space-y-2 bg-backgroundWhite p-4 pb-20 rounded-custom">
+        <div className="space-y-2 bg-backgroundWhite h-screen p-4 pb-20 rounded-custom">
           {menuItems.map((item) => (
             <div
               key={item.id}
@@ -379,10 +381,12 @@ const ConfigurationsComponent: React.FC = () => {
       {/* Right Panel */}
       <div className="w-[675px] mt-10">
         {selectedItem === "Catalog" && <Catalog />}
-        {selectedItem === "Commission" && <Commission onSave={() => {}} onCancel={() => {}} />}
-        {selectedItem === "Store" && <Store/>} 
+        {selectedItem === "Commission" && (
+          <Commission onSave={() => {}} onCancel={() => {}} />
+        )}
+        {selectedItem === "Store" && <Store />}
         {selectedItem === "Branding" && <Branding />}
-{selectedItem === "Login" && <LoginPage />}
+        {selectedItem === "Login" && <LoginPage />}
         {/*  {selectedItem === "Delivery Management System" && <Delivery />} */}
       </div>
     </div>

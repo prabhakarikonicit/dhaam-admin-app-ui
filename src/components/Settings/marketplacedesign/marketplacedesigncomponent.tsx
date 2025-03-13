@@ -1,11 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
-import BrandingPage from "../marketplacedesign/marketplacebranding/marketplacebranding"
+import BrandingPage from "../marketplacedesign/marketplacebranding/marketplacebranding";
 import CustomerAppDesign from "./customerappdesign/customerappdesign";
-
+import MarketplaceFiles from "./files/files";
 // Payment Gateway Icon
 const PaymentGatewayIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-    <path d="M4 4.5C2.89543 4.5 2 5.39543 2 6.5V7.5H18V6.5C18 5.39543 17.1046 4.5 16 4.5H4Z" fill="#636363" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
+    <path
+      d="M4 4.5C2.89543 4.5 2 5.39543 2 6.5V7.5H18V6.5C18 5.39543 17.1046 4.5 16 4.5H4Z"
+      fill="#636363"
+    />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -17,7 +26,13 @@ const PaymentGatewayIcon = () => (
 
 // POS Icon
 const PosIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       d="M2 6.5C2 5.39543 2.89543 4.5 4 4.5H16C17.1046 4.5 18 5.39543 18 6.5V14.5C18 15.6046 17.1046 16.5 16 16.5H4C2.89543 16.5 2 15.6046 2 14.5V6.5Z"
       stroke="#636363"
@@ -38,7 +53,13 @@ const PosIcon = () => (
 
 // SMS Icon
 const SmsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -50,7 +71,13 @@ const SmsIcon = () => (
 
 // Email Icon
 const EmailIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -62,7 +89,13 @@ const EmailIcon = () => (
 
 // Delivery Management System Icon
 const DeliveryIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       d="M12 4.5H15.2361C15.7161 4.5 16.1452 4.81608 16.2812 5.27309L17.5 9.5M12 4.5H4C3.44772 4.5 3 4.94772 3 5.5V14.5C3 15.0523 3.44772 15.5 4 15.5H4.5M12 4.5V8.5C12 9.05228 12.4477 9.5 13 9.5H17.5M17.5 9.5V14.5C17.5 15.0523 17.0523 15.5 16.5 15.5H16"
       stroke="#636363"
@@ -82,7 +115,13 @@ const DeliveryIcon = () => (
 
 // Web hook Icon
 const WebhookIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       d="M12.5 5.5C12.5 7.15685 11.1569 8.5 9.5 8.5C7.84315 8.5 6.5 7.15685 6.5 5.5C6.5 3.84315 7.84315 2.5 9.5 2.5C11.1569 2.5 12.5 3.84315 12.5 5.5Z"
       fill="#636363"
@@ -107,7 +146,13 @@ const WebhookIcon = () => (
 
 // Google Analytics Icon
 const GoogleAnalyticsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       d="M4 4.5C4 3.94772 4.44772 3.5 5 3.5C5.55228 3.5 6 3.94772 6 4.5V16.5C6 17.0523 5.55228 17.5 5 17.5C4.44772 17.5 4 17.0523 4 16.5V4.5Z"
       fill="#636363"
@@ -125,7 +170,13 @@ const GoogleAnalyticsIcon = () => (
 
 // Chat & Ticketing Icon
 const ChatTicketingIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -137,7 +188,13 @@ const ChatTicketingIcon = () => (
 
 // WhatsApp Icon
 const WhatsAppIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -154,7 +211,13 @@ const WhatsAppIcon = () => (
 
 // Google Calendar Icon
 const GoogleCalendarIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -166,7 +229,13 @@ const GoogleCalendarIcon = () => (
 
 // Zapier Icon
 const ZapierIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
     <path
       d="M3.33 5.5H17.5"
       stroke="#636363"
@@ -209,16 +278,24 @@ const MarketPlaceDesignComponent: React.FC = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const menuItems: MenuItem[] = [
-    { icon: <PaymentGatewayIcon />, label: "Marketplace Branding", id: "marketplace branding" },
-    { icon: <PosIcon />, label: "Customer App Design", id: "customerappdesign" },
-    { icon: <SmsIcon />, label: "SMS", id: "sms" },
+    {
+      icon: <PaymentGatewayIcon />,
+      label: "Marketplace Branding",
+      id: "marketplace branding",
+    },
+    {
+      icon: <PosIcon />,
+      label: "Customer App Design",
+      id: "customerappdesign",
+    },
+    { icon: <SmsIcon />, label: "Files", id: "files" },
   ];
 
   if (isMobile) {
@@ -227,17 +304,19 @@ const MarketPlaceDesignComponent: React.FC = () => {
         {/* Mobile Header */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex justify-between items-center p-4">
-            <h2 className="text-[14px] font-inter font-[600] text-headding-color">Integration</h2>
+            <h2 className="text-[14px] font-inter font-[600] text-headding-color">
+            Marketplace Design
+            </h2>
           </div>
 
           {/* Scrollable Tabs */}
           <div className="relative">
-            <div 
+            <div
               ref={scrollContainerRef}
               className="flex overflow-x-auto hide-scrollbar py-2 px-4 bg-backgroundWhite"
               style={{
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
               }}
             >
               {menuItems.map((item) => (
@@ -251,7 +330,9 @@ const MarketPlaceDesignComponent: React.FC = () => {
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
-                  <span className="text-[12px] font-inter font-[500]">{item.label}</span>
+                  <span className="text-[12px] font-inter font-[500]">
+                    {item.label}
+                  </span>
                 </button>
               ))}
             </div>
@@ -262,19 +343,20 @@ const MarketPlaceDesignComponent: React.FC = () => {
         <div className="flex-1 p-4 overflow-y-auto">
           {selectedItem === "Marketplace Branding" && <BrandingPage />}
           {selectedItem === "Customer App Design" && <CustomerAppDesign />}
-          
-
+          {selectedItem === "Files" && <MarketplaceFiles />}
         </div>
       </div>
     );
   }
-  
+
   return (
-    <div className="h-[calc(100vh-64px)] flex gap-8 bg-background-grey overflow-y-auto">
+    <div className="h-[calc(100vh-64px)] flex gap-2 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">Integration</h2>
-        <div className="space-y-2 bg-backgroundWhite p-4 pb-20 rounded-custom">
+        <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">
+        Marketplace Design
+        </h2>
+        <div className="space-y-2 bg-backgroundWhite h-screen p-4 pb-20 rounded-custom">
           {menuItems.map((item) => (
             <div
               key={item.id}
@@ -296,11 +378,9 @@ const MarketPlaceDesignComponent: React.FC = () => {
 
       {/* Right Panel */}
       <div className="w-[675px] mt-10">
-      {selectedItem === "Marketplace Branding" && <BrandingPage />}
-      {selectedItem === "Customer App Design" && <CustomerAppDesign />}
-      
-
-
+        {selectedItem === "Marketplace Branding" && <BrandingPage />}
+        {selectedItem === "Customer App Design" && <CustomerAppDesign />}
+        {selectedItem === "Files" && <MarketplaceFiles />}
       </div>
     </div>
   );

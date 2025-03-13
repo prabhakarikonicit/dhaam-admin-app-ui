@@ -291,12 +291,19 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
       />
     );
   }
-
+  const AddNewButton = (
+    <button
+      onClick={() => openModal("add")}
+      className="w-full px-4 py-2 text-[12px] font-inter bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50"
+    >
+      Add New
+    </button>
+  );
   return (
-    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1 className="text-headding-color font-inter text-[14px] font-[600px] leading-[21px]">
+        <h1 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
           Catalog
         </h1>
         <div className="flex gap-4">
@@ -325,31 +332,33 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
             onChange={() => setMaxOrdersToggle(!maxOrdersToggle)}
             title="Product Approval by Admin" 
             description="Require admin approval before products go live on the platform." 
+              variant="default"
           />
         </div>
 
         {/* Business Category Section */}
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-1 gap-4">
+        <div className="mt-2 grid grid-cols-1 md:grid-cols-1 gap-4">
           <DynamicCards
             checked={businessCategoryToggle}
             onChange={() => setBusinessCategoryToggle(!businessCategoryToggle)}
             title="Business Category"
             description="Help restaurants map their products to business categories for a smoother customer checkout experience."
+            variant="default"
 
           />
         </div>
 
         {/* Active Business Categories */}
-        <div className="flex justify-between items-center my-6 bg-white p-4 rounded-md">
+        <div className="flex justify-between items-center bg-white p-4 rounded-md mr-10 w-full ">
           <div>
-            <p className="w-full md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[10px]font-inter font-[500] text-green-600">
+            <p className="text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-green-600 ">
               {activeCount} active business categories
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex w-full sm:w-auto md:w-auto lg-w-auto xl-w-auto gap-x-2">
             <button
               onClick={handleViewTags}
-              className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2  text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter bg-white border border-gray-300 rounded-md"
+              className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2 text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter bg-white border border-gray-300 rounded-md"
             >
               View
             </button>
@@ -361,40 +370,32 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
             </button>
           </div>
         </div>
-
+    
         {/* User-Level Tags Section */}
-        <div className="mb-6 bg-white p-6 rounded-md">
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
-            <DynamicCards
-              checked={userLevelTagsToggle}
-              onChange={() => setUserLevelTagsToggle(!userLevelTagsToggle)}
-              title="User-Level Tags"
-              description="Create tags to categorize customers and restaurants for better organization."
+        <div className="mb-6 mt-4 bg-white p-6 rounded-md">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
+        <DynamicCards
+          checked={userLevelTagsToggle}
+          onChange={() => setUserLevelTagsToggle(!userLevelTagsToggle)}
+          title="User-Level Tags"
+          description="Create tags to categorize customers and restaurants for better organization."
+          actionButton={AddNewButton}
+          variant="compact"
+        />
+      </div>
 
-            />
-          </div>
-
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={() => openModal("add")}
-              className="px-4 py-2 text-[12px] font-inter bg-purple-600 text-white border border-purple-600 rounded-md"
-            >
-              Add New
-            </button>
-          </div>
-
-          <div className="border rounded-lg overflow-x-auto">
-            <CustomDataGrid
-              columns={tagColumns}
-              rows={tags}
-              selectedRows={selectedRows}
-              onSelectAll={handleSelectAll}
-              onSelectRow={handleSelectRow}
-              searchPlaceholder="Search tags"
-              hideToolbar={false}
-            />
-          </div>
-        </div>
+      <div className="border rounded-lg overflow-x-auto">
+        <CustomDataGrid
+          columns={tagColumns}
+          rows={tags}
+          selectedRows={selectedRows}
+          onSelectAll={handleSelectAll}
+          onSelectRow={handleSelectRow}
+          searchPlaceholder="Search tags"
+          hideToolbar={false}
+        />
+      </div>
+    </div>
       </div>
 
       {/* Custom Modal for all operations */}

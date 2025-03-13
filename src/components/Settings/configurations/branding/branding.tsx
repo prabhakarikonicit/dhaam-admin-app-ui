@@ -1,6 +1,7 @@
 import React, { useRef,useState } from 'react';
 import ToggleSwitch from '../../../common/toggleSwitch';
 import FileUpload from '../../../common/fileupload'
+import ColorPicker from "../../../common/colorpicker";
 
 // Input Field Component
 const InputField: React.FC<{
@@ -53,33 +54,7 @@ const InputField: React.FC<{
   );
 };
 
-// Color Picker Component
-const ColorPicker: React.FC<{
-  label: string;
-  description?: string;
-  color: string;
-  onChange?: (color: string) => void;
-}> = ({ 
-  label, 
-  description, 
-  color, 
-  onChange 
-}) => {
-  return (
-    <div className="mb-6">
-      <h3 className="text-[14px] font-inter font-[600] text-headding-color mb-1">{label}</h3>
-      {description && <p className="text-[12px] font-inter text-cardTitle mb-2">{description}</p>}
-      <div className="flex items-center">
-        <div className="flex-1"></div>
-        <div className="flex items-center border rounded-md overflow-hidden">
-          <span className="w-8 h-8 flex items-center justify-center" style={{ backgroundColor: color }}>
-          </span>
-          <span className="px-3 py-2 bg-white">{color}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
+
 
 // Branding Component
 export const Branding: React.FC = () => {
@@ -96,7 +71,7 @@ export const Branding: React.FC = () => {
   };
 
   return (
-    <div className="rounded-lg ">
+    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center p-4 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">Branding</h1>
         <div className="flex space-x-2">
@@ -197,7 +172,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 mt-4">
+    <div className="space-y-6 mt-4 max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Dashboard Login Page Settings Card */}
       <div className="bg-white rounded-lg p-6">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-1">Dashboard Login Page Settings</h2>
@@ -275,12 +250,13 @@ export const LoginPage: React.FC = () => {
           dimensions="1080×1200 pixels"
           description="Set a custom background image for the login page."
         />
-        
+        <div className="mt-14">
         <ColorPicker 
           label="Background Colour"
           description="Choose a background color to match your brand theme."
           color="#00F5FF"
         />
+        </div>
       </div>
     </div>
   );
