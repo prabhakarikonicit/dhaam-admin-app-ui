@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import Catalog from "./catalog/catalog";
-import Commission from "./commission/commission";
-import Store from "./store/store";
-import { Branding, LoginPage } from "./branding/branding";
-
+import BrandingPage from "../marketplacedesign/marketplacebranding/marketplacebranding";
+import CustomerAppDesign from "./customerappdesign/customerappdesign";
+import MarketplaceFiles from "./files/files";
 // Payment Gateway Icon
 const PaymentGatewayIcon = () => (
   <svg
@@ -271,7 +269,7 @@ interface MenuItem {
   id: string;
 }
 
-const ConfigurationsComponent: React.FC = () => {
+const MarketPlaceDesignComponent: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState("Payment Gateway");
   const [isMobile, setIsMobile] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -287,10 +285,17 @@ const ConfigurationsComponent: React.FC = () => {
   }, []);
 
   const menuItems: MenuItem[] = [
-    { icon: <PaymentGatewayIcon />, label: "Catalog", id: "catalog" },
-    { icon: <PosIcon />, label: "Commission", id: "commission" },
-    { icon: <SmsIcon />, label: "Store", id: "store" },
-    { icon: <EmailIcon />, label: "Branding", id: "branding" },
+    {
+      icon: <PaymentGatewayIcon />,
+      label: "Marketplace Branding",
+      id: "marketplace branding",
+    },
+    {
+      icon: <PosIcon />,
+      label: "Customer App Design",
+      id: "customerappdesign",
+    },
+    { icon: <SmsIcon />, label: "Files", id: "files" },
   ];
 
   if (isMobile) {
@@ -300,7 +305,7 @@ const ConfigurationsComponent: React.FC = () => {
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="flex justify-between items-center p-4">
             <h2 className="text-[14px] font-inter font-[600] text-headding-color">
-              Configurations
+            Marketplace Design
             </h2>
           </div>
 
@@ -308,7 +313,7 @@ const ConfigurationsComponent: React.FC = () => {
           <div className="relative">
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto hide-scrollbar py-2 px-4 bg-backgroundWhite "
+              className="flex overflow-x-auto hide-scrollbar py-2 px-4 bg-backgroundWhite"
               style={{
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
@@ -336,27 +341,20 @@ const ConfigurationsComponent: React.FC = () => {
 
         {/* Content Area */}
         <div className="flex-1 p-4 overflow-y-auto">
-          {selectedItem === "Catalog" && <Catalog />}
-          {selectedItem === "Commission" && (
-            <Commission onSave={() => {}} onCancel={() => {}} />
-          )}
-          {selectedItem === "Store" && <Store />}
-          {selectedItem === "Branding" && <Branding /> && <LoginPage />}
-          {selectedItem === "Login" && <LoginPage />}
-
-          {/*  {selectedItem === "Email" && <Email />}
-          {selectedItem === "Delivery Management System" && <Delivery/>} */}
+          {selectedItem === "Marketplace Branding" && <BrandingPage />}
+          {selectedItem === "Customer App Design" && <CustomerAppDesign />}
+          {selectedItem === "Files" && <MarketplaceFiles />}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[calc(100vh-64px)] flex gap-8 bg-background-grey overflow-y-auto">
+    <div className="h-[calc(100vh-64px)] flex gap-2 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">
-          Configurations
+        Marketplace Design
         </h2>
         <div className="space-y-2 bg-backgroundWhite h-screen p-4 pb-20 rounded-custom">
           {menuItems.map((item) => (
@@ -380,17 +378,12 @@ const ConfigurationsComponent: React.FC = () => {
 
       {/* Right Panel */}
       <div className="w-[675px] mt-10">
-        {selectedItem === "Catalog" && <Catalog />}
-        {selectedItem === "Commission" && (
-          <Commission onSave={() => {}} onCancel={() => {}} />
-        )}
-        {selectedItem === "Store" && <Store />}
-        {selectedItem === "Branding" && <Branding />}
-        {selectedItem === "Login" && <LoginPage />}
-        {/*  {selectedItem === "Delivery Management System" && <Delivery />} */}
+        {selectedItem === "Marketplace Branding" && <BrandingPage />}
+        {selectedItem === "Customer App Design" && <CustomerAppDesign />}
+        {selectedItem === "Files" && <MarketplaceFiles />}
       </div>
     </div>
   );
 };
 
-export default ConfigurationsComponent;
+export default MarketPlaceDesignComponent;

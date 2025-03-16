@@ -228,13 +228,13 @@ const Payment: React.FC = () => {
           </h2>
           <div className="flex space-x-4">
             <button
-              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack hover:bg-gray-50"
+              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack"
               onClick={() => setIsCustomModalOpen(false)}
             >
               Cancel
             </button>
             <button
-              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack bg-backgroundWhite hover:bg-blue-700"
+              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack bg-backgroundWhite"
               onClick={handleSaveCustomGateway}
             >
               Save

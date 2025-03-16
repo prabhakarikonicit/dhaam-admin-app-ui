@@ -1,64 +1,116 @@
-import React, { useState } from 'react';
-import { PenSquare, Trash2 } from 'lucide-react';
+import React, { useState } from "react";
+import { PenSquare, Trash2 } from "lucide-react";
 import CustomDataGrid from "../../../common/datagrid";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import CustomModal, { FieldDefinition } from "../../../common/modals";
+import {
+  DisplayStoreTimingCard,
+  EmailNotificationCard,
+  DynamicCards,
+  OrderControlCard,
+  ScheduledOrderCard,
+  InputCard,
+  DeliveryMode,
+} from "../../../common/cards";
 
 // Define CommissionTier interface
 interface CommissionTier {
   id: string;
   minOrderValue: number;
   maxOrderValue: number;
-  type: 'Fixed' | 'Percentage';
+  type: "Fixed" | "Percentage";
   value: number;
 }
 
 // Define props interface for TierBasedCommission
 interface TierBasedCommissionProps {
-    onChange?: (enabled: boolean, tiers: CommissionTier[]) => void;
-    onSave: () => void;
-    onCancel: () => void;
-  }
-const Commission: React.FC<TierBasedCommissionProps> = (
-    { 
-  onSave, 
-  onCancel,
-  onChange 
+  onChange?: (enabled: boolean, tiers: CommissionTier[]) => void;
+  onSave: () => void;
+  onCancel: () => void;
 }
-) => {
+const Commission: React.FC<TierBasedCommissionProps> = ({
+  onSave,
+  onCancel,
+  onChange,
+}) => {
+  // State for tier-based commission
+  const [tierBasedCommissionEnabled, setTierBasedCommissionEnabled] =
+    useState(false);
+  const [userLevelTagsToggle, setUserLevelTagsToggle] = useState(false);
 
-    // State for tier-based commission
-  const [tierBasedCommissionEnabled, setTierBasedCommissionEnabled] = useState(false);
   // State for commission settings
   const [commissionEnabled, setCommissionEnabled] = useState(true);
-  const [rateType, setRateType] = useState<'Fixed' | 'Percentage'>('Fixed');
-  const [commissionAmount, setCommissionAmount] = useState<string>('');
-  const [paymentTransfer, setPaymentTransfer] = useState<'Online' | 'Offline'>('Offline');
-  const [payoutSchedule, setPayoutSchedule] = useState<'Instant' | 'Later'>('Later');
-  const [scheduleDay, setScheduleDay] = useState<string>('');
-  
+  const [rateType, setRateType] = useState<"Fixed" | "Percentage">("Fixed");
+  const [commissionAmount, setCommissionAmount] = useState<string>("");
+  const [paymentTransfer, setPaymentTransfer] = useState<"Online" | "Offline">(
+    "Offline"
+  );
+  const [payoutSchedule, setPayoutSchedule] = useState<"Instant" | "Later">(
+    "Later"
+  );
+  const [scheduleDay, setScheduleDay] = useState<string>("");
+
   // State for commission tiers
   const [commissionTiers, setCommissionTiers] = useState<CommissionTier[]>([
-    { id: "1", minOrderValue: 300, maxOrderValue: 1200, type: 'Percentage', value: 2 },
-    { id: "2", minOrderValue: 300, maxOrderValue: 1200, type: 'Fixed', value: 20 },
-    { id: "3", minOrderValue: 300, maxOrderValue: 1200, type: 'Percentage', value: 2 },
-    { id: "4", minOrderValue: 300, maxOrderValue: 1200, type: 'Fixed', value: 20 },
-    { id: "5", minOrderValue: 300, maxOrderValue: 1200, type: 'Percentage', value: 2 },
-    { id: "6", minOrderValue: 300, maxOrderValue: 1200, type: 'Fixed', value: 20 }
+    {
+      id: "1",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Percentage",
+      value: 2,
+    },
+    {
+      id: "2",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Fixed",
+      value: 20,
+    },
+    {
+      id: "3",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Percentage",
+      value: 2,
+    },
+    {
+      id: "4",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Fixed",
+      value: 20,
+    },
+    {
+      id: "5",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Percentage",
+      value: 2,
+    },
+    {
+      id: "6",
+      minOrderValue: 300,
+      maxOrderValue: 1200,
+      type: "Fixed",
+      value: 20,
+    },
   ]);
-  
+
   // State for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"add" | "edit" | "view" | "delete">("add");
+  const [modalMode, setModalMode] = useState<
+    "add" | "edit" | "view" | "delete"
+  >("add");
   const [selectedTier, setSelectedTier] = useState<CommissionTier | null>(null);
-   // Form state for the modal
-   const [formType, setFormType] = useState<'Fixed' | 'Percentage'>('Fixed');
-   const [formValue, setFormValue] = useState<string>('');
-   const [formMinValue, setFormMinValue] = useState<string>('');
-   const [formMaxValue, setFormMaxValue] = useState<string>('');
+  // Form state for the modal
+  const [formType, setFormType] = useState<"Fixed" | "Percentage">("Fixed");
+  const [formValue, setFormValue] = useState<string>("");
+  const [formMinValue, setFormMinValue] = useState<string>("");
+  const [formMaxValue, setFormMaxValue] = useState<string>("");
   // Selected rows for DataGrid
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  
+  const [maxOrdersToggle, setMaxOrdersToggle] = useState(false);
+
   // Define fields for commission tier modal
   const tierFields: FieldDefinition[] = [
     {
@@ -75,7 +127,7 @@ const Commission: React.FC<TierBasedCommissionProps> = (
       placeholder: "Enter the value",
       required: true,
     },
-   
+
     {
       id: "Minimum Order Value",
       label: "Minimum Order Value",
@@ -84,57 +136,67 @@ const Commission: React.FC<TierBasedCommissionProps> = (
       required: true,
     },
     {
-        id: "Maximum Order Value",
-        label: "Minimum Order Value",
-        type: "number",
-        placeholder: "Enter commission value",
-        required: true,
-      }
+      id: "Maximum Order Value",
+      label: "Minimum Order Value",
+      type: "number",
+      placeholder: "Enter commission value",
+      required: true,
+    },
   ];
-    // Toggle commission status
-    const toggleCommissionStatus = () => {
-        const newStatus = !tierBasedCommissionEnabled;
-        setTierBasedCommissionEnabled(newStatus);
-        if (onChange) {
-          onChange(newStatus, commissionTiers);
-        }
-      };
+  // Toggle commission status
+  const toggleCommissionStatus = () => {
+    const newStatus = !tierBasedCommissionEnabled;
+    setTierBasedCommissionEnabled(newStatus);
+    if (onChange) {
+      onChange(newStatus, commissionTiers);
+    }
+  };
   // Open modal to add or edit a commission tier
-  const openModal = (mode: "add" | "edit" | "view" | "delete", tier?: CommissionTier) => {
+  const openModal = (
+    mode: "add" | "edit" | "view" | "delete",
+    tier?: CommissionTier
+  ) => {
     setModalMode(mode);
     setSelectedTier(tier || null);
     setIsModalOpen(true);
   };
-  
+
   // Handle save from modal
   const handleSaveTier = () => {
     // Validate form data
     if (!formValue || !formMinValue || !formMaxValue) {
       return; // Don't save if fields are empty
     }
-    
+
     // Create new tier
     const newTier: CommissionTier = {
       id: Date.now().toString(),
       type: formType,
       value: parseFloat(formValue),
       minOrderValue: parseFloat(formMinValue),
-      maxOrderValue: parseFloat(formMaxValue)
+      maxOrderValue: parseFloat(formMaxValue),
     };
 
     // Update tiers
     const updatedTiers = [...commissionTiers, newTier];
     setCommissionTiers(updatedTiers);
-    
+
     // Close modal
     setIsModalOpen(false);
-    
+
     // Notify parent component
     if (onChange) {
       onChange(tierBasedCommissionEnabled, updatedTiers);
     }
   };
-  
+  const AddNewButton = (
+    <button
+      onClick={() => openModal("add")}
+      className="w-full px-4 py-2 text-[12px] font-inter bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50"
+    >
+      Add New
+    </button>
+  );
   // Handle editing tier
   const handleEditTier = (row: any) => {
     const tier = commissionTiers.find((t) => t.id === row.id);
@@ -145,9 +207,9 @@ const Commission: React.FC<TierBasedCommissionProps> = (
 
   // Handle deleting tier
   const handleDeleteTier = (row: any) => {
-    const updatedTiers = commissionTiers.filter(tier => tier.id !== row.id);
+    const updatedTiers = commissionTiers.filter((tier) => tier.id !== row.id);
     setCommissionTiers(updatedTiers);
-    
+
     if (onChange) {
       onChange(tierBasedCommissionEnabled, updatedTiers);
     }
@@ -163,47 +225,41 @@ const Commission: React.FC<TierBasedCommissionProps> = (
     return `₹${amount.toFixed(2)}`;
   };
   // Format value based on type
-  const formatValue = (type: 'Fixed' | 'Percentage', value: number) => {
-    return type === 'Fixed' ? formatCurrency(value) : `${value}%`;
+  const formatValue = (type: "Fixed" | "Percentage", value: number) => {
+    return type === "Fixed" ? formatCurrency(value) : `${value}%`;
   };
 
   // Define columns for the DataGrid
   const tierColumns = [
-    { 
-      field: "minOrderValue", 
-      headerName: "Minimum order value", 
+    {
+      field: "minOrderValue",
+      headerName: "Minimum order value",
       width: "25%",
-      renderCell: (value: number) => formatCurrency(value)
+      renderCell: (value: number) => formatCurrency(value),
     },
-    { 
-      field: "maxOrderValue", 
-      headerName: "Maximum order value", 
+    {
+      field: "maxOrderValue",
+      headerName: "Maximum order value",
       width: "25%",
-      renderCell: (value: number) => formatCurrency(value)
+      renderCell: (value: number) => formatCurrency(value),
     },
     { field: "type", headerName: "Type", width: "20%" },
-    { 
-      field: "value", 
-      headerName: "Value", 
+    {
+      field: "value",
+      headerName: "Value",
       width: "15%",
-      renderCell: (value: number, row: any) => formatValue(row.type, value)
+      renderCell: (value: number, row: any) => formatValue(row.type, value),
     },
-    { 
-      field: "action", 
-      headerName: "Action", 
+    {
+      field: "action",
+      headerName: "Action",
       width: "15%",
       renderCell: (value: any, row: any) => (
         <div className="flex items-center justify-center">
-          <button 
-            onClick={() => handleDeleteTier(row)}
-            className="p-1"
-          >
+          <button onClick={() => handleDeleteTier(row)} className="p-1">
             <Trash2 className="w-5 h-5 text-gray-600" />
           </button>
-          <button 
-            onClick={() => handleEditTier(row)}
-            className="p-1 ml-2"
-          >
+          <button onClick={() => handleEditTier(row)} className="p-1 ml-2">
             <PenSquare className="w-5 h-5 text-gray-600" />
           </button>
         </div>
@@ -231,23 +287,30 @@ const Commission: React.FC<TierBasedCommissionProps> = (
   // Get title for modal based on mode
   const getModalTitle = () => {
     switch (modalMode) {
-      case "add": return "Add Commission Tier";
-      case "edit": return "Edit Commission Tier";
-      case "view": return "View Commission Tier";
-      case "delete": return "Delete Commission Tier";
-      default: return "Commission Tier";
+      case "add":
+        return "Add Commission Tier";
+      case "edit":
+        return "Edit Commission Tier";
+      case "view":
+        return "View Commission Tier";
+      case "delete":
+        return "Delete Commission Tier";
+      default:
+        return "Commission Tier";
     }
   };
 
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1 className="text-[14px] font-inter font-[600] text-headding-color">Commission</h1>
+        <h1 className="text-[14px] font-inter font-[600] text-headding-color">
+          Commission
+        </h1>
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite"
+            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack"
           >
             Cancel
           </button>
@@ -261,12 +324,20 @@ const Commission: React.FC<TierBasedCommissionProps> = (
       </div>
 
       {/* Main content */}
-      <div className="p-6 space-y-6">
+      <div className="p-0 md:p-6 sm:p-6 lg:p-6 xl:p-6">
         {/* Commission Settings Section */}
-        <div className="flex justify-between items-center bg-white p-6 rounded-md">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+          <DynamicCards
+            checked={maxOrdersToggle}
+            onChange={() => setMaxOrdersToggle(!maxOrdersToggle)}
+            title="Commission Settings"
+            description="Set commission rates for users per order. Choose between fixed or percentage-based commissions, applied online or offline."
+            variant="default"
+          />
+          {/* <div>
             <h2 className="text-[14px] font-inter font-[600] text-textHeading">
               Commission Settings
+              
             </h2>
             <p className="text-[12px] font-inter text-cardTitle mt-1">
               Set commission rates for users per order. Choose between fixed or percentage-based commissions, applied online or offline.
@@ -278,39 +349,98 @@ const Commission: React.FC<TierBasedCommissionProps> = (
               onChange={() => setCommissionEnabled(!commissionEnabled)}
               aria-labelledby="commission-settings-label"
             />
-          </div>
+          </div> */}
         </div>
 
         {commissionEnabled && (
           <>
             {/* Rate Configuration */}
-            <div className="bg-white p-6 rounded-md">
+            <div className="bg-backgroundWhite p-6 rounded-md">
               <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-1">
                 Rate Configuration
               </h3>
               <p className="text-[12px] font-inter text-cardTitle mb-4">
-                Set commission rates for users to apply across all commission calculations.
+                Set commission rates for users to apply across all commission
+                calculations.
               </p>
-              <div className="flex items-center gap-6 mt-2">
+
+              {/* <div className="flex items-center gap-6 mt-2">
                 <label className="flex items-center">
                   <input
                     type="radio"
                     name="rateType"
-                    checked={rateType === 'Fixed'}
-                    onChange={() => setRateType('Fixed')}
-                    className="w-4 h-4 mr-2 text-blue-600"
+                    checked={rateType === "Fixed"}
+                    onChange={() => setRateType("Fixed")}
+                    className="w-4 h-4 mr-2 appearance-none checked:border-purple-600 checked:border-1 w-5 h-5 rounded-full border border-gray-300"
                   />
-                  <span className="text-[14px] font-inter text-gray-700">Fixed</span>
+                  <span className="text-[14px] font-inter text-gray-700">
+                    Fixed
+                  </span>
                 </label>
                 <label className="flex items-center">
                   <input
                     type="radio"
                     name="rateType"
-                    checked={rateType === 'Percentage'}
-                    onChange={() => setRateType('Percentage')}
-                    className="w-4 h-4 mr-2 text-blue-600"
+                    checked={rateType === "Percentage"}
+                    onChange={() => setRateType("Percentage")}
+                    className="w-4 h-4 mr-2 appearance-none checked:border-purple-600 checked:border-1 w-5 h-5 rounded-full border border-gray-300"
                   />
-                  <span className="text-[14px] font-inter text-gray-700">Percentage</span>
+                  <span className="text-[14px] font-inter text-gray-700 focus:ring-purple-500">
+                    Percentage
+                  </span>
+                </label>
+              </div> */}
+              <div className="flex items-center gap-6 mt-2">
+                <label className="flex items-center cursor-pointer">
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="rateType"
+                      checked={rateType === "Fixed"}
+                      onChange={() => setRateType("Fixed")}
+                      className="sr-only" // Hide the actual input but keep it accessible
+                    />
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                        rateType === "Fixed"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {rateType === "Fixed" && (
+                        <div className="w-3 h-3 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="ml-2 text-[14px] font-inter text-gray-700">
+                    Fixed
+                  </span>
+                </label>
+
+                <label className="flex items-center cursor-pointer">
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="rateType"
+                      checked={rateType === "Percentage"}
+                      onChange={() => setRateType("Percentage")}
+                      className="sr-only" // Hide the actual input but keep it accessible
+                    />
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                        rateType === "Percentage"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {rateType === "Percentage" && (
+                        <div className="w-3 h-3 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="ml-2 text-[14px] font-inter text-gray-700">
+                    Percentage
+                  </span>
                 </label>
               </div>
 
@@ -325,7 +455,7 @@ const Commission: React.FC<TierBasedCommissionProps> = (
                   className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter"
                 >
                   <option value="">Select</option>
-                  {rateType === 'Fixed' ? (
+                  {rateType === "Fixed" ? (
                     <>
                       <option value="100">₹100</option>
                       <option value="200">₹200</option>
@@ -348,28 +478,60 @@ const Commission: React.FC<TierBasedCommissionProps> = (
                 Payment Transfer
               </h3>
               <p className="text-[12px] font-inter text-cardTitle mb-4">
-                Set commission transfers via online or offline mode. Offline means cash settlement, while online transfers go to verified merchant accounts.
+                Set commission transfers via online or offline mode. Offline
+                means cash settlement, while online transfers go to verified
+                merchant accounts.
               </p>
               <div className="flex items-center gap-6 mt-2">
                 <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="paymentTransfer"
-                    checked={paymentTransfer === 'Online'}
-                    onChange={() => setPaymentTransfer('Online')}
-                    className="w-4 h-4 mr-2 text-blue-600"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700">Online</span>
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="paymentTransfer"
+                      checked={paymentTransfer === "Online"}
+                      onChange={() => setPaymentTransfer("Online")}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+                        paymentTransfer === "Online"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {paymentTransfer === "Online" && (
+                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-[14px] font-inter text-gray-700">
+                    Online
+                  </span>
                 </label>
                 <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="paymentTransfer"
-                    checked={paymentTransfer === 'Offline'}
-                    onChange={() => setPaymentTransfer('Offline')}
-                    className="w-4 h-4 mr-2 text-blue-600"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700">Offline</span>
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="paymentTransfer"
+                      checked={paymentTransfer === "Offline"}
+                      onChange={() => setPaymentTransfer("Offline")}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+                        paymentTransfer === "Offline"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {paymentTransfer === "Offline" && (
+                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-[14px] font-inter text-gray-700">
+                    Offline
+                  </span>
                 </label>
               </div>
 
@@ -379,29 +541,59 @@ const Commission: React.FC<TierBasedCommissionProps> = (
               </h3>
               <div className="flex items-center gap-6 mt-2">
                 <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="payoutSchedule"
-                    checked={payoutSchedule === 'Instant'}
-                    onChange={() => setPayoutSchedule('Instant')}
-                    className="w-4 h-4 mr-2 text-blue-600"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700">Instant</span>
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="payoutSchedule"
+                      checked={payoutSchedule === "Instant"}
+                      onChange={() => setPayoutSchedule("Instant")}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+                        payoutSchedule === "Instant"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {payoutSchedule === "Instant" && (
+                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-[14px] font-inter text-gray-700">
+                    Instant
+                  </span>
                 </label>
                 <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="payoutSchedule"
-                    checked={payoutSchedule === 'Later'}
-                    onChange={() => setPayoutSchedule('Later')}
-                    className="w-4 h-4 mr-2 text-blue-600"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700">Later</span>
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="payoutSchedule"
+                      checked={payoutSchedule === "Later"}
+                      onChange={() => setPayoutSchedule("Later")}
+                      className="sr-only"
+                    />
+                    <div
+                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+                        payoutSchedule === "Later"
+                          ? "border-1 border-purple-600"
+                          : "border border-gray-300"
+                      }`}
+                    >
+                      {payoutSchedule === "Later" && (
+                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                      )}
+                    </div>
+                  </div>
+                  <span className="text-[14px] font-inter text-gray-700">
+                    Later
+                  </span>
                 </label>
               </div>
 
               {/* Schedule Day */}
-              {payoutSchedule === 'Later' && (
+              {payoutSchedule === "Later" && (
                 <div className="mt-6">
                   <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-3">
                     Schedule day
@@ -419,45 +611,29 @@ const Commission: React.FC<TierBasedCommissionProps> = (
 
             {/* Tier-Based Commission Section */}
             <div className="mb-6">
-              <div className="flex justify-between items-center bg-white p-6 rounded-md">
-                <div>
-                  <h2 className="text-[14px] font-inter font-[600] text-textHeading">
-                    Tier-Based Commission
-                  </h2>
-                  <p className="text-[12px] font-inter text-cardTitle mt-1">
-                    Apply different commission rates based on order amount. Default rates apply if no tier matches.
-                  </p>
-                </div>
-                <div className="flex items-center">
-                <ToggleSwitch
-            checked={tierBasedCommissionEnabled}
-            onChange={toggleCommissionStatus}
-            aria-labelledby="tier-based-commission-label"
-          />
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
+                <DynamicCards
+                  checked={tierBasedCommissionEnabled}
+                  onChange={toggleCommissionStatus}
+                  title="User-Level Tags"
+                  description="Create tags to categorize customers and restaurants for better organization."
+                  actionButton={AddNewButton}
+                  variant="compact"
+                />
               </div>
 
               {tierBasedCommissionEnabled && (
                 <div className="mt-4">
-                  <div className="flex justify-end mb-4">
-                    <button
-                      onClick={handleAddTier}
-                      className="px-4 py-2 text-[12px] font-inter bg-white text-gray-800 border border-gray-300 rounded-lg"
-                    >
-                      Add New
-                    </button>
-                  </div>
-
-                  <div className="border rounded-lg overflow-x-auto">
-                  <CustomDataGrid
-          columns={tierColumns}
-          rows={commissionTiers}
-          selectedRows={selectedRows}
-          onSelectAll={handleSelectAll}
-          onSelectRow={handleSelectRow}
-          searchPlaceholder=""
-          hideToolbar={true}
-        />
+                  <div className="border rounded-lg overflow-x-auto bg-backgroundWhite">
+                    <CustomDataGrid
+                      columns={tierColumns}
+                      rows={commissionTiers}
+                      selectedRows={selectedRows}
+                      onSelectAll={handleSelectAll}
+                      onSelectRow={handleSelectRow}
+                      searchPlaceholder=""
+                      hideToolbar={true}
+                    />
                   </div>
                 </div>
               )}
@@ -482,14 +658,16 @@ const Commission: React.FC<TierBasedCommissionProps> = (
           <div className="space-y-6">
             {/* Commission Type */}
             <div>
-              <h3 className="text-[14px] font-medium text-gray-700 mb-3">Commission Type</h3>
+              <h3 className="text-[14px] font-medium text-gray-700 mb-3">
+                Commission Type
+              </h3>
               <div className="flex items-center space-x-6">
                 <label className="flex items-center">
                   <input
                     type="radio"
                     name="type"
-                    checked={formType === 'Fixed'}
-                    onChange={() => setFormType('Fixed')}
+                    checked={formType === "Fixed"}
+                    onChange={() => setFormType("Fixed")}
                     className="w-4 h-4 mr-2 text-blue-600"
                   />
                   <span className="text-[14px] text-gray-700">Fixed</span>
@@ -498,8 +676,8 @@ const Commission: React.FC<TierBasedCommissionProps> = (
                   <input
                     type="radio"
                     name="type"
-                    checked={formType === 'Percentage'}
-                    onChange={() => setFormType('Percentage')}
+                    checked={formType === "Percentage"}
+                    onChange={() => setFormType("Percentage")}
                     className="w-4 h-4 mr-2 text-blue-600"
                   />
                   <span className="text-[14px] text-gray-700">Percentage</span>
@@ -509,7 +687,10 @@ const Commission: React.FC<TierBasedCommissionProps> = (
 
             {/* Value */}
             <div>
-              <label htmlFor="value" className="block text-[14px] font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="value"
+                className="block text-[14px] font-medium text-gray-700 mb-2"
+              >
                 Value
               </label>
               <input
@@ -525,7 +706,10 @@ const Commission: React.FC<TierBasedCommissionProps> = (
             {/* Order Value Range */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="minOrderValue" className="block text-[14px] font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="minOrderValue"
+                  className="block text-[14px] font-medium text-gray-700 mb-2"
+                >
                   Minimum Order Value
                 </label>
                 <input
@@ -538,7 +722,10 @@ const Commission: React.FC<TierBasedCommissionProps> = (
                 />
               </div>
               <div>
-                <label htmlFor="maxOrderValue" className="block text-[14px] font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="maxOrderValue"
+                  className="block text-[14px] font-medium text-gray-700 mb-2"
+                >
                   Maximum Order Value
                 </label>
                 <input
