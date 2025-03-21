@@ -169,14 +169,14 @@ const LanguagesForm: React.FC = () => {
   );
 
   return (
-    <div className="max-w-3xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <h2 className="text-[14px] font-inter font-[600px] text-headding-color mb-3">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+      <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-3">
         Languages
       </h2>
 
       <div className="space-y-4 ">
         <div className="bg-backgroundWhite rounded-custom p-6">
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Published language for website
           </label>
           <div className="relative">
@@ -189,7 +189,7 @@ const LanguagesForm: React.FC = () => {
           </div>
 
           <div className="bg-backgroundWhite mt-4">
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Published language for admin dashboard
           </label>
           <div className="relative">
@@ -204,7 +204,7 @@ const LanguagesForm: React.FC = () => {
         </div>
 
         <div className="flex items-center justify-between p-3 bg-backgroundWhite border border-gray-200 rounded-custom">
-          <span className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-3 mt-2">
+          <span className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3 mt-2">
             Add more language
           </span>
           <div className="bg-backgroundWhite p-2 rounded-lg border border-reloadBorder">
@@ -213,7 +213,7 @@ const LanguagesForm: React.FC = () => {
         </div>
 
         <div className="flex items-center justify-between p-3 bg-backgroundWhite border border-gray-200 rounded-lg">
-          <span className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-3 mt-2">
+          <span className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3 mt-2">
             Add translation
           </span>
           <div className="bg-backgroundWhite p-2 rounded-lg border border-reloadBorder">
@@ -224,7 +224,7 @@ const LanguagesForm: React.FC = () => {
         <div className="bg-backgroundWhite p-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-3 mt-2">
+              <span className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3 mt-2">
                 Language for your customers
               </span>
               <InfoIcon />
@@ -236,7 +236,7 @@ const LanguagesForm: React.FC = () => {
                 placeholder="Search language"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full md:w-[250px] sm:w-[250px] lg:w-[250px] pl-3 pr-10  py-2 border border-gray-200 text-[12px] font-inter font-[500px] rounded-lg  placeholder:text-reloadBorder focus:ring-1 focus:ring-menuSubHeadingColor"
+                className="w-full md:w-[250px] sm:w-[250px] lg:w-[250px] pl-3 pr-10  py-2 border border-gray-200 text-[12px] font-inter font-[500] rounded-lg  placeholder:text-reloadBorder focus:ring-1 focus:ring-menuSubHeadingColor"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
                 <SearchIcon />
@@ -257,7 +257,7 @@ const LanguagesForm: React.FC = () => {
                 />
                 <label
                   htmlFor={lang.value}
-                  className="text-[12px] font-inter font-[500px] rounded-lg"
+                  className="text-[12px] font-inter font-[500] rounded-lg"
                 >
                   {lang.label}
                 </label>
@@ -270,10 +270,10 @@ const LanguagesForm: React.FC = () => {
       </div>
       <div className="mt-8 bg-backgroundWhite p-6">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <span className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Learn about how to change language and translation
           </span>
-          <button className="text-[12px] font-inter font-[600px] text-paragraphBlack mb-3">
+          <button className="text-[12px] font-inter font-[600] text-paragraphBlack mb-3">
             Learn More
           </button>
         </div>

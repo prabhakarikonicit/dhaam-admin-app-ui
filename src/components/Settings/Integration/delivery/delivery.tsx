@@ -47,10 +47,9 @@ const Delivery: React.FC = () => {
     {
       id: "selectedSMS",
       type: "select",
-      label: "Select Delivery Management System",
+      label: " ",
       placeholder: "Select Delivery Management System",
       options: [
-        // { value: "", label: "Select Delivery Management System" },
         { value: "mailchimp", label: "Mailchimp" },
         { value: "klaviyo", label: "Klaviyo" },
       ],
@@ -73,7 +72,7 @@ const Delivery: React.FC = () => {
       required: true,
     },
     {
-      id: "Secret Key",
+      id: "token",
       label: "Secret Key",
       type: "password",
       required: true,
@@ -451,19 +450,19 @@ const Delivery: React.FC = () => {
     <div className="p-4">
       <div className="">
         <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-[14px] font-inter font-[600px] text-headding-color">Delivery Management System</h2>
+          <h2 className="text-[14px] font-inter font-[600] text-headding-color">Delivery Management System</h2>
           <div className="flex space-x-4">
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue">
               Cancel
             </button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack reloadBorder bg-backgroundWhite">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue  border-[1px] border-reloadBorder bg-backgroundWhite rounded-custom">
               Save
             </button>
           </div>
         </div>
 
         <div className="p-6 bg-backgroundWhite rounded-custom12px">
-          <h3 className="text-[14px] font-inter font-[500px] text-paragraphBlackm mb-4">Available DMS for you</h3>
+          <h3 className="text-[14px] font-inter font-[500] text-paragraphBlackm mb-4">Available DMS for you</h3>
 
           <CustomCards
             items={CardItems}
@@ -488,9 +487,15 @@ const Delivery: React.FC = () => {
           fields={deliveryFields}
           item={currentItem}
           onSave={handleSave}
-          title={`${modalMode === "edit" ? "Edit" : "Add"} Configuring Shipday`}
-          //   showToggle={true}
-          //   toggleLabel="Active"
+          title={`${modalMode === "edit" ? "Configuring" : "Add"} ${currentItem.name}`}
+          additionalButton={{
+            label: "Learn More",
+            onClick: () => {
+              console.log("New button clicked!");
+            },
+            className: "bg-transperant",
+            disabled: false,
+          }}
         />
       )}
     </div>

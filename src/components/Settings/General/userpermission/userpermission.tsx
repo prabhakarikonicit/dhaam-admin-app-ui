@@ -118,7 +118,7 @@ const UserPermission: React.FC = () => {
   };
 
   return (
-    <div className="p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="mb-8">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           User Permission
@@ -128,12 +128,12 @@ const UserPermission: React.FC = () => {
       {!showAddStaffModal ? (
         <div className="bg-backgroundWhite rounded-custom12px p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-[14px] font-inter font-[600] text-headding-color">
+            <h3 className="text-[14px] font-inter font-[600] text-paragraphBlack">
               Staff
             </h3>
             <button
               onClick={handleAddStaff}
-              className="px-4 py-2 text-[12px] text-[12px] font-inter bg-backgroundWhite border border-reloadBorder rounded-lg rounded-custom"
+              className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               Add staff
             </button>
@@ -147,7 +147,7 @@ const UserPermission: React.FC = () => {
             onSelectRow={handleSelectRow}
             selectedRows={selectedRows}
           /> */}
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
           <CustomDataGrid
             columns={[
               {

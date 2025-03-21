@@ -51,10 +51,10 @@ const BrandingPage: React.FC = () => {
           Branding
         </h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 text-[12px] md:text-[12 px] font-inter font-[500] text-paragraphBlack">
+          <button className="px-4 py-2 text-[12px] md:text-[12 px] font-inter font-[500] text-paragraphBlack xl:text-[12px] text-[12px] font-inter font-[600] text-cardValue">
             Cancel
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
+          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorderxl:text-[12px] text-[12px] font-inter font-[600] text-cardValue">
             Save
           </button>
         </div>
@@ -68,7 +68,7 @@ const BrandingPage: React.FC = () => {
           colors, typography, and logos to ensure a consistent brand experience.
         </p>
       </div>
-      <div className="bg-backgroundWhite rounded-lg p-5 mb-6">
+      <div className="bg-backgroundWhite rounded-lg p-5 mb-6 text-[14px] font-[500]">
         <ColorPicker
           label="Header Color"
           description="Set the background color of the marketplace header."
@@ -153,13 +153,13 @@ const BrandingPage: React.FC = () => {
       </div>
 
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-textHeading mb-6">
+        {/* <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-textHeading mb-6">
           Website Settings
-        </h2>
+        </h2> */}
 
         <div className="mb-6">
           <div className="flex items-start mb-1">
-            <h3 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]font-inter  text-textHeading">
+            <h3 className="text-[12px] md:text-[14px] sm:text-[14px] font-inter lg:text-[14px]font-inter xl:text-[14px]font-inter text-textHeading">
               Website Page Title
             </h3>
             <button className="ml-2 text-gray-400">
@@ -189,14 +189,18 @@ const BrandingPage: React.FC = () => {
           />
         </div>
 
-        <FileUpload
-          label="Favicon"
-          dimensions="32×32 pixels"
-          description="Upload a small icon that represents your website in browser tabs and bookmarks."
-          fileInfo={branding.favicon}
-          onUpload={(file) => handleFileUpload(file, "favicon")}
-          onDelete={() => handleFileDelete("favicon")}
-        />
+        
+          <FileUpload
+            label="Favicon"
+            dimensions="32×32 pixels"
+            description="Upload a small icon that represents your website in browser tabs and bookmarks."
+            fileInfo={branding.favicon}
+            onUpload={(file) => handleFileUpload(file, "favicon")}
+            onDelete={() => handleFileDelete("favicon")}
+          />
+   
+
+
 
         <FileUpload
           label="Main Logo"

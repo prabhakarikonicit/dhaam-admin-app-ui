@@ -9,7 +9,7 @@ const WhatsApp: React.FC<WhatsAppProps> = ({ onLearnMore }) => {
   const [phoneNumber, setPhoneNumber] = useState("+91 8102308108");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"edit" | "add">("edit");
-  
+
   // Current item for the modal
   const [currentItem, setCurrentItem] = useState({
     id: "whatsapp-number",
@@ -49,10 +49,10 @@ const WhatsApp: React.FC<WhatsAppProps> = ({ onLearnMore }) => {
     <div className="w-full p-4">
       <div className="p-4 rounded-md">
         <div className="flex justify-between items-center">
-          <h1 className="text-[14px] font-inter font-[600px] text-headding-color">WhatsApp</h1>
+          <h1 className="text-[14px] font-inter font-[500] text-hverifyOtp">WhatsApp</h1>
           <button
             onClick={onLearnMore}
-            className="text-[12px] font-inter font-[600px] text-paragraphBlack"
+            className="text-[12px] font-inter font-[600] text-cardValue"
           >
             Learn More
           </button>
@@ -98,11 +98,11 @@ const WhatsApp: React.FC<WhatsAppProps> = ({ onLearnMore }) => {
                 </defs>
               </svg>
             </div>
-            <span className="text-[14px] font-inter font-[600px] text-paragraphBlack">{phoneNumber}</span>
+            <span className="text-[14px] font-inter font-[600] text-paragraphBlack">{phoneNumber}</span>
           </div>
           <button
             onClick={handleChange}
-            className="px-4 py-2 border border-reloadBorder rounded-custom bg-white text-[12px] font-inter font-[600px] text-paragraphBlack"
+            className="px-4 py-2 border border-reloadBorder rounded-custom bg-white text-[12px] font-inter font-[600] text-cardValue"
           >
             Change
           </button>

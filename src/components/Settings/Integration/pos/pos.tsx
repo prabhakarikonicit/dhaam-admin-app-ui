@@ -16,7 +16,7 @@ const POS: React.FC = () => {
     {
       id: "selectedPOS",
       type: "select",
-      label: "Select POS",
+      label: "",
       placeholder: "Select POS",
       options: [
         { value: "", label: "Select POS" },
@@ -57,23 +57,25 @@ const POS: React.FC = () => {
   // Field definitions for the modal
   const posFields: FieldDefinition[] = [
     {
-      id: "name",
-      label: "POS Name",
+      id: "acccountId",
+      label: "Account Id",
+      placeholder: "Enter account id",
       type: "text",
+      
       required: true,
     },
     {
-      id: "apiKey",
-      label: "API Key",
-      type: "password",
+      id: "LocationId",
+      label: "Location Id",
+      type: "text",
+      placeholder: "Enter location id",
       required: true,
-      helperText: "Enter the API key provided by your POS system",
     },
     {
       id: "apiEndpoint",
-      label: "API Endpoint",
+      label: "Secret API",
       type: "text",
-      placeholder: "https://api.example.com/v1",
+      placeholder: "Enter here",
       required: true,
     },
   ];
@@ -176,20 +178,20 @@ const POS: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="rounded-lg">
         <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-[14px] font-inter font-[600px] text-headding-color">POS</h2>
+          <h2 className="text-[14px] font-inter font-[600] text-headding-color">POS</h2>
           <div className="flex space-x-4">
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack">Cancel</button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack reloadBorder bg-backgroundWhite">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text- cardValue">Cancel</button>
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue  border-[1px] border-reloadBorder bg-backgroundWhite rounded-custom">
               Save
             </button>
           </div>
         </div>
-
+        <div className="p-0 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         <div className="p-6 bg-backgroundWhite rounded-custom12px">
-          <h3 className="text-[14px] font-inter font-[500px] text-paragraphBlack mb-4">Available POS for you</h3>
+          <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-4">Available POS for you</h3>
 
           {/* Using the enhanced CustomCards component with dynamic fields */}
           <CustomCards
@@ -204,6 +206,7 @@ const POS: React.FC = () => {
             showDynamicFieldsAtTop={true}
           />
         </div>
+        </div>
       </div>
 
       {/* Modal for editing POS */}
@@ -215,9 +218,18 @@ const POS: React.FC = () => {
           fields={posFields}
           item={currentItem}
           onSave={handleSave}
-          title={`${modalMode === "edit" ? "Edit" : "Add"} POS Integration`}
-          showToggle={true}
-          toggleLabel="Active"
+          title={`${modalMode === "edit" ? "Configuring" : "Add"} Deliverect POS`}
+          additionalButton={{
+            label: "Learn More",
+            onClick: () => {
+              console.log("New button clicked!");
+              
+            },
+            className: "bg-transperant", 
+            disabled: false, 
+          }}
+          
+         
         />
       )}
     </div>

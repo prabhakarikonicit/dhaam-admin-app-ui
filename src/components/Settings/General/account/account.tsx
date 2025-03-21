@@ -64,17 +64,17 @@ const DomainIcon = () => (
 
 const AccountForm: React.FC  = () => {
   return (
-    <div className="max-w-4xl md:max-w-xl sm:max-w-xl lg:max-wfull xl:max-w-7xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
 
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-[14px] font-inter font-[600px] text-headding-color">
+        <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Account Details
         </h2>
         <div className="flex gap-4">
-          <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack border border-gray-200 rounded hover:bg-gray-50">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack ">
             Cancel
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack bg-backgroundWhite border border-reloadBorder hover:bg-bgButton">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder hover:bg-bgButton">
             Save
           </button>
         </div>
@@ -82,7 +82,7 @@ const AccountForm: React.FC  = () => {
 
       <form className="space-y-3 bg-backgroundWhite p-6 rounded-lg">
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Account Name
           </label>
           <input
@@ -93,7 +93,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Email
           </label>
           <input
@@ -104,7 +104,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Phone
           </label>
           <input
@@ -115,7 +115,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Address
           </label>
           <input
@@ -126,7 +126,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Password
           </label>
           <div className="relative">
@@ -140,7 +140,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Account ID
           </label>
           <div className="relative">
@@ -154,7 +154,7 @@ const AccountForm: React.FC  = () => {
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Account Type
           </label>
           <input

@@ -49,8 +49,8 @@ const CustomerAppDesign: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color">Branding</h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack">Cancel</button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">Cancel</button>
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
             Save
           </button>
         </div>
@@ -115,7 +115,7 @@ const CustomerAppDesign: React.FC = () => {
         </p>
         <div className="mb-6 mt-4">
           <div className="flex items-start mb-1">
-            <h3 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]">
+            <h3 className="text-[12px] md:text-[14px] font-inter sm:text-[14px]font-inter text-textHeading lg:text-[14px] text-textHeading font-inter xl:text-[14px] font-inter text-textHeading mt-3">
               Onboarding Banner 1 (512 x 512 pixels)
             </h3>
             <button className="ml-2 text-gray-400">
@@ -135,7 +135,7 @@ const CustomerAppDesign: React.FC = () => {
               </svg>
             </button>
           </div>
-          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] text-gray-500 mb-2">
+          <p className="text-[10px] md:text-[12px] font-inter sm:text-[12px] lg:text-[12px] font-inter xl:text-[12px] font-inter text-gray-500 mb-2">
             Upload the first onboarding banner image.
           </p>
           {/* <input 
@@ -162,18 +162,26 @@ const CustomerAppDesign: React.FC = () => {
           onDelete={() => handleFileDelete("mainLogo")}
         />
         <div className="mb-3">
-          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 1</p>
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-headding-color mb-2">Title 1</p>
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Enter the title for the first onboarding step.
+</p>
           <input
             type="text"
-            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
-          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 1</p>
+
+          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[5`00] text-headding-color mb-2">Description 1</p>
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Provide a short description for the first step.
+</p>
           <input
             type="text"
-            className="w-full text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
+
         </div>
         <FileUpload
           label="Onboarding Banner 2"
@@ -183,18 +191,26 @@ const CustomerAppDesign: React.FC = () => {
           onDelete={() => handleFileDelete("ogImage")}
         />
         <div className="mb-3">
-          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 2</p>
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-headding-color mb-2">Title 2</p>
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Enter the title for the first onboarding step.
+</p>
           <input
             type="text"
-            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
-          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 2</p>
+
+          <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-headding-color mb-2">Description 2</p>
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Provide a short description for the first step.
+</p>
           <input
             type="text"
-            className="w-full text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
+
         </div>
         <FileUpload
           label="Onboarding Banner 3"
@@ -205,18 +221,26 @@ const CustomerAppDesign: React.FC = () => {
         />
 
         <div className="mb-3">
-          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Title 3</p>
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-headding-color mb-2">Title 3</p>
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Enter the title for the first onboarding step.
+</p>
           <input
             type="text"
-            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
-          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-2">Description 3</p>
-          <input
+
+          <p className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-headding-color mb-2">Description 3</p>
+         
+          <p className="text-[8px] md:text-[10px] sm:text-[12px] lg:text-[10px] xl:text-[12px] font-inter text-cardTitle mb-2">
+          Provide a short description for the first step.
+</p><input
             type="text"
-            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2"
+            className="w-full text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle rounded-md p-2 mb-2 border border-gray-300 focus:outline-none"
             placeholder="Enter website title"
           />
+
         </div>
       </div>
     </div>

@@ -35,10 +35,9 @@ const Email: React.FC = () => {
     {
       id: "selectedSMS",
       type: "select",
-      label: "Select Email Marketing",
+      label: " ",
       placeholder: "Select Email Marketing",
       options: [
-        { value: "", label: "Select Email Marketing" },
         { value: "mailchimp", label: "Mailchimp" },
         { value: "klaviyo", label: "Klaviyo" },
 
@@ -393,19 +392,19 @@ const Email: React.FC = () => {
     <div className="p-4">
       <div className="">
         <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Email</h2>
+          <h2 className="text-lg font-semibold font-inter font-[600] font-[14px] text-headding-color">Email</h2>
           <div className="flex space-x-4">
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue">
               Cancel
             </button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack reloadBorder bg-backgroundWhite">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue  border-[1px] border-reloadBorder bg-backgroundWhite rounded-custom">
               Save
             </button>
           </div>
         </div>
 
         <div className="p-6 bg-backgroundWhite">
-          <h3 className="text-[14px] font-inter font-[500px] text-paragraphBlack  mb-4">
+          <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack  mb-4">
             Available Email Marketing
           </h3>
 
@@ -433,9 +432,15 @@ const Email: React.FC = () => {
           fields={emailFields}
           item={currentItem}
           onSave={handleSave}
-          title={`${modalMode === "edit" ? "Edit" : "Add"} Configuring Mailchimp`}
-          //   showToggle={true}
-          //   toggleLabel="Active"
+          title={`${modalMode === "edit" ? "Configuring" : "Add"} ${currentItem.name}`}
+          additionalButton={{
+            label: "Learn More",
+            onClick: () => {
+              console.log("New button clicked!");
+            },
+            className: "bg-transperant", 
+            disabled: false, 
+          }}
         />
       )}
     </div>
