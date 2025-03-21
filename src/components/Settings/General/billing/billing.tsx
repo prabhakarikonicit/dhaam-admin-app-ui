@@ -105,7 +105,7 @@ const BillingForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Billing
@@ -116,7 +116,7 @@ const BillingForm: React.FC = () => {
         {/* Current Billing Cycle */}
         <div className="flex justify-between items-center bg-backgroundWhite rounded-custom12px p-6">
           <div>
-            <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
+            <h3 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
               Current billing cycle
             </h3>
             <p className="text-[12px] font-inter font-[500] text-headding-color ">
@@ -125,7 +125,7 @@ const BillingForm: React.FC = () => {
           </div>
 
           <button
-            className="px-4 py-2 text-gray-700 border border-reloadBorder text-[12px] font-inter font-medium bg-backgroundWhite rounded-lg hover:bg-gray-50"
+            className="px-4 py-2 text-cardValue border border-reloadBorder text-[12px] font-inter font-[600] bg-backgroundWhite rounded-custom"
             onClick={() => openModal("view")}
           >
             Billing Details
@@ -164,13 +164,13 @@ const BillingForm: React.FC = () => {
               />
             </svg>
             <div className="flex items-center gap-2 ">
-              <span className="text-[14px] font-inter font-[500] text-paragraphBlack font-medium">
+              <span className="text-[14px] font-inter font-[500] text-paragraphBlack">
                 Visa
               </span>
               <span className="text-[12px] font-inter font-[500] text-paragraphBlack">
                 **** 1111
               </span>
-              <span className="px-2 py-1 bg-primary text-[11px] font-inter font-[500] text-primary rounded-custom80px">
+              <span className="px-4 py-1 bg-primary text-[11px] font-inter font-[600] text-primary rounded-custom80px">
                 Primary
               </span>
             </div>
@@ -197,11 +197,11 @@ const BillingForm: React.FC = () => {
        
         {/* Past Bills */}
         <div>
-          <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-4 ">
+          <h3 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-4 ">
             Past bills
           </h3>
 
-          <div className="border border-gray-200 rounded-lg overflow-x-auto ">
+          <div className="overflow-x-auto ">
 
             <CustomDataGrid
               columns={[

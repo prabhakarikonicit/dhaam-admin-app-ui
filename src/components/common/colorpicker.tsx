@@ -57,7 +57,7 @@ const ColorPicker: React.FC<{
       <div className="flex flex-col md:flex-row sm:flex-row lg:flex-row xl:flex-row justify-between items-start w-full">
         {/* Mobile View */}
         <div className="md:hidden sm:hidden lg:hidden xl:hidden block w-full flex flex-wrap">
-          <h3 className=" text-[11px] font-inter font-[600] text-headding-color mb-1 ">{label}</h3>
+          <h3 className=" text-[11px] font-inter font-[500] text-headding-color mb-1 ">{label}</h3>
           <div className="flex justify-end w-full mt-[-28px] mb-1">
             <ColorPickerControl />
           </div>
@@ -73,7 +73,7 @@ const ColorPicker: React.FC<{
         {/* Desktop/Tablet View */}
         <div className="hidden md:flex sm:flex lg:flex xl:flex w-full items-start justify-between">
           <div className="w-3/5">
-            <h3 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color mb-1 ">{label}</h3>
+            <h3 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[500] text-headding-color mb-1 ">{label}</h3>
             
             {description && (
               <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2 pr-2">

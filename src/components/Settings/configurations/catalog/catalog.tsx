@@ -4,7 +4,7 @@ import CustomDataGrid from "../../../common/datagrid";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import CustomModal, { FieldDefinition } from "../../../common/modals";
 import BusinessCategoryManagement from "./businesscategory";
-import { 
+import {
   DisplayStoreTimingCard,
   EmailNotificationCard,
   DynamicCards,
@@ -38,14 +38,17 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
   const [maxOrdersValue, setMaxOrdersValue] = useState("");
   const [businessCategoryValue, setBusinessCategoryValue] = useState("");
   const [userLevelTagValue, setUserLevelTagValue] = useState("");
-  
+
   // State for the main toggle
   const [tagsEnabled, setTagsEnabled] = useState(true);
-  const [showBusinessCategoryModal, setShowBusinessCategoryModal] = useState(false);
+  const [showBusinessCategoryModal, setShowBusinessCategoryModal] =
+    useState(false);
 
   // State for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<"add" | "edit" | "view" | "delete">("add");
+  const [modalMode, setModalMode] = useState<
+    "add" | "edit" | "view" | "delete"
+  >("add");
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
 
   // Selected rows for DataGrid
@@ -294,13 +297,13 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
   const AddNewButton = (
     <button
       onClick={() => openModal("add")}
-      className="w-full px-4 py-2 text-[12px] font-inter bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50"
+      className="w-full px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite border border-reloadBorder rounded-custom"
     >
       Add New
     </button>
   );
   return (
-    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <h1 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
@@ -309,13 +312,13 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
             Cancel
           </button>
           <button
             onClick={onSave}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
           >
             Save
           </button>
@@ -323,16 +326,16 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
       </div>
 
       {/* Main content */}
-      <div className="p-0 md:p-6 sm:p-6 lg:p-6 xl:p-6">
+      <div className="p-0 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         {/* Product Approval Section */}
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
           {/* Maximum Orders Per Slot */}
           <DynamicCards
             checked={maxOrdersToggle}
             onChange={() => setMaxOrdersToggle(!maxOrdersToggle)}
-            title="Product Approval by Admin" 
-            description="Require admin approval before products go live on the platform." 
-              variant="default"
+            title="Product Approval by Admin"
+            description="Require admin approval before products go live on the platform."
+            variant="default"
           />
         </div>
 
@@ -344,58 +347,57 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
             title="Business Category"
             description="Help restaurants map their products to business categories for a smoother customer checkout experience."
             variant="default"
-
           />
         </div>
 
         {/* Active Business Categories */}
         <div className="flex justify-between items-center bg-white p-4 rounded-md mr-10 w-full ">
           <div>
-            <p className="text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-green-600 ">
+            <p className="text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-textGreen ">
               {activeCount} active business categories
             </p>
           </div>
           <div className="flex w-full sm:w-auto md:w-auto lg-w-auto xl-w-auto gap-x-2">
             <button
               onClick={handleViewTags}
-              className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2 text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter bg-white border border-gray-300 rounded-md"
+              className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2 text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               View
             </button>
             <button
               onClick={handleAddBusinessCategory}
-              className="px-4 py-2 text-[12px] font-inter bg-purple-600 text-white border border-purple-600 rounded-md"
+              className="px-4 py-2 text-[12px] font-inter font-[600] bg-bgButton text-white border border-bgButton rounded-custom"
             >
               Add New
             </button>
           </div>
         </div>
-    
+
         {/* User-Level Tags Section */}
         <div className="mb-6 mt-4 bg-white p-6 rounded-md">
-      <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
-        <DynamicCards
-          checked={userLevelTagsToggle}
-          onChange={() => setUserLevelTagsToggle(!userLevelTagsToggle)}
-          title="User-Level Tags"
-          description="Create tags to categorize customers and restaurants for better organization."
-          actionButton={AddNewButton}
-          variant="compact"
-        />
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
+            <DynamicCards
+              checked={userLevelTagsToggle}
+              onChange={() => setUserLevelTagsToggle(!userLevelTagsToggle)}
+              title="User-Level Tags"
+              description="Create tags to categorize customers and restaurants for better organization."
+              actionButton={AddNewButton}
+              variant="compact"
+            />
+          </div>
 
-      <div className="border rounded-lg overflow-x-auto">
-        <CustomDataGrid
-          columns={tagColumns}
-          rows={tags}
-          selectedRows={selectedRows}
-          onSelectAll={handleSelectAll}
-          onSelectRow={handleSelectRow}
-          searchPlaceholder="Search tags"
-          hideToolbar={false}
-        />
-      </div>
-    </div>
+          <div className="overflow-x-auto">
+            <CustomDataGrid
+              columns={tagColumns}
+              rows={tags}
+              selectedRows={selectedRows}
+              onSelectAll={handleSelectAll}
+              onSelectRow={handleSelectRow}
+              searchPlaceholder="Search tags"
+              hideToolbar={false}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Custom Modal for all operations */}

@@ -12,6 +12,9 @@ interface Tax {
   type: "Fixed" | "Percentage";
   applicableOn: "Marketplace" | "Product" | "Delivery" | "Store";
   enabled: boolean;
+  applicableType?: string;
+  serviceFeeAppliedOn?: string;
+  selectMerchant?: string;
 }
 
 // Props for the TaxManagement component
@@ -78,6 +81,30 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       type: "Percentage",
       applicableOn: "Delivery",
       enabled: true,
+    },
+    {
+      id: "6",
+      name: "GST",
+      value: 10,
+      type: "Fixed",
+      applicableOn: "Marketplace",
+      enabled: true,
+    },
+    {
+      id: "7",
+      name: "GST",
+      value: 10,
+      type: "Fixed",
+      applicableOn: "Product",
+      enabled: false,
+    },
+    {
+      id: "8",
+      name: "GST",
+      value: 10,
+      type: "Percentage",
+      applicableOn: "Delivery",
+      enabled: true,
     }
   ]);
   
@@ -115,31 +142,14 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       id: "name",
       label: "Tax Name",
       type: "text",
-      placeholder: "Enter tax name",
+      placeholder: "e.g. VAT",
       required: true,
-    },
-    {
-      id: "value",
-      label: "Tax Value",
-      type: "number",
-      placeholder: "Enter tax value",
-      required: true,
-      min: 0,
-      max: 100,
     },
     {
       id: "type",
       label: "Type",
-      type: "select",
-      options: [
-        { value: "Fixed", label: "Fixed" },
-        { value: "Percentage", label: "Percentage" },
-      ],
-      required: true,
-    },
-    {
-      id: "applicableOn",
-      label: "Applicable On",
+      
+      placeholder: "e.g. Fixed",
       type: "select",
       options: [
         { value: "Marketplace", label: "Marketplace" },
@@ -149,6 +159,63 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       ],
       required: true,
     },
+    
+    {
+      id: "value",
+      label: "Tax Value",
+      type: "number",
+      placeholder: "e.g. 10",
+      required: true,
+      min: 0,
+      max: 100,
+    },
+    {
+      id: "applicableOn",
+      label: "Applied On",
+      type: "select",
+      options: [
+        { value: "Marketplace", label: "Marketplace" },
+        { value: "Product", label: "Product" },
+        { value: "Delivery", label: "Delivery" },
+        { value: "Store", label: "Store" },
+      ],
+      required: true,
+    },
+    {
+      id: "applicableType",
+      label: "Applicable Type",
+      type: "select",
+      options: [
+        { value: "Marketplace", label: "Marketplace" },
+        { value: "Product", label: "Product" },
+        { value: "Delivery", label: "Delivery" },
+        { value: "Store", label: "Store" },
+      ],
+      required: true,
+    },
+   
+
+    {
+      id: "serviceFeeAppliedOn",
+      label: "Service Fee Applied On",
+      type: "select",
+      options: [
+        { value: "Marketplace", label: "Marketplace" },
+        { value: "Product", label: "Product" },
+        { value: "Delivery", label: "Delivery" },
+        { value: "Store", label: "Store" },
+      ],
+      required: true,
+    },
+    
+    {
+      id: "selectMerchant",
+      label: "Select Merchant",
+      type: "text",
+      placeholder: "e.g. VAT",
+      required: true,
+    },
+ 
   ];
   
   // Open modal to add or edit a tax
@@ -273,7 +340,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
     {
       field: "action",
       headerName: "Action",
-      width: "20%",
+      width: "25%",
       renderCell: (value: any, row: any) => (
         <div className="flex items-center">
           <PenSquare
@@ -356,14 +423,14 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
   };
 
   return (
-    <div className="max-w-4xl  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b border-gray-200">
+      <div className="flex justify-between items-center p-4 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">Taxes</h1>
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite"
+            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack "
           >
             Cancel
           </button>
@@ -377,17 +444,17 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       </div>
 
       {/* Main content */}
-      <div className="p-6 ">
+      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 ">
         {/* Global tax toggle */}
-        <div className="flex justify-between items-center mb-6 bg-backgroundWhite p-6">
+        <div className="flex justify-between items-center mb-6 bg-backgroundWhite p-6 rounded-custom12px">
           <div>
             <h2
-              className="text-[14px] font-inter font-[600] text-textHeading"
+              className="text-[14px] font-inter font-[500] text-textHeading"
               id="tax-settings-label"
             >
               Taxes
             </h2>
-            <p className="text-[12px] font-inter font-[600] text-cardTitle mt-1" id="tax-settings-description">
+            <p className="text-[12px] font-inter font-[500] text-cardTitle mt-1" id="tax-settings-description">
               Configure tax rates for orders, store or merchant.
             </p>
           </div>
@@ -402,18 +469,18 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
         </div>
 
         {/* Marketplace Section */}
-        <div className="mt-8 bg-backgroundWhite p-5">
+        <div className="mt-8 bg-backgroundWhite p-5 rounded-custom12px">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">Marketplace</h2>
+            <h2 className="text-[12px] font-inter font-[500] text-paragraphBlack">Marketplace</h2>
             <button
               onClick={() => openModal("add")}
-              className="px-4 py-2 text-[12px] font-inter bg-backgroundWhite border border-reloadBorder rounded-custom"
+              className="px-4 py-2 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               Add Tax
             </button>
           </div>
 
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
             <CustomDataGrid
               columns={taxColumns}
               rows={marketplaceTaxes.filter(
@@ -432,18 +499,18 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
         </div>
 
         {/* Store Section */}
-        <div className="mt-8 bg-backgroundWhite p-6">
+        <div className="mt-8 bg-backgroundWhite p-6 rounded-custom12px">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">Store</h2>
             <button
               onClick={() => openModal("add")}
-              className="px-4 py-2  text-[12px] font-inter bg-backgroundWhite border border-reloadBorder rounded-lg rounded-custom"
+              className="px-4 py-2 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               Add Tax
             </button>
           </div>
 
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
             <CustomDataGrid
               columns={taxColumns}
               rows={storeTaxes.filter(
@@ -475,12 +542,18 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
             value: selectedTax.value,
             type: selectedTax.type,
             applicableOn: selectedTax.applicableOn,
+            applicableType: selectedTax.applicableType,
+            serviceFeeAppliedOn: selectedTax.serviceFeeAppliedOn,
+            selectMerchant: selectedTax.selectMerchant,
             isActive: selectedTax.enabled
           } : undefined}
           onSave={handleSaveTax}
           title={getModalTitle()}
           subtitle={modalMode === "delete" ? `Are you sure you want to delete ${selectedTax?.name}?` : undefined}
           size="md"
+          formLayout="grid"
+        gridColumns={2}
+
           showToggle={modalMode !== "add" && modalMode !== "delete"}
           toggleLabel="Active"
           confirmText={

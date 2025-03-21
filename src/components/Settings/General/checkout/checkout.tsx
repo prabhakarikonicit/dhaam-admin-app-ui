@@ -60,13 +60,13 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="rounded-lg sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="flex items-center justify-between p-6 border-b border-gray-200">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+      <div className="flex items-center justify-between p-6">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">Checkout</h2>
         <div className="flex items-center gap-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack border border-gray-200 rounded hover:bg-gray-50"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
             Cancel
           </button>
@@ -82,20 +82,20 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
               tip,
               multipleTipOptions
             })}
-            className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack bg-backgroundWhite rounded hover:bg-bgButton"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
           >
             Save
           </button>
         </div>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 space-y-6">
         {/* Side Order */}
-        <div className="bg-backgroundWhite rounded-lg p-6 border border-gray-200">
+        <div className="bg-backgroundWhite rounded-custom12px p-3 border border-gray-200 shadow-custom">
           <div className="flex items-center justify-between">
             <div>
-              <h3 id="side-order-title" className="text-[14px]  font-inter text-textHeading pt-4">Side Order</h3>
-              <p id="side-order-desc" className="text-[12px] font-inter text-cardTitle">Allow store add side items or categories to complement main orders.</p>
+              <h3 id="side-order-title" className="text-[14px] font-inter font-[500] my-2 text-textHeading">Side Order</h3>
+              <p id="side-order-desc" className="text-[12px] font-inter font-[500] text-cardTitle">Allow store add side items or categories to complement main orders.</p>
             </div>
             <ToggleSwitch 
               checked={sideOrder} 
@@ -108,12 +108,13 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
 
         {/* Delivery Mode */}
-        <div className="rounded-lg p-2">
-          <h3 className="text-[14px] text-[12px] font-inter text-textHeading bg-background-grey p-2">Delivery Mode</h3>
-          <p className="text-[12px] font-inter text-cardTitle mb-4 bg-background-grey p-2">Choose delivery modes. Merchants can enable both Home Delivery and Takeaway</p>
-          
-          <div className="space-y-4 bg-backgroundWhite p-6">
-            <div className="flex items-center gap-2">
+        <div className="p-2 ">
+          <div className="border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] border">
+          <h3 className="text-[14px] font-inter font-[500] text-textHeading bg-background-grey p-2 ">Delivery Mode</h3>
+          <p className="text-[12px] font-inter font-[500] text-cardTitle mb-4 bg-background-grey p-2">Choose delivery modes. Merchants can enable both Home Delivery and Takeaway</p>
+          </div>
+          <div className="space-y-4 bg-backgroundWhite p-2  rounded-bl-[12px] rounded-br-[12px] border">
+            <div className="flex items-center gap-2 border-b py-3">
               <input
                 type="checkbox"
                 checked={deliveryModes.takeAway}
@@ -135,10 +136,12 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
 
         {/* Delivery Time */}
-        <div className="bg-background-grey rounded-lg p-4">
-          <h3 className="text-[14px] font-inter text-textHeading">Delivery Time</h3>
-          <p className="text-[12px] font-inter text-cardTitle mb-4">Set the default delivery time. If a restaurant handles its own delivery, they can enter their own delivery time.</p>
-          
+        <div className="bg-background-grey rounded-lg p-6">
+        <div className="border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] border">
+
+          <h3 className="text-[14px] font-inter font-[500] text-textHeading bg-background-grey p-2">Delivery Time</h3>
+          <p className="text-[12px] font-inter font-[500] text-cardTitle mb-4 bg-background-grey p-2 mb-4">Set the default delivery time. If a restaurant handles its own delivery, they can enter their own delivery time.</p>
+          </div>
           <input
             type="text"
             placeholder="Select delivery time"
@@ -149,11 +152,11 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
 
         {/* Custom Order Fields */}
-        <div className="bg-white rounded-lg p-6 border border-gray-200">
+        <div className="bg-white rounded-custom12px p-6 border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <h3 id="custom-fields-title"  className="text-[14px] font-inter text-textHeading">Custom Order Fields</h3>
+                <h3 id="custom-fields-title"  className="text-[14px] font-inter font-[500] text-textHeading py-2">Custom Order Fields</h3>
                 <ChevronDown className="w-4 h-4 text-gray-500" />
               </div>
               <p id="custom-fields-desc" className="text-[12px] font-inter text-cardTitle">Allow customers to enter additional information during checkout.</p>

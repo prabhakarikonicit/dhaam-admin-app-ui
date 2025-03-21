@@ -24,22 +24,22 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="max-w-3xl rounded-lg sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-gray-200">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Customer Rights
         </h2>
         <div className="flex items-center gap-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite  rounded-lg"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
           >
             Save
           </button>
@@ -47,14 +47,14 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 bg-backgroundWhite">
-        <div className="space-y-6">
+      <div className="">
+        <div className="space-y-6 p-6 bg-backgroundWhite rounded-custom12px">
           {/* GDPR Section */}
           <div>
-            <h3 className="text-[14px] font-inter font-[600] text-textHeading">
+            <h3 className="text-[14px] font-inter font-[500] text-textHeading">
               GDPR User Rights
             </h3>
-            <p className="text-[12px] font-inter font-[600] text-cardTitle mt-1">
+            <p className="text-[12px] font-inter font-[500] text-cardTitle mt-1">
               GDPR gives EU citizens more control over their data and simplifies
               regulations for businesses in the digital economy.
             </p>
@@ -62,7 +62,7 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
 
           {/* Action Dropdown */}
           <div>
-            <label className="block text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
               What do you want to get done?{" "}
               <span className="text-red-500">*</span>
             </label>
@@ -71,9 +71,11 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
                 value={selectedAction}
                 onChange={(e) => setSelectedAction(e.target.value)}
                 className={`
-                  w-full px-3 py-2 text-[12px] font-inter bg-white 
+                  w-full px-3 py-4 text-[14px] font-[400] text-reloadBorder rounded-custom8px font-inter bg-white 
                   border border-gray-200 rounded-lg appearance-none pr-10
-                  ${selectedAction ? 'text-paragraphBlack' : 'text-reloadBorder'}
+                  ${
+                    selectedAction ? "text-paragraphBlack" : "text-reloadBorder"
+                  }
                 `}
               >
                 <option
@@ -124,33 +126,32 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
 
           {/* Description */}
           <div>
-            <label className="block text-[14px] font-inter font-[500] text-gray-900 mb-2">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
               Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description here..."
-              className="w-full px-3 py-2 text-[14px] font-inter border border-gray-200 rounded-lg min-h-[120px] resize-none"
-            />
-          </div>
-         
-      </div>
-       {/* Toggle Section */}
-       <div className="flex items-center justify-between py-4">
-            <span
-              id="gdpr-access-label"
-              className="text-[14px] font-inter font-[500] text-gray-900"
-            >
-              Allow customers to access their GDPR User Rights
-            </span>
-            <ToggleSwitch
-              checked={allowGDPRAccess}
-              onChange={handleToggle}
-              // aria-labelledby="gdpr-access-label"
+              className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter min-h-[120px] resize-none"
             />
           </div>
         </div>
+        {/* Toggle Section */}
+        <div className="flex items-center justify-between py-6 p-6 bg-backgroundWhite rounded-custom12px mt-4">
+          <span
+            id="gdpr-access-label"
+            className="text-[14px] font-inter font-[500] text-textHeading"
+          >
+            Allow customers to access their GDPR User Rights
+          </span>
+          <ToggleSwitch
+            checked={allowGDPRAccess}
+            onChange={handleToggle}
+            // aria-labelledby="gdpr-access-label"
+          />
+        </div>
+      </div>
     </div>
   );
 };

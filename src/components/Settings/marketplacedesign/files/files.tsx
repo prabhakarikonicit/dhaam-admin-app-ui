@@ -110,12 +110,14 @@ const fileColumns: Column[] = [
       }
       return (
         <div className="flex items-center space-x-2">
+          {/* Download Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleDownload(params.row.id);
             }}
             className="text-gray-500 hover:text-gray-700"
+            title="Download"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -132,12 +134,15 @@ const fileColumns: Column[] = [
               />
             </svg>
           </button>
+
+          {/* Link/URL Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleCopyLink(params.row.id);
             }}
             className="text-gray-500 hover:text-gray-700"
+            title="Copy Link"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -154,12 +159,15 @@ const fileColumns: Column[] = [
               />
             </svg>
           </button>
+
+          {/* More Options (Three-dot) Button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleMoreOptions(params.row.id);
             }}
             className="text-gray-500 hover:text-gray-700"
+            title="More Options"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +189,6 @@ const fileColumns: Column[] = [
     },
   },
 ];
-
 // Define fields for the modal
 const fileFields: FieldDefinition[] = [
   {
@@ -498,44 +505,44 @@ const MarketplaceFiles: React.FC = () => {
 
       {/* Sub header with tabs */}
       <div className="bg-backgroundWhite flex items-center justify-between p-4">
-  <div className="flex items-center">
-    <button className="font-medium text-textHeading border-blue-600">
-      Files
-    </button>
-    {/* Add more tab buttons here if needed */}
-  </div>
-  
-  <div className="flex items-center">
-    <div className="relative mr-2">
-      <svg 
-        className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-      >
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <input
-        type="text"
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        placeholder="Search image or video"
-        className="pl-10 pr-2 py-2 w-48 md:w-64 border border-gray-200 rounded-lg text-sm"
-      />
-    </div>
-    <button
-      onClick={handleAddFile}
-      className="px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
-    >
-      Add
-    </button>
-  </div>
-</div>
+        <div className="flex items-center">
+          <button className="font-medium text-textHeading border-blue-600">
+            Files
+          </button>
+          {/* Add more tab buttons here if needed */}
+        </div>
+
+        <div className="flex items-center">
+          <div className="relative mr-2">
+            <svg
+              className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Search image or video"
+              className="pl-10 pr-2 py-2 w-48 md:w-64 border border-gray-200 rounded-lg text-sm"
+            />
+          </div>
+          <button
+            onClick={handleAddFile}
+            className="px-4 py-2 bg-bgButton text-white font-medium rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          >
+            Add
+          </button>
+        </div>
+      </div>
 
       {/* Data grid */}
       <div className="px-4 pb-4 bg-backgroundWhite ">
@@ -566,12 +573,12 @@ const MarketplaceFiles: React.FC = () => {
           item={
             selectedFile
               ? {
-                  id: selectedFile.id,
-                  name: selectedFile.name,
-                  format: selectedFile.format,
-                  altText: selectedFile.altText,
-                  active: selectedFile.active,
-                }
+                id: selectedFile.id,
+                name: selectedFile.name,
+                format: selectedFile.format,
+                altText: selectedFile.altText,
+                active: selectedFile.active,
+              }
               : undefined
           }
           onSave={handleSaveFile}
@@ -588,12 +595,12 @@ const MarketplaceFiles: React.FC = () => {
             modalMode === "add"
               ? "Save"
               : modalMode === "edit"
-              ? "Save Changes"
-              : modalMode === "delete"
-              ? "Delete"
-              : modalMode === "view"
-              ? "Close"
-              : "OK"
+                ? "Save Changes"
+                : modalMode === "delete"
+                  ? "Delete"
+                  : modalMode === "view"
+                    ? "Close"
+                    : "OK"
           }
         >
           {modalMode === "delete" && selectedFile && (
