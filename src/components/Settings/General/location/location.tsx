@@ -543,7 +543,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "geofence")}
-              onDelete={(row) => handleDeleteItem(row, "geofence")}
+              // onDelete={(row) => handleDeleteItem(row, "geofence")}
             />
           </div>
         </div>
@@ -575,7 +575,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "cities")}
-              onDelete={(row) => handleDeleteItem(row, "cities")}
+              // onDelete={(row) => handleDeleteItem(row, "cities")}
             />
           </div>
         </div>
