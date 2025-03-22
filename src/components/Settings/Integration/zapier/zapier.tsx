@@ -51,10 +51,10 @@ const Zapier: React.FC<ZapierProps> = ({ onLearnMore }) => {
     <div className="w-full p-4">
       <div className="p-4 rounded-md">
         <div className="flex justify-between items-center">
-          <h1 className="text-[14px] font-inter font-[600px] text-headding-color">Zapier</h1>
+          <h1 className="text-[14px] font-inter font-[600] text-verifyOtp">Zapier</h1>
           <button
             onClick={onLearnMore}
-            className="text-[12px] font-inter font-[600px] text-paragraphBlack"
+            className="text-[12px] font-inter font-[600] text-paragraphBlack"
           >
             Learn More
           </button>
@@ -77,7 +77,7 @@ const Zapier: React.FC<ZapierProps> = ({ onLearnMore }) => {
               </svg>
             </div>
             <div>
-              <span className="text-[12px] font-inter font-[600px] text-paragraphBlack">
+              <span className="text-[12px] font-inter font-[600] text-paragraphBlack">
                 {isConnected ? "Account Connected" : "Not Connected"}
               </span>
             </div>
@@ -85,7 +85,7 @@ const Zapier: React.FC<ZapierProps> = ({ onLearnMore }) => {
           {isConnected ? (
             <button
               onClick={handleDisconnect}
-              className="px-4 py-2 border border-gray-300 rounded-md text-[12px] font-inter font-[600px] text-paragraphBlack"
+              className="px-4 py-2 border border-gray-300 rounded-md text-[12px] font-inter font-[600] text-paragraphBlack"
             >
               Disconnect
             </button>

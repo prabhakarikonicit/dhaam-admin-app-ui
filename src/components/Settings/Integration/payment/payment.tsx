@@ -223,18 +223,18 @@ const Payment: React.FC = () => {
     <div className="min-h-screen p-4">
       <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-headding-color font-inter text-[14px] font-[600px] leading-[21px]">
+          <h2 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
             Payment Gateway
           </h2>
           <div className="flex space-x-4">
             <button
-              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack"
+              className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
               onClick={() => setIsCustomModalOpen(false)}
             >
               Cancel
             </button>
             <button
-              className="px-4 py-2 text-[12px] font-inter font-[600px] text-paragraphBlack bg-backgroundWhite"
+              className="px-4 py-2 text-[12px] font-inter font-[600] rounded-custom border-[1px] border-reloadBorder  text-paragraphBlack bg-backgroundWhite"
               onClick={handleSaveCustomGateway}
             >
               Save
@@ -244,7 +244,7 @@ const Payment: React.FC = () => {
         <div className="p-8 rounded-custom12px shadow-sm bg-backgroundWhite  ">
           {/* Available Payment Gateway */}
           <div className="mb-8 bg-backgroundWhite">
-            <h3 className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-2">
+            <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
               Available Payment Gateway
             </h3>
 
@@ -252,18 +252,18 @@ const Payment: React.FC = () => {
               <select
                 value={selectedGateway}
                 onChange={(e) => setSelectedGateway(e.target.value)}
-                className="w-full p-3 text-[12px] font-inter border border-menuSubHeadingColor rounded-custom8px font-[500px] text-paragraphBlack pr-10 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full p-3 text-[12px] font-inter border border-menuSubHeadingColor rounded-custom8px font-[500px] text-menuSubHeadingColor pr-10 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option
                   value=""
-                  className="text-[12px] font-inter font-[500px] text-paragraphBlack"
+                  className="text-[14px] font-inter font-[400] "
                 >
                   Select payment gateway
                 </option>
                 {availableGateways.map((gateway) => (
                   <option
                     key={gateway.value}
-                    className="text-[12px] font-inter font-[500px] text-paragraphBlack"
+                    className="text-[12px] font-inter font-[500] text-paragraphBlack"
                     value={gateway.value}
                   >
                     {gateway.label}
@@ -293,7 +293,7 @@ const Payment: React.FC = () => {
 
           {/* Active Payment Gateway */}
           <div className="mb-8">
-            <h3 className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-4">
+            <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-4">
               Active Payment Gateway
             </h3>
 
@@ -358,8 +358,8 @@ const Payment: React.FC = () => {
                     />
                   </svg>
                 </div>
-                <div className="text-gray-800">Stripe</div>
-                <span className="px-3 py-1 text-sm rounded-full bg-primary text-primary">
+                <div className="text-gray-800 font-inter font-[500] text-[#26203B] text-[14px]">Stripe</div>
+                <span className="px-3 py-1 text-sm rounded-full bg-[#EAEDFB] text-primary ml-3 rounded-custom80px">
                   Primary
                 </span>
               </div>
@@ -395,10 +395,10 @@ const Payment: React.FC = () => {
           <div className="mb-6">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-[12px] font-inter font-[500px] text-paragraphBlack">
+                <h3 className="text-[14px] font-inter font-[500] text-textHeading">
                   Add Custom Payment Gateway
                 </h3>
-                <p className="text-[12px] font-inter font-[500px] text-cardTitle">
+                <p className="text-[12px] font-inter font-[500] text-cardTitle">
                   Integrate and configure a custom payment gateway for your
                   platform.
                 </p>
@@ -433,13 +433,12 @@ const Payment: React.FC = () => {
             fields={fields}
             item={currentItem}
             onSave={handleSave}
-            title={`${
-              modalMode === "add"
+            title={`${modalMode === "add"
                 ? "Add"
                 : modalMode === "edit"
-                ? "Edit"
-                : "View"
-            } Payment Gateway`}
+                  ? "Edit"
+                  : "View"
+              } Payment Gateway`}
             size="lg"
             showToggle={modalMode !== "add"}
             toggleLabel="Gateway Active"
@@ -448,9 +447,9 @@ const Payment: React.FC = () => {
           {/* Custom Gateway Modal */}
           {isCustomModalOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
-              <div className="bg-white rounded-lg w-full max-w-md">
-                <div className="flex justify-between items-center p-4 border-b">
-                  <h3 className="text-[14px] font-inter font-[600px] text-headding-color">
+          <div className="bg-white rounded-custom18px w-full max-w-lg sm:max-w-xl lg:max-w-[600px]">
+                <div className=" bg-background-grey flex justify-between items-center p-4 rounded-t-custom18px">
+                  <h3 className="text-[16px] font-inter font-[600] text-[#000000]">
                     Add Payment Gateway
                   </h3>
                   <button
@@ -477,28 +476,45 @@ const Payment: React.FC = () => {
                 <div className="p-4">
                   {/* Available Payment Gateway */}
                   <div className="mb-4">
-                    <label className="block text-gray-700 text-[12px] font-inter font-[500px] text-paragraphBlack mb-1">
+                    <label className="block text-gray-700 text-[14px] font-inter font-[500] text-textHeading mb-1">
                       Available Payment Gateway
                     </label>
                     <div className="relative">
                       <select
                         value={selectedGateway}
                         onChange={(e) => setSelectedGateway(e.target.value)}
-                        className="block w-full rounded-custom8px border border-gray-300 py-2 pl-3 pr-10 text-[12px] font-inter font-[500px] text-paragraphBlack border border-menuSubHeadingColor focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                        className="block w-full rounded-custom8px cursor-pointer border border-menuSubHeadingColor py-2 pl-3 pr-10 text-[12px] font-inter font-[500] text-menuSubHeadingColor border border-menuSubHeadingColor focus:border-blue-500 focus:outline-none focus:ring-blue-500 appearance-none"
                       >
-                        <option value="" className="text-[12px] font-inter font-[500px] text-paragraphBlack">Select payment gateway</option>
+                        <option value="" className="text-[12px] font-inter font-[500] text-paragraphBlack">Select payment gateway</option>
                         {availableGateways.map((gateway) => (
                           <option key={gateway.value} className="text-[12px] font-inter font-[500px] text-paragraphBlack" value={gateway.value}>
                             {gateway.label}
                           </option>
                         ))}
                       </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M10 3C10.2652 3 10.5196 3.10536 10.7071 3.29289L13.7071 6.29289C14.0976 6.68342 14.0976 7.31658 13.7071 7.70711C13.3166 8.09763 12.6834 8.09763 12.2929 7.70711L10 5.41421L7.70711 7.70711C7.31658 8.09763 6.68342 8.09763 6.29289 7.70711C5.90237 7.31658 5.90237 6.68342 6.29289 6.29289L9.29289 3.29289C9.48043 3.10536 9.73478 3 10 3ZM6.29289 12.2929C6.68342 11.9024 7.31658 11.9024 7.70711 12.2929L10 14.5858L12.2929 12.2929C12.6834 11.9024 13.3166 11.9024 13.7071 12.2929C14.0976 12.6834 14.0976 13.3166 13.7071 13.7071L10.7071 16.7071C10.3166 17.0976 9.68342 17.0976 9.29289 16.7071L6.29289 13.7071C5.90237 13.3166 5.90237 12.6834 6.29289 12.2929Z"
+                            fill="#636363"
+                          />
+                        </svg>
+                      </div>
+
                     </div>
                   </div>
 
                   {/* Secret API Key */}
                   <div className="mb-4">
-                    <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-1">
+                    <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
                       Secret API
                     </label>
                     <div className="relative">
@@ -506,7 +522,7 @@ const Payment: React.FC = () => {
                         type="password"
                         value={secretApiKey}
                         onChange={(e) => setSecretApiKey(e.target.value)}
-                        className="block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                        className="block w-full rounded-md border border-reloadBorder py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                         placeholder="Enter here"
                       />
                       <button
@@ -526,11 +542,11 @@ const Payment: React.FC = () => {
                         id="default-gateway"
                         checked={isDefault}
                         onChange={(e) => setIsDefault(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="h-4 w-4 rounded border-cardValue text-blue-600 focus:ring-blue-500"
                       />
                       <label
                         htmlFor="default-gateway"
-                        className="ml-2 block text-[12px] font-inter font-[500px] text-paragraphBlack"
+                        className="ml-2 block text-[14px] font-inter font-[500] text-textHeading"
                       >
                         Set as default
                       </label>
@@ -541,13 +557,13 @@ const Payment: React.FC = () => {
                 <div className="flex gap-4 justify-end p-4 border-t">
                   <button
                     onClick={() => setIsCustomModalOpen(false)}
-                    className="px-4  py-2  text-[12px] font-inter font-[500px] text-paragraphBlack hover:bg-gray-50 focus:outline-none"
+                    className="px-4  py-2  text-[12px] font-inter font-[600] text-cardValue hover:bg-gray-50 focus:outline-none"
                   >
-                   Learn More
+                    Learn More
                   </button>
                   <button
                     onClick={handleSaveCustomGateway}
-                    className="px-4 py-2 text-[12px] font-inter font-[500px] bg-bgButton text-whiteColor rounded-md  focus:outline-none"
+                    className="px-4 py-2 text-[12px] font-inter font-[600] bg-bgButton text-whiteColor rounded-md  focus:outline-none"
                   >
                     Save
                   </button>

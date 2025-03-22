@@ -353,19 +353,19 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       headerName: "Charge Type",
       width: "15%",
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: "10%",
-      renderCell: (value: any, row: any) => (
-        <div className="flex items-center">
-          <PenSquare
-            className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
-            onClick={() => handleEditItem(row, "cities")}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: "10%",
+    //   renderCell: (value: any, row: any) => (
+    //     <div className="flex items-center">
+    //       <PenSquare
+    //         className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
+    //         onClick={() => handleEditItem(row, "cities")}
+    //       />
+    //     </div>
+    //   ),
+    // },
     {
       field: "toggle",
       headerName: "",
@@ -402,32 +402,22 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
         </span>
       ),
     },
+    
     { field: "createdOn", headerName: "Created on", width: "15%" },
-    {
-      field: "action",
-      headerName: "Action",
-      width: "10%",
-      renderCell: (value: any, row: any) => (
-        <div className="flex items-center">
-          <PenSquare
-            className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
-            onClick={() => handleEditItem(row, "geofence")}
-          />
-        </div>
-      ),
-    },
-    {
-      field: "toggle",
-      headerName: "",
-      width: "10%",
-      renderCell: (value: any, row: any) => (
-        <ToggleSwitch
-          checked={row.isActive}
-          onChange={() => toggleItemStatus(row.id, "geofence")}
-          aria-labelledby={`geofence-status-${row.id}`}
-        />
-      ),
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: "10%",
+    //   renderCell: (value: any, row: any) => (
+    //     <div className="flex items-center">
+    //       <PenSquare
+    //         className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
+    //         onClick={() => handleEditItem(row, "geofence")}
+    //       />
+    //     </div>
+    //   ),
+    // },
+    
   ];
 
   // SelectAll and SelectRow functions
@@ -515,7 +505,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
   */
 
   return (
-    <div className="w-full sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -524,25 +514,25 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       </div>
 
       {/* Main content */}
-      <div className="p-6">
+      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         {/* Geofence Section */}
-        <div className="bg-backgroundWhite p-5">
+        <div className="bg-backgroundWhite p-5 rounded-custom12px">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">
+            <h2 className="text-[14px] font-inter font-[500] text-textHeading">
               Geofence Settings
             </h2>
             <button
               onClick={() => openModal("add", "geofence")}
-              className="px-4 py-2 text-[12px] font-inter bg-backgroundWhite border border-reloadBorder rounded-custom"
+              className="px-4 py-2 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               Add New
             </button>
           </div>
-          <p className="text-[12px] font-inter font-[600] text-cardTitle mb-4">
+          <p className="text-[12px] font-inter font-[500] text-cardTitle mb-4">
             Define virtual boundaries within a city for location-based services.
           </p>
 
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
             <CustomDataGrid
               columns={geofenceColumns}
               rows={geofences}
@@ -553,28 +543,28 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "geofence")}
-              onDelete={(row) => handleDeleteItem(row, "geofence")}
+              // onDelete={(row) => handleDeleteItem(row, "geofence")}
             />
           </div>
         </div>
         {/* Cities Section */}
-        <div className="mt-8 bg-backgroundWhite p-5">
+        <div className="mt-8 bg-backgroundWhite p-5 rounded-custom12px">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">
               Manage Cities
             </h2>
             <button
               onClick={() => openModal("add", "cities")}
-              className="px-4 py-2 text-[12px] font-inter bg-backgroundWhite border border-reloadBorder rounded-custom"
+              className="px-4 py-2 text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
             >
               Add New
             </button>
           </div>
-          <p className="text-[12px] font-inter font-[600] text-cardTitle mb-4">
+          <p className="text-[12px] font-inter font-[500] text-cardTitle mb-4">
             Add, edit, and manage cities for your platform.
           </p>
 
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
             <CustomDataGrid
               columns={cityColumns}
               rows={cities}
@@ -585,7 +575,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "cities")}
-              onDelete={(row) => handleDeleteItem(row, "cities")}
+              // onDelete={(row) => handleDeleteItem(row, "cities")}
             />
           </div>
         </div>
@@ -603,7 +593,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               <div className="flex gap-4">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2  text-[12px] font-inter font-[500] text-cardValue bg-backgroundWhite"
+                  className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite"
                 >
                   Discard
                 </button>
@@ -642,7 +632,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
                     };
                     handleSaveItem(newGeofence);
                   }}
-                  className="px-4 py-2 text-[12px] font-inter font-[500] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
+                  className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
                 >
                   Save
                 </button>
@@ -650,20 +640,20 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
             </div>
 
             <div className="p-6">
-              <p className="text-gray-500 mb-6">
+              <p className="text-[12px] font-inter font-[500] text-cardTitle mb-6">
                 Define virtual boundaries within a city for location-based
                 services.
               </p>
 
               <div className="grid grid-cols-3 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack  mb-1">
                     Geofence Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="geofence-name"
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
                     placeholder="Green zone - 1"
                     defaultValue={selectedItem?.name || ""}
                     required
@@ -671,32 +661,34 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
                     Description
                   </label>
                   <input
                     id="geofence-description"
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
                     placeholder="This zone is ideal for outdoor activities and gatherings, providing a safe space for families and friends to enjoy..."
                     defaultValue={selectedItem?.description || ""}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
                     Type <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="geofence-type"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none bg-white"
+                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder appearance-none bg-white"
                     defaultValue={selectedItem?.type || "Geofence"}
                     required
                   >
                     <option value="Geofence">Geofence</option>
                     <option value="Fixed">Fixed</option>
                     <option value="Percentage">Percentage</option>
+                    
                   </select>
+                 
                 </div>
               </div>
 

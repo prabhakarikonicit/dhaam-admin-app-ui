@@ -65,16 +65,16 @@ const MarketplaceDefaultsForm: React.FC = () => {
   const [marketplaceTiming, setMarketplaceTiming] = useState(true);
 
   return (
-    <div className="max-w-3xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="text-[14px] font-inter font-[600px] text-headding-color leading-[21px] mb-3">
+        <h2 className="text-[14px] font-inter font-[600] text-headding-color leading-[21px] mb-3">
           Marketplace Defaults
         </h2>
       </div>
 
       <form className="space-y-3 bg-backgroundWhite p-6 rounded-lg">
         <div>
-          <label className="block text-[12px] font-inter font-[600px] text-paragraphBlack leading-[15.6px] mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-3">
             Currency
           </label>
           <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -86,7 +86,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack leading-[15.6px] mb-3 mt-3">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-3 mt-3">
               Unit System
             </label>
             <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -96,7 +96,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3 mt-3 leading-[15.6px]">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3 mt-3 leading-[15.6px]">
               Default Weight Unit
             </label>
             <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -109,7 +109,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
               Time Format
             </label>
             <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -117,7 +117,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
               Date Format
             </label>
             <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -129,7 +129,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
         </div>
 
         <div>
-          <label className="block  text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block  text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Time zone
           </label>
           <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -137,13 +137,13 @@ const MarketplaceDefaultsForm: React.FC = () => {
               (GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi
             </option>
           </select>
-          <p className="mt-5  text-[12px] font-inter font-[500px] text-cardTitle leading-[15.6px] mb-4">
+          <p className="mt-5  text-[12px] font-inter font-[500] text-cardTitle leading-[15.6px] mb-4">
             Sets the time for when orders and analytics are recorded
           </p>
         </div>
 
         <div>
-          <label className="block text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Country Code
           </label>
           <select className="w-full p-3 border border-reloadBorder font-inter rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter">
@@ -155,7 +155,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
 
         <div className="space-y-4 overflow-y-auto">
           <div className="flex items-center justify-between">
-            <span className="text-[12px] font-inter font-[500px] text-paragraphBlack">
+            <span className="text-[12px] font-inter font-[500] text-paragraphBlack">
               Marketplace Availability
             </span>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -170,7 +170,7 @@ const MarketplaceDefaultsForm: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-[12px] font-inter font-[500px] text-paragraphBlack mb-3">
+            <span className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
               Marketplace Timing
             </span>
             <label className="relative inline-flex items-center cursor-pointer">

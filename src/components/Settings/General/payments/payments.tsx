@@ -50,7 +50,7 @@ const PaymentsForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Payments
@@ -62,20 +62,20 @@ const PaymentsForm: React.FC = () => {
         <div className="hidden md:block sm:block lg:block bg-backgroundWhite rounded-custom12px p-6">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[16px] font-inter font-[600] text-green ">
+              <span className="text-[16px] font-inter font-[500] text-green ">
                 $9873.00
               </span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[14px] font-inter font-[600] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   Your Earnings
                 </span>
-                <span className="text-[12px] font-inter text-headding-color">
+                <span className="text-[12px] font-inter font-[400] text-headding-color">
                   Feb 1, 2025 - Mar 1, 2025
                 </span>
               </div>
             </div>
             <div className="flex gap-3">
-              <button className="px-4 py-2 text-[12px] font-inter text-cardValue border border-gray-200 rounded-lg flex items-center gap-2">
+              <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue border border-reloadBorder rounded-custom flex items-center bg-backgroundWhite gap-2">
                 Invoice
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ const PaymentsForm: React.FC = () => {
                   />
                 </svg>
               </button>
-              <button className="px-4 py-2 text-[12px] font-inter font-[500px] text-whiteColor bg-bgButton rounded-custom hover:bg-purple-700">
+              <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-custom ">
                 Withdraw
               </button>
             </div>
@@ -134,7 +134,7 @@ const PaymentsForm: React.FC = () => {
                 />
               </svg>
             </button>
-            <button className="px-8 py-2 text-[12px] font-inter font-[500px] text-whiteColor bg-bgButton rounded-custom hover:bg-purple-700">
+            <button className="px-8 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-custom ">
               Withdraw
             </button>
           </div>
@@ -148,15 +148,15 @@ const PaymentsForm: React.FC = () => {
                 $1203.00
               </span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[14spx] font-inter font-[600] text-black">
+                <span className="text-[16px] font-inter font-[500] text-black">
                   Payout
                 </span>
-                <span className="text-[12px] font-inter font-[600] text-headding-color">
+                <span className="text-[14px] font-inter font-[400] text-headding-color">
                   balance
                 </span>
               </div>
             </div>
-            <button className="px-4 py-2 text-[12px] font-inter text-cardValue border border-gray-200 rounded-lg">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue border border-reloadBorder rounded-custom">
               View Details
             </button>
           </div>
@@ -170,11 +170,11 @@ const PaymentsForm: React.FC = () => {
 
         {/* Transactions Section */}
         <div>
-          <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-4">
+          <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-4 ms-2">
             Payout transactions
           </h3>
 
-          <div className="border border-gray-200 rounded-lg overflow-x-auto">
+          <div className="overflow-x-auto">
             {/* <CustomDataGrid
               columns={columns}
               rows={transactionsData}

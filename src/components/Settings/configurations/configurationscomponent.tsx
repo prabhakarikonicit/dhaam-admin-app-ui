@@ -352,7 +352,7 @@ const ConfigurationsComponent: React.FC = () => {
   }
 
   return (
-    <div className="h-[calc(100vh-64px)] flex gap-8 bg-background-grey overflow-y-auto">
+    <div className="h-[calc(100vh-64px)] flex gap-1 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">

@@ -8,18 +8,20 @@ module.exports = {
   theme: {
     screens: {
       sm: "640px",
-      md: "840px", 
+      md: "840px",
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
     },
     extend: {
-
-      
       backgroundImage: {
-        'linear-bg': "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
-        'main-bg': "url('./lib/Images/signup.jpg')",
+        "linear-bg":
+          "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
+        "main-bg": "url('./lib/Images/signup.jpg')",
         // 'main-bg': "linear-gradient(to right, rgba(213, 161, 220, 0.9), rgba(225, 198, 224, 0.1)), url('./lib/Images/bg.png')",
+      },
+      letterSpacing: {
+        extraWide: "1px", // custom value for extra wide letter spacing
       },
       colors: {
         "headding-color": "#636363",
@@ -32,39 +34,42 @@ module.exports = {
         paragraph: "#9C9AA5",
         paragraphBlack: "#26203B",
         reloadBorder: "#C2C2C2",
-        verifyOtp:"#333333",
+        verifyOtp: "#333333",
         purpleColor: "#7C43DF",
-        validationSucColor:"#575757",
-       cancelPlanText: "#BB1B1",
-       primary: "#2242B4",
-       customWhiteColor:"#EAFBEC",
-       yellow: "#735C17",
-       customWhite: "#FBE9E9",
-       billingNumber : "#1D3796",
-       green: "#125E1B",
-       headingBlack:"000B33"
+        validationSucColor: "#575757",
+        cancelPlanText: "#BB1B1",
+        primary: "#2242B4",
+        customWhiteColor: "#EAFBEC",
+        yellow: "#735C17",
+        customWhite: "#FBE9E9",
+        billingNumber: "#1D3796",
+        green: "#125E1B",
+        textGreen: "#177822",
+        headingBlack: "000B33",
       },
       backgroundColor: {
         "background-grey": "#F5F5F5",
         "store-card": "#FCFCFC",
         reloadBackground: "#DBDBDB",
+        reloadBorder: "#C2C2C2",
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
         subMenus: "#F2F2F2",
         primary: "#EAEDFB",
-        green:"#2C6333",
+        green: "#2C6333",
         yellow: "#FFD557",
-        maroon:"#9C1616"
+        maroon: "#9C1616",
       },
       borderColor: {
         "grey-border": "#DBDBDB",
-        "reloadBorder": "#C2C2C2",
-         "btnBorder":"#5D32A7",
-         "bgButton": "#7C43DF",
-        "cardTitle": "#949494",
-        "menuSubHeadingColor": "#4F4F4F",
-
-
+        reloadBorder: "#C2C2C2",
+        btnBorder: "#5D32A7",
+        bgButton: "#7C43DF",
+        cardTitle: "#949494",
+        menuSubHeadingColor: "#4F4F4F",
+      },
+      boxShadow: {
+        custom: "0px 1px 4px 0px rgba(12, 12, 13, 0.05)",
       },
       borderRadius: {
         custom4px: "4px",
@@ -73,6 +78,7 @@ module.exports = {
         custom7px: "7px",
         custom8px: "8px",
         custom12px: "12px",
+        custom16px: "16px",
         custom18px: "18px",
         custom28px: "28px",
         custom20px: "20px",
@@ -87,7 +93,6 @@ module.exports = {
       roboto: "Roboto",
     },
 
-    
     fontWeight: {
       400: "400",
       550: "550",
@@ -102,7 +107,7 @@ module.exports = {
     // },
 
     fontSize: {
-      "11px": "11px", 
+      "11px": "11px",
       sm: "0.75rem", // 12px
       "14px": "0.875rem", // 14px
       base: "1rem", // 16px

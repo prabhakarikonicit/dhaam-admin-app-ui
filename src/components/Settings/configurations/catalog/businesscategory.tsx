@@ -272,7 +272,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
         <div className="flex items-center">
           <button
             onClick={onClose}
-            className="p-1 mr-2 rounded-custom6px hover:bg-gray-100 border border-reloadBorder"
+            className="p-1 mr-2 rounded-custom bg-backgroundWhite border border border-reloadBorder"
           >
             {/* <ChevronLeft className="w-5 h-5 text-gray-600" /> */}
             <svg
@@ -290,13 +290,13 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
               />
             </svg>
           </button>
-          <h2 className="text-paragraphBlack font-inter text-[14px] font-[600px] leading-[21px]">
+          <h2 className="text-paragraphBlack font-inter text-[14px] font-[600] leading-[21px] ms-4">
             Business Category
           </h2>
         </div>
         <button
           onClick={onClose}
-          className="text-paragraphBlack font-inter text-[14px] font-[600px] leading-[21px] hover:underline"
+          className="text-cardValue font-inter text-[14px] font-[600] leading-[21px] hover:underline"
         >
           Learn More
         </button>
@@ -304,11 +304,11 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
 
       {/* Main content */}
 
-      <div className="p-6 border border-grey-border mt-2 rounded-custom12px  bg-backgroundWhite">
+      <div className="p-4 border border-grey-border mt-2 rounded-custom12px  bg-backgroundWhite">
         <div className="flex justify-end items-center p-6">
           <button
             onClick={handleAddCategory}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite border border-reloadBorder rounded-custom"
           >
             Add New
           </button>
@@ -320,7 +320,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
               onClick={() => setActiveFilter("All")}
               className={`px-4 py-2 text-[12px] rounded-custom4px text-textHeading  ${
                 activeFilter === "All"
-                  ? "bg-subMenus font-inter border-2 border border-cardTitle"
+                  ? "bg-subMenus font-inter border-1 border border-cardTitle"
                   : "bg-white"
               }`}
             >
@@ -351,11 +351,25 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
           {/* Search bar */}
           <div className="relative mb-4">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-gray-400" />
+              {/* <Search className="h-4 w-4 text-gray-400" /> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M6.39998 3.19961C4.63266 3.19961 3.19998 4.6323 3.19998 6.39961C3.19998 8.16692 4.63266 9.59961 6.39998 9.59961C8.16729 9.59961 9.59998 8.16692 9.59998 6.39961C9.59998 4.6323 8.16729 3.19961 6.39998 3.19961ZM1.59998 6.39961C1.59998 3.74864 3.74901 1.59961 6.39998 1.59961C9.05094 1.59961 11.2 3.74864 11.2 6.39961C11.2 7.43627 10.8713 8.39618 10.3126 9.18084L14.1657 13.0339C14.4781 13.3463 14.4781 13.8529 14.1657 14.1653C13.8532 14.4777 13.3467 14.4777 13.0343 14.1653L9.1812 10.3122C8.39655 10.871 7.43664 11.1996 6.39998 11.1996C3.74901 11.1996 1.59998 9.05058 1.59998 6.39961Z"
+                  fill="#949494"
+                />
+              </svg>
             </div>
             <input
               type="text"
-              className="pl-10 pr-24  py-2 w-full border border-gray-300 rounded-lg text-sm"
+              className="pl-10 pr-24 py-2 w-full border border-gray-300 font-inter font-[400]  rounded-custom7px text-[12px]"
               placeholder="Search Business Category"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -364,7 +378,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
         </div>
 
         {/* Data Grid */}
-        <div className="border rounded-lg overflow-x-auto">
+        <div className="overflow-x-auto">
           <CustomDataGrid
             columns={categoryColumns}
             rows={filteredCategories}

@@ -192,7 +192,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
   const AddNewButton = (
     <button
       onClick={() => openModal("add")}
-      className="w-full px-4 py-2 text-[12px] font-inter bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50"
+      className="w-full px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite border border-reloadBorder rounded-custom"
     >
       Add New
     </button>
@@ -301,7 +301,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
   };
 
   return (
-    <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -310,13 +310,13 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
             Cancel
           </button>
           <button
             onClick={onSave}
-            className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
           >
             Save
           </button>
@@ -324,7 +324,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
       </div>
 
       {/* Main content */}
-      <div className="p-0 md:p-6 sm:p-6 lg:p-6 xl:p-6">
+      <div className="p-0 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         {/* Commission Settings Section */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           <DynamicCards
@@ -356,10 +356,10 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
           <>
             {/* Rate Configuration */}
             <div className="bg-backgroundWhite p-6 rounded-md">
-              <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-1">
+              <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-1">
                 Rate Configuration
               </h3>
-              <p className="text-[12px] font-inter text-cardTitle mb-4">
+              <p className="text-[12px] font-inter font-[500]  text-cardTitle mb-4">
                 Set commission rates for users to apply across all commission
                 calculations.
               </p>
@@ -412,7 +412,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                       )}
                     </div>
                   </div>
-                  <span className="ml-2 text-[14px] font-inter text-gray-700">
+                  <span className="ml-2 text-[14px] font-inter font-[500] text-gray-700">
                     Fixed
                   </span>
                 </label>
@@ -438,7 +438,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                       )}
                     </div>
                   </div>
-                  <span className="ml-2 text-[14px] font-inter text-gray-700">
+                  <span className="ml-2 text-[14px] font-inter text-gray-700 font-[500]">
                     Percentage
                   </span>
                 </label>
@@ -446,20 +446,20 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
 
               {/* Commission Amount */}
               <div className="mt-6">
-                <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-3">
+                <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-3">
                   Commission Amount
                 </h3>
                 <select
                   value={commissionAmount}
                   onChange={(e) => setCommissionAmount(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter"
+                  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] appearance-none"
                 >
-                  <option value="">Select</option>
+                  <option value="" >Select</option>
                   {rateType === "Fixed" ? (
                     <>
-                      <option value="100">₹100</option>
-                      <option value="200">₹200</option>
-                      <option value="300">₹300</option>
+                      <option value="100"  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]">₹100</option>
+                      <option value="200"  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]">₹200</option>
+                      <option value="300"  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]">₹300</option>
                     </>
                   ) : (
                     <>
@@ -474,10 +474,10 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
 
             {/* Payment Transfer */}
             <div className="bg-white p-6 rounded-md">
-              <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-1">
+              <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-1">
                 Payment Transfer
               </h3>
-              <p className="text-[12px] font-inter text-cardTitle mb-4">
+              <p className="text-[12px] font-inter font-[500] text-cardTitle mb-4">
                 Set commission transfers via online or offline mode. Offline
                 means cash settlement, while online transfers go to verified
                 merchant accounts.
@@ -536,7 +536,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
               </div>
 
               {/* Payout Schedule */}
-              <h3 className="text-[14px] font-inter font-[600] text-textHeading mt-6 mb-4">
+              <h3 className="text-[14px] font-inter font-[500] text-textHeading mt-6 mb-4">
                 Payout Schedule
               </h3>
               <div className="flex items-center gap-6 mt-2">
@@ -595,7 +595,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
               {/* Schedule Day */}
               {payoutSchedule === "Later" && (
                 <div className="mt-6">
-                  <h3 className="text-[14px] font-inter font-[600] text-textHeading mb-3">
+                  <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-3">
                     Schedule day
                   </h3>
                   <input
@@ -603,7 +603,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                     value={scheduleDay}
                     onChange={(e) => setScheduleDay(e.target.value)}
                     placeholder="Enter day"
-                    className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter"
+                    className="w-full p-3 border border-gray-300 placeholder:text-reloadBorder rounded-custom8px placeholder:text-[14px] font-inter font-[400]"
                   />
                 </div>
               )}
@@ -615,8 +615,8 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                 <DynamicCards
                   checked={tierBasedCommissionEnabled}
                   onChange={toggleCommissionStatus}
-                  title="User-Level Tags"
-                  description="Create tags to categorize customers and restaurants for better organization."
+                  title="Tier-Based Commission"
+                  description="Apply different commission rates based on order amount. Default rates apply if no tier matches."
                   actionButton={AddNewButton}
                   variant="compact"
                 />
@@ -658,7 +658,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
           <div className="space-y-6">
             {/* Commission Type */}
             <div>
-              <h3 className="text-[14px] font-medium text-gray-700 mb-3">
+              <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-3">
                 Commission Type
               </h3>
               <div className="flex items-center space-x-6">
@@ -670,7 +670,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                     onChange={() => setFormType("Fixed")}
                     className="w-4 h-4 mr-2 text-blue-600"
                   />
-                  <span className="text-[14px] text-gray-700">Fixed</span>
+                  <span className="text-[14px] font-inter font-[500] text-textHeading">Fixed</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -680,7 +680,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                     onChange={() => setFormType("Percentage")}
                     className="w-4 h-4 mr-2 text-blue-600"
                   />
-                  <span className="text-[14px] text-gray-700">Percentage</span>
+                  <span className="text-[14px] font-inter font-[500] text-textHeading">Percentage</span>
                 </label>
               </div>
             </div>
@@ -689,7 +689,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
             <div>
               <label
                 htmlFor="value"
-                className="block text-[14px] font-medium text-gray-700 mb-2"
+                className="block text-[14px] font-inter font-[500] text-textHeading mb-2"
               >
                 Value
               </label>
@@ -699,7 +699,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                 value={formValue}
                 onChange={(e) => setFormValue(e.target.value)}
                 placeholder="Enter"
-                className="w-full p-3 border border-gray-300 rounded-lg text-[14px]"
+                className="w-full p-3 text-[14px] font-inter font-[400] text-reloadBorder rounded-custom8px border border-reloadBorder"
               />
             </div>
 
@@ -708,7 +708,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
               <div>
                 <label
                   htmlFor="minOrderValue"
-                  className="block text-[14px] font-medium text-gray-700 mb-2"
+                  className="block text-[14px] font-inter font-[500] text-textHeading mb-2"
                 >
                   Minimum Order Value
                 </label>
@@ -718,13 +718,13 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                   value={formMinValue}
                   onChange={(e) => setFormMinValue(e.target.value)}
                   placeholder="Enter"
-                  className="w-full p-3 border border-gray-300 rounded-lg text-[14px]"
+                  className="w-full p-3 text-[14px] font-inter font-[400] text-reloadBorder rounded-custom8px border border-reloadBorder"
                 />
               </div>
               <div>
                 <label
                   htmlFor="maxOrderValue"
-                  className="block text-[14px] font-medium text-gray-700 mb-2"
+                  className="block text-[14px] font-inter font-[500] text-textHeading mb-2"
                 >
                   Maximum Order Value
                 </label>
@@ -734,7 +734,7 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                   value={formMaxValue}
                   onChange={(e) => setFormMaxValue(e.target.value)}
                   placeholder="Enter"
-                  className="w-full p-3 border border-gray-300 rounded-lg text-[14px]"
+                  className="w-full p-3 text-[14px] font-inter font-[400] text-reloadBorder rounded-custom8px border border-reloadBorder"
                 />
               </div>
             </div>

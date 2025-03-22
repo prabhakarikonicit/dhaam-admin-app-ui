@@ -42,7 +42,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "ORDER_PLACED",
       url: "0xa3234sadjk4487349s3",
-      authToken: "token1",
+      authToken: "0xa3234sadjk4487349s3",
       enabled: true,
     },
     {
@@ -50,7 +50,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa2234sadjk4487343s7",
-      authToken: "token2",
+      authToken: "0xa2234sadjk4487343s7",
       enabled: false,
     },
     {
@@ -58,7 +58,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa2334sadjk4487343s6",
-      authToken: "token3",
+      authToken: "0xa2334sadjk4487343s6",
       enabled: true,
     },
     {
@@ -66,7 +66,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xb7234sadjk4487349s5",
-      authToken: "token4",
+      authToken: "0xb7234sadjk4487349s5",
       enabled: false,
     },
     {
@@ -74,7 +74,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa2234sadjk4487343s9",
-      authToken: "token5",
+      authToken: "0xa2234sadjk4487343s9",
       enabled: true,
     },
     {
@@ -82,7 +82,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa2232sadjk4487343e2",
-      authToken: "token6",
+      authToken: "0xa2232sadjk4487343e2",
       enabled: false,
     },
     {
@@ -90,7 +90,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa9824sadjk4487823a9",
-      authToken: "token7",
+      authToken: "0xa9824sadjk4487823a9",
       enabled: false,
     },
     {
@@ -98,7 +98,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa9824sadjk4487823a9",
-      authToken: "token8",
+      authToken: "0xa9824sadjk4487823a9",
       enabled: false,
     },
     {
@@ -106,7 +106,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xb9834sadjk4487349s1",
-      authToken: "token9",
+      authToken: "0xb9834sadjk4487349s1",
       enabled: true,
     },
     {
@@ -114,33 +114,32 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       webhookId: "#327987",
       event: "Startup plan billing",
       url: "0xa9824sadjk4487823a9",
-      authToken: "token10",
+      authToken: "0xa9824sadjk4487823a9",
       enabled: true,
     },
   ]);
 
   // Webhook field definitions for modal
   const webhookFields: FieldDefinition[] = [
-
     {
-      id: "event",
-      label: "Event",
+      id: "event1",
+      label: "Event *",
       type: "text",
-      placeholder: "Enter event name",
+      placeholder: "Select",
       required: true,
     },
     {
-      id: "url",
-      label: "WebHook URL Name",
+      id: "url2",
+      label: "WebHook Url Name",
       type: "text",
-      placeholder: "Enter URL",
+      placeholder: "Secret Key",
       required: true,
     },
     {
-      id: "authToken",
+      id: "token",
       label: "Auth Token",
       type: "text",
-      placeholder: "Enter auth token",
+      placeholder: "Enter Auth token",
       required: true,
     },
   ];
@@ -215,34 +214,56 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
     }
   };
 
+  // Handle viewing webhook
+  const handleViewWebhook = (row: any) => {
+    const webhook = webhooks.find((w) => w.id === row.id);
+    if (webhook) {
+      openModal("view", webhook);
+    }
+  };
+
   // Define columns for the DataGrid
   const webhookColumns = [
-    { field: "webhookId", headerName: "Webhook ID", width: "20%" },
-    { field: "event", headerName: "Event", width: "20%" },
-    { 
-      field: "url", 
-      headerName: "Url", 
+    {
+      field: "webhookId",
+      headerName: "Webhook ID",
       width: "20%",
       renderCell: (value: string) => (
-        <div className="flex items-center">
-          <span className="truncate">{value}</span>
-          <Link className="w-4 h-4 ml-2 text-gray-600 cursor-pointer" />
+        <span className="text-blue-600">{value}</span>
+      )
+    },
+    {
+      field: "event",
+      headerName: "Event",
+      width: "20%"
+    },
+    {
+      field: "url",
+      headerName: "Url",
+      width: "15%",
+      renderCell: () => (
+        <div className="flex justify-center">
+          <Link className="w-5 h-5 text-gray-600 cursor-pointer" />
         </div>
       ),
     },
-    { field: "authToken", headerName: "Auth Token", width: "20%" },
+    {
+      field: "authToken",
+      headerName: "Auth Token",
+      width: "25%"
+    },
     {
       field: "action",
       headerName: "Action",
-      width: "10%",
+      width: "15%",
       renderCell: (value: any, row: any) => (
-        <div className="flex items-center">
+        <div className="flex items-center space-x-3">
           <Trash2
-            className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
+            className="w-5 h-5 text-gray-600 cursor-pointer"
             onClick={() => handleDeleteWebhook(row)}
           />
           <PenSquare
-            className="w-4 h-4 text-gray-600 cursor-pointer"
+            className="w-5 h-5 text-gray-600 cursor-pointer"
             onClick={() => handleEditWebhook(row)}
           />
         </div>
@@ -251,7 +272,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
     {
       field: "enabled",
       headerName: "",
-      width: "10%",
+      width: "5%",
       renderCell: (value: boolean, row: any) => (
         <ToggleSwitch
           checked={value}
@@ -285,7 +306,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       case "add":
         return "Add New Webhook";
       case "edit":
-        return "Edit Webhook";
+        return "Add Webhook";
       case "view":
         return "View Webhook Details";
       case "delete":
@@ -296,7 +317,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
   };
 
   return (
-    <div className="w-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="w-full">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -327,7 +348,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
           >
             Added webhooks
           </h2>
-          <div className="border rounded-lg overflow-x-auto">
+          <div className="border rounded-lg">
             <CustomDataGrid
               columns={webhookColumns}
               rows={webhooks}
@@ -338,9 +359,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
               hideToolbar={false}
             />
           </div>
-          <div className="mt-2 text-sm text-gray-500">
-            Showing result 10 out of 50
-          </div>
+
         </div>
       </div>
 
@@ -351,16 +370,25 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
           onClose={() => setIsModalOpen(false)}
           mode={modalMode}
           fields={modalMode !== "delete" ? webhookFields : []}
+          additionalButton={{
+            label: "Learn More",
+            onClick: () => {
+              console.log("New button clicked!");
+              
+            },
+            className: "bg-transperant", 
+            disabled: false, 
+          }}
           item={
             selectedWebhook
               ? {
-                  id: selectedWebhook.id,
-                  webhookId: selectedWebhook.webhookId,
-                  event: selectedWebhook.event,
-                  url: selectedWebhook.url,
-                  authToken: selectedWebhook.authToken,
-                  isActive: selectedWebhook.enabled,
-                }
+                id: selectedWebhook.id,
+                webhookId: selectedWebhook.webhookId,
+                event: selectedWebhook.event,
+                url: selectedWebhook.url,
+                authToken: selectedWebhook.authToken,
+                isActive: selectedWebhook.enabled,
+              }
               : undefined
           }
           onSave={handleSaveWebhook}
@@ -371,18 +399,18 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
               : undefined
           }
           size="md"
-          showToggle={modalMode !== "add" && modalMode !== "delete"}
+          showToggle={false}
           toggleLabel="Active"
           confirmText={
             modalMode === "add"
               ? "Save"
               : modalMode === "edit"
-              ? "Save Changes"
-              : modalMode === "delete"
-              ? "Delete"
-              : modalMode === "view"
-              ? "Close"
-              : "OK"
+                ? "Save Changes"
+                : modalMode === "delete"
+                  ? "Delete"
+                  : modalMode === "view"
+                    ? "Close"
+                    : "OK"
           }
         >
           {modalMode === "delete" && (
