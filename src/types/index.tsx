@@ -14,6 +14,7 @@ export interface SidebarItemProps {
     onSettingsSubItemClick: (item: string) => void;
     onItemClick: (view: string) => void;
     currentView: string;
+    setCurrentView: React.Dispatch<React.SetStateAction<string>>
   }
 
   export interface TopHeaderProps {

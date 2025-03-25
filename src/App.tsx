@@ -108,6 +108,7 @@ const App = () => {
                 onSettingsSubItemClick={handleSettingsSubItemClick}
                 onItemClick={handleItemClick}
                 currentView={currentView}
+                setCurrentView={setCurrentView}
               />
 
               {/* </nav> */}
@@ -119,7 +120,7 @@ const App = () => {
             <Routes>
               {/* <Route path="/stores" element={<RemoteStoreDivComponent />} /> */}
               <Route
-                path="/settings"
+                path="/settings/configurations"
                 element={<RemoteSettingsConfigsComponent />}
               />
               {/* <Route path="/orders" element={<RemoteOrderDivComponent />} /> */}
