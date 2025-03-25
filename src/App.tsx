@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import {
 //   RemoteOrderDivComponent,
 RemoteSettingsConfigsComponent,
+RemoteSettingsMarketPlaceDesignComponent,
 //   RemoteStoreDivComponent,
 //   RemoteAdminDivComponent,
 } from "./remoteComponents";
@@ -108,6 +109,7 @@ const App = () => {
                 onSettingsSubItemClick={handleSettingsSubItemClick}
                 onItemClick={handleItemClick}
                 currentView={currentView}
+                setCurrentView={setCurrentView}
               />
 
               {/* </nav> */}
@@ -119,8 +121,12 @@ const App = () => {
             <Routes>
               {/* <Route path="/stores" element={<RemoteStoreDivComponent />} /> */}
               <Route
-                path="/settings"
+                path="/settings/configurations"
                 element={<RemoteSettingsConfigsComponent />}
+              />
+              <Route
+                path="/settings/marketplace_design"
+                element={<RemoteSettingsMarketPlaceDesignComponent />}
               />
               {/* <Route path="/orders" element={<RemoteOrderDivComponent />} /> */}
             </Routes>

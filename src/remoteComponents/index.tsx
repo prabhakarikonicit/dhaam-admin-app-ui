@@ -2,6 +2,7 @@ import React from "react";
 import ErrorBoundary from "../errorBoundary";
 // const RemoteOrderDiv = React.lazy(() => import('dhaam_order_app_ui/OrderDiv'));
 const RemoteSettingsConfigs = React.lazy(() => import('dhaam_settings_app_ui/ConfigurationsComponent'));
+const RemoteSettingsMarketPlaceDesign = React.lazy(() => import('dhaam_settings_app_ui/MarketPlaceDesignComponent'));
 // const RemoteStoreDiv = React.lazy(() => import('dhaam_store_app_ui/StoreDiv'));
 // const RemoteAdminDiv = React.lazy(() => import('dhaam_admin_app_ui/AdminDiv'));
 // export const RemoteOrderDivComponent = () => {
@@ -19,6 +20,16 @@ const RemoteSettingsConfigs = React.lazy(() => import('dhaam_settings_app_ui/Con
       <ErrorBoundary errorMessage="Remote Settings Configs is not available">
         <React.Suspense fallback={<p>Loading Remote Component ...</p>}>
           <RemoteSettingsConfigs />
+        </React.Suspense>
+      </ErrorBoundary>
+    );
+  };
+
+  export const RemoteSettingsMarketPlaceDesignComponent = () => {
+    return (
+      <ErrorBoundary errorMessage="Remote Settings Market Place Design is not available">
+        <React.Suspense fallback={<p>Loading Remote Component ...</p>}>
+          <RemoteSettingsMarketPlaceDesign />
         </React.Suspense>
       </ErrorBoundary>
     );

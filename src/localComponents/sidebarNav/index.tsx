@@ -14,6 +14,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
   onSettingsSubItemClick,
   onItemClick,
   currentView,
+  setCurrentView
 }) => {
   const navigate = useNavigate();
   const [selectedSubItem, setSelectedSubItem] = useState<string | null>(null);
@@ -24,6 +25,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     { text: "Marketplace Design" },
   ];
   const handleSubItemClick = (item: string) => {
+      const path = `${currentView}/${item.toLocaleLowerCase().replace(' ', '_')}`
+      navigate(path);
     setSelectedSubItem(item);
     onSettingsSubItemClick(item);
   };
@@ -64,7 +67,10 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
       <SidebarItem
         icon={<img src={Settings} />}
         text="Settings"
-        onClick={() => handleItemClick("settings")}
+        subItems={settingsSubItems}
+        selectedSubItem={selectedSubItem}
+        onSubItemClick={handleSubItemClick}
+        onClick={() => setCurrentView('settings')}
         active={currentView === "settings"}
         hasSubmenu
       />
