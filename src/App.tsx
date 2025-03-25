@@ -3,6 +3,7 @@ import {
 //   RemoteOrderDivComponent,
 RemoteSettingsConfigsComponent,
 RemoteSettingsMarketPlaceDesignComponent,
+RemoteSettingsIntegrationComponent,
 //   RemoteStoreDivComponent,
 //   RemoteAdminDivComponent,
 } from "./remoteComponents";
@@ -127,6 +128,10 @@ const App = () => {
               <Route
                 path="/settings/marketplace_design"
                 element={<RemoteSettingsMarketPlaceDesignComponent />}
+              />
+              <Route
+                path="/settings/integration"
+                element={<RemoteSettingsIntegrationComponent />}
               />
               {/* <Route path="/orders" element={<RemoteOrderDivComponent />} /> */}
             </Routes>
