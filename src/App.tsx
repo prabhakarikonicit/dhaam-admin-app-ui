@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import {
 //   RemoteOrderDivComponent,
 RemoteSettingsConfigsComponent,
+RemoteSettingsMarketPlaceDesignComponent,
 //   RemoteStoreDivComponent,
 //   RemoteAdminDivComponent,
 } from "./remoteComponents";
@@ -122,6 +123,10 @@ const App = () => {
               <Route
                 path="/settings/configurations"
                 element={<RemoteSettingsConfigsComponent />}
+              />
+              <Route
+                path="/settings/marketplace_design"
+                element={<RemoteSettingsMarketPlaceDesignComponent />}
               />
               {/* <Route path="/orders" element={<RemoteOrderDivComponent />} /> */}
             </Routes>
