@@ -46,7 +46,7 @@ const WhatsApp: React.FC<WhatsAppProps> = ({ onLearnMore }) => {
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="p-4 rounded-md">
         <div className="flex justify-between items-center">
           <h1 className="text-[14px] font-inter font-[500] text-hverifyOtp">WhatsApp</h1>

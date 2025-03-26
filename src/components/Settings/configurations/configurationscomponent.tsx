@@ -272,7 +272,7 @@ interface MenuItem {
 }
 
 const ConfigurationsComponent: React.FC = () => {
-  const [selectedItem, setSelectedItem] = useState("Payment Gateway");
+  const [selectedItem, setSelectedItem] = useState("Catalog");
   const [isMobile, setIsMobile] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -355,7 +355,7 @@ const ConfigurationsComponent: React.FC = () => {
     <div className="h-[calc(100vh-64px)] flex gap-1 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-6 py-6">
-        <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-6">
+        <h2 className="text-[20px] font-[600] font-inter text-cardValue mb-6">
           Configurations
         </h2>
         <div className="space-y-2 bg-backgroundWhite h-screen p-4 pb-20 rounded-custom">
@@ -379,7 +379,7 @@ const ConfigurationsComponent: React.FC = () => {
       </div>
 
       {/* Right Panel */}
-      <div className="w-[675px] mt-10">
+      <div className="w-[62%] mt-10">
         {selectedItem === "Catalog" && <Catalog />}
         {selectedItem === "Commission" && (
           <Commission onSave={() => {}} onCancel={() => {}} />

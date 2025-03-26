@@ -317,7 +317,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-200">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -340,15 +340,16 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       </div>
 
       {/* Main content */}
-      <div className="p-6">
-        <div className="bg-backgroundWhite p-5">
+      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0">
+        <div className="bg-backgroundWhite p-5 w-full">
           <h2
             className="text-[14px] font-inter font-[600] text-textHeading mb-5"
             id="webhook-settings-label"
           >
             Added webhooks
           </h2>
-          <div className="border rounded-lg">
+          <div className="border rounded-lg overflow-x-auto">
+
             <CustomDataGrid
               columns={webhookColumns}
               rows={webhooks}

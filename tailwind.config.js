@@ -12,6 +12,8 @@ module.exports = {
       lg: "1024px",
       xl: "1280px",
       "2xl": "1536px",
+      "3xl": "2000px", // Custom breakpoint for ultra-wide screens
+      "4xl": "2560px",
     },
     extend: {
       backgroundImage: {
@@ -34,6 +36,8 @@ module.exports = {
         paragraph: "#9C9AA5",
         paragraphBlack: "#26203B",
         reloadBorder: "#C2C2C2",
+        bgButton: "#7C43DF",
+
         verifyOtp: "#333333",
         purpleColor: "#7C43DF",
         validationSucColor: "#575757",

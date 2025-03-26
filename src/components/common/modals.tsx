@@ -611,8 +611,8 @@ const Toggle: React.FC<{
 }> = ({ checked, onChange, disabled = false, label }) => {
   return (
     <div className="flex items-center gap-2">
-      {label && <span className="text-sm text-gray-600">{label}</span>}
-      <button
+      {/* {label && <span className="text-sm text-gray-600">{label}</span>} */}
+      {/* <button
         type="button"
         onClick={onChange}
         disabled={disabled}
@@ -623,7 +623,7 @@ const Toggle: React.FC<{
           className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${checked ? "translate-x-6" : "translate-x-1"
             }`}
         />
-      </button>
+      </button> */}
     </div>
   );
 };
@@ -954,7 +954,8 @@ function CustomModal<T extends BaseItem>({
               value={value}
               onChange={(e) => handleChange(field.id, e.target.value)}
               disabled={isDisabled}
-              className={baseInputClass}
+              className={`${baseInputClass} appearance-none`}
+
             >
               <option value="">Select {field.label}</option>
               {field.options?.map((option) => (
@@ -964,9 +965,9 @@ function CustomModal<T extends BaseItem>({
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              {/* <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              </svg> */}
             </div>
           </div>
         );
@@ -1139,19 +1140,19 @@ function CustomModal<T extends BaseItem>({
   const renderFormFields = () => {
     if (formLayout === "grid") {
       return (
-        <div className={`grid grid-cols-1 md:grid-cols-${gridColumns} sm:grid-cols-${gridColumns}  lg:grid-cols-${gridColumns} xl:grid-cols-${gridColumns} gap-4`}>
+        <div className={`grid grid-cols-1  md:grid-cols-${gridColumns} sm:grid-cols-${gridColumns}  lg:grid-cols-${gridColumns} xl:grid-cols-${gridColumns} gap-4`}>
           {fields.map((field) => (
             <div
               key={field.id}
-              className={`space-y-1 ${field.fullWidth ? `col-span-1 md:col-span-${gridColumns}` : ''} ${field.containerClassName || ''}`}
+              className={`space-y-1  ${field.fullWidth ? `col-span-1 md:col-span-${gridColumns}` : ''} ${field.containerClassName || ''}`}
             >
               <label
                 htmlFor={field.id}
-                className="block text-[12px] font-inter font-[500] text-paragraphBlack"
+                className="block text-[12px] font-inter font-[500] text-paragraphBlack "
               >
                 {field.label}{" "}
                 {field.required && (
-                  <span className="text-red-500"></span>
+                  <span className="text-red-500 "></span>
                 )}
               </label>
               {renderField(field)}

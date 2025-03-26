@@ -169,7 +169,7 @@ const LanguagesForm: React.FC = () => {
   );
 
   return (
-    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-3">
         Languages
       </h2>
@@ -253,7 +253,7 @@ const LanguagesForm: React.FC = () => {
                   id={lang.value}
                   checked={lang.checked}
                   onChange={() => handleLanguageToggle(lang.value)}
-                  className="h-4 w-4 rounded border-gray-300 accent-bgButton focus:ring-1 focus:ring-bgButton"
+                  className="h-4 w-4 rounded accent-bgButton focus:ring-bgButton transition"
                 />
                 <label
                   htmlFor={lang.value}

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 
 interface CustomDropdownProps {
   options: string[];
@@ -7,19 +7,27 @@ interface CustomDropdownProps {
   width?: string;
 }
 
-const CustomDropdown = ({ options, value, onChange, width = "w-[104px]" }: CustomDropdownProps) => {
+const CustomDropdown = ({
+  options,
+  value,
+  onChange,
+  width = "w-[104px]",
+}: CustomDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -47,7 +55,7 @@ const CustomDropdown = ({ options, value, onChange, width = "w-[104px]" }: Custo
           />
         </svg>
       </button>
-      
+
       {isOpen && (
         <div className="absolute z-10 w-full mt-1 bg-white border border-reloadBorder rounded-custom shadow-lg max-h-60 overflow-auto">
           {options.map((option) => (
@@ -63,8 +71,20 @@ const CustomDropdown = ({ options, value, onChange, width = "w-[104px]" }: Custo
                 {option}
               </span>
               {value === option && (
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M13.3334 4L6.00008 11.3333L2.66675 8" stroke="#636363" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.3334 4L6.00008 11.3333L2.66675 8"
+                    stroke="#636363"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               )}
             </div>
