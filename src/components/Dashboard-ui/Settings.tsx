@@ -29,7 +29,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     if (text === 'Settings') {
       setShowSettings(true);
       if (onClick) onClick();
-    } else {
+    } 
+    else {
       setIsOpen(!isOpen);
       if (onClick) onClick();
     }

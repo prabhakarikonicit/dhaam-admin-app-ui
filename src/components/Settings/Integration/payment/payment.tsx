@@ -220,8 +220,8 @@ const Payment: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="min-h-screen">
+      <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
             Payment Gateway
@@ -241,7 +241,7 @@ const Payment: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="p-8 rounded-custom12px shadow-sm bg-backgroundWhite  ">
+        <div className="p-8 rounded-custom12px shadow-sm bg-backgroundWhite">
           {/* Available Payment Gateway */}
           <div className="mb-8 bg-backgroundWhite">
             <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack mb-2">

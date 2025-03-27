@@ -504,7 +504,7 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
   );
 
   return (
-    <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 max-w-full rounded-custom12px sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -551,166 +551,443 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
 
       {/* Full-width Modal for Policy editing */}
       {isModalOpen && modalMode !== "delete" && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
-          <div className="flex justify-between items-center p-4 border-b border-gray-200">
-            <h2 className="text-xl font-medium text-gray-800">
-              {getModalTitle()}
-            </h2>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 text-[12px] font-inter font-[500] text-cardValue bg-backgroundWhite"
-              >
-                Discard
-              </button>
-              <button
-                onClick={handleSavePageContent}
-                className="px-4 py-2 text-[12px] font-inter font-[500] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-
-          <div className="p-6 grid grid-cols-3 gap-6">
-            {/* Left column for form fields */}
-            <div className="space-y-6">
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  Title <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="policy-title"
-                  type="text"
-                  className="w-full px-3 py-2  placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
-                  placeholder="e.g. Privacy Policy"
-                  defaultValue={selectedPolicy?.name || ""}
-                />
-              </div>
-
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  Description
-                </label>
-                <textarea
-                  id="policy-description"
-                  className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
-                  placeholder="Enter description here..."
-                  rows={4}
-                  defaultValue={selectedPolicy?.description || ""}
-                />
-              </div>
-
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  URL <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center">
-                  <span className="px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-sm text-gray-500">
-                    http://www.design-mart.com/page/
-                  </span>
-                  <input
-                    id="policy-url"
-                    type="text"
-                    className="w-full px-3 py-2  placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
-                    placeholder="privacy-policy"
-                    defaultValue={selectedPolicy?.url || ""}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  Language <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="policy-language"
-                  className="w-full px-3 py-2 text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter appearance-none bg-white"
-                  defaultValue="English"
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+          <div className="bg-white w-full rounded-lg shadow-lg overflow-hidden mt-[90%] md:mt-12 sm:mt-12 lg:mt-12 xl:mt-12">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200">
+              <h2 className="text-[16px] font-[600] font-inter text-black">
+                {getModalTitle()}
+              </h2>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 text-[12px] font-inter font-[500] text-cardValue bg-backgroundWhite"
                 >
-                  <option value="English" className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter">English</option>
-                  <option value="Spanish" className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter">Spanish</option>
-                  <option value="French" className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter">French</option>
-                  <option value="German" className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter">German</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  Meta Title
-                </label>
-                <input
-                  id="policy-meta-title"
-                  type="text"
-                  className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder font-inter rounded-custom8px"
-                  placeholder="Enter description here..."
-                  defaultValue=""
-                />
-              </div>
-
-              <div>
-                <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                  Meta Description
-                </label>
-                <textarea
-                  id="policy-meta-description"
-                  className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder font-inter rounded-custom8px"
-                  placeholder="This zone is ideal for outdoor activities and gatherings, prov..."
-                  rows={3}
-                  defaultValue=""
-                />
+                  Discard
+                </button>
+                <button
+                  onClick={handleSavePageContent}
+                  className="px-4 py-2 text-[12px] font-inter font-[500] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
+                >
+                  Save
+                </button>
               </div>
             </div>
 
-            {/* Right columns for rich text editor */}
-            <div className="col-span-2 border rounded-lg overflow-hidden">
-              {/* Rich text editor toolbar */}
-              <div className="p-2 border-b flex flex-wrap items-center gap-1 bg-white">
-                <div className="flex gap-1 mr-3">
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                        />
-                      </svg>
-                    }
-                    onClick={() => executeCommand("undo")}
-                    title="Undo"
-                  />
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
-                    }
-                    onClick={() => executeCommand("redo")}
-                    title="Redo"
+            <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Left column for form fields */}
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                    Title <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="policy-title"
+                    type="text"
+                    className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
+                    placeholder="e.g. Privacy Policy"
+                    defaultValue={selectedPolicy?.name || ""}
                   />
                 </div>
 
-                <ToolbarButton
-                  icon={
+                <div>
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    id="policy-description"
+                    className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
+                    placeholder="Enter description here..."
+                    rows={4}
+                    defaultValue={selectedPolicy?.description || ""}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-inter  font-[500] text-paragraphBlack mb-1">
+                    URL <span className="text-red-500 ">*</span>
+                  </label>
+                  <div className="flex items-center">
+                    <span className="px-3 py-2 bg-gray-100 w-full border border-r-0 border-gray-300 rounded-l-md text-sm text-gray-500">
+                      http://www.design-mart.com/page/
+                    </span>
+                    <input
+                      id="policy-url"
+                      type="text"
+                      className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter"
+                      placeholder="privacy-policy"
+                      defaultValue={selectedPolicy?.url || ""}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                    Language <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="policy-language"
+                    className="w-full px-3 py-2 text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter appearance-none bg-white"
+                    defaultValue="English"
+                  >
+                    <option
+                      value="English"
+                      className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter"
+                    >
+                      English
+                    </option>
+                    <option
+                      value="Spanish"
+                      className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter"
+                    >
+                      Spanish
+                    </option>
+                    <option
+                      value="French"
+                      className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter"
+                    >
+                      French
+                    </option>
+                    <option
+                      value="German"
+                      className="text-[14px] font-[400] border border-reloadBorder text-reloadBorder rounded-custom8px font-inter"
+                    >
+                      German
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                    Meta Title
+                  </label>
+                  <input
+                    id="policy-meta-title"
+                    type="text"
+                    className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder font-inter rounded-custom8px"
+                    placeholder="Enter description here..."
+                    defaultValue=""
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                    Meta Description
+                  </label>
+                  <textarea
+                    id="policy-meta-description"
+                    className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder font-inter rounded-custom8px"
+                    placeholder="This zone is ideal for outdoor activities and gatherings, prov..."
+                    rows={3}
+                    defaultValue=""
+                  />
+                </div>
+              </div>
+
+              {/* Right columns for rich text editor */}
+              <div className="col-span-2 border rounded-lg overflow-hidden">
+                {/* Rich text editor toolbar */}
+                <div className="p-2 border-b flex flex-wrap items-center gap-1 bg-white">
+                  <div className="flex gap-1 mr-3">
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                          />
+                        </svg>
+                      }
+                      onClick={() => executeCommand("undo")}
+                      title="Undo"
+                    />
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      }
+                      onClick={() => executeCommand("redo")}
+                      title="Redo"
+                    />
+                  </div>
+
+                  <ToolbarButton
+                    icon={
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                        />
+                      </svg>
+                    }
+                    onClick={() => {
+                      saveSelection(); // Save selection before showing a dialog
+                      const text = window.prompt("Enter the text to copy");
+                      if (text) {
+                        restoreSelection(); // Restore selection before pasting
+                        executeCommand("insertText", text);
+                      }
+                    }}
+                    title="Copy & Paste"
+                  />
+
+                  <div className="flex items-center px-3 border-l border-r">
+                    <span className="pr-2">Arial</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="flex gap-1 items-center">
+                    <button
+                      className="px-1 border rounded"
+                      onClick={() => executeCommand("fontSize", "1")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 12H4"
+                        />
+                      </svg>
+                    </button>
+                    <span className="text-sm">12</span>
+                    <button
+                      className="px-1 border rounded"
+                      onClick={() => executeCommand("fontSize", "7")}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div className="flex gap-1 ml-2">
+                    <ToolbarButton
+                      icon={<span className="font-bold">B</span>}
+                      active={isBold}
+                      onClick={() => executeCommand("bold")}
+                      title="Bold"
+                    />
+                    <ToolbarButton
+                      icon={<span className="italic">I</span>}
+                      active={isItalic}
+                      onClick={() => executeCommand("italic")}
+                      title="Italic"
+                    />
+                    <ToolbarButton
+                      icon={<span className="underline">U</span>}
+                      active={isUnderline}
+                      onClick={() => executeCommand("underline")}
+                      title="Underline"
+                    />
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      }
+                      onClick={() => executeCommand("strikeThrough")}
+                      title="Strikethrough"
+                    />
+                  </div>
+
+                  <div className="flex gap-1 ml-2 items-center">
+                    <div
+                      className="w-5 h-5 bg-purple-600 rounded cursor-pointer"
+                      onClick={() => {
+                        saveSelection();
+                        const color = window.prompt(
+                          "Enter color (e.g. #FF0000 for red)",
+                          selectedColor
+                        );
+                        if (color) {
+                          setSelectedColor(color);
+                          restoreSelection();
+                          executeCommand("foreColor", color);
+                        }
+                      }}
+                    ></div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 cursor-pointer"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="flex gap-1 ml-2">
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 9l3-3m0 0l5 5M3 9l5 5M21 9l-3-3m0 0l-5 5m8-8l-5 5"
+                          />
+                        </svg>
+                      }
+                      onClick={() => executeCommand("removeFormat")}
+                      title="Clear formatting"
+                    />
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14.828 14.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
+                          />
+                        </svg>
+                      }
+                      onClick={() => {
+                        saveSelection();
+                        const url = window.prompt("Enter the URL:");
+                        if (url) {
+                          restoreSelection();
+                          executeCommand("createLink", url);
+                        }
+                      }}
+                      title="Insert link"
+                    />
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                      }
+                      onClick={() => {
+                        // This is a placeholder since we can't actually insert images in this simple editor
+                        // In a real implementation, you'd show a file picker or image URL dialog
+                        alert(
+                          "Image insertion would be implemented with a file picker in a real application."
+                        );
+                      }}
+                      title="Insert image"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex border-b">
+                  <div
+                    className="flex items-center p-2 border-r cursor-pointer"
+                    onClick={() => {
+                      saveSelection();
+                      const listType = window.confirm(
+                        "Insert ordered list? Click OK for ordered, Cancel for unordered"
+                      )
+                        ? "insertOrderedList"
+                        : "insertUnorderedList";
+                      restoreSelection();
+                      executeCommand(listType);
+                    }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -722,47 +999,12 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                        d="M4 6h16M4 12h16M4 18h16"
                       />
                     </svg>
-                  }
-                  onClick={() => {
-                    saveSelection(); // Save selection before showing a dialog
-                    const text = window.prompt("Enter the text to copy");
-                    if (text) {
-                      restoreSelection(); // Restore selection before pasting
-                      executeCommand("insertText", text);
-                    }
-                  }}
-                  title="Copy & Paste"
-                />
-
-                <div className="flex items-center px-3 border-l border-r">
-                  <span className="pr-2">Arial</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-
-                <div className="flex gap-1 items-center">
-                  <button
-                    className="px-1 border rounded"
-                    onClick={() => executeCommand("fontSize", "1")}
-                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
+                      className="h-4 w-4 ml-1"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -771,308 +1013,88 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M20 12H4"
+                        d="M19 9l-7 7-7-7"
                       />
                     </svg>
-                  </button>
-                  <span className="text-sm">12</span>
-                  <button
-                    className="px-1 border rounded"
-                    onClick={() => executeCommand("fontSize", "7")}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="flex gap-1 ml-2">
-                  <ToolbarButton
-                    icon={<span className="font-bold">B</span>}
-                    active={isBold}
-                    onClick={() => executeCommand("bold")}
-                    title="Bold"
-                  />
-                  <ToolbarButton
-                    icon={<span className="italic">I</span>}
-                    active={isItalic}
-                    onClick={() => executeCommand("italic")}
-                    title="Italic"
-                  />
-                  <ToolbarButton
-                    icon={<span className="underline">U</span>}
-                    active={isUnderline}
-                    onClick={() => executeCommand("underline")}
-                    title="Underline"
-                  />
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    }
-                    onClick={() => executeCommand("strikeThrough")}
-                    title="Strikethrough"
-                  />
-                </div>
-
-                <div className="flex gap-1 ml-2 items-center">
-                  <div
-                    className="w-5 h-5 bg-purple-600 rounded cursor-pointer"
-                    onClick={() => {
-                      saveSelection();
-                      const color = window.prompt(
-                        "Enter color (e.g. #FF0000 for red)",
-                        selectedColor
-                      );
-                      if (color) {
-                        setSelectedColor(color);
-                        restoreSelection();
-                        executeCommand("foreColor", color);
+                  </div>
+                  <div className="flex border-r">
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                          />
+                        </svg>
                       }
-                    }}
-                  ></div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 cursor-pointer"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
+                      onClick={() => executeCommand("insertParagraph")}
+                      title="Insert paragraph"
                     />
-                  </svg>
-                </div>
-
-                <div className="flex gap-1 ml-2">
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 9l3-3m0 0l5 5M3 9l5 5M21 9l-3-3m0 0l-5 5m8-8l-5 5"
-                        />
-                      </svg>
-                    }
-                    onClick={() => executeCommand("removeFormat")}
-                    title="Clear formatting"
-                  />
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14.828 14.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
-                        />
-                      </svg>
-                    }
-                    onClick={() => {
-                      saveSelection();
-                      const url = window.prompt("Enter the URL:");
-                      if (url) {
-                        restoreSelection();
-                        executeCommand("createLink", url);
+                  </div>
+                  <div className="flex border-r">
+                    <ToolbarButton
+                      icon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                          />
+                        </svg>
                       }
-                    }}
-                    title="Insert link"
-                  />
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    }
-                    onClick={() => {
-                      // This is a placeholder since we can't actually insert images in this simple editor
-                      // In a real implementation, you'd show a file picker or image URL dialog
-                      alert(
-                        "Image insertion would be implemented with a file picker in a real application."
-                      );
-                    }}
-                    title="Insert image"
-                  />
+                      onClick={() => {
+                        // Insert a heading
+                        saveSelection();
+                        const headingLevel = window.prompt(
+                          "Enter heading level (1-6):",
+                          "2"
+                        );
+                        if (
+                          headingLevel &&
+                          parseInt(headingLevel) >= 1 &&
+                          parseInt(headingLevel) <= 6
+                        ) {
+                          restoreSelection();
+                          executeCommand("formatBlock", `h${headingLevel}`);
+                        }
+                      }}
+                      title="Insert heading"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex border-b">
+                {/* Rich text editor content area */}
                 <div
-                  className="flex items-center p-2 border-r cursor-pointer"
-                  onClick={() => {
-                    saveSelection();
-                    const listType = window.confirm(
-                      "Insert ordered list? Click OK for ordered, Cancel for unordered"
-                    )
-                      ? "insertOrderedList"
-                      : "insertUnorderedList";
-                    restoreSelection();
-                    executeCommand(listType);
+                  id="rich-text-editor"
+                  ref={editorRef}
+                  className="p-6 h-96 overflow-y-auto"
+                  contentEditable={true}
+                  onInput={(e) =>
+                    setEditorContent((e.target as HTMLDivElement).innerHTML)
+                  }
+                  onMouseUp={updateFormattingStates}
+                  onKeyUp={updateFormattingStates}
+                  onFocus={() => {
+                    // Update formatting states when editor gets focus
+                    setTimeout(updateFormattingStates, 0);
                   }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-                <div className="flex border-r">
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                        />
-                      </svg>
-                    }
-                    onClick={() => executeCommand("insertParagraph")}
-                    title="Insert paragraph"
-                  />
-                </div>
-                <div className="flex border-r">
-                  <ToolbarButton
-                    icon={
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                        />
-                      </svg>
-                    }
-                    onClick={() => {
-                      // Insert a heading
-                      saveSelection();
-                      const headingLevel = window.prompt(
-                        "Enter heading level (1-6):",
-                        "2"
-                      );
-                      if (
-                        headingLevel &&
-                        parseInt(headingLevel) >= 1 &&
-                        parseInt(headingLevel) <= 6
-                      ) {
-                        restoreSelection();
-                        executeCommand("formatBlock", `h${headingLevel}`);
-                      }
-                    }}
-                    title="Insert heading"
-                  />
-                </div>
+                ></div>
               </div>
-
-              {/* Rich text editor content area */}
-              <div
-                id="rich-text-editor"
-                ref={editorRef}
-                className="p-6 h-96 overflow-y-auto"
-                contentEditable={true}
-                onInput={(e) =>
-                  setEditorContent((e.target as HTMLDivElement).innerHTML)
-                }
-                onMouseUp={updateFormattingStates}
-                onKeyUp={updateFormattingStates}
-                onFocus={() => {
-                  // Update formatting states when editor gets focus
-                  setTimeout(updateFormattingStates, 0);
-                }}
-              ></div>
             </div>
           </div>
         </div>

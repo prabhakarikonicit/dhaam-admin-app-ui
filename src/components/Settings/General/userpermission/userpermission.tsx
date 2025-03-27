@@ -118,7 +118,7 @@ const UserPermission: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="mb-8">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           User Permission
@@ -148,49 +148,50 @@ const UserPermission: React.FC = () => {
             selectedRows={selectedRows}
           /> */}
           <div className="overflow-x-auto">
-          <CustomDataGrid
-            columns={[
-              {
-                field: "name",
-                headerName: "Staff Name",
-                width: "200px",
-                renderCell: (value) => (
-                  <span className="text-blue-600 hover:underline">{value}</span>
-                ),
-              },
-              {
-                field: "createdOn",
-                headerName: "Created on",
-                width: "150px",
-              },
-              {
-                field: "status",
-                headerName: "Status",
-                width: "120px",
-              },
-              {
-                field: "description",
-                headerName: "Description",
-                width: "auto",
-              },
-            ]}
-            rows={staffData}
-            pageSize={10}
-            onSelectAll={handleSelectAll}
-            onSelectRow={handleSelectRow}
-            selectedRows={selectedRows}
-            searchPlaceholder="Search staff"
-            showActionColumn={true}
-            onEdit={(row) => {
-              // Handle edit action
-              console.log("Edit:", row);
-            }}
-            onDelete={(row) => {
-              // Handle delete action
-              console.log("Delete:", row);
-            }}
-          />
-
+            <CustomDataGrid
+              columns={[
+                {
+                  field: "name",
+                  headerName: "Staff Name",
+                  width: "200px",
+                  renderCell: (value) => (
+                    <span className="text-blue-600 hover:underline">
+                      {value}
+                    </span>
+                  ),
+                },
+                {
+                  field: "createdOn",
+                  headerName: "Created on",
+                  width: "150px",
+                },
+                {
+                  field: "status",
+                  headerName: "Status",
+                  width: "120px",
+                },
+                {
+                  field: "description",
+                  headerName: "Description",
+                  width: "auto",
+                },
+              ]}
+              rows={staffData}
+              pageSize={10}
+              onSelectAll={handleSelectAll}
+              onSelectRow={handleSelectRow}
+              selectedRows={selectedRows}
+              searchPlaceholder="Search staff"
+              showActionColumn={true}
+              onEdit={(row) => {
+                // Handle edit action
+                console.log("Edit:", row);
+              }}
+              onDelete={(row) => {
+                // Handle delete action
+                console.log("Delete:", row);
+              }}
+            />
           </div>
         </div>
       ) : (

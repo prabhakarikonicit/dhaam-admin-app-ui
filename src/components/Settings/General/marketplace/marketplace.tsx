@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import {
-    Plus,
-    Copy,
-  } from "lucide-react";
+import SurgeDelivery from "../../configurations/store/surgedelivery";
+import { Plus, Copy } from "lucide-react";
 
 interface TimeSelectorProps {
-    value: string;
-    onChange: (value: string) => void;
-  }
-  
-  interface DayScheduleProps {
-    day: string;
-    enabled: boolean;
-    onChange: (enabled: boolean) => void;
-  }
+  value: string;
+  onChange: (value: string) => void;
+}
+
+interface DayScheduleProps {
+  day: string;
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
+}
 
 const TimeSelector: React.FC<TimeSelectorProps> = ({ value, onChange }) => (
   <select
@@ -26,46 +24,12 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ value, onChange }) => (
     <option value="10:00am">10:00am</option>
   </select>
 );
-const DaySchedule: React.FC<DayScheduleProps> = ({
-  day,
-  enabled,
-  onChange,
-}) => {
-  return (
-    <div className="flex items-center gap-4 py-2">
-      <div className="flex items-center gap-2 w-32">
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={enabled}
-            onChange={(e) => onChange(e.target.checked)}
-            className="sr-only peer"
-          />
-          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-        </label>
-        <span className="text-[12px] font-medium text-gray-700">{day}</span>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <TimeSelector value="9:00am" onChange={() => {}} />
-        <span className="text-gray-500">-</span>
-        <TimeSelector value="9:00am" onChange={() => {}} />
-        <button className="p-2 hover:bg-gray-100 rounded-lg">
-          <Plus className="w-4 h-4 text-gray-400" />
-        </button>
-        <button className="p-2 hover:bg-gray-100 rounded-lg">
-          <Copy className="w-4 h-4 text-gray-400" />
-        </button>
-      </div>
-    </div>
-  );
-};
 const MarketplaceDefaultsForm: React.FC = () => {
   const [marketplaceAvailability, setMarketplaceAvailability] = useState(false);
   const [marketplaceTiming, setMarketplaceTiming] = useState(true);
 
   return (
-    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color leading-[21px] mb-3">
           Marketplace Defaults
@@ -185,14 +149,16 @@ const MarketplaceDefaultsForm: React.FC = () => {
           </div>
 
           {marketplaceTiming && (
-            <div className="border border-gray-200 rounded-lg p-4 mt-4 ">
-              <DaySchedule day="Sunday" enabled={false} onChange={() => {}} />
+            <div className="border border-reloadBorder rounded-custom12px ">
+              <SurgeDelivery />
+              
+              {/* <DaySchedule day="Sunday" enabled={false} onChange={() => {}} />
               <DaySchedule day="Monday" enabled={true} onChange={() => {}} />
               <DaySchedule day="Tuesday" enabled={true} onChange={() => {}} />
               <DaySchedule day="Wednesday" enabled={true} onChange={() => {}} />
               <DaySchedule day="Thursday" enabled={true} onChange={() => {}} />
               <DaySchedule day="Friday" enabled={true} onChange={() => {}} />
-              <DaySchedule day="Saturday" enabled={false} onChange={() => {}} />
+              <DaySchedule day="Saturday" enabled={false} onChange={() => {}} /> */}
             </div>
           )}
         </div>

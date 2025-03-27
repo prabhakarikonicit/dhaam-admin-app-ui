@@ -390,19 +390,19 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       width: "15%",
       renderCell: (value: string) => (
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
+          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[600] ${
             value === "Geofence"
-              ? "bg-blue-100 text-blue-800"
+              ? "bg-blue-100 text-blue-800 "
               : value === "Fixed"
               ? "bg-blue-100 text-blue-800"
-              : "bg-green-100 text-green-800"
+              : "bg-customWhiteColor text-green"
           }`}
         >
           {value}
         </span>
       ),
     },
-    
+
     { field: "createdOn", headerName: "Created on", width: "15%" },
     // {
     //   field: "action",
@@ -417,7 +417,6 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
     //     </div>
     //   ),
     // },
-    
   ];
 
   // SelectAll and SelectRow functions
@@ -505,7 +504,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
   */
 
   return (
-    <div className="max-w-3xl rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -545,6 +544,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               onEdit={(row) => handleEditItem(row, "geofence")}
               // onDelete={(row) => handleDeleteItem(row, "geofence")}
             />
+          
           </div>
         </div>
         {/* Cities Section */}
@@ -585,140 +585,140 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       {isModalOpen &&
         currentSection === "geofence" &&
         modalMode !== "delete" && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
-            <div className="flex justify-between items-center p-4 border-b border-gray-200">
-              <h2 className="text-xl font-medium text-gray-800">
-                {getModalTitle()}
-              </h2>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite"
-                >
-                  Discard
-                </button>
-                <button
-                  onClick={() => {
-                    const nameInput = document.getElementById(
-                      "geofence-name"
-                    ) as HTMLInputElement;
-                    const descriptionInput = document.getElementById(
-                      "geofence-description"
-                    ) as HTMLInputElement;
-                    const typeSelect = document.getElementById(
-                      "geofence-type"
-                    ) as HTMLSelectElement;
-
-                    const newGeofence = {
-                      id: selectedItem?.id || Date.now().toString(),
-                      name: nameInput?.value || "New Geofence",
-                      description: descriptionInput?.value || "",
-                      type:
-                        (typeSelect?.value as
-                          | "Geofence"
-                          | "Fixed"
-                          | "Percentage") || "Geofence",
-                      createdOn:
-                        selectedItem?.createdOn ||
-                        new Date().toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        }),
-                      isActive:
-                        selectedItem?.isActive !== undefined
-                          ? selectedItem.isActive
-                          : true,
-                    };
-                    handleSaveItem(newGeofence);
-                  }}
-                  className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-
-            <div className="p-6">
-              <p className="text-[12px] font-inter font-[500] text-cardTitle mb-6">
-                Define virtual boundaries within a city for location-based
-                services.
-              </p>
-
-              <div className="grid grid-cols-3 gap-6 mb-6">
-                <div>
-                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack  mb-1">
-                    Geofence Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    id="geofence-name"
-                    type="text"
-                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
-                    placeholder="Green zone - 1"
-                    defaultValue={selectedItem?.name || ""}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                    Description
-                  </label>
-                  <input
-                    id="geofence-description"
-                    type="text"
-                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
-                    placeholder="This zone is ideal for outdoor activities and gatherings, providing a safe space for families and friends to enjoy..."
-                    defaultValue={selectedItem?.description || ""}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
-                    Type <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="geofence-type"
-                    className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder appearance-none bg-white"
-                    defaultValue={selectedItem?.type || "Geofence"}
-                    required
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto ">
+            <div className="bg-white w-full rounded-lg shadow-lg m-4 overflow-hidden mt-44 md:mt-28 sm:mt-28 lg:mt-28 xl:mt-28">
+              <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                <h2 className="text-[16px] font-[600] font-inter text-black">
+                  {getModalTitle()}
+                </h2>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite"
                   >
-                    <option value="Geofence">Geofence</option>
-                    <option value="Fixed">Fixed</option>
-                    <option value="Percentage">Percentage</option>
-                    
-                  </select>
-                 
+                    Discard
+                  </button>
+                  <button
+                    onClick={() => {
+                      const nameInput = document.getElementById(
+                        "geofence-name"
+                      ) as HTMLInputElement;
+                      const descriptionInput = document.getElementById(
+                        "geofence-description"
+                      ) as HTMLInputElement;
+                      const typeSelect = document.getElementById(
+                        "geofence-type"
+                      ) as HTMLSelectElement;
+
+                      const newGeofence = {
+                        id: selectedItem?.id || Date.now().toString(),
+                        name: nameInput?.value || "New Geofence",
+                        description: descriptionInput?.value || "",
+                        type:
+                          (typeSelect?.value as
+                            | "Geofence"
+                            | "Fixed"
+                            | "Percentage") || "Geofence",
+                        createdOn:
+                          selectedItem?.createdOn ||
+                          new Date().toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }),
+                        isActive:
+                          selectedItem?.isActive !== undefined
+                            ? selectedItem.isActive
+                            : true,
+                      };
+                      handleSaveItem(newGeofence);
+                    }}
+                    className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
 
-              {/* Map Component that takes up the full width */}
-              <div
-                className="border rounded-md overflow-hidden"
-                style={{ height: "calc(100vh - 300px)", minHeight: "500px" }}
-              >
-                <div className="w-full h-full bg-gray-100 relative">
-                  {/* The purple overlay shape as seen in the image */}
-                  <div
-                    className="absolute"
-                    style={{
-                      top: "60%",
-                      left: "70%",
-                      width: "200px",
-                      height: "150px",
-                      background: "rgba(138, 43, 226, 0.3)",
-                      border: "2px solid rgba(138, 43, 226, 0.7)",
-                      transform: "translate(-50%, -50%)",
-                      zIndex: 10,
-                    }}
-                  ></div>
+              <div className="p-6">
+                <p className="text-[12px] font-inter font-[500] text-cardTitle mb-6">
+                  Define virtual boundaries within a city for location-based
+                  services.
+                </p>
 
-                  {/* Map placeholder - in a real implementation, this would be replaced with an actual map component */}
-                  <img
-                    src="/api/placeholder/1600/800"
-                    alt="Map for geofence selection"
-                    className="w-full h-full object-cover"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                  <div>
+                    <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                      Geofence Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="geofence-name"
+                      type="text"
+                      className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
+                      placeholder="Green zone - 1"
+                      defaultValue={selectedItem?.name || ""}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                      Description
+                    </label>
+                    <input
+                      id="geofence-description"
+                      type="text"
+                      className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
+                      placeholder="This zone is ideal for outdoor activities and gatherings, providing a safe space for families and friends to enjoy..."
+                      defaultValue={selectedItem?.description || ""}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                      Type <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="geofence-type"
+                      className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder appearance-none bg-white"
+                      defaultValue={selectedItem?.type || "Geofence"}
+                      required
+                    >
+                      <option value="Geofence">Geofence</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Percentage">Percentage</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Map Component that takes up the full width */}
+                <div
+                  className="border rounded-md overflow-hidden"
+                  style={{ height: "calc(100vh - 400px)", minHeight: "400px" }}
+                >
+                  <div className="w-full h-full bg-gray-100 relative">
+                    {/* The purple overlay shape as seen in the image */}
+                    <div
+                      className="absolute"
+                      style={{
+                        top: "60%",
+                        left: "70%",
+                        width: "200px",
+                        height: "150px",
+                        background: "rgba(138, 43, 226, 0.3)",
+                        border: "2px solid rgba(138, 43, 226, 0.7)",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 10,
+                      }}
+                    ></div>
+
+                    {/* Map placeholder - in a real implementation, this would be replaced with an actual map component */}
+                    <img
+                      src="/api/placeholder/1600/800"
+                      alt="Map for geofence selection"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -754,7 +754,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
                 ? `Are you sure you want to delete ${selectedItem?.name}?`
                 : undefined
             }
-            size="md"
+            size="sm"
             showToggle={modalMode !== "add" && modalMode !== "delete"}
             toggleLabel="Active"
             confirmText={

@@ -45,7 +45,7 @@ const BrandingPage: React.FC = () => {
   };
 
   return (
-    <div className="p-0 max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="p-0 max-w-full rounded-lg md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-6">
         <h1 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color">
           Branding

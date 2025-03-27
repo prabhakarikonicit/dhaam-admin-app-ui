@@ -398,7 +398,7 @@ const SettingsComponent: React.FC = () => {
     <div className="h-[calc(100vh-64px)] flex gap-1 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
       <div className="w-[290px] p-5 py-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">General</h2>
+        <h2 className="text-[20px] font-[600] font-inter text-cardValue mb-6">General</h2>
         <div className="space-y-2 bg-backgroundWhite p-4 pb-20  rounded-custom">
           {menuItems.map((item) => (
             <div
@@ -421,7 +421,7 @@ const SettingsComponent: React.FC = () => {
       </div>
 
       {/* Right Panel */}
-      <div className="w-[675px] mt-10">
+      <div className="w-[62%] mt-10">
         {selectedItem === "Account" && <AccountForm />}
         {selectedItem === "Marketplace Defaults" && <MarketplaceDefaultsForm />}
         {selectedItem === "Domain" && <DomainForm />}

@@ -479,7 +479,7 @@ const MarketplaceFiles: React.FC = () => {
   };
 
   return (
-    <div className="p-0 max-w-4xl md:max-w-4xl sm:max-w-4xl lg:max-w-4xl xl:max-w-4xl rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="p-0 max-w-full rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex items-center p-4 border-b ">
         <button className="mr-2  rounded-custom border border-reloadBorder p-2">
