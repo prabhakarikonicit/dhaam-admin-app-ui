@@ -7,6 +7,7 @@ interface Column {
   width?: string;
   renderCell?: (value: any, row: any) => React.ReactNode;
   visible?: boolean;
+  type?: "text" | "date" | "number"; // Added type property to identify date columns
 }
 
 interface Row {
@@ -17,6 +18,9 @@ interface Row {
 interface Filter {
   field: string;
   value: string;
+  type?: "text" | "date" | "number";
+  dateOperator?: "equals" | "before" | "after" | "between";
+  endDate?: string;
 }
 
 interface DataGridProps {
@@ -32,6 +36,7 @@ interface DataGridProps {
   onEdit?: (row: Row) => void;
   onDelete?: (row: Row) => void;
   onToggle?: (id: string, value: boolean) => void;
+  enableDateFilters?: boolean; // Added new prop for date filters
 }
 
 const CustomDataGrid: React.FC<DataGridProps> = ({
@@ -46,18 +51,53 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   showActionColumn = false,
   onEdit,
   onDelete,
+  enableDateFilters = false, // Default to false for backward compatibility
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [columns, setColumns] = useState(
-    initialColumns.map((column) => ({ ...column, visible: true }))
+    initialColumns.map((column) => ({ 
+      ...column, 
+      visible: true,
+      type: column.type || "text" // Default type to text if not specified
+    }))
   );
   const [activeFilters, setActiveFilters] = useState<Filter[]>([]);
   const [currentPageSize, setCurrentPageSize] = useState(pageSize);
   const [showColumnMenu, setShowColumnMenu] = useState(false);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [selectedFilterField, setSelectedFilterField] = useState("");
+  const [selectedFilterType, setSelectedFilterType] = useState<"text" | "date" | "number">("text");
+  const [dateOperator, setDateOperator] = useState<"equals" | "before" | "after" | "between">("equals");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  
   const columnMenuRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
+
+  // Helper function to compare dates
+  const compareDates = (rowDate: string, filterDate: string, operator: string): boolean => {
+    try {
+      const date1 = new Date(rowDate).getTime();
+      const date2 = new Date(filterDate).getTime();
+      
+      if (isNaN(date1) || isNaN(date2)) return false;
+      
+      switch (operator) {
+        case "equals":
+          // Only compare yyyy-mm-dd part for equality
+          return rowDate.split('T')[0] === filterDate.split('T')[0];
+        case "before":
+          return date1 < date2;
+        case "after":
+          return date1 > date2;
+        default:
+          return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  };
 
   // Filter rows based on search value and active filters
   const filteredRows = useMemo(() => {
@@ -82,6 +122,21 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
         return activeFilters.every((filter) => {
           const value = row[filter.field];
           if (value == null) return false;
+          
+          // Handle date filters
+          if (filter.type === "date") {
+            if (filter.dateOperator === "between" && filter.endDate) {
+              const rowDate = new Date(value).getTime();
+              const startFilterDate = new Date(filter.value).getTime();
+              const endFilterDate = new Date(filter.endDate).getTime();
+              
+              return rowDate >= startFilterDate && rowDate <= endFilterDate;
+            } else {
+              return compareDates(value, filter.value, filter.dateOperator || "equals");
+            }
+          }
+          
+          // Handle text and number filters
           return String(value)
             .toLowerCase()
             .includes(filter.value.toLowerCase());
@@ -101,26 +156,62 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
     );
   };
 
+  // Handle field selection for filters
+  const handleFilterFieldChange = (field: string) => {
+    setSelectedFilterField(field);
+    const selectedColumn = columns.find(col => col.field === field);
+    setSelectedFilterType(selectedColumn?.type || "text");
+    
+    // Reset date-specific states when changing fields
+    if (selectedColumn?.type !== "date") {
+      setDateOperator("equals");
+      setStartDate("");
+      setEndDate("");
+    }
+  };
+
   // Handle adding a filter
   const addFilter = (field: string, value: string) => {
-    if (!value) return;
-
+    if (!field || field === "" || !value) return;
+    
+    const column = columns.find(col => col.field === field);
+    if (!column) return;
+    
     // Check if filter already exists
     const existingFilterIndex = activeFilters.findIndex(
       (f) => f.field === field
     );
+    
+    const newFilter: Filter = { 
+      field,
+      value,
+      type: column.type || "text"
+    };
+    
+    // Add date-specific properties if it's a date filter
+    if (column.type === "date") {
+      newFilter.dateOperator = dateOperator;
+      if (dateOperator === "between") {
+        newFilter.endDate = endDate;
+      }
+    }
 
     if (existingFilterIndex >= 0) {
       // Update existing filter
       const updatedFilters = [...activeFilters];
-      updatedFilters[existingFilterIndex] = { field, value };
+      updatedFilters[existingFilterIndex] = newFilter;
       setActiveFilters(updatedFilters);
     } else {
       // Add new filter
-      setActiveFilters([...activeFilters, { field, value }]);
+      setActiveFilters([...activeFilters, newFilter]);
     }
 
+    // Reset filter form
     setShowFilterMenu(false);
+    setSelectedFilterField("");
+    setDateOperator("equals");
+    setStartDate("");
+    setEndDate("");
   };
 
   // Handle removing a filter
@@ -259,6 +350,25 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
     return row[column.field];
   };
 
+  // Function to format filter display text
+  const formatFilterDisplay = (filter: Filter): string => {
+    if (filter.type === "date") {
+      switch (filter.dateOperator) {
+        case "equals":
+          return `equals ${filter.value}`;
+        case "before":
+          return `before ${filter.value}`;
+        case "after":
+          return `after ${filter.value}`;
+        case "between":
+          return `between ${filter.value} and ${filter.endDate}`;
+        default:
+          return filter.value;
+      }
+    }
+    return filter.value;
+  };
+
   return (
     <div className="w-full border border-grey-border rounded-custom8px mb-10">
       {!hideToolbar && (
@@ -353,41 +463,87 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                       <select
                         className="block w-full rounded-md text-[12px] font-inter font-[500] py-2 pl-3 pr-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
                         id="filter-field"
-                        defaultValue=""
+                        value={selectedFilterField}
+                        onChange={(e) => handleFilterFieldChange(e.target.value)}
                       >
-                        <option value="" disabled className=" text-[14px] font-inter font-[500]">
+                        <option value="" disabled className="text-[14px] font-inter font-[500]">
                           Select field
                         </option>
                         {columns.map((column) => (
-                          <option key={column.field} className=" text-[12px] font-inter font-[500]" value={column.field}>
+                          <option key={column.field} className="text-[12px] font-inter font-[500]" value={column.field}>
                             {column.headerName}
                           </option>
                         ))}
                       </select>
                     </div>
+                    
+                    {/* Date filter specific controls */}
+                    {selectedFilterType === "date" && enableDateFilters && (
+                      <div className="py-2">
+                        <select
+                          className="block w-full rounded-md text-[12px] font-inter font-[500] py-2 pl-3 pr-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                          value={dateOperator}
+                          onChange={(e) => setDateOperator(e.target.value as any)}
+                        >
+                          <option value="equals">Equals</option>
+                          <option value="before">Before</option>
+                          <option value="after">After</option>
+                          <option value="between">Between</option>
+                        </select>
+                      </div>
+                    )}
+                    
+                    {/* Regular filter input or start date for date filters */}
                     <div className="py-2">
-                      <input
-                        type="text"
-                        id="filter-value"
-                        placeholder="Filter value"
-                        className="block w-full rounded-md border-reloadBorder border py-2 pl-3 pr-3 text-[12px] font-inter font-[500] 
-                        focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
-                      />
+                      {selectedFilterType === "date" && enableDateFilters ? (
+                        <input
+                          type="date"
+                          id="filter-date"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          className="block w-full rounded-md border-reloadBorder border py-2 pl-3 pr-3 text-[12px] font-inter font-[500] 
+                          focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          id="filter-value"
+                          placeholder="Filter value"
+                          className="block w-full rounded-md border-reloadBorder border py-2 pl-3 pr-3 text-[12px] font-inter font-[500] 
+                          focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                        />
+                      )}
                     </div>
+                    
+                    {/* End date input for "between" date operator */}
+                    {selectedFilterType === "date" && dateOperator === "between" && enableDateFilters && (
+                      <div className="py-2">
+                        <label className="block text-[12px] font-inter font-[500] mb-1">End Date</label>
+                        <input
+                          type="date"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          className="block w-full rounded-md border-reloadBorder border py-2 pl-3 pr-3 text-[12px] font-inter font-[500] 
+                          focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                        />
+                      </div>
+                    )}
+                    
                     <div className="py-2">
                       <button
                         type="button"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-bgButton px-4 py-2 text-sm font-inter text-whiteColor font-[12px] shadow-sm  focus:outline-none focus:ring-2 focus:ring-bgButton focus:ring-offset-2"
+                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-bgButton px-4 py-2 text-sm font-inter text-whiteColor font-[12px] shadow-sm focus:outline-none focus:ring-2 focus:ring-bgButton focus:ring-offset-2"
                         onClick={() => {
-                          const fieldElement = document.getElementById(
-                            "filter-field"
-                          ) as HTMLSelectElement;
-                          const valueElement = document.getElementById(
-                            "filter-value"
-                          ) as HTMLInputElement;
-                          if (fieldElement && valueElement) {
-                            addFilter(fieldElement.value, valueElement.value);
-                            valueElement.value = "";
+                          if (selectedFilterType === "date" && enableDateFilters) {
+                            addFilter(selectedFilterField, startDate);
+                          } else {
+                            const valueElement = document.getElementById(
+                              "filter-value"
+                            ) as HTMLInputElement;
+                            if (valueElement) {
+                              addFilter(selectedFilterField, valueElement.value);
+                              valueElement.value = "";
+                            }
                           }
                         }}
                       >
@@ -436,7 +592,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                     <span className="font-bold mr-1">
                       {column?.headerName}:
                     </span>
-                    <span>{filter.value}</span> 
+                    <span>{formatFilterDisplay(filter)}</span> 
                     <button
                       onClick={() => removeFilter(filter.field)}
                       className="ml-1 text-gray-500 hover:text-gray-700"

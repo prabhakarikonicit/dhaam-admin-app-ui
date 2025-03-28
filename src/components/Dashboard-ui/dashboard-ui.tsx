@@ -4,7 +4,8 @@ import GeneralComponent from "../Settings/General/GeneralComponent";
 import IntegrationComponent from "../Settings/Integration/IntegrationComponent";
 import ConfigurationsComponent from "../Settings/configurations/configurationscomponent";
 import MarketPlaceDesignComponent from "../Settings/marketplacedesign/marketplacedesigncomponent";
-
+import Stores from "../stores/stores";
+import Orders from "../orders/orders";
 import { ChevronDown } from "lucide-react";
 import {
   Card,
@@ -28,11 +29,11 @@ import { ReactComponent as ExternalLink } from "../../lib/Images/external-link.s
 import { ReactComponent as ToggleOn } from "../../lib/Images/Toggle on.svg";
 import logo2 from "../../lib/Images/logo.png";
 import { ReactComponent as Menu } from "../../lib/Images/menu.svg";
-import { ReactComponent as Orders } from "../../lib/Images/orders.svg";
+import { ReactComponent as Order } from "../../lib/Images/orders.svg";
 import { ReactComponent as Pending } from "../../lib/Images/pending.svg";
 import { ReactComponent as Reload } from "../../lib/Images/reload.svg";
 import { ReactComponent as Settings } from "../../lib/Images/settings.svg";
-import { ReactComponent as Stores } from "../../lib/Images/stores.svg";
+import { ReactComponent as Store } from "../../lib/Images/stores.svg";
 
 const revenueData = [
   { time: "10:00 AM", value: 10 },
@@ -437,12 +438,13 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     { text: "Integration" },
     { text: "Configurations" },
     { text: "Marketplace Design" },
-    
   ];
+  
   const handleSubItemClick = (item: string) => {
     setSelectedSubItem(item);
     onSettingsSubItemClick(item);
   };
+  
   return (
     <nav className="space-y-1">
       <SidebarItem
@@ -457,10 +459,16 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
         onClick={() => onItemClick("dashboard")}
         active={currentView === "dashboard"}
       />
-      <SidebarItem icon={<Orders />} text="Orders" hasSubmenu />
+      <SidebarItem icon={<Order />} text="Orders" onClick={() => onItemClick("orders")}
+        active={currentView === "orders"}/>
       <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
       <SidebarItem icon={<Customers />} text="Customers" />
-      <SidebarItem icon={<Stores />} text="Stores" hasSubmenu />
+      <SidebarItem 
+        icon={<Store />} 
+        text="Stores" 
+        onClick={() => onItemClick("stores")}
+        active={currentView === "stores"}
+      />
       <SidebarItem
         icon={<Settings />}
         text="Settings"
@@ -473,6 +481,53 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     </nav>
   );
 };
+// const SidebarNav: React.FC<SidebarNavProps> = ({
+//   onSettingsSubItemClick,
+//   onItemClick,
+//   currentView,
+// }) => {
+//   const [selectedSubItem, setSelectedSubItem] = useState<string | null>(null);
+//   const settingsSubItems = [
+//     { text: "General" },
+//     { text: "Integration" },
+//     { text: "Configurations" },
+//     { text: "Marketplace Design" },
+    
+//   ];
+//   const handleSubItemClick = (item: string) => {
+//     setSelectedSubItem(item);
+//     onSettingsSubItemClick(item);
+//   };
+//   return (
+//     <nav className="space-y-1">
+//       <SidebarItem
+//         icon={<GetStarted />}
+//         text="Get Started"
+//         onClick={() => onItemClick("get-started")}
+//         active={currentView === "get-started"}
+//       />
+//       <SidebarItem
+//         icon={<Dashboard />}
+//         text="Dashboard"
+//         onClick={() => onItemClick("dashboard")}
+//         active={currentView === "dashboard"}
+//       />
+//       <SidebarItem icon={<Orders />} text="Orders" hasSubmenu />
+//       <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
+//       <SidebarItem icon={<Customers />} text="Customers" />
+//       <SidebarItem icon={<Store />} text="Stores"  />
+//       <SidebarItem
+//         icon={<Settings />}
+//         text="Settings"
+//         hasSubmenu={true}
+//         subItems={settingsSubItems}
+//         selectedSubItem={selectedSubItem}
+//         onSubItemClick={handleSubItemClick}
+//         active={currentView === "settings"}
+//       />
+//     </nav>
+//   );
+// };
 const OrderStat: React.FC<OrderStatProps> = ({ title, value, icon }) => (
   <div className="bg-white rounded-lg flex flex-col w-full p-4 shadow-sm">
     {/* Title */}
@@ -522,6 +577,15 @@ const DashboardLayout = () => {
   const isLaptop = width > 835;
   const showCloseIcon = width < 375;
   const renderContent = () => {
+
+    if (currentView === "stores") {
+      // Directly render the Stores component when stores view is selected
+      return <Stores />;
+    }
+    if (currentView === "orders") {
+      // Directly render the Stores component when stores view is selected
+      return <Orders />;
+    }
     if (currentView === "settings") {
       // Only show settings content when General is selected
       if (selectedSettingsItem === "General") {
