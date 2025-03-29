@@ -21,7 +21,9 @@ const Stores: React.FC = () => {
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [paginatedData, setPaginatedData] = useState<Store[]>([]);
-
+  const [density, setDensity] = useState<
+      "compact" | "standard" | "comfortable"
+    >("standard");
   // Sample data initialization
   useEffect(() => {
     const mockStores: Store[] = [
@@ -414,6 +416,15 @@ const Stores: React.FC = () => {
           onSelectAll={handleSelectAll}
           searchPlaceholder="Search store"
           hideToolbar={false}
+          densityFirst={true} // Change to false if you want export button before density
+
+          densityOptions={{
+            currentDensity: density,
+            onDensityChange: (newDensity) => {
+              setDensity(newDensity);
+              // Apply any density-related styling changes here if needed
+            },
+          }}
         />
       </div>
 

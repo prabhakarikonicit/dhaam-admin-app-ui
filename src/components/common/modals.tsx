@@ -330,8 +330,8 @@ const PaymentDetails: React.FC<{
   };
 }> = ({ paymentDetails }) => {
   return (
-    <div className="px-4 py-3">
-      <div className="flex justify-between items-center mb-4">
+    <div className="px-4">
+      <div className="flex justify-between items-center ">
         <div className="flex items-center">
           <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">{paymentDetails.orderId}</h2>
           <div className="ml-2 px-3 py-1 bg-[#1A8917] text-white rounded-custom4px font-inter text-[12px] font-[500]">
@@ -343,7 +343,7 @@ const PaymentDetails: React.FC<{
       <div className="mb-6">
         <h3 className="text-[14px] font-inter font-[500] mb-3">Item Ordered</h3>
         {paymentDetails.items.map((item, index) => (
-          <div key={index} className="flex justify-between items-center py-3 border-b border-gray-100">
+          <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100">
             <div className="flex items-center">
               <div className="bg-gray-100 w-8 h-8 rounded flex items-center justify-center mr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -387,12 +387,12 @@ const PaymentDetails: React.FC<{
             id="status"
             className="w-full pl-3 pr-10 py-2 text-[14px] font-inter font-[400] text-cardTitle bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select status</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-            <option value="Dispatched">Dispatched</option>
-            <option value="Out for delivery">Out for delivery</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="" className="text-[14px] font-inter font-[400] text-cardTitle">Select status</option>
+            <option value="Pending" className="text-[14px] font-inter font-[400] text-cardTitle">Pending</option>
+            <option value="Completed" className="text-[14px] font-inter font-[400] text-cardTitle">Completed</option>
+            <option value="Dispatched" className="text-[14px] font-inter font-[400] text-cardTitle">Dispatched</option>
+            <option value="Out for delivery" className="text-[14px] font-inter font-[400] text-cardTitle">Out for delivery</option>
+            <option value="Cancelled" className="text-[14px] font-inter font-[400] text-cardTitle">Cancelled</option>
           </select>
           <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown, Search, Plus, Check, X, Calendar } from "lucide-react";
+import { ChevronDown, Plus, X } from "lucide-react";
 import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
-
+import OrderPopover from "../common/DetailsModal";
 interface Order {
   id: string;
   orderId: string;
@@ -41,13 +41,18 @@ const Orders: React.FC = () => {
   const [modalMode, setModalMode] = useState<
     "add" | "edit" | "view" | "payment"
   >("add");
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
+    null
+  );
+  const [popoverOrder, setPopoverOrder] = useState<Order | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [storesDropdownOpen, setStoresDropdownOpen] = useState(false);
   const [actionsDropdownOpen, setActionsDropdownOpen] = useState(false);
   const [paginatedData, setPaginatedData] = useState<Order[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [dateRange, setDateRange] = useState("Feb 10–31, 2025");
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [startDate, setStartDate] = useState("2025-02-10");
   const [endDate, setEndDate] = useState("2025-02-28");
@@ -69,6 +74,7 @@ const Orders: React.FC = () => {
   const datePickerRef = useRef<HTMLDivElement>(null);
   const storesDropdownRef = useRef<HTMLDivElement>(null);
   const actionsDropdownRef = useRef<HTMLDivElement>(null);
+  const exportDropdownRef = useRef<HTMLDivElement>(null);
 
   // Sample data initialization with createdDate field
   useEffect(() => {
@@ -291,6 +297,37 @@ const Orders: React.FC = () => {
     setModalMode("payment");
     setIsModalOpen(true);
   };
+  const handleOrderIdClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    order: Order
+  ) => {
+    event.stopPropagation();
+
+    const orderWithItems = {
+      ...order,
+      items: [
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+      ],
+    };
+
+    setPopoverAnchorEl(event.currentTarget);
+    setPopoverOrder(orderWithItems);
+    setPopoverOpen(true);
+  };
 
   // Function to prepare payment details for the modal
   const preparePaymentDetails = () => {
@@ -325,94 +362,7 @@ const Orders: React.FC = () => {
       deliveryAddress: selectedOrder.deliveryAddress,
     };
   };
-  // Order Details Modal Component
-  const OrderDetailsModal: React.FC<{
-    isOpen: boolean;
-    onClose: () => void;
-    order: Order | null;
-  }> = ({ isOpen, onClose, order }) => {
-    if (!isOpen || !order) return null;
 
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg shadow-xl w-[500px] max-h-[90vh] overflow-y-auto">
-          {/* Modal Header */}
-          <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="text-xl font-semibold">{order.orderId} Details</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Modal Body */}
-          <div className="p-4">
-            {/* Order Summary */}
-            <div className="mb-4">
-              <h3 className="text-lg font-medium mb-2">Order Summary</h3>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <span className="text-gray-600">Store:</span>
-                  <p>{order.store}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Status:</span>
-                  <p>{order.status}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Delivery Mode:</span>
-                  <p>{order.deliveryMode}</p>
-                </div>
-                <div>
-                  <span className="text-gray-600">Payment Method:</span>
-                  <p>{order.paymentMethod}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Delivery Details */}
-            <div className="mb-4">
-              <h3 className="text-lg font-medium mb-2">Delivery Details</h3>
-              <div>
-                <span className="text-gray-600">Address:</span>
-                <p>{order.deliveryAddress}</p>
-              </div>
-              <div className="mt-2">
-                <span className="text-gray-600">Scheduled:</span>
-                <p>
-                  {order.scheduleDate} at {order.scheduleTime}
-                </p>
-              </div>
-            </div>
-
-            {/* Order Items */}
-            <div>
-              <h3 className="text-lg font-medium mb-2">Order Items</h3>
-              {order.items &&
-                order.items.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between border-b py-2 last:border-b-0"
-                  >
-                    <div>
-                      <p>{item.name}</p>
-                      <p className="text-gray-500">Quantity: {item.quantity}</p>
-                    </div>
-                    <p>{item.price}</p>
-                  </div>
-                ))}
-              <div className="flex justify-between font-semibold mt-2">
-                <p>Total</p>
-                <p>{order.amount}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
   // DataGrid column definitions
   const columns: Column[] = [
     {
@@ -423,10 +373,7 @@ const Orders: React.FC = () => {
       renderCell: (value, row) => (
         <div className="flex items-center">
           {value}
-          <button
-            className="ml-2"
-            onClick={() => handleOpenOrderDetailsModal(row)}
-          >
+          <button className="ml-2" onClick={(e) => handleOrderIdClick(e, row)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -435,8 +382,8 @@ const Orders: React.FC = () => {
               fill="none"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M4.23431 5.83432C4.54673 5.5219 5.05327 5.5219 5.36569 5.83432L8 8.46864L10.6343 5.83432C10.9467 5.5219 11.4533 5.5219 11.7657 5.83432C12.0781 6.14674 12.0781 6.65327 11.7657 6.96569L8.56569 10.1657C8.25327 10.4781 7.74673 10.4781 7.43431 10.1657L4.23431 6.96569C3.9219 6.65327 3.9219 6.14674 4.23431 5.83432Z"
                 fill="#2B2B2B"
               />
@@ -719,27 +666,6 @@ const Orders: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  // Handle date range changes
-  const handleDateRangeChange = () => {
-    // Format the date range for display
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const formattedStart = start.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-    const formattedEnd = end.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-    setDateRange(`${formattedStart}–${formattedEnd}`);
-    setShowDatePicker(false);
-
-    // Apply the date filter
-    applyAllFilters();
-  };
-
   // Handle column visibility toggle
   const toggleColumnVisibility = (field: string) => {
     setVisibleColumns((prev) => {
@@ -773,50 +699,9 @@ const Orders: React.FC = () => {
     setShowFilterMenu(false);
   };
 
-  // Handle removing a filter
-  const removeFilter = (field: string) => {
-    setActiveFilters(activeFilters.filter((f) => f.field !== field));
-  };
-
   // Handle clear all filters
   const clearAllFilters = () => {
     setActiveFilters([]);
-  };
-
-  // Handle export to CSV
-  const handleExport = () => {
-    const visibleColumnsData = columns.filter((col) =>
-      visibleColumns.includes(col.field)
-    );
-
-    // Create header row
-    const headers = visibleColumnsData.map((col) => col.headerName);
-
-    // Create data rows
-    const dataRows = paginatedData.map((order) => {
-      return visibleColumnsData.map((col) => {
-        const value = order[col.field as keyof Order];
-        if (value === null || value === undefined) return "";
-        return String(value);
-      });
-    });
-
-    // Combine header and data rows
-    const csvContent = [
-      headers.join(","),
-      ...dataRows.map((row) => row.join(",")),
-    ].join("\n");
-
-    // Create and download the file
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "Orders_Export.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   // Close dropdown menus when clicking outside
@@ -858,6 +743,12 @@ const Orders: React.FC = () => {
       ) {
         setActionsDropdownOpen(false);
       }
+      if (
+        exportDropdownRef.current &&
+        !exportDropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -866,11 +757,29 @@ const Orders: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverOpen &&
+        popoverAnchorEl &&
+        event.target instanceof Node &&
+        !popoverAnchorEl.contains(event.target)
+      ) {
+        setPopoverOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popoverOpen, popoverAnchorEl]);
+
   return (
     <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto">
       {/* Header with search and buttons */}
-      <div className="flex justify-between items-center mb-6 px-8 pt-8">
-        <h1 className="text-[20px] font-inter font-[600] text-cardValue">
+      <div className="flex justify-between items-center mb-6 px-8 pt-8 ">
+        <h1 className="text-[16px] md:text-[20px] lg:text-[20px] sm:text-[20px] xl:text-[20px] font-inter font-[600] text-cardValue">
           Orders
         </h1>
 
@@ -886,7 +795,7 @@ const Orders: React.FC = () => {
             >
               <g clip-path="url(#clip0_6609_58244)">
                 <path
-                  d="M14.66 15.6601C13.352 16.9695 11.6305 17.7849 9.78879 17.9674C7.94705 18.1499 6.09901 17.6881 4.55952 16.6608C3.02004 15.6336 1.88436 14.1043 1.34597 12.3336C0.807587 10.5628 0.899804 8.66021 1.60691 6.94985C2.31402 5.2395 3.59227 3.82722 5.22389 2.95363C6.85551 2.08005 8.73954 1.7992 10.555 2.15894C12.3705 2.51869 14.005 3.49676 15.1802 4.92653C16.3554 6.3563 16.9985 8.14931 17 10.0001H15C15.0012 8.61187 14.521 7.2662 13.6413 6.19236C12.7615 5.11852 11.5366 4.38297 10.1753 4.11103C8.81404 3.8391 7.40056 4.04761 6.17577 4.70105C4.95098 5.35448 3.99066 6.41239 3.45845 7.69452C2.92625 8.97665 2.85509 10.4037 3.25711 11.7324C3.65913 13.0611 4.50944 14.2093 5.66315 14.9813C6.81687 15.7533 8.20259 16.1014 9.58419 15.9663C10.9658 15.8311 12.2578 15.2211 13.24 14.2401L14.66 15.6601ZM12 10.0001H20L16 14.0001L12 10.0001Z"
+                  d="M14.66 15.6601C13.352 16.9695 11.6305 17.7849 9.78879 17.9674C7.94705 18.1499 6.09901 17.6881 4.55952 16.6608C3.02004 15.6336 1.88436 14.1043 1.34597 12.3336C0.807587 10.5628 0.899804 8.66021 1.60691 6.94985C2.31402 5.2395 3.59227 3.82722 5.22389 2.95363C6.85551 2.08005 8.73954 1.7992 10.555 2.15894C12.3705 2.51869 14.005 3.49676 15.1802 4.92653C16.3554 6.3563 16.9985 8.14931 17 10.0001H15C15.0012 8.61187 14.521 7.2662 13.6413 6.19236C12.7615 5.11852 11.5366 4.38297 10.1753 4.11103C8.81404 3.8391 7.40056 4.04761 6.17577 4.70105C4.95098 5.35448 3.99066 6.41239 3.45845 7.69452C2.92625 8.97665 2.85509 10.4037 3.25711 11.7324C3.65913 13.0611 4.50944 14.2093 5.66315 14.9813C6.81687 15.7533 8.20259 16.1014 9.58419 15.9663C10.9658 15.8311 12.2578 15.2211 13.24 14.2401L14.66 15.6601Z"
                   fill="#636363"
                 />
               </g>
@@ -901,7 +810,7 @@ const Orders: React.FC = () => {
           {/* All stores dropdown */}
           <div className="relative mr-2" ref={storesDropdownRef}>
             <button
-              className="bg-backgroundWhite rounded-custom px-4 py-2 flex items-center text-menuSubHeadingColor font-inter text-[12px] font-[500] border border-reloadBorder shadow-sm"
+              className="bg-backgroundWhite rounded-custom px-4 py-2 flex items-center text-menuSubHeadingColor font-inter text-[10px] md:text-[12px] lg:text-[12px] sm:text-[12px] xl:text-[12px] font-[500] border border-reloadBorder shadow-sm"
               onClick={() => setStoresDropdownOpen(!storesDropdownOpen)}
             >
               All stores
@@ -943,7 +852,7 @@ const Orders: React.FC = () => {
           {/* More actions dropdown */}
           <div className="relative mr-2" ref={actionsDropdownRef}>
             <button
-              className="bg-backgroundWhite rounded-custom px-4 py-2 flex items-center text-menuSubHeadingColor font-inter text-[12px] font-[500] border border-reloadBorder shadow-sm"
+              className="bg-backgroundWhite rounded-custom px-4 py-2 flex items-center text-menuSubHeadingColor font-inter text-[10px] md:text-[12px] lg:text-[12px] sm:text-[12px] xl:text-[12px] font-[500] border border-reloadBorder shadow-sm"
               onClick={() => setActionsDropdownOpen(!actionsDropdownOpen)}
             >
               More actions
@@ -978,7 +887,7 @@ const Orders: React.FC = () => {
 
           {/* Create order button */}
           <button
-            className="bg-bgButton text-whiteColor font-inter text-[12px] font-[600] border border-btnBorder rounded-md px-4 py-2 flex items-center shadow-sm"
+            className="bg-bgButton text-whiteColor font-inter text-[10px] w-full font-[600] border border-btnBorder rounded-md px-4 py-2 flex items-center shadow-sm"
             onClick={handleCreateOrder}
           >
             Create order
@@ -988,7 +897,7 @@ const Orders: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-3 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 mb-6 px-8">
+      <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 mb-6 px-8">
         <StatCard
           value="213"
           description="New Orders"
@@ -1119,15 +1028,135 @@ const Orders: React.FC = () => {
           onSelectRow={handleSelectRow}
           onSelectAll={handleSelectAll}
           searchPlaceholder="Search order"
-          hideToolbar={true}
+          hideToolbar={false}
           showActionColumn={false}
+          enableDateFilters={true}
+          densityFirst={true} // Change to false if you want export button before density
+          dateRange={{
+            label: `Feb 10–31, 2025`,
+            startDate: startDate,
+            endDate: endDate,
+            onDateChange: (start, end) => {
+              setStartDate(start);
+              setEndDate(end);
+              // Format the date range for display
+              const startObj = new Date(start);
+              const endObj = new Date(end);
+              const formattedStart = startObj.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              });
+              const formattedEnd = endObj.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+              // Apply date range filter
+              const filtered = filterByDateRange(orders, start, end);
+              setPaginatedData(filtered);
+            },
+          }}
+          densityOptions={{
+            currentDensity: density,
+            onDensityChange: (newDensity) => {
+              setDensity(newDensity);
+              // Apply any density-related styling changes here if needed
+            },
+          }}
         />
       </div>
-      <OrderDetailsModal
-        isOpen={isOrderDetailsModalOpen}
-        onClose={() => setIsOrderDetailsModalOpen(false)}
-        order={selectedOrderDetails}
+
+      {/* Column visibility menu */}
+      {showColumnMenu && (
+        <div
+          className="fixed inset-0 z-30 flex items-start justify-center pt-20"
+          onClick={() => setShowColumnMenu(false)}
+        >
+          <div
+            ref={columnMenuRef}
+            className="bg-white shadow-lg rounded-md w-64 p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="font-semibold mb-2">Visible Columns</h3>
+            <div className="space-y-2">
+              {columns.map((column) => (
+                <div key={column.field} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`col-${column.field}`}
+                    checked={visibleColumns.includes(column.field)}
+                    onChange={() => toggleColumnVisibility(column.field)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={`col-${column.field}`}>
+                    {column.headerName}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Filter menu */}
+      {showFilterMenu && (
+        <div
+          className="fixed inset-0 z-30 flex items-start justify-center pt-20"
+          onClick={() => setShowFilterMenu(false)}
+        >
+          <div
+            ref={filterMenuRef}
+            className="bg-white shadow-lg rounded-md w-80 p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="font-semibold mb-2">Filter Orders</h3>
+            <div className="space-y-4">
+              {columns.map((column) => (
+                <div key={column.field} className="space-y-1">
+                  <label className="block text-sm font-medium">
+                    {column.headerName}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder={`Filter by ${column.headerName.toLowerCase()}`}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        addFilter(
+                          column.field,
+                          (e.target as HTMLInputElement).value
+                        );
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+              <div className="flex justify-between">
+                <button
+                  className="px-3 py-1 bg-gray-100 rounded-md"
+                  onClick={clearAllFilters}
+                >
+                  Clear All
+                </button>
+                <button
+                  className="px-3 py-1 bg-blue-600 text-white rounded-md"
+                  onClick={() => setShowFilterMenu(false)}
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <OrderPopover
+        isOpen={popoverOpen}
+        onClose={() => setPopoverOpen(false)}
+        order={popoverOrder}
+        anchorEl={popoverAnchorEl}
       />
+
       {/* Modal */}
       {isModalOpen &&
         (modalMode === "payment" ? (
@@ -1137,7 +1166,7 @@ const Orders: React.FC = () => {
             mode="payment"
             onSave={handleSave}
             title={selectedOrder?.orderId || "Order Details"}
-            size="md"
+            size="sm"
             showFooter={true}
             paymentDetails={preparePaymentDetails()}
             confirmText="Save"
@@ -1150,7 +1179,7 @@ const Orders: React.FC = () => {
             onSave={handleSave}
             title={modalMode === "add" ? "Create Order" : "Edit Order"}
             fields={modalFields}
-            size="md"
+            size="sm"
             showToggle={false}
             confirmText={modalMode === "add" ? "Create" : "Save"}
           />

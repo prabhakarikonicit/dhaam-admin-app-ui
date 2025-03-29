@@ -11,7 +11,7 @@ const StatCard = ({ value, description, descriptionFirst = false, icon }: StatCa
     {icon ? (
       // Layout with icon
       <div className="flex items-center space-x-3">
-        <div className="flex-shrink-0 border border-custom4px p-4 bg-background-grey">
+        <div className="flex-shrink-0 border border- rounded-custom4px px-2 py-4 bg-background-grey">
           {icon}
         </div>
         <div>
