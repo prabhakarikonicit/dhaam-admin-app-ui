@@ -887,7 +887,7 @@ const Orders: React.FC = () => {
 
           {/* Create order button */}
           <button
-            className="bg-bgButton text-whiteColor font-inter text-[10px] w-full font-[600] border border-btnBorder rounded-md px-4 py-2 flex items-center shadow-sm"
+            className="bg-bgButton text-whiteColor font-inter text-[10px] md:text-[12px] lg:text-[12px] sm:text-[12px] xl:text-[12px] font-[600] border border-btnBorder rounded-md px-4 py-2 flex items-center shadow-sm"
             onClick={handleCreateOrder}
           >
             Create order

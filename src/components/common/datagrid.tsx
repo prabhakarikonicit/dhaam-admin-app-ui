@@ -509,7 +509,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
     if (!dateRange) return null;
 
     return (
-      <div className="relative ">
+      <div className="relative">
         <button
           className="flex items-center gap-2 text-[12px] font-inter font-[500] text-textHeading px-3 py-1"
           onClick={() => setShowDatePicker(!showDatePicker)}
