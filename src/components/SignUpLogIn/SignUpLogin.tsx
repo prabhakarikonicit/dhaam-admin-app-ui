@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Eye, Mail, ChevronDown, Lock } from "lucide-react";
 import Saly from "../../lib/Images/Saly-10.png";
+import DashboardLayout from "../Dashboard-ui/dashboard-ui";
+
 import BusinessSignup from "./BusinessSignup";
 import OTPVerification from "./OTPVerification";
 interface FormFieldProps {
@@ -10,7 +12,9 @@ interface FormFieldProps {
   prefix?: string;
   isRequired?: boolean;
 }
-
+interface SignUPLogINProps {
+  onLoginSuccess: (email: string) => void;
+}
 const FormField: React.FC<FormFieldProps> = ({
   type,
   placeholder,
@@ -117,8 +121,9 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 };
 
-const SignUPLogIN: React.FC = () => {
+const SignUPLogIN: React.FC<SignUPLogINProps> = ({ onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(false);
+
   const [showOTP, setShowOTP] = useState(false);
 
   const [showBusinessSignup, setShowBusinessSignup] = useState(false);
@@ -135,9 +140,12 @@ const SignUPLogIN: React.FC = () => {
   };
   const handleLoginClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsLogin(true);
-    setShowOTP(true);
-    setShowBusinessSignup(false);
+    if (onLoginSuccess) {
+      onLoginSuccess("user@example.com");
+    } else {
+      // Fallback behavior
+      setIsLogin(true);
+    }
   };
   return (
     <div className="flex flex-col  lg:flex-row md:gap-0 sm:gap-0 sm:flex-row min-h-screen mt-5 mb-5 sm:ms-5 lg:ms-5 me-5 ms-0 me-0">
