@@ -49,7 +49,7 @@ const Store: React.FC = () => {
   return (
     <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 p-4 rounded-md">
+      <div className="flex justify-between items-center mb-2 p-4 rounded-md mt-0 sm:mt-8 md:mt-8 lg:mt-8 xl:8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
           Store
         </h1>

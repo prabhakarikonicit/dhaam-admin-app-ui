@@ -31,7 +31,7 @@ const ColorPicker: React.FC<{
   // Color picker component that we'll reuse
   const ColorPickerControl = () => (
     <div 
-      className="flex items-center border rounded-md overflow-hidden cursor-pointer"
+      className="flex items-center border border-reloadBorder px-2 rounded-md overflow-hidden cursor-pointer"
       onClick={handleClick}
     >
       <input 
@@ -43,11 +43,11 @@ const ColorPicker: React.FC<{
         aria-label={`Choose ${label} color`}
       />
       <div 
-        className="w-8 h-8 flex items-center justify-center rounded-custom44px" 
+        className="w-9 h-8 flex items-center border justify-center rounded-custom44px" 
         style={{ backgroundColor: color }}
       ></div>
-      <div className="px-3 py-2 bg-white">
-        <span className="text-sm font-medium">{color.toUpperCase()}</span>
+      <div className="px-6 py-2 bg-white">
+        <span className="text-[14px]  font-inter font-[600] text-cardValue">{color.toUpperCase()}</span>
       </div>
     </div>
   );
@@ -57,7 +57,7 @@ const ColorPicker: React.FC<{
       <div className="flex flex-col md:flex-row sm:flex-row lg:flex-row xl:flex-row justify-between items-start w-full">
         {/* Mobile View */}
         <div className="md:hidden sm:hidden lg:hidden xl:hidden block w-full flex flex-wrap">
-          <h3 className=" text-[11px] font-inter font-[500] text-headding-color mb-1 ">{label}</h3>
+          <h3 className=" text-[11px] font-inter font-[500] text-textHeading mb-1 ">{label}</h3>
           <div className="flex justify-end w-full mt-[-28px] mb-1">
             <ColorPickerControl />
           </div>
@@ -73,7 +73,7 @@ const ColorPicker: React.FC<{
         {/* Desktop/Tablet View */}
         <div className="hidden md:flex sm:flex lg:flex xl:flex w-full items-start justify-between">
           <div className="w-3/5">
-            <h3 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[500] text-headding-color mb-1 ">{label}</h3>
+            <h3 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[500] text-textHeading mb-1 ">{label}</h3>
             
             {description && (
               <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2 pr-2">

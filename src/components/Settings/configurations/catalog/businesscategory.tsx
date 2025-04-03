@@ -266,9 +266,9 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
   };
 
   return (
-    <div className="max-w-full rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-lg p-1 md:p-0 lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mt-0 sm:mt-8 md:mt-8 lg:mt-12 xl:12">
       {/* Header */}
-      <div className="flex items-center justify-between p-6  border border-grey-border mt-2 rounded-custom12px bg-backgroundWhite">
+      <div className="flex items-center justify-between p-6 rounded-custom12px bg-backgroundWhite">
         <div className="flex items-center">
           <button
             onClick={onClose}

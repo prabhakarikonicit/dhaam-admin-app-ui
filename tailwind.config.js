@@ -31,7 +31,7 @@ module.exports = {
         cardTitle: "#949494",
         cardValue: "#212121",
         crossIcon: "#F09E9E",
-
+        grandTotal:"#0F0F0F",
         textHeading: "#2B2B2B",
         whiteColor: "#FFFFFF",
         progressBar: "#C084FC",
@@ -39,7 +39,7 @@ module.exports = {
         paragraphBlack: "#26203B",
         reloadBorder: "#C2C2C2",
         bgButton: "#7C43DF",
-
+        discountColor: "#BB1B1B",
         verifyOtp: "#333333",
         purpleColor: "#7C43DF",
         validationSucColor: "#575757",
@@ -52,6 +52,8 @@ module.exports = {
         green: "#125E1B",
         textGreen: "#177822",
         headingBlack: "000B33",
+        maroon: "#9C1616",
+
       },
       backgroundColor: {
         "background-grey": "#F5F5F5",
@@ -64,10 +66,12 @@ module.exports = {
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
         subMenus: "#F2F2F2",
+        orangeColor: "#FFF2CC",
         primary: "#EAEDFB",
         green: "#2C6333",
         yellow: "#FFD557",
         maroon: "#9C1616",
+        purple: "#F2ECFC",
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -77,6 +81,7 @@ module.exports = {
        borderGreeen:  "#788C7A",
         bgButton: "#7C43DF",
         cardTitle: "#949494",
+        
         menuSubHeadingColor: "#4F4F4F",
       },
       boxShadow: {

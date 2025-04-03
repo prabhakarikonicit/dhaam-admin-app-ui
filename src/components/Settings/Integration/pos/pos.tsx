@@ -179,8 +179,8 @@ const POS: React.FC = () => {
 
   return (
     <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="rounded-lg">
-        <div className="p-4 border-b flex justify-between items-center">
+      <div className="rounded-lg mt-0 sm:mt-6 md:mt-6 lg:mt-8">
+        <div className="p-4 md:px-1 sm:px-1 lg:px-1 xl:px-1 border-b flex justify-between items-center">
           <h2 className="text-[14px] font-inter font-[600] text-headding-color">POS</h2>
           <div className="flex space-x-4">
             <button className="px-4 py-2 text-[12px] font-inter font-[600] text- cardValue">Cancel</button>

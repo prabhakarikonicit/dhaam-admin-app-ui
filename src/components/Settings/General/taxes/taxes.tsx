@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PenSquare, Trash2 } from "lucide-react";
 import CustomDataGrid from "../../../common/datagrid";
 import ToggleSwitch from "../../../common/toggleSwitch";
-import CustomModal, { FieldDefinition } from "../../../common/modals"; 
+import CustomModal, { FieldDefinition } from "../../../common/modals";
 
 // Define the Tax interface
 interface Tax {
@@ -26,20 +26,20 @@ interface TaxManagementProps {
 const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
   // State for the main toggle
   const [taxesEnabled, setTaxesEnabled] = useState(true);
-  
+
   // State for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"add" | "edit" | "view" | "delete">("add");
   const [selectedTax, setSelectedTax] = useState<Tax | null>(null);
-  
+
   // Selected rows for DataGrid
   const [selectedMarketplaceRows, setSelectedMarketplaceRows] = useState<string[]>([]);
   const [selectedStoreRows, setSelectedStoreRows] = useState<string[]>([]);
-  
+
   // Notification state
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
-  
+
   // Sample data for marketplace taxes
   const [marketplaceTaxes, setMarketplaceTaxes] = useState<Tax[]>([
     {
@@ -107,7 +107,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       enabled: true,
     }
   ]);
-  
+
   // Sample data for store taxes
   const [storeTaxes, setStoreTaxes] = useState<Tax[]>([
     {
@@ -135,7 +135,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       enabled: true,
     }
   ]);
-  
+
   // Tax field definitions for modal
   const taxFields: FieldDefinition[] = [
     {
@@ -148,7 +148,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
     {
       id: "type",
       label: "Type",
-      
+
       placeholder: "e.g. Fixed",
       type: "select",
       options: [
@@ -159,7 +159,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       ],
       required: true,
     },
-    
+
     {
       id: "value",
       label: "Tax Value",
@@ -193,7 +193,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       ],
       required: true,
     },
-   
+
 
     {
       id: "serviceFeeAppliedOn",
@@ -207,7 +207,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       ],
       required: true,
     },
-    
+
     {
       id: "selectMerchant",
       label: "Select Merchant",
@@ -215,16 +215,16 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       placeholder: "e.g. VAT",
       required: true,
     },
- 
+
   ];
-  
+
   // Open modal to add or edit a tax
   const openModal = (mode: "add" | "edit" | "view" | "delete", tax?: Tax) => {
     setModalMode(mode);
     setSelectedTax(tax || null);
     setIsModalOpen(true);
   };
-  
+
   // Handle save from modal
   const handleSaveTax = (taxData: any) => {
     // Convert modal data to Tax format
@@ -243,7 +243,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       } else {
         setMarketplaceTaxes([...marketplaceTaxes, newTax]);
       }
-      
+
       // Show notification
       setNotificationMessage("New tax added successfully!");
       setShowNotification(true);
@@ -260,7 +260,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
           )
         );
       }
-      
+
       setNotificationMessage("Tax updated successfully!");
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
@@ -270,7 +270,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       } else {
         setMarketplaceTaxes(marketplaceTaxes.filter((tax) => tax.id !== selectedTax.id));
       }
-      
+
       setNotificationMessage("Tax deleted successfully!");
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
@@ -278,7 +278,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
 
     setIsModalOpen(false);
   };
-  
+
   // Toggle tax status
   const toggleTaxStatus = (id: string, section: "marketplace" | "store") => {
     if (section === "marketplace") {
@@ -295,7 +295,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       );
     }
   };
-  
+
   // Handle editing tax
   const handleEditTax = (row: any, section: "marketplace" | "store") => {
     const tax =
@@ -307,7 +307,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       openModal("edit", tax);
     }
   };
-  
+
   // Handle deleting tax
   const handleDeleteTax = (row: any) => {
     const tax = [...marketplaceTaxes, ...storeTaxes].find(t => t.id === row.id);
@@ -326,11 +326,12 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       width: "20%",
       renderCell: (value: string) => (
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
-            value === "Fixed"
-              ? "bg-blue-100 text-blue-800"
-              : "bg-green-100 text-green-800"
-          }`}
+          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[600] ${value === "Geofence"
+              ? "bg-blue-100 text-blue-800 "
+              : value === "Fixed"
+                ? "bg-blue-100 text-blue-800"
+                : "bg-customWhiteColor text-green"
+            }`}
         >
           {value}
         </span>
@@ -351,10 +352,10 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
               handleEditTax(row, section);
             }}
           />
-          <Trash2
+          {/* <Trash2
             className="w-4 h-4 text-red-600 cursor-pointer"
             onClick={() => handleDeleteTax(row)}
-          />
+          /> */}
         </div>
       ),
     },
@@ -417,7 +418,6 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
       case "add": return "Add New Tax";
       case "edit": return "Edit Tax";
       case "view": return "View Tax Details";
-      case "delete": return "Delete Tax";
       default: return "Tax";
     }
   };
@@ -425,7 +425,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
   return (
     <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-4 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">Taxes</h1>
         <div className="flex gap-4">
           <button
@@ -520,7 +520,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
               onSelectAll={handleSelectAllStore}
               onSelectRow={handleSelectRowStore}
               searchPlaceholder="Search taxes"
-              
+
               hideToolbar={false}
             //   showActionColumn={true}
             //   onEdit={(row) => handleEditTax(row, "store")}
@@ -550,23 +550,22 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
           } : undefined}
           onSave={handleSaveTax}
           title={getModalTitle()}
-          subtitle={modalMode === "delete" ? `Are you sure you want to delete ${selectedTax?.name}?` : undefined}
           // size="md"
           formLayout="grid"
-        gridColumns={2}
+          gridColumns={2}
 
           showToggle={modalMode !== "add" && modalMode !== "delete"}
           toggleLabel="Active"
           confirmText={
-            modalMode === "add" ? "Save" : 
-            modalMode === "edit" ? "Save Changes" : 
-            modalMode === "delete" ? "Delete" : 
-            modalMode === "view" ? "Close" : "OK"
+            modalMode === "add" ? "Save" :
+              modalMode === "edit" ? "Save Changes" :
+                modalMode === "delete" ? "Delete" :
+                  modalMode === "view" ? "Close" : "OK"
           }
         >
           {modalMode === "delete" && (
             <p className="text-gray-600">
-              This action cannot be undone. This will permanently delete the tax 
+              This action cannot be undone. This will permanently delete the tax
               <span className="font-medium"> {selectedTax?.name}</span> and remove all associated data.
             </p>
           )}

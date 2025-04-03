@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, Plus, Check, X } from "lucide-react";
 import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
+import UnifiedPopover from "../common/DetailsModal";
 
 interface Store {
   id: string;
@@ -11,6 +12,14 @@ interface Store {
   address: string;
   rating: number;
   status: "Active" | "Inactive";
+  amount: string; // Add this property as optional
+  items?: StoreItem[];
+}
+
+interface StoreItem {
+  name: string;
+  quantity: number;
+  price: string;
 }
 
 const Stores: React.FC = () => {
@@ -21,9 +30,32 @@ const Stores: React.FC = () => {
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [paginatedData, setPaginatedData] = useState<Store[]>([]);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
+    null
+  );
+  const [popoverStore, setPopoverStore] = useState<Store | null>(null);
   const [density, setDensity] = useState<
-      "compact" | "standard" | "comfortable"
-    >("standard");
+    "compact" | "standard" | "comfortable"
+  >("standard");
+
+  // Refs for outside click handling
+  const densityMenuRef = useRef<HTMLDivElement>(null);
+  const columnMenuRef = useRef<HTMLDivElement>(null);
+  const filterMenuRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
+  const storesDropdownRef = useRef<HTMLDivElement>(null);
+  const actionsDropdownRef = useRef<HTMLDivElement>(null);
+  const exportDropdownRef = useRef<HTMLDivElement>(null);
+
+  // UI state for dropdowns (adding these to fix the existing useEffect)
+  const [showDensityMenu, setShowDensityMenu] = useState(false);
+  const [showColumnMenu, setShowColumnMenu] = useState(false);
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [storesDropdownOpen, setStoresDropdownOpen] = useState(false);
+  const [actionsDropdownOpen, setActionsDropdownOpen] = useState(false);
+
   // Sample data initialization
   useEffect(() => {
     const mockStores: Store[] = [
@@ -34,6 +66,7 @@ const Stores: React.FC = () => {
         address: "6391 Elgin St. Celina, Delaware 10299",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "2",
@@ -42,6 +75,7 @@ const Stores: React.FC = () => {
         address: "8502 Preston Rd. Inglewood, Maine 98380",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "3",
@@ -50,6 +84,7 @@ const Stores: React.FC = () => {
         address: "3517 W. Gray St. Utica, Pennsylvania 57867",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "4",
@@ -58,6 +93,7 @@ const Stores: React.FC = () => {
         address: "4140 Parker Rd. Allentown, New Mexico 31134",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "5",
@@ -66,6 +102,7 @@ const Stores: React.FC = () => {
         address: "4517 Washington Ave. Manchester, Kentucky 39495",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "6",
@@ -74,6 +111,7 @@ const Stores: React.FC = () => {
         address: "2715 Ash Dr. San Jose, South Dakota 83475",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "7",
@@ -82,6 +120,7 @@ const Stores: React.FC = () => {
         address: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "8",
@@ -90,6 +129,7 @@ const Stores: React.FC = () => {
         address: "2715 Ash Dr. San Jose, South Dakota 83475",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "9",
@@ -98,6 +138,7 @@ const Stores: React.FC = () => {
         address: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
       {
         id: "10",
@@ -106,6 +147,7 @@ const Stores: React.FC = () => {
         address: "2118 Thornridge Cir. Syracuse, Connecticut 35624",
         rating: 4.21,
         status: "Active",
+        amount: "₹300.00",
       },
     ];
     setStores(mockStores);
@@ -120,6 +162,39 @@ const Stores: React.FC = () => {
     renderCell?: (value: any, row: any) => React.ReactNode;
   }
 
+  const handleStoreIdClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    store: Store
+  ) => {
+    event.stopPropagation();
+
+    const storeWithItems = {
+      ...store,
+      amount: "₹300.00", // Add this line to include amount
+      items: [
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+        {
+          name: "Chicken Burger",
+          quantity: 2,
+          price: "₹100.00",
+        },
+      ],
+    };
+
+    setPopoverAnchorEl(event.currentTarget);
+    setPopoverStore(storeWithItems);
+    setPopoverOpen(true);
+  };
+
   // DataGrid column definitions
   const columns: Column[] = [
     {
@@ -127,9 +202,9 @@ const Stores: React.FC = () => {
       headerName: "Store ID",
       width: "120px",
       renderCell: (value, row) => (
-        <div className="flex items-center">
+        <div className="flex items-center text-cardValue font-inter font-[500] text-[12px]">
           {value}
-          <button className="ml-2">
+          <button className="ml-2" onClick={(e) => handleStoreIdClick(e, row)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -151,7 +226,7 @@ const Stores: React.FC = () => {
     {
       field: "name",
       headerName: "Store",
-      width: "250px",
+      width: "280px",
     },
     {
       field: "status",
@@ -204,7 +279,7 @@ const Stores: React.FC = () => {
       headerName: "Rating",
       width: "120px",
       renderCell: (value, row) => (
-        <div className="flex items-center">
+        <div className="flex items-center text-cardValue font-inter font-[500] text-[12px]">
           <span className="text-yellow-500 mr-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +303,7 @@ const Stores: React.FC = () => {
       headerName: "Status",
       width: "120px",
       renderCell: (value, row) => (
-        <div className="px-3 py-1 rounded-custom4px bg-bgActive text-customWhiteColor font[12px] font-[600] font-inter text-center">
+        <div className="px-1 py-1 rounded-custom4px bg-bgActive text-customWhiteColor text-[12px] font-[600] font-inter text-center">
           {row.status}
         </div>
       ),
@@ -285,6 +360,7 @@ const Stores: React.FC = () => {
         address: data.address,
         rating: 0,
         status: data.status as "Active" | "Inactive",
+        amount: "₹300.00",
       };
       setStores((prev) => [...prev, newStore]);
       setPaginatedData((prev) => [...prev, newStore]);
@@ -294,8 +370,79 @@ const Stores: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  // Close dropdown menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        densityMenuRef.current &&
+        !densityMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowDensityMenu(false);
+      }
+      if (
+        columnMenuRef.current &&
+        !columnMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowColumnMenu(false);
+      }
+      if (
+        filterMenuRef.current &&
+        !filterMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowFilterMenu(false);
+      }
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target as Node)
+      ) {
+        setShowDatePicker(false);
+      }
+      if (
+        storesDropdownRef.current &&
+        !storesDropdownRef.current.contains(event.target as Node)
+      ) {
+        setStoresDropdownOpen(false);
+      }
+      if (
+        actionsDropdownRef.current &&
+        !actionsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setActionsDropdownOpen(false);
+      }
+      if (
+        exportDropdownRef.current &&
+        !exportDropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverOpen &&
+        popoverAnchorEl &&
+        event.target instanceof Node &&
+        !popoverAnchorEl.contains(event.target)
+      ) {
+        setPopoverOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popoverOpen, popoverAnchorEl]);
+
   return (
-    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto">
+    <div className="p-0 max-w-full rounded-l sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto bg-background-grey">
       {/* Header */}
       <div className="flex justify-between items-center mb-6 px-8 pt-8">
         <h1 className="text-[20px] font-inter font-[600] text-cardValue">
@@ -381,52 +528,188 @@ const Stores: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-3 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 mb-6 px-8">
-        <StatCard
-          value="213"
-          description="Active Store"
-          descriptionFirst={true}
-        />
-        <StatCard
-          value="245"
-          description="Inactive Stores"
-          descriptionFirst={true}
-        />
-        <StatCard
-          value="111"
-          description="Open Stores"
-          descriptionFirst={true}
-        />
-        <StatCard
-          value="164"
-          description="Closed Store"
-          descriptionFirst={true}
-        />
-        <StatCard value="164" description="Verified" descriptionFirst={true} />
-        <StatCard value="50" description="Customers per month" />
-      </div>
+      
+        <div className="grid grid-cols-3 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 px-8">
+          <StatCard
+            value="213"
+            description="Active Store"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M4 6V4H20V6H4ZM4 20V14H3V12L4 7H20L21 12V14H20V20H18V14H14V20H4ZM6 18H12V14H6V18Z"
+                  fill="#636363"
+                />
+              </svg>
+            }
+          />
+          <StatCard
+            value="245"
+            description="Inactive Stores"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+              >
+                <path
+                  d="M9.5333 6L7.5333 4H20.3333V6H9.5333ZM20.3333 16.8V14H21.3333V12L20.3333 7H10.5333L17.5333 14H18.3333V14.8L20.3333 16.8ZM22.4433 21.46L21.1733 22.73L14.3333 15.89V20H4.3333V14H3.3333V12L4.3333 7H5.4433L1.4433 3L2.7233 1.73L22.4433 21.46ZM12.3333 14H6.3333V18H12.3333V14Z"
+                  fill="#636363"
+                />
+              </svg>
+            }
+          />
+          <StatCard
+            value="111"
+            description="Open Stores"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+              >
+                <path
+                  d="M4.66669 6V4H20.6667V6H4.66669ZM4.66669 20V14H3.66669V12L4.66669 7H20.6667L21.6667 12V14H20.6667V20H18.6667V14H14.6667V20H4.66669ZM6.66669 18H12.6667V14H6.66669V18Z"
+                  fill="#636363"
+                />
+              </svg>
+            }
+          />
+          <StatCard
+            value="164"
+            description="Closed Store"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M20.4 6.28571C20.4 5.02857 19.32 4 18 4H15.6C14.94 4 14.4 4.51429 14.4 5.14286C14.4 5.77143 14.94 6.28571 15.6 6.28571H18V9.31429L13.824 14.2857H9.6V9.71429C9.6 9.08571 9.06 8.57143 8.4 8.57143H4.8C2.148 8.57143 0 10.6171 0 13.1429V15.4286C0 16.0571 0.54 16.5714 1.2 16.5714H2.4C2.4 18.4686 4.008 20 6 20C7.992 20 9.6 18.4686 9.6 16.5714H13.824C14.556 16.5714 15.24 16.2514 15.696 15.7143L19.872 10.7429C20.22 10.3314 20.4 9.82857 20.4 9.31429V6.28571ZM6 17.7143C5.34 17.7143 4.8 17.2 4.8 16.5714H7.2C7.2 17.2 6.66 17.7143 6 17.7143Z"
+                  fill="#636363"
+                />
+                <path
+                  d="M4.8 5.14286H8.4C9.06 5.14286 9.6 5.65714 9.6 6.28571C9.6 6.91429 9.06 7.42857 8.4 7.42857H4.8C4.14 7.42857 3.6 6.91429 3.6 6.28571C3.6 5.65714 4.14 5.14286 4.8 5.14286ZM20.4 13.1429C18.408 13.1429 16.8 14.6743 16.8 16.5714C16.8 18.4686 18.408 20 20.4 20C22.392 20 24 18.4686 24 16.5714C24 14.6743 22.392 13.1429 20.4 13.1429ZM20.4 17.7143C19.74 17.7143 19.2 17.2 19.2 16.5714C19.2 15.9429 19.74 15.4286 20.4 15.4286C21.06 15.4286 21.6 15.9429 21.6 16.5714C21.6 17.2 21.06 17.7143 20.4 17.7143Z"
+                  fill="#636363"
+                />
+              </svg>
+            }
+          />
+          <StatCard
+            value="164"
+            description="Verified"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_6994_51368)">
+                  <path
+                    d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
+                    fill="#636363"
+                  />
+                  <path
+                    d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
+                    fill="#636363"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6994_51368">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.333252)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            }
+          />
+          <StatCard
+            value="50"
+            description="Customers per month"
+            descriptionFirst={true}
+            icon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_6994_51368)">
+                  <path
+                    d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
+                    fill="#636363"
+                  />
+                  <path
+                    d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
+                    fill="#636363"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6994_51368">
+                    <rect
+                      width="24"
+                      height="24"
+                      fill="white"
+                      transform="translate(0.333252)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+            }
+          />
+        </div>
 
-      {/* Data grid section */}
-      <div className="px-8 pb-8 overflow-x-auto">
-        <CustomDataGrid
-          rows={paginatedData}
-          columns={columns}
-          selectedRows={selectedRows}
-          onSelectRow={handleSelectRow}
-          onSelectAll={handleSelectAll}
-          searchPlaceholder="Search store"
-          hideToolbar={false}
-          densityFirst={true} // Change to false if you want export button before density
-
-          densityOptions={{
-            currentDensity: density,
-            onDensityChange: (newDensity) => {
-              setDensity(newDensity);
-              // Apply any density-related styling changes here if needed
-            },
-          }}
-        />
-      </div>
+        {/* Data grid section */}
+        <div className="px-8 pb-8 overflow-x-auto bg-background-grey ">
+          <CustomDataGrid
+            rows={paginatedData}
+            columns={columns}
+            selectedRows={selectedRows}
+            onSelectRow={handleSelectRow}
+            onSelectAll={handleSelectAll}
+            searchPlaceholder="Search store"
+            hideToolbar={false}
+            densityFirst={true} // Change to false if you want export button before density
+            densityOptions={{
+              currentDensity: density,
+              onDensityChange: (newDensity) => {
+                setDensity(newDensity);
+                // Apply any density-related styling changes here if needed
+              },
+            }}
+          />
+        </div>
+     
+      <UnifiedPopover
+        isOpen={popoverOpen}
+        onClose={() => setPopoverOpen(false)}
+        data={popoverStore}
+        type="store"
+        anchorEl={popoverAnchorEl}
+      />
 
       {/* Modal */}
       {isModalOpen && (

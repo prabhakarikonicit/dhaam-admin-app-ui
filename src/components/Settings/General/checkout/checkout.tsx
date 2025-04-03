@@ -69,8 +69,8 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="flex items-center justify-between p-4">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible ">
+      <div className="flex items-center justify-between py-2 mt-0 sm:mt-4 md:mt-6 lg:mt-10 xl-mt-10">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Checkout
         </h2>
@@ -185,7 +185,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
 
         {/* Delivery Mode */}
         <div className="p-2">
-          <div className="border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px]">
+        <div className=" border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] p-1">
             <h3 className="text-[14px] font-inter font-[500] text-textHeading bg-background-grey p-2 ">
               Delivery Mode
             </h3>
@@ -232,7 +232,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
 
         {/* Delivery Time */}
         <div className="bg-background-grey rounded-lg p-2">
-          <div className="border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] ">
+        <div className=" border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] p-1">
             <h3 className="text-[14px] font-inter font-[500] text-textHeading bg-background-grey p-2">
               Delivery Time
             </h3>

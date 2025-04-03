@@ -77,7 +77,7 @@ const PermissionSection: React.FC<PermissionSectionProps> = ({
             {section.actions.map((action) => (
               <div
                 key={action.id}
-                className="flex items-center justify-between p-4 pl-8"
+                className="flex items-center justify-between p-4 pl-8 bg-white"
               >
                 <span className="text-[14px] font-inter text-gray-700">
                   {action.name}
@@ -92,10 +92,12 @@ const PermissionSection: React.FC<PermissionSectionProps> = ({
         )}
 
       {section.isCollapsible && isExpanded && (
+        <div className="bg-white p-4"> {/* Added bg-white here */}
         <div className="border-t border-gray-200 p-4">
           <div className="text-[14px] font-inter text-gray-600">
             Content for {section.name}
           </div>
+        </div>
         </div>
       )}
     </div>
@@ -324,7 +326,7 @@ const AddStaff: React.FC<{
             </div>
           </div>
           </div>
-          
+         
 
           <div className="mt-5">
           <h3 className="text-[14px] font-inter font-[600] text-headding-color mb-4 ms-2">
@@ -352,9 +354,9 @@ const AddStaff: React.FC<{
               </div>
 
               {/* Right Content */}
-              <div className="col-span-3 bg-backgroundWhite rounded-custom12px">{renderPermissionContent()}</div>
+              <div className="col-span-3 rounded-custom12px">{renderPermissionContent()}</div>
             </div>
-    
+   
        
       </div>
     </div>

@@ -3,12 +3,13 @@ import { ChevronDown, Plus, X } from "lucide-react";
 import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
-import OrderPopover from "../common/DetailsModal";
+import UnifiedPopover from "../common/DetailsModal";
 interface Order {
   id: string;
   orderId: string;
   amount: string;
-  status:
+  status?:
+    | ""
     | "Pending"
     | "Completed"
     | "Dispatched"
@@ -77,26 +78,27 @@ const Orders: React.FC = () => {
   const exportDropdownRef = useRef<HTMLDivElement>(null);
 
   // Sample data initialization with createdDate field
+  // Sample data initialization with proper status values
   useEffect(() => {
     const mockOrders: Order[] = [
       {
         id: "1",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Completed",
+        status: "", // First row shows "Pending"
         store: "Queenstown Public House",
         deliveryAddress: "6391 Elgin St. Celina, Delaware 10299",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
         paymentMethod: "Cash",
-        createdDate: "2025-02-12",
+        // createdDate: "2025-02-12",
       },
       {
         id: "2",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Pending",
+        status: "Pending", // Will show reject/accept icons
         store: "Plumed Horse",
         deliveryAddress: "8502 Preston Rd. Inglewood, Maine 98380",
         deliveryMode: "Home delivery",
@@ -109,7 +111,7 @@ const Orders: React.FC = () => {
         id: "3",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Dispatched",
+        status: "", // Will show reject/accept icons
         store: "King Lee's",
         deliveryAddress: "3517 W. Gray St. Utica, Pennsylvania 57867",
         deliveryMode: "Home delivery",
@@ -122,7 +124,7 @@ const Orders: React.FC = () => {
         id: "4",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Cancelled",
+        status: "", // Will show reject/accept icons
         store: "Marina Kitchen",
         deliveryAddress: "4140 Parker Rd. Allentown, New Mexico 31134",
         deliveryMode: "Home delivery",
@@ -135,7 +137,7 @@ const Orders: React.FC = () => {
         id: "5",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Out for delivery",
+        status: "", // Will show reject/accept icons
         store: "The Aviary",
         deliveryAddress: "4517 Washington Ave. Manchester, Kentucky 39495",
         deliveryMode: "Home delivery",
@@ -148,7 +150,7 @@ const Orders: React.FC = () => {
         id: "6",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Pending",
+        status: "", // Show as status badge
         store: "Crab Hut",
         deliveryAddress: "2715 Ash Dr. San Jose, South Dakota 83475",
         deliveryMode: "Home delivery",
@@ -161,7 +163,7 @@ const Orders: React.FC = () => {
         id: "7",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Completed",
+        status: "Completed", // Show as status badge
         store: "Brass Tacks",
         deliveryAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
         deliveryMode: "Home delivery",
@@ -174,7 +176,7 @@ const Orders: React.FC = () => {
         id: "8",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Out for delivery",
+        status: "Out for delivery", // Show as status badge
         store: "Bean Around the World Coffees",
         deliveryAddress: "2715 Ash Dr. San Jose, South Dakota 83475",
         deliveryMode: "Home delivery",
@@ -183,11 +185,12 @@ const Orders: React.FC = () => {
         paymentMethod: "UPI",
         createdDate: "2025-02-26",
       },
+      
       {
         id: "9",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Cancelled",
+        status: "Cancelled", // Show as status badge
         store: "Chewy Balls",
         deliveryAddress: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
         deliveryMode: "Home delivery",
@@ -200,14 +203,14 @@ const Orders: React.FC = () => {
         id: "10",
         orderId: "#20345",
         amount: "₹100.00",
-        status: "Out for delivery",
+        status: "Out for delivery", // Show as status badge
         store: "Proxi",
-        deliveryAddress: "2118 Thornridge Cir. Syracuse, Connecticut 35624",
+        deliveryAddress: "2118 Thornridge Cir. Syracuse, Connec...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
         paymentMethod: "Cash",
-        createdDate: "2025-02-28",
+        createdDate: "2025-02-27",
       },
     ];
     setOrders(mockOrders);
@@ -236,22 +239,101 @@ const Orders: React.FC = () => {
   }
 
   // Function to render status with appropriate styling
-  const renderStatus = (status: string) => {
-    const statusStyles: { [key: string]: string } = {
-      Pending: "bg-[#FFF7E6] text-[#DD9E06] border border-[#F5D78E]",
-      Completed: "bg-[#EAF8E9] text-[#1A8917] border border-[#A5E0A2]",
-      Dispatched: "bg-[#E9F1FB] text-[#3172D7] border border-[#A0C5F7]",
-      Cancelled: "bg-[#FFEAEA] text-[#DD0606] border border-[#F7A0A0]",
-      "Out for delivery": "bg-[#EAE9FB] text-[#3F31D7] border border-[#C3A0F7]",
+  const renderStatus = (
+    value: string,
+    row: Order,
+    rowIndex?: number
+  ): React.ReactNode => {
+    // Status styles for status badges
+    const statusStyles: {
+      [key: string]: {
+        textColor: string;
+        bgColor: string;
+      };
+    } = {
+      Pending: {
+        textColor: "text-yellow",
+        bgColor: "bg-orangeColor",
+      },
+      Completed: {
+        textColor: "text-green",
+        bgColor: "bg-customBackgroundColor",
+      },
+      "Out for delivery": {
+        textColor: "text-primary",
+        bgColor: "bg-primary",
+      },
+      Cancelled: {
+        textColor: "text-maroon",
+        bgColor: "bg-bgCrossIcon",
+      },
     };
 
+    // Reject icon (red X)
+    const rejectIcon = (
+      <div className="flex justify-center items-center w-8 h-8 rounded-custom border border-borderCrossIcon bg-bgCrossIcon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="14"
+          viewBox="0 0 15 14"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M3.50501 3.00501C3.77838 2.73165 4.2216 2.73165 4.49496 3.00501L7.49999 6.01004L10.505 3.00501C10.7784 2.73165 11.2216 2.73165 11.495 3.00501C11.7683 3.27838 11.7683 3.7216 11.495 3.99496L8.48994 6.99999L11.495 10.005C11.7683 10.2784 11.7683 10.7216 11.495 10.995C11.2216 11.2683 10.7784 11.2683 10.505 10.995L7.49999 7.98994L4.49496 10.995C4.2216 11.2683 3.77838 11.2683 3.50501 10.995C3.23165 10.7216 3.23165 10.2784 3.50501 10.005L6.51004 6.99999L3.50501 3.99496C3.23165 3.7216 3.23165 3.27838 3.50501 3.00501Z"
+            fill="#620E0E"
+          />
+        </svg>
+      </div>
+    );
+
+    // Accept icon (green checkmark)
+    const acceptIcon = (
+      <div className="flex justify-center items-center w-8 h-8 rounded-custom border border-borderGreeen bg-customBackgroundColor ml-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="15"
+          height="14"
+          viewBox="0 0 15 14"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M12.1949 3.70503C12.4683 3.97839 12.4683 4.42161 12.1949 4.69497L6.59495 10.295C6.32158 10.5683 5.87837 10.5683 5.605 10.295L2.805 7.49497C2.53163 7.22161 2.53163 6.77839 2.805 6.50503C3.07837 6.23166 3.52158 6.23166 3.79495 6.50503L6.09998 8.81005L11.205 3.70503C11.4784 3.43166 11.9216 3.43166 12.1949 3.70503Z"
+            fill="#125E1B"
+          />
+        </svg>
+      </div>
+    );
+
+    // For rows that should show status text badges (Pending, Completed, Out for delivery, Cancelled)
+    if (
+      value &&
+      ["Pending", "Completed", "Cancelled", "Out for delivery"].includes(value)
+    ) {
+      const statusConfig = statusStyles[value] || {
+        textColor: "text-gray-600",
+        bgColor: "bg-gray-100",
+      };
+
+      return (
+        <div
+          className={`px-3 py-1 rounded-custom80px  ${statusConfig.bgColor} ${statusConfig.textColor} 
+          font-inter text-[12px] font-[600] whitespace-nowrap inline-block`}
+        >
+          {value}
+        </div>
+      );
+    }
+
+    // For rows that should show the reject/accept icons (empty status value)
     return (
-      <div
-        className={`px-3 py-1 text-center rounded-custom4px font-inter text-[12px] font-[500] ${
-          statusStyles[status] || ""
-        }`}
-      >
-        {status}
+      <div className="flex items-center">
+        {rejectIcon}
+        {acceptIcon}
       </div>
     );
   };
@@ -268,7 +350,7 @@ const Orders: React.FC = () => {
     if (method === "Cash") {
       return (
         <div
-          className={`px-3 py-1 text-center rounded-custom4px font-inter text-[12px] font-[500] ${
+          className={`px-2 py-1 text-center whitespace-nowrap rounded-custom4px font-inter text-[12px] font-[500] ${
             methodStyles[method] || ""
           }`}
           onClick={() => handleOpenPaymentModal(row)}
@@ -282,7 +364,7 @@ const Orders: React.FC = () => {
 
     return (
       <div
-        className={`px-3 py-1 text-center rounded-custom4px font-inter text-[12px] font-[500] ${
+        className={`px-2 py-1 text-center whitespace-nowrap rounded-custom4px font-inter text-[12px] font-[500] ${
           methodStyles[method] || ""
         }`}
       >
@@ -368,10 +450,10 @@ const Orders: React.FC = () => {
     {
       field: "orderId",
       headerName: "Order ID",
-      width: "120px",
+      width: "20px",
       type: "text",
       renderCell: (value, row) => (
-        <div className="flex items-center">
+        <div className="flex items-center text-cardValue font-inter font-[500] text-[12px]">
           {value}
           <button className="ml-2" onClick={(e) => handleOrderIdClick(e, row)}>
             <svg
@@ -395,21 +477,26 @@ const Orders: React.FC = () => {
     {
       field: "amount",
       headerName: "Amount",
-      width: "120px",
+      width: "20px",
       type: "text",
     },
     {
       field: "status",
       headerName: "Status",
-      width: "150px",
+      width: "20px",
       type: "text",
-      renderCell: (value, row) => renderStatus(value),
+      renderCell: renderStatus,
     },
     {
       field: "store",
       headerName: "Store",
-      width: "250px",
+      width: "50px",
       type: "text",
+      renderCell: (value, row) => (
+        <div className="text-[12px] font-inter font-[500] text-cardValue whitespace-nowrap overflow-hidden text-ellipsis">
+          {value}
+        </div>
+      ),
     },
     {
       field: "deliveryAddress",
@@ -420,7 +507,7 @@ const Orders: React.FC = () => {
     {
       field: "deliveryMode",
       headerName: "Delivery Mode",
-      width: "150px",
+      width: "300px",
       type: "text",
     },
     {
@@ -435,25 +522,26 @@ const Orders: React.FC = () => {
           </div>
           <div className="text-[11px] font-[400] font-inter text-cardTitle ">
             {value}
+            
           </div>
         </div>
       ),
     },
-    {
-      field: "createdDate",
-      headerName: "Created Date",
-      width: "150px",
-      type: "date",
-      renderCell: (value, row) => (
-        <div className="text-[14px] font-inter font-[500] text-cardValue">
-          {value}
-        </div>
-      ),
-    },
+    // {
+    //   field: "createdDate",
+    //   headerName: "Created Date",
+    //   width: "150px",
+    //   type: "date",
+    //   renderCell: (value, row) => (
+    //     <div className="text-[14px] font-inter font-[500] text-cardValue">
+    //       {value}
+    //     </div>
+    //   ),
+    // },
     {
       field: "paymentMethod",
       headerName: "Payment Method",
-      width: "150px",
+      width: "100px",
       type: "text",
       renderCell: (value, row) => renderPaymentMethod(value, row),
     },
@@ -776,7 +864,7 @@ const Orders: React.FC = () => {
   }, [popoverOpen, popoverAnchorEl]);
 
   return (
-    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto">
+    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto bg-background-grey">
       {/* Header with search and buttons */}
       <div className="flex justify-between items-center mb-6 px-8 pt-8 ">
         <h1 className="text-[16px] md:text-[20px] lg:text-[20px] sm:text-[20px] xl:text-[20px] font-inter font-[600] text-cardValue">
@@ -793,14 +881,14 @@ const Orders: React.FC = () => {
               viewBox="0 0 20 20"
               fill="none"
             >
-              <g clip-path="url(#clip0_6609_58244)">
+              <g clip-path="url(#clip0_6819_55)">
                 <path
-                  d="M14.66 15.6601C13.352 16.9695 11.6305 17.7849 9.78879 17.9674C7.94705 18.1499 6.09901 17.6881 4.55952 16.6608C3.02004 15.6336 1.88436 14.1043 1.34597 12.3336C0.807587 10.5628 0.899804 8.66021 1.60691 6.94985C2.31402 5.2395 3.59227 3.82722 5.22389 2.95363C6.85551 2.08005 8.73954 1.7992 10.555 2.15894C12.3705 2.51869 14.005 3.49676 15.1802 4.92653C16.3554 6.3563 16.9985 8.14931 17 10.0001H15C15.0012 8.61187 14.521 7.2662 13.6413 6.19236C12.7615 5.11852 11.5366 4.38297 10.1753 4.11103C8.81404 3.8391 7.40056 4.04761 6.17577 4.70105C4.95098 5.35448 3.99066 6.41239 3.45845 7.69452C2.92625 8.97665 2.85509 10.4037 3.25711 11.7324C3.65913 13.0611 4.50944 14.2093 5.66315 14.9813C6.81687 15.7533 8.20259 16.1014 9.58419 15.9663C10.9658 15.8311 12.2578 15.2211 13.24 14.2401L14.66 15.6601Z"
+                  d="M14.66 15.6599C13.352 16.9694 11.6305 17.7848 9.78879 17.9673C7.94705 18.1497 6.09901 17.688 4.55952 16.6607C3.02004 15.6334 1.88436 14.1042 1.34597 12.3334C0.807587 10.5627 0.899804 8.66009 1.60691 6.94973C2.31402 5.23937 3.59227 3.8271 5.22389 2.95351C6.85551 2.07992 8.73954 1.79908 10.555 2.15882C12.3705 2.51856 14.005 3.49664 15.1802 4.92641C16.3554 6.35618 16.9985 8.14919 17 9.99995H15C15.0012 8.61175 14.521 7.26608 13.6413 6.19224C12.7615 5.1184 11.5366 4.38285 10.1753 4.11091C8.81404 3.83898 7.40056 4.04749 6.17577 4.70092C4.95098 5.35436 3.99066 6.41227 3.45845 7.6944C2.92625 8.97653 2.85509 10.4035 3.25711 11.7322C3.65913 13.061 4.50944 14.2092 5.66315 14.9812C6.81687 15.7532 8.20259 16.1013 9.58419 15.9662C10.9658 15.831 12.2578 15.2209 13.24 14.2399L14.66 15.6599ZM12 9.99995H20L16 13.9999L12 9.99995Z"
                   fill="#636363"
                 />
               </g>
               <defs>
-                <clipPath id="clip0_6609_58244">
+                <clipPath id="clip0_6819_55">
                   <rect width="20" height="20" fill="white" />
                 </clipPath>
               </defs>
@@ -897,7 +985,7 @@ const Orders: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 mb-6 px-8">
+      <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2  px-8">
         <StatCard
           value="213"
           description="New Orders"
@@ -1150,10 +1238,11 @@ const Orders: React.FC = () => {
         </div>
       )}
 
-      <OrderPopover
+      <UnifiedPopover
         isOpen={popoverOpen}
         onClose={() => setPopoverOpen(false)}
-        order={popoverOrder}
+        data={popoverOrder}
+        type="order"
         anchorEl={popoverAnchorEl}
       />
 

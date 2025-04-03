@@ -48,8 +48,53 @@ const BillingForm: React.FC = () => {
   const [modalMode, setModalMode] = useState<
     "add" | "edit" | "view" | "delete"
   >("add");
-  const [selectedBilling, setSelectedBilling] = useState<Tax | null>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddCardModalOpen, setIsAddCardModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<BillingItem | null>(null);
+  const [showTransactionDetails, setShowTransactionDetails] = useState(false);
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    expiry: "",
+    cvv: "",
+    fullName: "",
+    address: "",
+    street: "",
+    zipCode: "",
+  });
+  const handleCardInputChange = (e: { target: { name: any; value: any } }) => {
+    setCardDetails({
+      ...cardDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleTransactionClick = (transaction: BillingItem) => {
+    const selectedBilling = billingData.find(
+      (item) => item.id === transaction.id
+    );
+    if (selectedBilling) {
+      setSelectedTransaction(selectedBilling);
+      setShowTransactionDetails(true);
+    }
+  };
+
+  const handleMenuClick = () => {
+    setIsMenuModalOpen(!isMenuModalOpen);
+  };
+
+  const handleAddCard = () => {
+    console.log("Card added:", cardDetails);
+    setIsAddCardModalOpen(false);
+    // Add logic to save card details
+  };
+
+  // Just for demo - this would normally show the main modal
+  const handleOpenMainModal = () => {
+    setIsModalOpen(true);
+  };
 
   interface Tax {
     id: string;
@@ -60,20 +105,39 @@ const BillingForm: React.FC = () => {
     enabled: boolean;
   }
 
+  const [selectedBilling, setSelectedBilling] = useState<Tax | null>(null);
+
   const billingData: BillingItem[] = Array(10)
     .fill(null)
-    .map((_, i) => ({
-      id: `row-${i}`,
-      billNumber: "#327702783",
-      billType: "Startup plan billing",
-      status: i === 4 ? "Pending" : i === 5 ? "Failed" : "Paid",
-      amount: 19.0,
-      date: "January 26",
-      time: "06:30 PM",
-    }));
+    .map((_, i) => {
+      // Define an array of dates for each row
+      const dates = [
+        "January 26", // 1st row: Jan 2nd
+        "February 26", // 2nd row: Feb 3rd
+        "March 26", // 3rd row: March 4th
+        "April 26", // 4th row: April 5th
+        "May 26", // 5th row: May 6th
+        "June 26", // 6th row: June 7th
+        "July 26", // 7th row: July 8th
+        "August 26", // 8th row: August 9th
+        "September 26", // 9th row: September 10th
+        "October 26", // 10th row: October 11th
+      ];
+
+      return {
+        id: `row-${i}`,
+        billNumber: "#327702783",
+        billType: "Startup plan billing",
+        status: i === 4 ? "Pending" : i === 5 ? "Failed" : "Paid",
+        amount: 19.0,
+        date: dates[i], // Assign the corresponding date from the array
+        time: "06:30 PM",
+      };
+    });
 
   const columns: Column[] = [
     { field: "billNumber", headerName: "Billing Number" },
+
     { field: "billType", headerName: "Bill Type" },
     { field: "status", headerName: "Status" },
     { field: "amount", headerName: "Amount" },
@@ -98,6 +162,21 @@ const BillingForm: React.FC = () => {
     }
   };
 
+  // Inside your BillingForm component, add this calculation:
+  const calculateGrandTotal = (transaction: BillingItem) => {
+    const tax = transaction.amount * 0.18; // Assuming 18% tax
+    const processingFee = 2.0;
+    const platformFee = 1.0;
+
+    return {
+      subtotal: transaction.amount,
+      tax,
+      processingFee,
+      platformFee,
+      grandTotal: transaction.amount + tax + processingFee + platformFee,
+    };
+  };
+
   const handleSelectRow = (id: string): void => {
     setSelectedRows((prev) =>
       prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
@@ -106,7 +185,7 @@ const BillingForm: React.FC = () => {
 
   return (
     <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Billing
         </h2>
@@ -196,27 +275,40 @@ const BillingForm: React.FC = () => {
         </div>
 
         {/* Past Bills */}
-        <div>
-          <h3 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-4 ">
-            Past bills
-          </h3>
+        <div className="bg-backgroundWhite border border-grey-border px-6 py-4 rounded-custom12px">
+          <div>
+            <h3 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-4">
+              Past bills
+            </h3>
 
-          <div className="overflow-x-auto">
-            <CustomDataGrid
-              columns={[
-                { field: "billNumber", headerName: "Billing Number" },
-                { field: "billType", headerName: "Bill Type" },
-                { field: "status", headerName: "Status" },
-                { field: "amount", headerName: "Amount" },
-                { field: "date", headerName: "Payment Date" },
-              ]}
-              rows={billingData}
-              pageSize={10}
-              onSelectAll={handleSelectAll}
-              onSelectRow={handleSelectRow}
-              selectedRows={selectedRows}
-              searchPlaceholder="Search Invoice"
-            />
+            <div className="overflow-x-auto">
+              <CustomDataGrid
+                columns={[
+                  {
+                    field: "billNumber",
+                    headerName: "Billing Number",
+                    renderCell: (value, row) => (
+                      <div
+                        className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline"
+                        onClick={() => handleTransactionClick(row)}
+                      >
+                        {value}
+                      </div>
+                    ),
+                  },
+                  { field: "billType", headerName: "Bill Type" },
+                  { field: "status", headerName: "Status" },
+                  { field: "amount", headerName: "Amount" },
+                  { field: "date", headerName: "Payment Date" },
+                ]}
+                rows={billingData}
+                pageSize={10}
+                onSelectAll={handleSelectAll}
+                onSelectRow={handleSelectRow}
+                selectedRows={selectedRows}
+                searchPlaceholder="Search Invoice"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -242,7 +334,10 @@ const BillingForm: React.FC = () => {
                 <p className="text-[12px] font-inter font-[500] text-headding-color">
                   For purchases and bills in Dhaam
                 </p>
-                <button className="px-4 py-2 mt-[-20px] border border-gray-300 text-[12px] font-inter font-medium rounded-lg hover:bg-gray-50">
+                <button
+                  onClick={() => setIsAddCardModalOpen(true)}
+                  className="px-4 py-2 text-[12px] border border-gray-300 text-xs font-inter font-[600] rounded-lg hover:bg-gray-50"
+                >
                   Add new card
                 </button>
               </div>
@@ -292,7 +387,10 @@ const BillingForm: React.FC = () => {
                       Primary
                     </span>
                   </div>
-                  <button className="text-gray-500 hover:text-gray-700">
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={handleMenuClick}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -338,6 +436,334 @@ const BillingForm: React.FC = () => {
           </div>
         }
       />
+
+      <button
+        className="text-gray-500 hover:text-gray-700"
+        onClick={handleMenuClick}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+            stroke="#636363"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+            stroke="#636363"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+            stroke="#636363"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {/* Add New Card Modal */}
+      {isAddCardModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl w-full max-w-4xl shadow-xl rounded-t-3xl">
+            {" "}
+            {/* Slightly wider */}
+            <div className="px-6 py-4 flex justify-between bg-background-grey items-center border-b border-gray-200 rounded-t-3xl">
+              <h2 className="text-[16px] font-inter font-[600] leading-[150%]">
+                Add new card
+              </h2>
+              <button
+                onClick={() => setIsAddCardModalOpen(false)}
+                className="text-headding-color hover:text-gray-700 text-2xl font-extrabold"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="mb-3">
+                {" "}
+                {/* Reduced spacing */}
+                <div className="flex items-center border border-gray-300 rounded-lg p-3">
+                  <div className="mr-2">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        stroke="#9CA3AF"
+                        strokeWidth="2"
+                      />
+                      <path d="M2 10H22" stroke="#9CA3AF" strokeWidth="2" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    name="cardNumber"
+                    value={cardDetails.cardNumber}
+                    onChange={handleCardInputChange}
+                    placeholder="Card Number"
+                    className="flex-1 border-none focus:outline-none text-[14px] font-inter font-[400] leading-[150%]"
+                  />
+                </div>
+              </div>
+
+              <div className="flex mb-3 gap-4">
+                {" "}
+                {/* Reduced spacing */}
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    name="expiry"
+                    value={cardDetails.expiry}
+                    onChange={handleCardInputChange}
+                    placeholder="MM/YY"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                  />
+                </div>
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    name="cvv"
+                    value={cardDetails.cvv}
+                    onChange={handleCardInputChange}
+                    placeholder="CVV"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3">
+                {" "}
+                {/* Reduced spacing */}
+                <input
+                  type="text"
+                  name="fullName"
+                  value={cardDetails.fullName}
+                  onChange={handleCardInputChange}
+                  placeholder="Full Name"
+                  className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                />
+              </div>
+
+              <div className="mb-3">
+                {" "}
+                {/* Reduced spacing */}
+                <input
+                  type="text"
+                  name="address"
+                  value={cardDetails.address}
+                  onChange={handleCardInputChange}
+                  placeholder="Address"
+                  className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                />
+              </div>
+
+              <div className="flex mb-3 gap-4">
+                {" "}
+                {/* Reduced spacing */}
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    name="street"
+                    value={cardDetails.street}
+                    onChange={handleCardInputChange}
+                    placeholder="Street"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                  />
+                </div>
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    name="zipCode"
+                    value={cardDetails.zipCode}
+                    onChange={handleCardInputChange}
+                    placeholder="Zip Code"
+                    className="w-full p-3 border border-gray-300 rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="p-4 flex justify-end">
+              <button
+                onClick={handleAddCard}
+                className="px-6 py-2 bg-bgButton text-white rounded-lg text-[14px] font-inter font-[400] leading-[150%]"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showTransactionDetails && selectedTransaction && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-end">
+          <div className="bg-white w-full sm:w-96 h-full overflow-y-auto mt-5 mr-2 rounded-custom12px">
+            <div className="p-3 flex justify-between border-b bg-background-grey mb-5">
+              <h2 className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline">
+                {selectedTransaction.billNumber}
+                <span
+                  className={`ml-2 px-2 py-1 text-[12px] font-inter rounded-custom80px ${
+                    selectedTransaction.status === "Paid"
+                      ? "bg-green text-customWhiteColor"
+                      : selectedTransaction.status === "Pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {selectedTransaction.status}
+                </span>
+              </h2>
+              <button
+                onClick={() => setShowTransactionDetails(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M5.15225 5.15152C5.62088 4.68289 6.38068 4.68289 6.84931 5.15152L12.0008 10.303L17.1523 5.15152C17.6209 4.68289 18.3807 4.68289 18.8493 5.15152C19.3179 5.62015 19.3179 6.37995 18.8493 6.84858L13.6978 12L18.8493 17.1515C19.3179 17.6202 19.3179 18.3799 18.8493 18.8486C18.3807 19.3172 17.6209 19.3172 17.1523 18.8486L12.0008 13.6971L6.84931 18.8486C6.38068 19.3172 5.62088 19.3172 5.15225 18.8486C4.68362 18.3799 4.68362 17.6202 5.15225 17.1515L10.3037 12L5.15225 6.84858C4.68362 6.37995 4.68362 5.62015 5.15225 5.15152Z"
+                    fill="#636363"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-4">
+              <div className="mb-4">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  Bill Type
+                </p>
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  {selectedTransaction.billType}
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  Payment Date
+                </p>
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  {selectedTransaction.date}
+                </p>
+                <p className="text-[11px] font-inter font-[400] text-cardTitle leading-[14.3px]">
+                  {selectedTransaction.time}
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  Amount
+                </p>
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
+                  ${selectedTransaction.amount.toFixed(2)}
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+                  Status
+                </p>
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
+                  {selectedTransaction.status}
+                </p>
+              </div>
+
+              <div className="mt-8 p-4 bg-backgroundWhite border border-grey-border rounded-custom8px">
+                <h3 className="text-[12px] font-inter font-[500] mb-2 text-headding-color">
+                  Bill Summary
+                </h3>
+                <div className="flex justify-between mb-2">
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    Subtotal:
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    ${selectedTransaction.amount.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    Tax (18%):
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    ${(selectedTransaction.amount * 0.18).toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    Processing Fee:
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    $2.00
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    Platform Fee:
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    $1.00
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    Delivery Charge:
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-cardValue">
+                    $10.00
+                  </span>
+                </div>
+                {/* Added discount section from 1st code */}
+                <div className="flex justify-between text-red-500 border-b border-grey-border">
+                  <span className="text-[12px] font-inter font-[500] text-discountColor">
+                    Discount:
+                  </span>
+                  <span className="text-[12px] font-inter font-[500] text-discountColor">
+                    - $30.00
+                  </span>
+                </div>
+                {/* Added grand total section from 1st code */}
+                <div className="flex justify-between bg-background-grey py-2 px-2 mt-2">
+                  <span className="font-inter font-[14px] font-[600] text-grandTotal">
+                    Grand Total:
+                  </span>
+                  <span className="font-inter font-[14px] font-[600] text-grandTotal">
+                    $
+                    {(
+                      selectedTransaction.amount +
+                      selectedTransaction.amount * 0.18 +
+                      2.0 +
+                      1.0
+                    ).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
