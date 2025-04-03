@@ -479,9 +479,9 @@ const MarketplaceFiles: React.FC = () => {
   };
 
   return (
-    <div className="p-0 max-w-full rounded-lg p-1 md:p-6  lg:p-6 lg:p-6 xl:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="p-0 max-w-full rounded-lg p-1 md:p-0 lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex items-center p-4 border-b ">
+      <div className="flex items-center p-4 border-b mt-0 sm:mt-10 md:mt-10 lg:mt-10 xl:10 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <button className="mr-2  rounded-custom border border-reloadBorder p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -506,16 +506,16 @@ const MarketplaceFiles: React.FC = () => {
       {/* Sub header with tabs */}
       <div className="bg-backgroundWhite flex items-center justify-between p-4">
         <div className="flex items-center">
-          <button className="font-medium text-textHeading border-blue-600">
+          <button className="font-inter font-[600] font-[14px] text-textHeading">
             Files
           </button>
           {/* Add more tab buttons here if needed */}
         </div>
 
         <div className="flex items-center">
-          <div className="relative mr-2">
+          <div className="relative mr-2 border border-grey-border rounded-custom7px">
             <svg
-              className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="w-5 h-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -532,12 +532,12 @@ const MarketplaceFiles: React.FC = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search image or video"
-              className="pl-10 pr-2 py-2 w-48 md:w-64 border border-gray-200 rounded-lg text-sm"
+              className="pl-10 pr-2 py-2 w-48 md:w-64 border border-gray-200 font-inter rounded-lg text-[12px] font-[400] text-cardTitle"
             />
           </div>
           <button
             onClick={handleAddFile}
-            className="px-4 py-2 bg-bgButton text-white font-medium rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="px-4 py-2 bg-bgButton text-whiteColor font-inter rounded-custom focus:outline-none focus:ring-2 focus:ring-purple-500"
           >
             Add
           </button>

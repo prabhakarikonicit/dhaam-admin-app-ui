@@ -853,15 +853,15 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
         timeSlots: prev[day].timeSlots.map((slot) =>
           slot.id === slotId
             ? {
-                ...slot,
-                [field]:
-                  field === "type" ? (value as "Fixed" | "Percentage") : value,
-                // Reset value when type changes to ensure valid options
-                ...(field === "type" && {
-                  value:
-                    value === "Fixed" ? fixedValues[0] : percentageValues[0],
-                }),
-              }
+              ...slot,
+              [field]:
+                field === "type" ? (value as "Fixed" | "Percentage") : value,
+              // Reset value when type changes to ensure valid options
+              ...(field === "type" && {
+                value:
+                  value === "Fixed" ? fixedValues[0] : percentageValues[0],
+              }),
+            }
             : slot
         ),
       },
@@ -879,9 +879,8 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
           )}
           {title && (
             <div
-              className={`${
-                !title ? "ml-auto" : ""
-              } mt-4 md:mt-0 sm:mt-0 lg:mt-0 xl:mt-0`}
+              className={`${!title ? "ml-auto" : ""
+                } mt-4 md:mt-0 sm:mt-0 lg:mt-0 xl:mt-0`}
             >
               <ToggleSwitch
                 checked={settings.surgeDelivery}
@@ -991,26 +990,27 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
                                     />
                                   </div>
                                 )}
-
-                                <div className="relative md:mx-2 sm:mx-2 lg:mx-2 xl:mx-2 ">
-                                  <CustomDropdown
-                                    options={
-                                      slot.type === "Fixed"
-                                        ? fixedValues
-                                        : percentageValues
-                                    }
-                                    value={slot.value}
-                                    onChange={(value) =>
-                                      handleTimeSlotChange(
-                                        day,
-                                        slot.id,
-                                        "value",
-                                        value
-                                      )
-                                    }
-                                    width="md:w-[104px] ms-4 sm:w-[104px] lg:w-[104px] xl:w-[104px]"
-                                  />
-                                </div>
+                                {!title ? null : (
+                                  <div className="relative md:mx-2 sm:mx-2 lg:mx-2 xl:mx-2 ">
+                                    <CustomDropdown
+                                      options={
+                                        slot.type === "Fixed"
+                                          ? fixedValues
+                                          : percentageValues
+                                      }
+                                      value={slot.value}
+                                      onChange={(value) =>
+                                        handleTimeSlotChange(
+                                          day,
+                                          slot.id,
+                                          "value",
+                                          value
+                                        )
+                                      }
+                                      width="md:w-[104px] ms-4 sm:w-[104px] lg:w-[104px] xl:w-[104px]"
+                                    />
+                                  </div>
+                                )}
                               </div>
 
                               {/* Action buttons */}

@@ -48,10 +48,10 @@ const Zapier: React.FC<ZapierProps> = ({ onLearnMore }) => {
   };
 
   return (
-    <div className="max-w-full p-4">
-      <div className="p-4 rounded-md">
+    <div className="max-w-full">
+      <div className="mt-0 mt-0 sm:mt-12 md:mt-12 lg:mt-12 md:px-1 sm:px-1 lg:px-1 xl:px-1 rounded-md">
         <div className="flex justify-between items-center">
-          <h1 className="text-[14px] font-inter font-[600] text-verifyOtp">Zapier</h1>
+          <h1 className="text-[14px] font-inter font-[600] text-headding-color">Zapier</h1>
           <button
             onClick={onLearnMore}
             className="text-[12px] font-inter font-[600] text-paragraphBlack"

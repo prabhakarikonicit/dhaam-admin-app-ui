@@ -4,6 +4,8 @@ import CustomDataGrid from "../../../common/datagrid";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import CustomModal, { FieldDefinition } from "../../../common/modals";
 
+import LoctionImg from '../../../../lib/Images/location.png'
+
 // Define the Location interface
 interface Location {
   id: string;
@@ -65,31 +67,31 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
     initialCities.length > 0
       ? initialCities
       : [
-          {
-            id: "1",
-            name: "Delhi",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            chargeType: "Fixed",
-            isActive: true,
-          },
-          {
-            id: "2",
-            name: "Delhi",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            chargeType: "Fixed",
-            isActive: false,
-          },
-          {
-            id: "3",
-            name: "Delhi",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            chargeType: "Fixed",
-            isActive: true,
-          },
-        ]
+        {
+          id: "1",
+          name: "Delhi",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "2",
+          name: "Delhi",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          chargeType: "Fixed",
+          isActive: false,
+        },
+        {
+          id: "3",
+          name: "Delhi",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+      ]
   );
 
   // Sample data for geofences
@@ -97,34 +99,34 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
     initialGeofences.length > 0
       ? initialGeofences
       : [
-          {
-            id: "1",
-            name: "Green zone - 1",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            type: "Geofence",
-            createdOn: "Mar 1, 2025",
-            isActive: true,
-          },
-          {
-            id: "2",
-            name: "Green zone - 1",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            type: "Percentage",
-            createdOn: "Mar 1, 2025",
-            isActive: false,
-          },
-          {
-            id: "3",
-            name: "Green zone - 1",
-            description:
-              "This zone is ideal for outdoor activities and gatherings.",
-            type: "Fixed",
-            createdOn: "Mar 1, 2025",
-            isActive: true,
-          },
-        ]
+        {
+          id: "1",
+          name: "Green zone - 1",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          type: "Geofence",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "2",
+          name: "Green zone - 1",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          type: "Percentage",
+          createdOn: "Mar 1, 2025",
+          isActive: false,
+        },
+        {
+          id: "3",
+          name: "Green zone - 1",
+          description:
+            "This zone is ideal for outdoor activities and gatherings.",
+          type: "Fixed",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+      ]
   );
 
   // City field definitions for modal
@@ -164,6 +166,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       type: "text",
       placeholder: "Enter geofence name",
       required: true,
+      
     },
     {
       id: "description",
@@ -340,9 +343,8 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       width: "15%",
       renderCell: (value: boolean) => (
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
-            value ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
-          }`}
+          className={`px-3 py-1 rounded-full text-sm ${value ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+            }`}
         >
           {value ? "Active" : "Inactive"}
         </span>
@@ -390,13 +392,12 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       width: "15%",
       renderCell: (value: string) => (
         <span
-          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[600] ${
-            value === "Geofence"
-              ? "bg-blue-100 text-blue-800 "
-              : value === "Fixed"
+          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[600] ${value === "Geofence"
+            ? "bg-blue-100 text-blue-800 "
+            : value === "Fixed"
               ? "bg-blue-100 text-blue-800"
               : "bg-customWhiteColor text-green"
-          }`}
+            }`}
         >
           {value}
         </span>
@@ -478,8 +479,8 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
   const MapComponent = () => (
     <div className="mt-4 border rounded-md overflow-hidden" style={{ height: '400px' }}>
       <div className="w-full h-full bg-gray-100 relative">
-        <div 
-          className="absolute" 
+        <div
+          className="absolute"
           style={{
             top: '50%',
             left: '70%',
@@ -491,10 +492,10 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
             zIndex: 10
           }}
         ></div>
-        
-        <img 
-          src="/api/placeholder/1200/400" 
-          alt="Map for geofence selection" 
+       
+        <img
+          src="/api/placeholder/1200/400"
+          alt="Map for geofence selection"
           className="w-full h-full object-cover"
           style={{ opacity: 0.9 }}
         />
@@ -506,7 +507,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
   return (
     <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 ">
+      <div className="flex justify-between items-center p-4 mt-0 sm:mt-6 md:mt-8 lg:mt-10 xl-mt-12">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
           Location
         </h1>
@@ -542,9 +543,9 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "geofence")}
-              // onDelete={(row) => handleDeleteItem(row, "geofence")}
+            // onDelete={(row) => handleDeleteItem(row, "geofence")}
             />
-          
+
           </div>
         </div>
         {/* Cities Section */}
@@ -575,7 +576,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               hideToolbar={false}
               showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "cities")}
-              // onDelete={(row) => handleDeleteItem(row, "cities")}
+            // onDelete={(row) => handleDeleteItem(row, "cities")}
             />
           </div>
         </div>
@@ -678,16 +679,36 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
                     <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
                       Type <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      id="geofence-type"
-                      className="w-full px-3 py-4 border borde-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder appearance-none bg-white"
-                      defaultValue={selectedItem?.type || "Geofence"}
-                      required
-                    >
-                      <option value="Geofence">Geofence</option>
-                      <option value="Fixed">Fixed</option>
-                      <option value="Percentage">Percentage</option>
-                    </select>
+                    <div className="relative font-inter">
+                      <select
+                        id="geofence-type"
+                        className="w-full px-3 py-4 border borde-reloadBorder text-[12px] font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-black appearance-none bg-white pr-10"
+                        defaultValue={selectedItem?.type || "Geofence"}
+                        required
+                      >
+                        <option value="Geofence" className="text-[12px] font-inter">Geofence</option>
+                        <option value="Fixed" className="text-[12px] font-inter">Fixed</option>
+                        <option value="Percentage" className="text-[12px] font-inter">Percentage</option>
+                      </select>
+
+                      {/* Tightly stacked up/down arrows */}
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex flex-col items-center justify-center px-2 text-gray-700 h-full space-y-0">
+                        <svg
+                          className="fill-current h-5 w-5 -mb-3"  // Negative margin bottom
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M5.293 7.293l1.414 1.414L10 5.414l3.293 3.293 1.414-1.414L10 2.586l-4.707 4.707z" />
+                        </svg>
+                        <svg
+                          className="fill-current h-5 w-5 -mt-0.5"  // Negative margin top
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M14.707 12.707l-1.414-1.414L10 14.586l-3.293-3.293-1.414 1.414L10 17.414l4.707-4.707z" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -714,7 +735,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
 
                     {/* Map placeholder - in a real implementation, this would be replaced with an actual map component */}
                     <img
-                      src="/api/placeholder/1600/800"
+                      src={LoctionImg}
                       alt="Map for geofence selection"
                       className="w-full h-full object-cover"
                     />
@@ -742,9 +763,9 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
             item={
               selectedItem
                 ? {
-                    ...selectedItem,
-                    isActive: selectedItem.isActive,
-                  }
+                  ...selectedItem,
+                  isActive: selectedItem.isActive,
+                }
                 : undefined
             }
             onSave={handleSaveItem}
@@ -761,12 +782,12 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               modalMode === "add"
                 ? "Save"
                 : modalMode === "edit"
-                ? "Save Changes"
-                : modalMode === "delete"
-                ? "Delete"
-                : modalMode === "view"
-                ? "Close"
-                : "OK"
+                  ? "Save Changes"
+                  : modalMode === "delete"
+                    ? "Delete"
+                    : modalMode === "view"
+                      ? "Close"
+                      : "OK"
             }
           >
             {modalMode === "delete" && (

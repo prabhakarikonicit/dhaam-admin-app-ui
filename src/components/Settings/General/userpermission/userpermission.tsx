@@ -118,8 +118,8 @@ const UserPermission: React.FC = () => {
   };
 
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="mb-8">
+    <div className="max-w-full rounded-custom12px p-4 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+      <div className="mb-8 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           User Permission
         </h2>
@@ -155,7 +155,7 @@ const UserPermission: React.FC = () => {
                   headerName: "Staff Name",
                   width: "200px",
                   renderCell: (value) => (
-                    <span className="text-blue-600 hover:underline">
+                    <span className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline">
                       {value}
                     </span>
                   ),
