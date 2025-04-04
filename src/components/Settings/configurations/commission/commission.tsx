@@ -312,11 +312,11 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
             onClick={onCancel}
             className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
-            Cancel
+            Discard
           </button>
           <button
             onClick={onSave}
-            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom"
           >
             Save
           </button>
@@ -364,85 +364,43 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                 calculations.
               </p>
 
-              {/* <div className="flex items-center gap-6 mt-2">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="rateType"
-                    checked={rateType === "Fixed"}
-                    onChange={() => setRateType("Fixed")}
-                    className="w-4 h-4 mr-2 appearance-none checked:border-purple-600 checked:border-1 w-5 h-5 rounded-full border border-gray-300"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700">
-                    Fixed
-                  </span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="rateType"
-                    checked={rateType === "Percentage"}
-                    onChange={() => setRateType("Percentage")}
-                    className="w-4 h-4 mr-2 appearance-none checked:border-purple-600 checked:border-1 w-5 h-5 rounded-full border border-gray-300"
-                  />
-                  <span className="text-[14px] font-inter text-gray-700 focus:ring-purple-500">
-                    Percentage
-                  </span>
-                </label>
-              </div> */}
               <div className="flex items-center gap-6 mt-2">
-                <label className="flex items-center cursor-pointer">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="rateType"
-                      checked={rateType === "Fixed"}
-                      onChange={() => setRateType("Fixed")}
-                      className="sr-only" // Hide the actual input but keep it accessible
-                    />
-                    <div
-                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                        rateType === "Fixed"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {rateType === "Fixed" && (
-                        <div className="w-3 h-3 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="ml-2 text-[14px] font-inter font-[500] text-gray-700">
-                    Fixed
-                  </span>
-                </label>
+    <label className="flex items-center">
+      <div className="relative flex items-center">
+        <input
+          type="radio"
+          name="rateType"
+          checked={rateType === "Fixed"}
+          onChange={() => setRateType("Fixed")}
+          className="absolute opacity-0 w-5 h-5 cursor-pointer"
+        />
+        <div className={`w-5 h-5 rounded-full border ${rateType === "Fixed" ? "border-[#7E3AF2] border-2" : "border-gray-300"} flex items-center justify-center`}>
+          {rateType === "Fixed" && <div className="w-2.5 h-2.5 rounded-full bg-[#7E3AF2]"></div>}
+        </div>
+      </div>
+      <span className="text-[14px] font-inter text-gray-700 ml-2">
+        Fixed
+      </span>
+    </label>
+    <label className="flex items-center">
+      <div className="relative flex items-center">
+        <input
+          type="radio"
+          name="rateType"
+          checked={rateType === "Percentage"}
+          onChange={() => setRateType("Percentage")}
+          className="absolute opacity-0 w-5 h-5 cursor-pointer"
+        />
+        <div className={`w-5 h-5 rounded-full border ${rateType === "Percentage" ? "border-[#7E3AF2] border-2" : "border-gray-300"} flex items-center justify-center`}>
+          {rateType === "Percentage" && <div className="w-2.5 h-2.5 rounded-full bg-[#7E3AF2]"></div>}
+        </div>
+      </div>
+      <span className="text-[14px] font-inter text-gray-700 ml-2">
+        Percentage
+      </span>
+    </label>
+  </div>
 
-                <label className="flex items-center cursor-pointer">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="rateType"
-                      checked={rateType === "Percentage"}
-                      onChange={() => setRateType("Percentage")}
-                      className="sr-only" // Hide the actual input but keep it accessible
-                    />
-                    <div
-                      className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                        rateType === "Percentage"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {rateType === "Percentage" && (
-                        <div className="w-3 h-3 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="ml-2 text-[14px] font-inter text-gray-700 font-[500]">
-                    Percentage
-                  </span>
-                </label>
-              </div>
 
               {/* Commission Amount */}
               <div className="mt-6">
@@ -452,9 +410,9 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                 <select
                   value={commissionAmount}
                   onChange={(e) => setCommissionAmount(e.target.value)}
-                  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] appearance-none"
+                  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter placeholder:font-[400] appearance-none "
                 >
-                  <option value="" >Select</option>
+                  <option value="" disabled className="font-inter font-[500] font-[12px]">Select</option>
                   {rateType === "Fixed" ? (
                     <>
                       <option value="100"  className="w-full p-3 border border-reloadBorder text-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]">₹100</option>
@@ -483,114 +441,114 @@ const Commission: React.FC<TierBasedCommissionProps> = ({
                 merchant accounts.
               </p>
               <div className="flex items-center gap-6 mt-2">
-                <label className="flex items-center">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="paymentTransfer"
-                      checked={paymentTransfer === "Online"}
-                      onChange={() => setPaymentTransfer("Online")}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
-                        paymentTransfer === "Online"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {paymentTransfer === "Online" && (
-                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-[14px] font-inter text-gray-700">
-                    Online
-                  </span>
-                </label>
-                <label className="flex items-center">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="paymentTransfer"
-                      checked={paymentTransfer === "Offline"}
-                      onChange={() => setPaymentTransfer("Offline")}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
-                        paymentTransfer === "Offline"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {paymentTransfer === "Offline" && (
-                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-[14px] font-inter text-gray-700">
-                    Offline
-                  </span>
-                </label>
-              </div>
+  <label className="flex items-center">
+    <div className="relative">
+      <input
+        type="radio"
+        name="paymentTransfer"
+        checked={paymentTransfer === "Online"}
+        onChange={() => setPaymentTransfer("Online")}
+        className="sr-only"
+      />
+      <div
+        className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+          paymentTransfer === "Online"
+            ? "border-1 border-[#7E3AF2]"
+            : "border border-gray-300"
+        }`}
+      >
+        {paymentTransfer === "Online" && (
+          <div className="w-2 h-2 rounded-full bg-[#7E3AF2]"></div>
+        )}
+      </div>
+    </div>
+    <span className="text-[14px] font-inter text-gray-700">
+      Online
+    </span>
+  </label>
+  <label className="flex items-center">
+    <div className="relative">
+      <input
+        type="radio"
+        name="paymentTransfer"
+        checked={paymentTransfer === "Offline"}
+        onChange={() => setPaymentTransfer("Offline")}
+        className="sr-only"
+      />
+      <div
+        className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+          paymentTransfer === "Offline"
+            ? "border-1 border-[#7E3AF2]"
+            : "border border-gray-300"
+        }`}
+      >
+        {paymentTransfer === "Offline" && (
+          <div className="w-2 h-2 rounded-full bg-[#7E3AF2]"></div>
+        )}
+      </div>
+    </div>
+    <span className="text-[14px] font-inter text-gray-700">
+      Offline
+    </span>
+  </label>
+</div>
 
               {/* Payout Schedule */}
               <h3 className="text-[14px] font-inter font-[500] text-textHeading mt-6 mb-4">
                 Payout Schedule
               </h3>
               <div className="flex items-center gap-6 mt-2">
-                <label className="flex items-center">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="payoutSchedule"
-                      checked={payoutSchedule === "Instant"}
-                      onChange={() => setPayoutSchedule("Instant")}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
-                        payoutSchedule === "Instant"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {payoutSchedule === "Instant" && (
-                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-[14px] font-inter text-gray-700">
-                    Instant
-                  </span>
-                </label>
-                <label className="flex items-center">
-                  <div className="relative">
-                    <input
-                      type="radio"
-                      name="payoutSchedule"
-                      checked={payoutSchedule === "Later"}
-                      onChange={() => setPayoutSchedule("Later")}
-                      className="sr-only"
-                    />
-                    <div
-                      className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
-                        payoutSchedule === "Later"
-                          ? "border-1 border-purple-600"
-                          : "border border-gray-300"
-                      }`}
-                    >
-                      {payoutSchedule === "Later" && (
-                        <div className="w-2 h-2 rounded-full bg-purple-600"></div>
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-[14px] font-inter text-gray-700">
-                    Later
-                  </span>
-                </label>
-              </div>
+  <label className="flex items-center">
+    <div className="relative">
+      <input
+        type="radio"
+        name="payoutSchedule"
+        checked={payoutSchedule === "Instant"}
+        onChange={() => setPayoutSchedule("Instant")}
+        className="sr-only"
+      />
+      <div
+        className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+          payoutSchedule === "Instant"
+            ? "border-1 border-[#7E3AF2]"
+            : "border border-gray-300"
+        }`}
+      >
+        {payoutSchedule === "Instant" && (
+          <div className="w-2 h-2 rounded-full bg-[#7E3AF2]"></div>
+        )}
+      </div>
+    </div>
+    <span className="text-[14px] font-inter text-gray-700">
+      Instant
+    </span>
+  </label>
+  <label className="flex items-center">
+    <div className="relative">
+      <input
+        type="radio"
+        name="payoutSchedule"
+        checked={payoutSchedule === "Later"}
+        onChange={() => setPayoutSchedule("Later")}
+        className="sr-only"
+      />
+      <div
+        className={`w-4 h-4 rounded-full border mr-2 flex items-center justify-center ${
+          payoutSchedule === "Later"
+            ? "border-1 border-[#7E3AF2]"
+            : "border border-gray-300"
+        }`}
+      >
+        {payoutSchedule === "Later" && (
+          <div className="w-2 h-2 rounded-full bg-[#7E3AF2]"></div>
+        )}
+      </div>
+    </div>
+    <span className="text-[14px] font-inter text-gray-700">
+      Later
+    </span>
+  </label>
+</div>
 
               {/* Schedule Day */}
               {payoutSchedule === "Later" && (

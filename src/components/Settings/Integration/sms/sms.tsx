@@ -413,8 +413,8 @@ const SMS: React.FC = () => {
         <div className="p-4 md:px-1 sm:px-1 lg:px-1 xl:px-1 border-b flex justify-between items-center sm:p-3 md:p-2 lg-p-2 xl-p-2 mt-0 sm:mt-6 md:mt-8 lg:mt-12">
           <h2 className="text-[14px] font-inter font-[600] text-headding-color">SMS</h2>
           <div className="flex space-x-4">
-            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue">Cancel</button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue rounded-custom border-[1px] border boder-reloadBorder bg-backgroundWhite">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue">Discard</button>
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] font-[600] text-whiteColor bg-bgButton rounded-custom border-[1px] border boder-reloadBorder ">
               Save
             </button>
           </div>

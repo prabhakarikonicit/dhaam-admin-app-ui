@@ -27,7 +27,7 @@ const PlanForm: React.FC = () => {
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Plan
         </h2>
-        <button className="px-4 py-2 font-inter font-[500] text-whiteColor bg-bgButton rounded-custom">
+        <button className="px-4 py-2 font-inter font-[600] text-whiteColor bg-bgButton rounded-custom">
           Change Plan
         </button>
       </div>
@@ -97,10 +97,27 @@ const PlanForm: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 md:grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2">
-              <StatCard value="100" description="Orders per month" />
-              <StatCard value="$0.09" description="Per month transaction" />
-              <StatCard value="50" description="Customers per month" />
+            <div className="grid grid-cols-3 md:grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 text-center">
+              <StatCard
+                value="100"
+                description={
+                  <span className="text-[12px]  font-inter ${fontWeightClass} text-headding-color">
+                    Orders <br />
+                    per month
+                  </span>
+                }
+                fontWeight="400"
+              />
+              <StatCard
+                value="$0.09"
+                description="Per month transaction"
+                fontWeight="400"
+              />
+              <StatCard
+                value="50"
+                description="Customers per month"
+                fontWeight="400"
+              />
 
               <div className="mt-[-18px] ms-4 md:block w-full sm:block lg:block xl:block hidden">
                 <div className="rounded-custom12px p-4">
@@ -119,8 +136,8 @@ const PlanForm: React.FC = () => {
         </div>
 
         <div className="flex items-center justify-between py-3 px-4 bg-backgroundWhite rounded-custom12px">
-          <span className="text-[12px] font-inter font-[500] text-red-600">
-            Cancel Plan
+          <span className="text-[12px] font-inter font-[500] text-discountColor">
+            Discard Plan
           </span>
           <div className="bg-backgroundWhite p-2 rounded-lg border border-reloadBorder">
             <svg

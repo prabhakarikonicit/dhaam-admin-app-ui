@@ -32,7 +32,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         className={`
           block sm:hidden
           relative inline-flex h-5 w-12 items-center rounded-full mt-[-16px]
-          ${checked ? 'bg-purple-600' : 'bg-gray-200'}
+          ${checked ? 'bg-bgButton' : 'bg-gray-200'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           transition-colors ease-in-out duration-200
         `}
@@ -193,7 +193,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         className={`
           hidden sm:inline-flex
           relative h-5 md:w-10 sm:w-11 lg:w-11 xl:w-11 items-center rounded-full mt-[-10px]
-          ${checked ? 'bg-purple-600' : 'bg-gray-200'}
+          ${checked ? 'bg-bgButton' : 'bg-gray-200'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           transition-colors ease-in-out duration-200
         `}

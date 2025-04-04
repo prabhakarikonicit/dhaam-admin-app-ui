@@ -26,7 +26,7 @@ const DomainForm: React.FC = () => {
             <input
               type="text"
               placeholder="www.dhaam.c"
-              className="w-full p-3 border border-reloadBorder rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
+              className="w-full p-3 border border-reloadBorder rounded-custom8px font-inter focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
             />
           </div>
 
@@ -37,15 +37,15 @@ const DomainForm: React.FC = () => {
             <input
               type="text"
               placeholder="admin.dhaam.com"
-              className="w-full p-3 border border-reloadBorder rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
+              className="w-full p-3 border border-reloadBorder rounded-custom8px font-inter focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
             />
           </div>
 
           <div className="flex justify-end gap-4">
-            <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack rounded-lg ">
-              Cancel
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue rounded-lg ">
+            Discard
             </button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[500] text-whiteColor bg-bgButton rounded-custom">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-custom">
               Verify Connection
             </button>
           </div>
@@ -55,6 +55,7 @@ const DomainForm: React.FC = () => {
             <span className="text-[12px] font-inter font-[500] text-paragraphBlack">
               Third-party domain providers
             </span>
+            <div className="rounded-custom border border-reloadBorder p-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14"
@@ -69,13 +70,14 @@ const DomainForm: React.FC = () => {
                 fill="#212121"
               />
             </svg>
+            </div>
           </div>
           <div className="my-6 bg-backgroundWhite p-6 rounded-custom12px">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-[10px] font-inter font-[500] text-paragraphBlack">
+            <div className="flex items-center justify-end mb-4">
+              <span className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter font-[500] text-paragraphBlack">
                 Learn about how to setup existing domain to dhaam website
               </span>
-              <button className="text-[12px] w-[250px] font-inter font-[500] text-paragraphBlack">
+              <button className="text-[12px] w-[250px] text-end font-inter font-[600] text-paragraphBlack">
                 Learn More
               </button>
             </div>

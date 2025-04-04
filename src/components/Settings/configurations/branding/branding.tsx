@@ -105,9 +105,9 @@ export const Branding: React.FC = () => {
         </h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack">
-            Cancel
+          Discard
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-lg border border-reloadBorder">
             Save
           </button>
         </div>

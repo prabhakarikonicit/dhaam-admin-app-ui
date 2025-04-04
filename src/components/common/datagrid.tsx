@@ -1095,7 +1095,7 @@ import {
   Check,
   X,
 } from "lucide-react";
-
+import SortIcon from "../../lib/Images/Icon.svg";
 interface Column {
   field: string;
   headerName: string;
@@ -1132,6 +1132,7 @@ interface DataGridProps {
   onEdit?: (row: Row) => void;
   onDelete?: (row: Row) => void;
   enableDateFilters?: boolean;
+  showCheckboxes?: boolean;
 
   // Add new props for date range and density
   dateRange?: {
@@ -1184,6 +1185,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   dateRange,
   densityOptions,
   densityFirst = false, // Default to false for backward compatibility
+  showCheckboxes = false,
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -1211,6 +1213,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   const [endDate, setEndDate] = useState("");
   const [localStartDate, setLocalStartDate] = useState("");
   const [localEndDate, setLocalEndDate] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | null>(null); // Tracks sort order
 
   // Check if we're on mobile
   const isMobile = useMobileView();
@@ -1298,8 +1301,24 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
       });
     }
 
+    // Apply sorting if sortOrder is set
+    if (sortOrder) {
+      filtered = [...filtered].sort((a, b) => {
+        // Get the value to sort by - try 'name' first, then 'storeId', then 'orderId'
+        const valueA = a.name || a.storeId || a.orderId || "";
+        const valueB = b.name || b.storeId || b.orderId || "";
+
+        // Handle case where both values are empty
+        if (!valueA && !valueB) return 0;
+        if (!valueA) return 1;
+        if (!valueB) return -1;
+
+        return valueA.toString().localeCompare(valueB.toString());
+      });
+    }
+
     return filtered;
-  }, [rows, columns, searchValue, activeFilters]);
+  }, [rows, columns, searchValue, activeFilters, sortOrder]); // sortOrder is already a dependency
 
   // Handle column visibility toggle
   const toggleColumnVisibility = (field: string) => {
@@ -1525,78 +1544,88 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   };
 
   // Mobile card view rendering
-// Mobile card view rendering
-const renderMobileCard = (row: Row) => {
-  const visibleColumns = columns.filter(col => col.visible);
-  
-  // First, get all displayed fields in the correct order
-  const displayFields = visibleColumns.map(col => ({
-    field: col.field,
-    headerName: col.headerName,
-    column: col
-  }));
+  // Mobile card view rendering
+  const renderMobileCard = (row: Row) => {
+    const visibleColumns = columns.filter((col) => col.visible);
 
-  return (
-    <div className="bg-white rounded-md shadow-sm mb-3 border border-gray-100">
-      <div className="p-3">
-        {/* Top section with checkbox and ID */}
-        <div className="flex justify-between items-start mb-3">
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={selectedRows.includes(row.id)}
-              onChange={() => onSelectRow(row.id)}
-              className="h-4 w-4 rounded border-btnBorder focus:ring-bgButton accent-bgButton mr-2"
-            />
-            {displayFields.find(item => item.field === "storeId") && (
-              <div className="text-cardValue font-inter font-[500] text-[12px]">
-                {row[displayFields.find(item => item.field === "storeId")!.field]}
+    // First, get all displayed fields in the correct order
+    const displayFields = visibleColumns.map((col) => ({
+      field: col.field,
+      headerName: col.headerName,
+      column: col,
+    }));
+
+    return (
+      <div className="bg-white rounded-md shadow-sm mb-3 border border-gray-100">
+        <div className="p-3">
+          {/* Top section with checkbox and ID */}
+          <div className="flex justify-between items-start mb-3">
+            <div className="flex items-center">
+              {showCheckboxes && (
+                <input
+                  type="checkbox"
+                  checked={selectedRows.includes(row.id)}
+                  onChange={() => onSelectRow(row.id)}
+                  className="h-4 w-4 rounded border-btnBorder focus:ring-bgButton accent-bgButton mr-2"
+                />
+              )}
+              {displayFields.find((item) => item.field === "storeId") && (
+                <div className="text-cardValue font-inter font-[500] text-[12px]">
+                  {
+                    row[
+                      displayFields.find((item) => item.field === "storeId")!
+                        .field
+                    ]
+                  }
+                </div>
+              )}
+            </div>
+
+            {/* Rating display if exists */}
+            {displayFields.find((item) => item.field === "rating") && (
+              <div className="flex items-center bg-green-50 px-2 py-1 rounded">
+                {renderCell(
+                  displayFields.find((item) => item.field === "rating")!.column,
+                  row
+                )}
               </div>
             )}
           </div>
-          
-          {/* Rating display if exists */}
-          {displayFields.find(item => item.field === "rating") && (
-            <div className="flex items-center bg-green-50 px-2 py-1 rounded">
-              {renderCell(
-                displayFields.find(item => item.field === "rating")!.column,
-                row
-              )}
-            </div>
-          )}
-        </div>
-        
-        {/* Two-column layout for mobile */}
-        <div>
-          {displayFields
-            .filter(item => !["storeId", "rating"].includes(item.field))
-            .map(item => (
-              <div key={item.field} className="flex justify-between items-start mb-2 pb-2 border-b border-gray-100 last:border-b-0">
-                <div className="text-gray-500 text-[12px] font-inter">
-                  {item.headerName}
+
+          {/* Two-column layout for mobile */}
+          <div>
+            {displayFields
+              .filter((item) => !["storeId", "rating"].includes(item.field))
+              .map((item) => (
+                <div
+                  key={item.field}
+                  className="flex justify-between items-start mb-2 pb-2 border-b border-gray-100 last:border-b-0"
+                >
+                  <div className="text-gray-500 text-[12px] font-inter">
+                    {item.headerName}
+                  </div>
+                  <div className="text-cardValue font-inter font-[500] text-[12px] text-right ml-2">
+                    {renderCell(item.column, row)}
+                  </div>
                 </div>
-                <div className="text-cardValue font-inter font-[500] text-[12px] text-right ml-2">
-                  {renderCell(item.column, row)}
-                </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
+
+        {/* Action buttons for "Pending" status */}
+        {row.status === "Pending" && (
+          <div className="flex border-t border-gray-100">
+            <button className="flex-1 bg-[#FFEBEE] text-[#DD0606] py-2 px-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-bl-md">
+              <X size={14} className="mr-1" /> Reject
+            </button>
+            <button className="flex-1 bg-[#E8F5E9] text-[#125E1B] py-2 px-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-br-md">
+              <Check size={14} className="mr-1" /> Approve
+            </button>
+          </div>
+        )}
       </div>
-      
-      {/* Action buttons for "Pending" status */}
-      {row.status === "Pending" && (
-        <div className="flex border-t border-gray-100">
-          <button className="flex-1 bg-[#FFEBEE] text-[#DD0606] py-2 px-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-bl-md">
-            <X size={14} className="mr-1" /> Reject
-          </button>
-          <button className="flex-1 bg-[#E8F5E9] text-[#125E1B] py-2 px-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-br-md">
-            <Check size={14} className="mr-1" /> Approve
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};
+    );
+  };
   // const renderMobileCard = (row: Row) => {
   //   const visibleColumns = columns.filter((col) => col.visible);
 
@@ -2291,7 +2320,7 @@ const renderMobileCard = (row: Row) => {
 
           {/* Search box */}
           <div className="relative w-full sm:w-auto mt-2 sm:mt-0">
-            <span className="w-4 h-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-grey-border">
+            <span className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-grey-border">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -2312,7 +2341,7 @@ const renderMobileCard = (row: Row) => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder={searchPlaceholder}
-              className="pl-10 pr-4 w-full py-2 border border-gray-200 rounded-lg text-[12px] font-inter font-[400] text-cardTitle"
+              className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-[12px] font-inter font-[400] text-cardTitle w-full sm:w-64 md:w-80 lg:w-96 xl:w-120"
             />
           </div>
         </div>
@@ -2339,26 +2368,60 @@ const renderMobileCard = (row: Row) => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-gray-200 bg-background-grey">
-                <th className="p-4">
-                  <input
-                    type="checkbox"
-                    checked={
-                      selectedRows.length === filteredRows.length &&
-                      filteredRows.length > 0
-                    }
-                    onChange={onSelectAll}
-                    className="h-4 w-4 rounded border-btnBorder focus:ring-bgButton accent-bgButton"
-                  />
-                </th>
+                {showCheckboxes && (
+                  <th className="p-4">
+                    <input
+                      type="checkbox"
+                      checked={
+                        selectedRows.length === filteredRows.length &&
+                        filteredRows.length > 0
+                      }
+                      onChange={onSelectAll}
+                      className="h-4 w-4 rounded border-btnBorder focus:ring-bgButton accent-bgButton"
+                    />
+                  </th>
+                )}
+                {/* <th className="p-4">
+      <input
+        type="checkbox"
+        checked={
+          selectedRows.length === filteredRows.length &&
+          filteredRows.length > 0
+        }
+        onChange={onSelectAll}
+        className="h-4 w-4 rounded border-btnBorder focus:ring-bgButton accent-bgButton"
+      />
+    </th> */}
                 {columns
                   .filter((column) => column.visible)
                   .map((col) => (
                     <th
                       key={col.field}
-                      className="text-left p-4 font-inter font-[600] text-headding-color bg-background-grey"
+                      className="text-left p-2 font-inter font-[600] text-headding-color bg-background-grey whitespace-nowra"
                       style={{ width: col.width }}
                     >
-                      {col.headerName}
+                      <div className="flex items-center">
+                        <span className="font-inter font-[600] text-headding-color">
+                          {col.headerName}
+                        </span>
+                        {(col.headerName === "Store ID" ||
+                          col.headerName === "Order ID") && (
+                          <button
+                            onClick={() => {
+                              setSortOrder((prev) =>
+                                prev === "asc" ? null : "asc"
+                              );
+                            }}
+                            className="ml-2"
+                          >
+                            <img
+                              src={SortIcon}
+                              alt="Sort Icon"
+                              className="w-[16px] h-[16px] cursor-pointer"
+                            />
+                          </button>
+                        )}
+                      </div>
                     </th>
                   ))}
                 {showActionColumn && (
@@ -2379,14 +2442,16 @@ const renderMobileCard = (row: Row) => {
                     key={row.id}
                     className="border-b border-gray-200 bg-store-card"
                   >
-                    <td className="p-4">
-                      <input
-                        type="checkbox"
-                        checked={selectedRows.includes(row.id)}
-                        onChange={() => onSelectRow(row.id)}
-                        className="h-4 w-4 rounded border border-gray-300 focus:ring-bgButton accent-bgButton"
-                      />
-                    </td>
+                    {showCheckboxes && (
+                      <td className="p-4">
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(row.id)}
+                          onChange={() => onSelectRow(row.id)}
+                          className="h-4 w-4 rounded border border-gray-300 focus:ring-bgButton accent-bgButton"
+                        />
+                      </td>
+                    )}
                     {columns
                       .filter((column) => column.visible)
                       .map((col) => (

@@ -52,9 +52,9 @@ const BrandingPage: React.FC = () => {
         </h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-[12px] md:text-[12 px] font-inter font-[500] text-paragraphBlack xl:text-[12px] text-[12px] font-inter font-[600] text-cardValue">
-            Cancel
+            Discard
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorderxl:text-[12px] text-[12px] font-inter font-[600] text-cardValue">
+          <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorderxl:text-[12px] text-[12px] font-inter font-[600] text-whiteColor bg-bgButton">
             Save
           </button>
         </div>
@@ -63,12 +63,13 @@ const BrandingPage: React.FC = () => {
         <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-1">
           Marketplace Branding
         </h2>
-        <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-6">
+        <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-">
           Customize the visual identity of your marketplace by configuring
           colors, typography, and logos to ensure a consistent brand experience.
         </p>
       </div>
-      <div className="bg-backgroundWhite rounded-lg p-5 mb-6 text-[14px] font-[500] ">
+      <div className="bg-white rounded-lg p-4 border border-reloadBorder">
+      <div className="bg-backgroundWhite  rounded-lg p-3 mb-6 text-[14px] font-[500]">
         <ColorPicker
           label="Header Color"
           description="Set the background color of the marketplace header."
@@ -152,7 +153,7 @@ const BrandingPage: React.FC = () => {
         />
       </div>
 
-      <div className="bg-white rounded-lg p-6">
+      
         {/* <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-textHeading mb-6">
           Website Settings
         </h2> */}
@@ -165,16 +166,17 @@ const BrandingPage: React.FC = () => {
             <button className="ml-2 text-gray-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                width="16"
+                height="17"
+                viewBox="0 0 16 17"
                 fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  d="M8.66667 11.1667H8V8.5H7.33333M8 5.83333H8.00667M14 8.5C14 11.8137 11.3137 14.5 8 14.5C4.68629 14.5 2 11.8137 2 8.5C2 5.18629 4.68629 2.5 8 2.5C11.3137 2.5 14 5.18629 14 8.5Z"
+                  stroke="#636363"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 />
               </svg>
             </button>
@@ -189,18 +191,14 @@ const BrandingPage: React.FC = () => {
           />
         </div>
 
-        
-          <FileUpload
-            label="Favicon"
-            dimensions="32×32 pixels"
-            description="Upload a small icon that represents your website in browser tabs and bookmarks."
-            fileInfo={branding.favicon}
-            onUpload={(file) => handleFileUpload(file, "favicon")}
-            onDelete={() => handleFileDelete("favicon")}
-          />
-   
-
-
+        <FileUpload
+          label="Favicon"
+          dimensions="32×32 pixels"
+          description="Upload a small icon that represents your website in browser tabs and bookmarks."
+          fileInfo={branding.favicon}
+          onUpload={(file) => handleFileUpload(file, "favicon")}
+          onDelete={() => handleFileDelete("favicon")}
+        />
 
         <FileUpload
           label="Main Logo"

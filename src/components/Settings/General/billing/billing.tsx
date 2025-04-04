@@ -55,6 +55,8 @@ const BillingForm: React.FC = () => {
     useState<BillingItem | null>(null);
   const [showTransactionDetails, setShowTransactionDetails] = useState(false);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+
   const [cardDetails, setCardDetails] = useState({
     cardNumber: "",
     expiry: "",
@@ -81,10 +83,12 @@ const BillingForm: React.FC = () => {
     }
   };
 
+  // const handleMenuClick = () => {
+  //   setIsMenuModalOpen(!isMenuModalOpen);
+  // };
   const handleMenuClick = () => {
-    setIsMenuModalOpen(!isMenuModalOpen);
+    setOpenMenu(openMenu ? null : "card-menu");
   };
-
   const handleAddCard = () => {
     console.log("Card added:", cardDetails);
     setIsAddCardModalOpen(false);
@@ -184,7 +188,7 @@ const BillingForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0">
       <div className="flex justify-between items-center mb-8 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Billing
@@ -387,40 +391,67 @@ const BillingForm: React.FC = () => {
                       Primary
                     </span>
                   </div>
-                  <button
-                    className="text-gray-500 hover:text-gray-700"
-                    onClick={handleMenuClick}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
+                  <div className="relative">
+                    <button
+                      className="text-gray-500 hover:text-gray-700"
+                      onClick={() => handleMenuClick()}
                     >
-                      <path
-                        d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-                        stroke="#636363"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
-                        stroke="#636363"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
-                        stroke="#636363"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <path
+                          d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+                          stroke="#636363"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+                          stroke="#636363"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+                          stroke="#636363"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+
+                    {openMenu === "card-menu" && (
+                      <div className="absolute right-0 mt-1 w-36 bg-white rounded-md shadow-lg z-50 py-1 border border-gray-200">
+                        <button
+                          className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-[14px] font-inter font-[500]"
+                          onClick={() => {
+                            // Handle edit action
+                            console.log("Edit clicked");
+                            setOpenMenu(null);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 text-[14px] font-inter font-[500]"
+                          onClick={() => {
+                            // Handle delete action
+                            console.log("Delete clicked");
+                            setOpenMenu(null);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -428,7 +459,7 @@ const BillingForm: React.FC = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="px-6 py-2 bg-purple-600 text-white rounded-lg text-[14px] font-inter font-[500]"
+                className="px-6 py-2 font-[600] text-whiteColor bg-bgButton rounded-lg text-[14px] font-inter "
               >
                 Save
               </button>
@@ -437,40 +468,8 @@ const BillingForm: React.FC = () => {
         }
       />
 
-      <button
-        className="text-gray-500 hover:text-gray-700"
-        onClick={handleMenuClick}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <path
-            d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
-            stroke="#636363"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
-            stroke="#636363"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
-            stroke="#636363"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+      
+   
       {/* Add New Card Modal */}
       {isAddCardModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -615,11 +614,13 @@ const BillingForm: React.FC = () => {
       {showTransactionDetails && selectedTransaction && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-end">
           <div className="bg-white w-full sm:w-96 h-full overflow-y-auto mt-5 mr-2 rounded-custom12px">
-            <div className="p-3 flex justify-between border-b bg-background-grey mb-5">
-              <h2 className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline">
-                {selectedTransaction.billNumber}
+            <div className="p-4 flex justify-between items-center border-b bg-background-grey">
+              <div className="flex items-center gap-3">
+                <h2 className="text-billingNumber font-inter font-[600] font-[16px] cursor-pointer hover:underline">
+                  #{selectedTransaction.billNumber.replace("#", "")}
+                </h2>
                 <span
-                  className={`ml-2 px-2 py-1 text-[12px] font-inter rounded-custom80px ${
+                  className={`px-3 py-1 text-[12px] font-inter font-[500] rounded-custom80px ${
                     selectedTransaction.status === "Paid"
                       ? "bg-green text-customWhiteColor"
                       : selectedTransaction.status === "Pending"
@@ -629,7 +630,21 @@ const BillingForm: React.FC = () => {
                 >
                   {selectedTransaction.status}
                 </span>
-              </h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M3 17C3 16.4477 3.44772 16 4 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H4C3.44772 18 3 17.5523 3 17ZM6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289L9 10.5858L9 3C9 2.44772 9.44771 2 10 2C10.5523 2 11 2.44771 11 3L11 10.5858L12.2929 9.29289C12.6834 8.90237 13.3166 8.90237 13.7071 9.29289C14.0976 9.68342 14.0976 10.3166 13.7071 10.7071L10.7071 13.7071C10.5196 13.8946 10.2652 14 10 14C9.73478 14 9.48043 13.8946 9.29289 13.7071L6.29289 10.7071C5.90237 10.3166 5.90237 9.68342 6.29289 9.29289Z"
+                    fill="#212121"
+                  />
+                </svg>
+              </div>
               <button
                 onClick={() => setShowTransactionDetails(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -651,19 +666,10 @@ const BillingForm: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-4">
-              <div className="mb-4">
-                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
-                  Bill Type
-                </p>
-                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
-                  {selectedTransaction.billType}
-                </p>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
-                  Payment Date
+            <div className="p-4 mb-2">
+              <div className="border-b border-gray-200 py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
+                  Date
                 </p>
                 <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
                   {selectedTransaction.date}
@@ -673,8 +679,35 @@ const BillingForm: React.FC = () => {
                 </p>
               </div>
 
-              <div className="mb-4">
-                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
+              <div className="border-b border-gray-200 py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
+                  Bill Type
+                </p>
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
+                  {selectedTransaction.billType}
+                </p>
+              </div>
+
+              <div className="border-b border-gray-200 py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
+                  Mode of Transfer
+                </p>
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
+                  Card
+                </p>
+              </div>
+
+              <div className="border-b border-gray-200 py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
+                  Card Number
+                </p>
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
+                  Visa **** 1111
+                </p>
+              </div>
+
+              <div className="border-b border-gray-200 py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
                   Amount
                 </p>
                 <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
@@ -682,83 +715,13 @@ const BillingForm: React.FC = () => {
                 </p>
               </div>
 
-              <div className="mb-4">
-                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
-                  Status
+              <div className="py-3">
+                <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px] mb-1">
+                  Transaction Id
                 </p>
-                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px]">
-                  {selectedTransaction.status}
+                <p className="text-[14px] font-inter font-[400] text-verifyOtp leading-[15.6px] break-all">
+                  ch_3R0nsWHTOIffEwwR1qNkYXAi
                 </p>
-              </div>
-
-              <div className="mt-8 p-4 bg-backgroundWhite border border-grey-border rounded-custom8px">
-                <h3 className="text-[12px] font-inter font-[500] mb-2 text-headding-color">
-                  Bill Summary
-                </h3>
-                <div className="flex justify-between mb-2">
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    Subtotal:
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    ${selectedTransaction.amount.toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    Tax (18%):
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    ${(selectedTransaction.amount * 0.18).toFixed(2)}
-                  </span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    Processing Fee:
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    $2.00
-                  </span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    Platform Fee:
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    $1.00
-                  </span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    Delivery Charge:
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-cardValue">
-                    $10.00
-                  </span>
-                </div>
-                {/* Added discount section from 1st code */}
-                <div className="flex justify-between text-red-500 border-b border-grey-border">
-                  <span className="text-[12px] font-inter font-[500] text-discountColor">
-                    Discount:
-                  </span>
-                  <span className="text-[12px] font-inter font-[500] text-discountColor">
-                    - $30.00
-                  </span>
-                </div>
-                {/* Added grand total section from 1st code */}
-                <div className="flex justify-between bg-background-grey py-2 px-2 mt-2">
-                  <span className="font-inter font-[14px] font-[600] text-grandTotal">
-                    Grand Total:
-                  </span>
-                  <span className="font-inter font-[14px] font-[600] text-grandTotal">
-                    $
-                    {(
-                      selectedTransaction.amount +
-                      selectedTransaction.amount * 0.18 +
-                      2.0 +
-                      1.0
-                    ).toFixed(2)}
-                  </span>
-                </div>
               </div>
             </div>
           </div>

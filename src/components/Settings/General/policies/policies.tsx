@@ -410,7 +410,9 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
   const policyColumns = [
     { field: "name", headerName: "Name", width: "25%" },
     { field: "description", headerName: "Description", width: "30%" },
-    { field: "createdOn", headerName: "Created on", width: "15%" },
+    { field: "createdOn", headerName: "Created on", width: "15%",renderCell: (value: string) => (
+      <span className="text-billingNumber font-[12px] font-inter font-[500] whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
+    ) },
     {
       field: "action",
       headerName: "Action",
@@ -566,7 +568,7 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
                 </button>
                 <button
                   onClick={handleSavePageContent}
-                  className="px-4 py-2 text-[12px] font-inter font-[500] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
+                  className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border boder-btnBorder rounded-custom"
                 >
                   Save
                 </button>

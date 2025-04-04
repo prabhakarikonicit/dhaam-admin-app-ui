@@ -4,6 +4,7 @@ import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
 import UnifiedPopover from "../common/DetailsModal";
+import SortIcon from "../../lib/Images/Icon.svg"; // Adjust the path as per your project structure
 interface Order {
   id: string;
   orderId: string;
@@ -30,7 +31,7 @@ interface OrderItem {
   quantity: number;
   price: string;
 }
-
+type PaymentMethodType = "Cash" | "UPI" | "Credit Card";
 const Orders: React.FC = () => {
   // State management
   const [orders, setOrders] = useState<Order[]>([]);
@@ -100,7 +101,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "Pending", // Will show reject/accept icons
         store: "Plumed Horse",
-        deliveryAddress: "8502 Preston Rd. Inglewood, Maine 98380",
+        deliveryAddress: "8502 Preston Rd. Inglewood, Maine 9...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -113,7 +114,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "", // Will show reject/accept icons
         store: "King Lee's",
-        deliveryAddress: "3517 W. Gray St. Utica, Pennsylvania 57867",
+        deliveryAddress: "3517 W. Gray St. Utica, Pennsylvania 5...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -126,7 +127,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "", // Will show reject/accept icons
         store: "Marina Kitchen",
-        deliveryAddress: "4140 Parker Rd. Allentown, New Mexico 31134",
+        deliveryAddress: "4140 Parker Rd. Allentown, New Mexi...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -139,7 +140,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "", // Will show reject/accept icons
         store: "The Aviary",
-        deliveryAddress: "4517 Washington Ave. Manchester, Kentucky 39495",
+        deliveryAddress: "4517 Washington Ave. Manchester, Ke...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -152,7 +153,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "", // Show as status badge
         store: "Crab Hut",
-        deliveryAddress: "2715 Ash Dr. San Jose, South Dakota 83475",
+        deliveryAddress: "2715 Ash Dr. San Jose, South Dakota...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -165,7 +166,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "Completed", // Show as status badge
         store: "Brass Tacks",
-        deliveryAddress: "2972 Westheimer Rd. Santa Ana, Illinois 85486",
+        deliveryAddress: "2972 Westheimer Rd. Santa Ana, Illinoi...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -177,22 +178,22 @@ const Orders: React.FC = () => {
         orderId: "#20345",
         amount: "₹100.00",
         status: "Out for delivery", // Show as status badge
-        store: "Bean Around the World Coffees",
-        deliveryAddress: "2715 Ash Dr. San Jose, South Dakota 83475",
+        store: "Bean Around the World Co...",
+        deliveryAddress: "2715 Ash Dr. San Jose, South Dakota...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
         paymentMethod: "UPI",
         createdDate: "2025-02-26",
       },
-      
+
       {
         id: "9",
         orderId: "#20345",
         amount: "₹100.00",
         status: "Cancelled", // Show as status badge
         store: "Chewy Balls",
-        deliveryAddress: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
+        deliveryAddress: "1901 Thornridge Cir. Shiloh, Hawaii 81...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -205,7 +206,7 @@ const Orders: React.FC = () => {
         amount: "₹100.00",
         status: "Out for delivery", // Show as status badge
         store: "Proxi",
-        deliveryAddress: "2118 Thornridge Cir. Syracuse, Connec...",
+        deliveryAddress: "2118 Thornridge Cir. Syracuse, Conne...",
         deliveryMode: "Home delivery",
         scheduleTime: "06:30 PM",
         scheduleDate: "January 26",
@@ -340,33 +341,32 @@ const Orders: React.FC = () => {
 
   // Function to render payment method with appropriate styling
   const renderPaymentMethod = (method: string, row: any) => {
-    const methodStyles: { [key: string]: string } = {
-      Cash: "bg-[#1A8917] text-white cursor-pointer hover:bg-[#157512]",
-      UPI: "bg-[#DD9E06] text-white",
-      "Credit Card": "bg-[#3172D7] text-white",
-    };
+    let styleClass = "";
+    let widthClass = "";
 
-    // Only make Cash payment method clickable
+    // Safe approach to determine styles based on method value
     if (method === "Cash") {
-      return (
-        <div
-          className={`px-2 py-1 text-center whitespace-nowrap rounded-custom4px font-inter text-[12px] font-[500] ${
-            methodStyles[method] || ""
-          }`}
-          onClick={() => handleOpenPaymentModal(row)}
-          role="button"
-          aria-label="View payment details"
-        >
-          {method}
-        </div>
-      );
+      styleClass =
+        "bg-bgActive rounded-custom4x text-customWhiteColor font-inter font-[600] ";
+      widthClass = "w-16";
+    } else if (method === "UPI") {
+      styleClass =
+        "bg-yellow rounded-custom4x text-yellow font-inter font-[600]";
+      widthClass = "w-16";
+    } else if (method === "Credit Card") {
+      styleClass =
+        "bg-blueCredit rounded-custom4x text-primaryCredit font-inter font-[600]";
+      widthClass = "w-30";
     }
 
     return (
       <div
-        className={`px-2 py-1 text-center whitespace-nowrap rounded-custom4px font-inter text-[12px] font-[500] ${
-          methodStyles[method] || ""
-        }`}
+        className={`py-1 px-2 text-center whitespace-nowrap rounded-lg font-inter text-[14px] font-[500] ${styleClass} ${widthClass}`}
+        onClick={
+          method === "Cash" ? () => handleOpenPaymentModal(row) : undefined
+        }
+        role={method === "Cash" ? "button" : undefined}
+        aria-label={method === "Cash" ? "View payment details" : undefined}
       >
         {method}
       </div>
@@ -493,7 +493,7 @@ const Orders: React.FC = () => {
       width: "50px",
       type: "text",
       renderCell: (value, row) => (
-        <div className="text-[12px] font-inter font-[500] text-cardValue whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="text-[12px] font-inter font-[500] text-cardValue whitespace-nowrap overflow-hidden text-ellipsis p-0">
           {value}
         </div>
       ),
@@ -501,28 +501,57 @@ const Orders: React.FC = () => {
     {
       field: "deliveryAddress",
       headerName: "Delivery Address",
-      width: "300px",
+      width: "500px",
       type: "text",
+      //  renderCell: (value, row) => (
+      //   <div className="text-[12px] font-inter font-[500] text-cardValue whitespace-nowrap overflow-hidden text-ellipsis p-0">
+      //     {value}
+      //   </div>
+      // ),
     },
     {
       field: "deliveryMode",
       headerName: "Delivery Mode",
       width: "300px",
       type: "text",
+      renderCell: (value, row) => (
+        <div>
+          <div className="text-[12px] font-inter font-[600] text-headding-color whitespace-nowrap overflow-hidden text-ellipsis bg-subMenus p-1 rounded-custom80px text-center">
+            {value}
+          </div>
+        </div>
+      ),
     },
     {
       field: "scheduleTime",
       headerName: "Schedule Time",
-      width: "200px",
+      width: "62%",
       type: "text",
       renderCell: (value, row) => (
-        <div>
-          <div className="text-[14px] font-inter font-[500] text-cardValue leading-[21px]">
-            {row.scheduleDate}
+        <div className="flex items-center justify-between w-full pr-14 ">
+          <div>
+            <div className="text-[14px] font-inter font-[500] text-cardValue leading-[21px]">
+              {row.scheduleDate}
+            </div>
+            <div className="text-[11px] font-[400] font-inter text-cardTitle">
+              {value}
+            </div>
           </div>
-          <div className="text-[11px] font-[400] font-inter text-cardTitle ">
-            {value}
-            
+          <div className="text-gray-500 ps-0 md:p-0 sm:p-0 lg:p-0 xl:p-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="17"
+              height="16"
+              viewBox="0 0 17 16"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M4.37689 5.83441C4.68931 5.52199 5.19584 5.52199 5.50826 5.83441L8.14258 8.46873L10.7769 5.83441C11.0893 5.52199 11.5958 5.52199 11.9083 5.83441C12.2207 6.14683 12.2207 6.65336 11.9083 6.96578L8.70826 10.1658C8.39584 10.4782 7.88931 10.4782 7.57689 10.1658L4.37689 6.96578C4.06447 6.65336 4.06447 6.14683 4.37689 5.83441Z"
+                fill="#2B2B2B"
+              />
+            </svg>
           </div>
         </div>
       ),
@@ -541,7 +570,7 @@ const Orders: React.FC = () => {
     {
       field: "paymentMethod",
       headerName: "Payment Method",
-      width: "100px",
+      width: "100%",
       type: "text",
       renderCell: (value, row) => renderPaymentMethod(value, row),
     },
@@ -916,13 +945,13 @@ const Orders: React.FC = () => {
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter text-[12px] font-[500]"
+                    className="block px-4 py-2  whitespace-nowrap text-menuSubHeadingColor font-inter text-[12px] font-[500]"
                   >
-                    Queenstown Public House
+                    Public House
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter text-[12px] font-[500]"
+                    className="block px-4 py-2  whitespace-nowrap text-menuSubHeadingColor font-inter text-[12px] font-[500]"
                   >
                     Plumed Horse
                   </a>
@@ -958,7 +987,7 @@ const Orders: React.FC = () => {
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter text-[12px] font-[500]"
+                    className="block px-4 py-2 text-menuSubHeadingColor whitespace-nowrap font-inter text-[12px] font-[500]"
                   >
                     Create new view
                   </a>
@@ -985,7 +1014,7 @@ const Orders: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2  px-8">
+      <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2  bg-backgroundWhite mx-8 p-4  rounded-custom8px">
         <StatCard
           value="213"
           description="New Orders"

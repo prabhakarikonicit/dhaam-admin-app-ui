@@ -72,9 +72,9 @@ const AccountForm: React.FC  = () => {
         </h2>
         <div className="flex gap-4">
           <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack ">
-            Cancel
+            Discard
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom">
             Save
           </button>
         </div>
@@ -88,7 +88,7 @@ const AccountForm: React.FC  = () => {
           <input
             type="text"
             placeholder="Aman kum"
-            className="w-full p-3 border border-reloadBorder rounded-custom8px focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
+            className="w-full p-3 border border-reloadBorder rounded-custom8px font-inter focus:ring-1 focus:ring-menuSubHeadingColor placeholder:text-reloadBorder placeholder:font-inter"
           />
         </div>
 

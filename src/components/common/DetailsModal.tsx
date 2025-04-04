@@ -188,7 +188,7 @@ const total = calculateTotal();
       <>
         {/* Store ID Header */}
         <div className="flex justify-between items-center p-3 border-b">
-          <h2 className="text-lg font-medium text-gray-800">{store.storeId}</h2>
+          <h2 className="text-headding-color text-[12px] font-inter font-[500] mb-3">{store.storeId}</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"

@@ -453,9 +453,9 @@ const Delivery: React.FC = () => {
           <h2 className="text-[14px] font-inter font-[600] text-headding-color">Delivery Management System</h2>
           <div className="flex space-x-4">
             <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue">
-              Cancel
+            Discard
             </button>
-            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue  border-[1px] border-reloadBorder bg-backgroundWhite rounded-custom">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton  border-[1px] border-reloadBorder  rounded-custom">
               Save
             </button>
           </div>
