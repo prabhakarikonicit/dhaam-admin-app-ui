@@ -55,9 +55,9 @@ const Store: React.FC = () => {
         </h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">
-            Cancel
+          Discard
           </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom">
             Save
           </button>
         </div>

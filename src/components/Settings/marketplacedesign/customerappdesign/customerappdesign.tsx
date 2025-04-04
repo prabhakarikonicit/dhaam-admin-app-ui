@@ -49,8 +49,8 @@ const CustomerAppDesign: React.FC = () => {
       <div className="flex justify-between items-center mb-6 mt-0 sm:mt-10 md:mt-10 lg:mt-10 xl:10 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <h1 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color">Branding</h1>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">Cancel</button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite rounded-lg border border-reloadBorder">
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">Discard</button>
+          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-lg border border-reloadBorder">
             Save
           </button>
         </div>

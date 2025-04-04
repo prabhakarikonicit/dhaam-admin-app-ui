@@ -258,7 +258,7 @@ const AddStaff: React.FC<{
             onClick={onClose}
             className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue "
           >
-            Cancel
+            Discard
           </button>
           <button
             onClick={() => onSave({ staffName, description, permissions })}

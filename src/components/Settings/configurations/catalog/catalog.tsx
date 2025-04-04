@@ -314,11 +314,11 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
             onClick={onCancel}
             className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack"
           >
-            Cancel
+            Discard
           </button>
           <button
             onClick={onSave}
-            className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack bg-backgroundWhite border border-reloadBorder rounded-custom"
+            className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom"
           >
             Save
           </button>

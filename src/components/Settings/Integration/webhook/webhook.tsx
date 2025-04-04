@@ -227,7 +227,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
     {
       field: "webhookId",
       headerName: "Webhook ID",
-      width: "20%",
+      width: "25%",
       renderCell: (value: string) => (
         <span className="text-billingNumber font-[14px] font-inter font-[600]">{value}</span>
       )

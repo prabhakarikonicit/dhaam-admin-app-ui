@@ -322,7 +322,7 @@ const SettingsComponent: React.FC = () => {
       label: "Customer Rights",
       id: "rights",
     },
-    { icon: <SliderPoliciesIcon />, label: "Policies", id: "policies" },
+    { icon: <SliderPoliciesIcon />, label: "Policies & Pages", id: "policies" },
     {
       icon: <SliderPreferencesIcon />,
       label: "Preferences",
@@ -388,7 +388,7 @@ const SettingsComponent: React.FC = () => {
         {selectedItem === "Preferences" && <Preferences />}
         {selectedItem === "Taxes" && <TaxManagement />}
         {selectedItem === "Location" && <LocationManagement />}
-        {selectedItem === "Policies" && <PoliciesAndPages />}
+        {selectedItem === "Policies & Pages" && <PoliciesAndPages />}
 
         </div>
       </div>
@@ -439,7 +439,7 @@ const SettingsComponent: React.FC = () => {
         {selectedItem === "Preferences" && <Preferences />}
         {selectedItem === "Taxes" && <TaxManagement />}
         {selectedItem === "Location" && <LocationManagement />}
-        {selectedItem === "Policies" && <PoliciesAndPages />}
+        {selectedItem === "Policies & Pages" && <PoliciesAndPages />}
 
       </div>
     </div>

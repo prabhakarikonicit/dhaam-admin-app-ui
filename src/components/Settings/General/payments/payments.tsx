@@ -16,36 +16,120 @@ const PaymentsForm: React.FC = () => {
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   const transactionsData: PaymentTransaction[] = Array(10)
-  .fill(null)
-  .map((_, i) => {
-    // Only modify the date part
-    const months = [
-      "January", "February", "March",
-      "April", "May", "June",
-      "July", "August", "September",
-      "October", "November", "December"
-    ];
-    const monthIndex = i % 12; // Cycle through months
-    const transactionDate = `${months[monthIndex]} 26`;
+    .fill(null)
+    .map((_, i) => {
+      // Define status based on the pattern in the image
+      // First 4 are Paid, next 3 are Unpaid, remaining are Paid
+      const status = i < 4 ? "Paid" : i < 7 ? "Unpaid" : "Paid";
 
-    // Keep EVERYTHING ELSE exactly the same as original
-    return {
-      id: `row-${i}`,
-      transactionId: "#327702783",  // Same as original
-      transactionDate: transactionDate, // Only this changes
-      time: "06:30 PM",  // Same as original
-      status: "Paid",    // Same as original
-      store: "Giant E-Store",  // Same as original
-      amount: 129.0      // Same as original
-    };
-  });
+      // Store names based on the image
+      const stores = [
+        "Giant E-Store",
+        "Commerce",
+        "The Hidea...",
+        "E-Store",
+        "Galaxy Store",
+        "Muning Cart",
+        "Nice Diggs",
+        "We Care O...",
+        "Ride Online...",
+        "Grace Stores",
+      ];
+      const store = stores[i % stores.length];
 
+      // MoT alternates between Cash and Stripe based on the image pattern
+      // Rows 0, 3, 7, 8, 9 have Cash, others have Stripe
+      const mot = [0, 3, 7, 8, 9].includes(i) ? "Cash" : "Stripe";
+
+      // Set amounts based on the image
+      const amounts = [129, 129, 129, 129, 129, 153, 200, 400, 300, 150];
+      const amount = amounts[i];
+
+      return {
+        id: `row-${i}`,
+        transactionId: "#327702783",
+        transactionDate: "January 26",
+        time: "06:30 PM",
+        status: status,
+        store: store,
+        mot: mot,
+        amount: amount,
+      };
+    });
+  interface CellProps {
+    value: any;
+    row: PaymentTransaction;
+  }
   const columns = [
-    { field: "transactionId", headerName: "Transaction ID" },
-    { field: "transactionDate", headerName: "Transaction Date" },
-    { field: "status", headerName: "Status" },
-    { field: "store", headerName: "Store" },
-    { field: "amount", headerName: "Amount" },
+    {
+      field: "transactionId",
+      headerName: "Transaction ID",
+      headerClassName: "transaction-id-heading",
+      width: "200px",
+    },
+    {
+      field: "transactionDate",
+      headerName: "Transaction Date",
+      headerClassName: "transaction-date-heading",
+      width: "200px",
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      headerClassName: "status-heading",
+      width: "120px",
+      renderCell: (value: any, row: any) => (
+        <div
+          className={`status-pill ${
+            value === "Paid" ? "status-paid" : "status-unpaid"
+          }`}
+        >
+          {value}
+        </div>
+      ),
+    },
+    {
+      field: "store",
+      headerName: "Store",
+      headerClassName: "store-heading",
+      width: "200px",
+    },
+    {
+      field: "mot",
+      headerName: "MoT",
+      headerClassName: "mot-heading",
+      width: "120px",
+      renderHeader: () => (
+        <div className="mot-heading">
+          MoT
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="info-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </div>
+      ),
+    },
+    {
+      field: "amount",
+      headerName: "Amount",
+      headerClassName: "amount-heading",
+      width: "120px",
+      renderCell: (value: any) => (
+        <div>${typeof value === "number" ? value.toFixed(2) : value}</div>
+      ),
+    },
   ];
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -194,10 +278,18 @@ const PaymentsForm: React.FC = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <StatCard value="1000" description="Orders this month" />
-            <StatCard value="20" description="Stores" />
-            <StatCard value="300" description="Cancelled orders" />
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <StatCard
+              value="1000"
+              description="Orders this month"
+              fontWeight="400"
+            />
+            <StatCard value="20" description="Stores" fontWeight="400" />
+            <StatCard
+              value="300"
+              description="Cancelled orders"
+              fontWeight="400"
+            />
           </div>
         </div>
 
@@ -235,22 +327,63 @@ const PaymentsForm: React.FC = () => {
                   {
                     field: "transactionDate",
                     headerName: "Transaction Date",
-                    width: "150px",
+                    width: "200px",
+                    renderCell: (value, row) => (
+                      <div className="flex flex-col">
+                        <span className="text-cardValue font-inter font-[500] text-[12px]">
+                          {value}
+                        </span>
+                        <span className="text-cardTitle font-inter font-[400] text-[11px]">
+                          {row.time}
+                        </span>
+                      </div>
+                    ),
                   },
                   {
                     field: "status",
                     headerName: "Status",
                     width: "120px",
+                    renderCell: (value) => (
+                      <div
+                        className={`px-3 py-1 rounded-custom80px text-center text-[12px] font-inter font-[500] ${
+                          value === "Paid"
+                            ? "bg-green text-customWhiteColor"
+                            : "bg-gray-200 text-gray-600"
+                        }`}
+                      >
+                        {value}
+                      </div>
+                    ),
                   },
                   {
                     field: "store",
                     headerName: "Store",
                     width: "200px",
+                    renderCell: (value) => (
+                      <div className="text-cardValue font-inter font-[500] text-[12px]">
+                        {value}
+                      </div>
+                    ),
+                  },
+                  {
+                    field: "mot",
+                    headerName: "MoT",
+                    width: "120px",
+                    renderCell: (value) => (
+                      <div className="text-cardValue font-inter font-[500] text-[12px]">
+                        {value}
+                      </div>
+                    ),
                   },
                   {
                     field: "amount",
                     headerName: "Amount",
                     width: "120px",
+                    renderCell: (value) => (
+                      <div className="text-cardValue font-inter font-[500] text-[12px]">
+                        ${typeof value === "number" ? value.toFixed(2) : value}
+                      </div>
+                    ),
                   },
                 ]}
                 rows={transactionsData}
@@ -259,17 +392,18 @@ const PaymentsForm: React.FC = () => {
                 onSelectRow={handleSelectRow}
                 selectedRows={selectedRows}
                 searchPlaceholder="Search payout"
+                
               />
             </div>
           </div>
         </div>
       </div>
 
-      {showTransactionDetails && selectedTransaction &&  (
+      {showTransactionDetails && selectedTransaction && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-end ">
           <div className="bg-white w-full sm:w-96 h-full overflow-y-auto mt-5 mr-2 rounded-custom12px">
             <div className="p-3 flex justify-between border-b  bg-background-grey mb-5">
-              <h2 className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline">
+              <h2 className="text-billingNumber font-inter font-[600] font-[16px] cursor-pointer hover:underline">
                 {selectedTransaction?.transactionId}
                 <span className="ml-2 px-2 py-1 text-[12px] font-inter rounded-custom80px bg-green text-customWhiteColor">
                   {selectedTransaction?.status}
@@ -296,7 +430,7 @@ const PaymentsForm: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-4 mb-4">
+            <div className="p-4 mb-2">
               <div className="mb-4">
                 <p className="text-[12px] font-inter font-[500] text-paragraphBlack leading-[15.6px]">
                   From
@@ -446,7 +580,9 @@ const PaymentsForm: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex justify-between bg-background-grey py-2 px-2 mt-2">
-                  <span className="font-inter font-[14px] font-[600] text-grandTotal">Grand Total:</span>
+                  <span className="font-inter font-[14px] font-[600] text-grandTotal">
+                    Grand Total:
+                  </span>
                   <span className="font-inter font-[14px] font-[600] text-grandTotal">
                     $
                     {(

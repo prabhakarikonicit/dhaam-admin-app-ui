@@ -226,53 +226,53 @@ const Stores: React.FC = () => {
     {
       field: "name",
       headerName: "Store",
-      width: "280px",
+      width: "250px",
     },
-    {
-      field: "status",
-      headerName: "Status",
-      width: "120px",
-      renderCell: (value, row) => (
-        <div className="flex items-center space-x-2">
-          <button className="p-1 rounded-custom border border-borderCrossIcon bg-bgCrossIcon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="14"
-              viewBox="0 0 15 14"
-              fill="none"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M3.50501 3.00501C3.77838 2.73165 4.2216 2.73165 4.49496 3.00501L7.49999 6.01004L10.505 3.00501C10.7784 2.73165 11.2216 2.73165 11.495 3.00501C11.7683 3.27838 11.7683 3.7216 11.495 3.99496L8.48994 6.99999L11.495 10.005C11.7683 10.2784 11.7683 10.7216 11.495 10.995C11.2216 11.2683 10.7784 11.2683 10.505 10.995L7.49999 7.98994L4.49496 10.995C4.2216 11.2683 3.77838 11.2683 3.50501 10.995C3.23165 10.7216 3.23165 10.2784 3.50501 10.005L6.51004 6.99999L3.50501 3.99496C3.23165 3.7216 3.23165 3.27838 3.50501 3.00501Z"
-                fill="#620E0E"
-              />
-            </svg>
-          </button>
-          <button className="p-1 rounded-custom border border-borderGreeen bg-customBackgroundColor">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="14"
-              viewBox="0 0 15 14"
-              fill="none"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M12.1949 3.70503C12.4683 3.97839 12.4683 4.42161 12.1949 4.69497L6.59495 10.295C6.32158 10.5683 5.87837 10.5683 5.605 10.295L2.805 7.49497C2.53163 7.22161 2.53163 6.77839 2.805 6.50503C3.07837 6.23166 3.52158 6.23166 3.79495 6.50503L6.09998 8.81005L11.205 3.70503C11.4784 3.43166 11.9216 3.43166 12.1949 3.70503Z"
-                fill="#125E1B"
-              />
-            </svg>
-          </button>
-        </div>
-      ),
-    },
+    // {
+    //   field: "status",
+    //   headerName: "Status",
+    //   width: "120px",
+    //   renderCell: (value, row) => (
+    //     <div className="flex items-center space-x-2">
+    //       <button className="p-1 rounded-custom border border-borderCrossIcon bg-bgCrossIcon">
+    //         <svg
+    //           xmlns="http://www.w3.org/2000/svg"
+    //           width="15"
+    //           height="14"
+    //           viewBox="0 0 15 14"
+    //           fill="none"
+    //         >
+    //           <path
+    //             fill-rule="evenodd"
+    //             clip-rule="evenodd"
+    //             d="M3.50501 3.00501C3.77838 2.73165 4.2216 2.73165 4.49496 3.00501L7.49999 6.01004L10.505 3.00501C10.7784 2.73165 11.2216 2.73165 11.495 3.00501C11.7683 3.27838 11.7683 3.7216 11.495 3.99496L8.48994 6.99999L11.495 10.005C11.7683 10.2784 11.7683 10.7216 11.495 10.995C11.2216 11.2683 10.7784 11.2683 10.505 10.995L7.49999 7.98994L4.49496 10.995C4.2216 11.2683 3.77838 11.2683 3.50501 10.995C3.23165 10.7216 3.23165 10.2784 3.50501 10.005L6.51004 6.99999L3.50501 3.99496C3.23165 3.7216 3.23165 3.27838 3.50501 3.00501Z"
+    //             fill="#620E0E"
+    //           />
+    //         </svg>
+    //       </button>
+    //       <button className="p-1 rounded-custom border border-borderGreeen bg-customBackgroundColor">
+    //         <svg
+    //           xmlns="http://www.w3.org/2000/svg"
+    //           width="15"
+    //           height="14"
+    //           viewBox="0 0 15 14"
+    //           fill="none"
+    //         >
+    //           <path
+    //             fill-rule="evenodd"
+    //             clip-rule="evenodd"
+    //             d="M12.1949 3.70503C12.4683 3.97839 12.4683 4.42161 12.1949 4.69497L6.59495 10.295C6.32158 10.5683 5.87837 10.5683 5.605 10.295L2.805 7.49497C2.53163 7.22161 2.53163 6.77839 2.805 6.50503C3.07837 6.23166 3.52158 6.23166 3.79495 6.50503L6.09998 8.81005L11.205 3.70503C11.4784 3.43166 11.9216 3.43166 12.1949 3.70503Z"
+    //             fill="#125E1B"
+    //           />
+    //         </svg>
+    //       </button>
+    //     </div>
+    //   ),
+    // },
     {
       field: "address",
       headerName: "Store Address",
-      width: "400px",
+      width: "700px",
     },
     {
       field: "rating",
@@ -301,7 +301,7 @@ const Stores: React.FC = () => {
     {
       field: "activeStatus",
       headerName: "Status",
-      width: "120px",
+      width: "85px",
       renderCell: (value, row) => (
         <div className="px-1 py-1 rounded-custom4px bg-bgActive text-customWhiteColor text-[12px] font-[600] font-inter text-center">
           {row.status}
@@ -478,19 +478,19 @@ const Stores: React.FC = () => {
                 <div className="py-1">
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] "
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
                   >
                     Import stores
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] "
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
                   >
                     Create new view
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] "
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
                   >
                     Hide analytics
                   </a>
@@ -528,8 +528,9 @@ const Stores: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      
-        <div className="grid grid-cols-3 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2 px-8">
+      <div className="  ">
+        <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-1 bg-backgroundWhite mx-8 ps-3 py-3 pe-3  rounded-custom8px">
+          
           <StatCard
             value="213"
             description="Active Store"
@@ -647,7 +648,7 @@ const Stores: React.FC = () => {
           />
           <StatCard
             value="50"
-            description="Customers per month"
+            description="Verified"
             descriptionFirst={true}
             icon={
               <svg
@@ -702,29 +703,31 @@ const Stores: React.FC = () => {
             }}
           />
         </div>
-     
-      <UnifiedPopover
-        isOpen={popoverOpen}
-        onClose={() => setPopoverOpen(false)}
-        data={popoverStore}
-        type="store"
-        anchorEl={popoverAnchorEl}
-      />
 
-      {/* Modal */}
-      {isModalOpen && (
-        <CustomModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          mode={modalMode}
-          onSave={handleSave}
-          title={modalMode === "add" ? "Add Store" : "Edit Store"}
-          fields={modalFields}
-          size="md"
-          showToggle={false}
-          confirmText={modalMode === "add" ? "Add" : "Save"}
+        <UnifiedPopover
+          isOpen={popoverOpen}
+          onClose={() => setPopoverOpen(false)}
+          data={popoverStore}
+          type="store"
+          anchorEl={popoverAnchorEl}
         />
-      )}
+
+        {/* Modal */}
+        {isModalOpen && (
+          <CustomModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            mode={modalMode}
+            onSave={handleSave}
+            title={modalMode === "add" ? "Add Store" : "Edit Store"}
+            fields={modalFields}
+            size="md"
+            showToggle={false}
+            confirmText={modalMode === "add" ? "Add" : "Save"}
+          />
+        )}
+      </div>
+
     </div>
   );
 };

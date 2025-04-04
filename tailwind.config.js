@@ -53,6 +53,7 @@ module.exports = {
         textGreen: "#177822",
         headingBlack: "000B33",
         maroon: "#9C1616",
+        primaryCredit: "#EAEDFB",
 
       },
       backgroundColor: {
@@ -72,6 +73,7 @@ module.exports = {
         yellow: "#FFD557",
         maroon: "#9C1616",
         purple: "#F2ECFC",
+        blueCredit: "#506FDC",
       },
       borderColor: {
         "grey-border": "#DBDBDB",
@@ -81,7 +83,7 @@ module.exports = {
        borderGreeen:  "#788C7A",
         bgButton: "#7C43DF",
         cardTitle: "#949494",
-        
+        subMenus: "#F2F2F2",
         menuSubHeadingColor: "#4F4F4F",
       },
       boxShadow: {

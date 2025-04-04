@@ -71,7 +71,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "1",
           name: "Delhi",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           chargeType: "Fixed",
           isActive: true,
         },
@@ -79,7 +79,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "2",
           name: "Delhi",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           chargeType: "Fixed",
           isActive: false,
         },
@@ -87,10 +87,59 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "3",
           name: "Delhi",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           chargeType: "Fixed",
           isActive: true,
         },
+        {
+          id: "4",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "5",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "6",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "7",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "8",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        {
+          id: "9",
+          name: "Delhi",
+          description:
+            "This zone is i...",
+          chargeType: "Fixed",
+          isActive: true,
+        },
+        
       ]
   );
 
@@ -103,7 +152,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "1",
           name: "Green zone - 1",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           type: "Geofence",
           createdOn: "Mar 1, 2025",
           isActive: true,
@@ -112,7 +161,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "2",
           name: "Green zone - 1",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           type: "Percentage",
           createdOn: "Mar 1, 2025",
           isActive: false,
@@ -121,11 +170,66 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           id: "3",
           name: "Green zone - 1",
           description:
-            "This zone is ideal for outdoor activities and gatherings.",
+            "This zone is i...",
           type: "Fixed",
           createdOn: "Mar 1, 2025",
           isActive: true,
         },
+        {
+          id: "4",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Percentage",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "5",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Fixed",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "6",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Percentage",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "7",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Fixed",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "8",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Percentage",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+        {
+          id: "9",
+          name: "Green zone - 1",
+          description:
+            "This zone is i...",
+          type: "Fixed",
+          createdOn: "Mar 1, 2025",
+          isActive: true,
+        },
+       
       ]
   );
 
@@ -141,20 +245,21 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
     {
       id: "description",
       label: "Description",
-      type: "textarea",
+      type: "text",
       placeholder: "Enter description",
       required: true,
       rows: 3,
     },
     {
-      id: "chargeType",
-      label: "Charge Type",
+      id: "Assign Geofence",
+      label: "Assign Geofence",
       type: "select",
       options: [
         { value: "Fixed", label: "Fixed" },
         { value: "Percentage", label: "Percentage" },
       ],
       required: true,
+      rows: 1,
     },
   ];
 
@@ -335,15 +440,19 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
 
   // Define columns for the cities DataGrid
   const cityColumns = [
-    { field: "name", headerName: "Name", width: "15%" },
-    { field: "description", headerName: "Description", width: "35%" },
+    { field: "name", headerName: "Name", width: "5%", renderCell: (value: string, row:string) => (
+      <div className="font-inter font-[500] text-[12px] text-cardValue text-whitespace-nowrap overflow-hidden text-ellipsis">{value}</div>
+    )},
+    { field: "description", headerName: "Description", width: "28%",renderCell: (value: string, row:string) => (
+      <div className="font-inter font-[500] text-[12px] text-cardValue text-whitespace-nowrap overflow-hidden text-ellipsis">{value}</div>
+    ) },
     {
       field: "isActive",
       headerName: "Status",
-      width: "15%",
+      width: "25%",
       renderCell: (value: boolean) => (
         <span
-          className={`px-3 py-1 rounded-full text-sm ${value ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+          className={`px-3 py-1 rounded-custom80px text-[12px] font-inter ${value ? "bg-customBackgroundColor text-green" : "bg-primary text-primary"
             }`}
         >
           {value ? "Active" : "Inactive"}
@@ -353,21 +462,28 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
     {
       field: "chargeType",
       headerName: "Charge Type",
-      width: "15%",
+      width: "20%",
+      renderCell: (value: string, row:string) => (
+        <div className="font-inter font-[500] text-[12px] text-cardValue text-whitespace-nowrap overflow-hidden text-ellipsis">{value}</div>
+      ),
     },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: "10%",
-    //   renderCell: (value: any, row: any) => (
-    //     <div className="flex items-center">
-    //       <PenSquare
-    //         className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
-    //         onClick={() => handleEditItem(row, "cities")}
-    //       />
-    //     </div>
-    //   ),
-    // },
+    {
+      field: "action",
+      headerName: "Action",
+      width: "10%",
+      renderCell: (value: any, row: any) => (
+        <div className="flex items-center" onClick={() => handleEditItem(row, "cities")}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <path d="M13.931 2.06863C13.3061 1.44379 12.2931 1.44379 11.6682 2.06863L5.59961 8.13726V10.4H7.86235L13.931 4.33137C14.5558 3.70653 14.5558 2.69347 13.931 2.06863Z" fill="#2B2B2B"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.59961 4.8C1.59961 3.91634 2.31595 3.2 3.19961 3.2H6.39961C6.84144 3.2 7.19961 3.55817 7.19961 4C7.19961 4.44183 6.84144 4.8 6.39961 4.8H3.19961V12.8H11.1996V9.6C11.1996 9.15817 11.5578 8.8 11.9996 8.8C12.4414 8.8 12.7996 9.15817 12.7996 9.6V12.8C12.7996 13.6837 12.0833 14.4 11.1996 14.4H3.19961C2.31595 14.4 1.59961 13.6837 1.59961 12.8V4.8Z" fill="#2B2B2B"/>
+</svg>
+          {/* <PenSquare
+            className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
+            onClick={() => handleEditItem(row, "cities")}
+          /> */}
+        </div>
+      ),
+    },
     {
       field: "toggle",
       headerName: "",
@@ -384,18 +500,20 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
 
   // Define columns for the geofence DataGrid
   const geofenceColumns = [
-    { field: "name", headerName: "Geofence Name", width: "15%" },
-    { field: "description", headerName: "Description", width: "30%" },
+    { field: "name", headerName: "Geofence Name", width: "20%",  renderCell: (value: string, row:string) => (
+      <div className="font-inter font-[500] text-[12px] text-cardValue text-whitespace-nowrap overflow-hidden text-ellipsis">{value}</div>
+    ) },
+    { field: "description", headerName: "Description", width: "25%",   },
     {
       field: "type",
       headerName: "Type",
       width: "15%",
       renderCell: (value: string) => (
         <span
-          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[600] ${value === "Geofence"
-            ? "bg-blue-100 text-blue-800 "
+          className={`px-3 py-2 rounded-custom80px text-[12px] font-inter font-[500] ${value === "Geofence"
+            ? "bg-primary text-primary"
             : value === "Fixed"
-              ? "bg-blue-100 text-blue-800"
+              ? "bg-primary text-primary"
               : "bg-customWhiteColor text-green"
             }`}
         >
@@ -404,20 +522,35 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       ),
     },
 
-    { field: "createdOn", headerName: "Created on", width: "15%" },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: "10%",
-    //   renderCell: (value: any, row: any) => (
-    //     <div className="flex items-center">
-    //       <PenSquare
-    //         className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
-    //         onClick={() => handleEditItem(row, "geofence")}
-    //       />
-    //     </div>
-    //   ),
-    // },
+    { field: "createdOn", headerName: "Created on", width: "15%",renderCell: (value: string, row:string) => (
+      <div className="font-inter font-[500] text-[12px] text-cardValue text-whitespace-nowrap overflow-hidden text-ellipsis">{value}</div>
+    ) },
+    {
+      field: "action",
+      headerName: "Action",
+      width: "20%", // Increased width to accommodate both toggle and edit icon
+      renderCell: (value: any, row: any) => (
+        <div className="flex items-center justify-between w-full">
+          <div onClick={() => handleEditItem(row, "geofence")}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <path d="M13.931 2.06863C13.3061 1.44379 12.2931 1.44379 11.6682 2.06863L5.59961 8.13726V10.4H7.86235L13.931 4.33137C14.5558 3.70653 14.5558 2.69347 13.931 2.06863Z" fill="#2B2B2B"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.59961 4.8C1.59961 3.91634 2.31595 3.2 3.19961 3.2H6.39961C6.84144 3.2 7.19961 3.55817 7.19961 4C7.19961 4.44183 6.84144 4.8 6.39961 4.8H3.19961V12.8H11.1996V9.6C11.1996 9.15817 11.5578 8.8 11.9996 8.8C12.4414 8.8 12.7996 9.15817 12.7996 9.6V12.8C12.7996 13.6837 12.0833 14.4 11.1996 14.4H3.19961C2.31595 14.4 1.59961 13.6837 1.59961 12.8V4.8Z" fill="#2B2B2B"/>
+</svg>
+            {/* <PenSquare
+              className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
+              onClick={() => handleEditItem(row, "geofence")}
+            /> */}
+          </div>
+          <div>
+            <ToggleSwitch
+              checked={row.isActive}
+              onChange={() => toggleItemStatus(row.id, "geofence")}
+              aria-labelledby={`geofence-status-${row.id}`}
+            />
+          </div>
+        </div>
+      )
+    }
   ];
 
   // SelectAll and SelectRow functions
@@ -541,8 +674,9 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               onSelectRow={handleSelectRowGeofences}
               searchPlaceholder="Search geofences"
               hideToolbar={false}
-              showActionColumn={true}
+              // showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "geofence")}
+              showCheckboxes={false} 
             // onDelete={(row) => handleDeleteItem(row, "geofence")}
             />
 
@@ -574,9 +708,11 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
               onSelectRow={handleSelectRowCities}
               searchPlaceholder="Search cities"
               hideToolbar={false}
-              showActionColumn={true}
+              // showActionColumn={true}
               onEdit={(row) => handleEditItem(row, "cities")}
             // onDelete={(row) => handleDeleteItem(row, "cities")}
+            showCheckboxes={false} 
+
             />
           </div>
         </div>
@@ -634,7 +770,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
                       };
                       handleSaveItem(newGeofence);
                     }}
-                    className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor border boder-btnBorder bg-bgButton rounded-custom"
+                    className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border boder-btnBorder rounded-custom"
                   >
                     Save
                   </button>
@@ -747,59 +883,182 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
         )}
 
       {/* Regular Modal for Cities and Delete operations */}
-      {isModalOpen &&
-        (currentSection !== "geofence" || modalMode === "delete") && (
-          <CustomModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            mode={modalMode}
-            fields={
-              modalMode !== "delete"
-                ? currentSection === "cities"
-                  ? cityFields
-                  : geofenceFields
-                : []
-            }
-            item={
-              selectedItem
-                ? {
-                  ...selectedItem,
-                  isActive: selectedItem.isActive,
-                }
-                : undefined
-            }
-            onSave={handleSaveItem}
-            title={getModalTitle()}
-            subtitle={
-              modalMode === "delete"
-                ? `Are you sure you want to delete ${selectedItem?.name}?`
-                : undefined
-            }
-            size="sm"
-            showToggle={modalMode !== "add" && modalMode !== "delete"}
-            toggleLabel="Active"
-            confirmText={
-              modalMode === "add"
-                ? "Save"
-                : modalMode === "edit"
-                  ? "Save Changes"
-                  : modalMode === "delete"
-                    ? "Delete"
-                    : modalMode === "view"
-                      ? "Close"
-                      : "OK"
-            }
-          >
-            {modalMode === "delete" && (
-              <p className="text-gray-600">
-                This action cannot be undone. This will permanently delete the{" "}
-                {currentSection === "cities" ? "city" : "geofence"}
-                <span className="font-medium"> {selectedItem?.name}</span> and
-                remove all associated data.
-              </p>
-            )}
-          </CustomModal>
-        )}
+      {/* Regular Modal for Cities and Delete operations */}
+{isModalOpen &&
+  (currentSection !== "geofence" || modalMode === "delete") && (
+    <CustomModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      mode={modalMode}
+      fields={
+        modalMode !== "delete"
+          ? currentSection === "cities"
+            ? cityFields
+            : geofenceFields
+          : []
+      }
+      item={
+        selectedItem
+          ? {
+            ...selectedItem,
+            isActive: selectedItem.isActive,
+          }
+          : undefined
+      }
+      onSave={handleSaveItem}
+      title={getModalTitle()}
+      subtitle={
+        modalMode === "delete"
+          ? `Are you sure you want to delete ${selectedItem?.name}?`
+          : undefined
+      }
+      size="sm"
+      formLayout="grid"
+      gridColumns={2}
+      showToggle={modalMode !== "add" && modalMode !== "delete"}
+      toggleLabel="Active"
+      confirmText={
+        modalMode === "add"
+          ? "Save"
+          : modalMode === "edit"
+            ? "Save Changes"
+            : modalMode === "delete"
+              ? "Delete"
+              : modalMode === "view"
+                ? "Close"
+                : "OK"
+      }
+    >
+      {modalMode === "delete" ? (
+        <p className="text-gray-600">
+          This action cannot be undone. This will permanently delete the{" "}
+          {currentSection === "cities" ? "city" : "geofence"}
+          <span className="font-medium"> {selectedItem?.name}</span> and
+          remove all associated data.
+        </p>
+      ) : currentSection === "cities" && (modalMode === "add" || modalMode === "edit") ? (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="city-name"
+                type="text"
+                className="w-full px-3 py-4 border border-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
+                placeholder="Enter city name"
+                defaultValue={selectedItem?.name || ""}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                Description
+              </label>
+              <input
+                id="city-description"
+                type="text"
+                className="w-full px-3 py-4 border border-reloadBorder font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-reloadBorder"
+                placeholder="Enter description"
+                defaultValue={selectedItem?.description || ""}
+              />
+            </div>
+          </div>
+          
+          <div className="w-full">
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+              Assign Geofence* <span className="text-red-500">*</span>
+            </label>
+            <div className="relative font-inter">
+              <select
+                id="city-geofence"
+                className="w-full px-3 py-4 border border-reloadBorder text-[12px] font-inter placeholder:text-reloadBorder placeholder:text-[14px] placeholder:font-[400] rounded-custom8px text-black appearance-none bg-white pr-10"
+                defaultValue=""
+                required
+              >
+                <option value="" disabled>Select</option>
+                <option value="Fixed">Fixed</option>
+                <option value="Percentage">Percentage</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-4">
+            <label className="flex items-center text-sm">
+              <div className="flex-1">
+                <span className="font-inter text-sm">Enable this toggle to define Delivery Charges for Order at City Level</span>
+              </div>
+              <div>
+                <ToggleSwitch 
+                  checked={false} 
+                  onChange={() => {}} 
+                  aria-labelledby="delivery-charges-toggle"
+                />
+              </div>
+            </label>
+          </div>
+          
+          <div className="pt-2">
+            <label className="flex items-center text-sm">
+              <div className="flex-1">
+                <span className="font-inter text-sm">Enable this toggle to define Delivery for Custom Order at City Level</span>
+              </div>
+              <div>
+                <ToggleSwitch 
+                  checked={false} 
+                  onChange={() => {}} 
+                  aria-labelledby="custom-order-toggle"
+                />
+              </div>
+            </label>
+          </div>
+          
+          <div className="flex justify-end pt-4">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite mr-2"
+            >
+              Discard
+            </button>
+            <button
+              onClick={() => {
+                const nameInput = document.getElementById(
+                  "city-name"
+                ) as HTMLInputElement;
+                const descriptionInput = document.getElementById(
+                  "city-description"
+                ) as HTMLInputElement;
+                const geofenceSelect = document.getElementById(
+                  "city-geofence"
+                ) as HTMLSelectElement;
+
+                const newCity = {
+                  id: selectedItem?.id || Date.now().toString(),
+                  name: nameInput?.value || "New City",
+                  description: descriptionInput?.value || "",
+                  chargeType: geofenceSelect?.value as "Fixed" | "Percentage" || "Fixed",
+                  isActive:
+                    selectedItem?.isActive !== undefined
+                      ? selectedItem.isActive
+                      : true,
+                };
+                handleSaveItem(newCity);
+              }}
+              className="px-4 py-2 text-[12px] font-inter font-[600] text-white bg-indigo-600 rounded"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      ) : null}
+    </CustomModal>
+  )}
 
       {/* Notification */}
       {showNotification && (

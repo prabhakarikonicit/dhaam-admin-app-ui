@@ -74,14 +74,33 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
         {/* Delivery Mode Options */}
         <div className="space-y-4 border-t pt-4">
           {/* Take Away Option */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="takeaway"
-              checked={settings.takeAway}
-              onChange={() => toggleSetting("takeAway")}
-              className="appearance-none h-5 w-5 rounded border border-gray-300 font-inter text-textHeading checked:bg-purple-600 checked:border-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-1"
-            />
+          <div className="flex items-center border-b py-4">
+            <div className="relative flex items-center justify-center">
+              <input
+                type="checkbox"
+                id="takeaway"
+                checked={settings.takeAway}
+                onChange={() => toggleSetting("takeAway")}
+                className="appearance-none h-5 w-5 rounded-md border border-gray-300 
+                  checked:bg-bgButton checked:border-bgButton focus:outline-none"
+              />
+              {settings.takeAway && (
+                <svg
+                  className="absolute w-3 h-3 text-white pointer-events-none"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              )}
+            </div>
             <label
               htmlFor="takeaway"
               className="ml-3 text-[14px] font-inter font-[400] text-textHeading"
@@ -92,13 +111,32 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
 
           {/* Home Delivery Option */}
           <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="homeDelivery"
-              checked={settings.homeDelivery}
-              onChange={() => toggleSetting("homeDelivery")}
-              className="h-5 w-5 text-indigo-600 rounded border-gray-300 text-[12px] font-inter font-[600] text-textHeading"
-            />
+            <div className="relative flex items-center justify-center">
+              <input
+                type="checkbox"
+                id="homeDelivery"
+                checked={settings.homeDelivery}
+                onChange={() => toggleSetting("homeDelivery")}
+                className="appearance-none h-5 w-5 rounded-md border border-gray-300 
+                  checked:bg-bgButton checked:border-bgButton focus:outline-none"
+              />
+              {settings.homeDelivery && (
+                <svg
+                  className="absolute w-3 h-3 text-white pointer-events-none"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              )}
+            </div>
             <label
               htmlFor="homeDelivery"
               className="ml-3 text-[14px] font-inter font-[500] text-textHeading"
@@ -158,14 +196,27 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
         {settings.deliveryManager && (
           <div className="mt-4 space-y-4">
             <div className="flex items-center">
-              <input
-                type="radio"
-                id="admin"
-                name="deliveryManagement"
-                checked={settings.deliveryManagement === "admin"}
-                onChange={() => setDeliveryManagement("admin")}
-                className="h-4 w-4 text-indigo-600 border-gray-300 rounded-custom28px focus:ring-indigo-500"
-              />
+              <div className="relative">
+                <input
+                  type="radio"
+                  id="admin"
+                  name="deliveryManagement"
+                  checked={settings.deliveryManagement === "admin"}
+                  onChange={() => setDeliveryManagement("admin")}
+                  className="sr-only"
+                />
+                <div
+                  className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                    settings.deliveryManagement === "admin"
+                      ? "border-1 border-bgButton"
+                      : "border border-gray-300"
+                  }`}
+                >
+                  {settings.deliveryManagement === "admin" && (
+                    <div className="w-2 h-2 rounded-full bg-bgButton"></div>
+                  )}
+                </div>
+              </div>
               <label
                 htmlFor="admin"
                 className="ml-3 text-[14px] font-inter font-[500] text-textHeading"
@@ -174,14 +225,27 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
               </label>
 
               <div className="flex ml-4 items-center">
-                <input
-                  type="radio"
-                  id="store"
-                  name="deliveryManagement"
-                  checked={settings.deliveryManagement === "store"}
-                  onChange={() => setDeliveryManagement("store")}
-                  className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
-                />
+                <div className="relative">
+                  <input
+                    type="radio"
+                    id="store"
+                    name="deliveryManagement"
+                    checked={settings.deliveryManagement === "store"}
+                    onChange={() => setDeliveryManagement("store")}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                      settings.deliveryManagement === "store"
+                        ? "border-1 border-bgButton"
+                        : "border border-gray-300"
+                    }`}
+                  >
+                    {settings.deliveryManagement === "store" && (
+                      <div className="w-2 h-2 rounded-full bg-bgButton"></div>
+                    )}
+                  </div>
+                </div>
                 <label
                   htmlFor="store"
                   className="ml-3 text-[14px] font-inter font-[500] text-textHeading"
@@ -679,10 +743,10 @@ export const StoreTimingAvailability = ({
                     name="dayOption"
                     checked={selectedDayOption === option.id}
                     onChange={() => setSelectedDayOption(option.id)}
-                    className="appearance-none checked:border-purple-600 checked:border-1 w-5 h-5 rounded-full border border-gray-300 "
+                    className="appearance-none checked:border-bgButton checked:border-1 w-5 h-5 rounded-full border border-gray-300 "
                   />
                   {selectedDayOption === option.id && (
-                    <div className="absolute w-3 h-3 rounded-full bg-purple-600 left-1 top-1"></div>
+                    <div className="absolute w-3 h-3 rounded-full bg-bgButton  left-1 top-1"></div>
                   )}
                 </div>
                 <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px] ">
@@ -709,12 +773,12 @@ export const StoreTimingAvailability = ({
                   <div
                     className={`w-5 h-5 rounded-full border flex items-center justify-center ${
                       selectedTimeOption === option.id
-                        ? "border-1 border-purple-600"
+                        ? "border-1 border-[#7E3AF2]"
                         : "border border-gray-300"
                     }`}
                   >
                     {selectedTimeOption === option.id && (
-                      <div className="w-3 h-3 rounded-full bg-purple-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#7E3AF2]"></div>
                     )}
                   </div>
                 </div>

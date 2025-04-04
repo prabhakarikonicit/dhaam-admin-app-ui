@@ -180,27 +180,36 @@ const LanguagesForm: React.FC = () => {
             Published language for website
           </label>
           <div className="relative">
-            <select className="w-full p-3 pl-4 pr-10 font-inter text-reloadBorder appearance-none  border border-reloadBorder rounded-custom8px text-[12px] bg-white ">
-              <option className="font-inter text-reloadBorder">Default | English</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ArrowsIcon />
+            <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center cursor-pointer">
+              <span className="bg-subMenus font-inter text-headding-color px-2.5 py-0.5 font-[600] text-[12px] rounded-custom8px inline-block min-w-[60px] text-center">
+                Default
+              </span> &nbsp;&nbsp;
+
+
+              <span className="text-menuSubHeadingColor font-inter"> English</span>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <ArrowsIcon />
+              </div>
             </div>
           </div>
 
           <div className="bg-backgroundWhite mt-4">
-          <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
-            Published language for admin dashboard
-          </label>
-          <div className="relative">
-            <select className="w-full p-3 pl-4 pr-10 font-inter text-reloadBorder appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white">
-              <option className="font-inter text-reloadBorder">Default | English</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ArrowsIcon />
+            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
+              Published language for admin dashboard
+            </label>
+            <div className="relative">
+              <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center cursor-pointer">
+                <span className="bg-subMenus font-inter text-headding-color px-2.5 py-0.5 font-[600] text-[12px] rounded-custom8px inline-block min-w-[60px] text-center">
+                  Default
+                </span> &nbsp;&nbsp;
+
+                <span className="text-reloadBorder font-inter"> English</span>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <ArrowsIcon />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
         </div>
 
         <div className="flex items-center justify-between p-3 bg-backgroundWhite border border-gray-200 rounded-custom">
@@ -243,8 +252,8 @@ const LanguagesForm: React.FC = () => {
               </div>
             </div>
           </div>
-       {/* Divider */}
-       <hr className="my-4 border-t border-gray-200" />
+          {/* Divider */}
+          <hr className="my-4 border-t border-gray-200" />
           <div className="grid md:grid-cols-5 sm:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 grid-cols-2  gap-2 ">
             {filteredLanguages.map((lang) => (
               <div key={lang.value} className="flex items-center gap-2">
@@ -280,7 +289,7 @@ const LanguagesForm: React.FC = () => {
 
         <div className="relative w-full h-[220px] bg-black rounded-lg overflow-hidden">
           <img
-            src="/api/placeholder/800/450"
+            src="https://s3-alpha-sig.figma.com/img/d51c/d045/296429e50ed02c7a4af51fc00a80c54d?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=TxOzCADP1NTEVgcaYnPMWyoHiBrxkfiX64NY9u2HGUhIuw2EI5kKr3X2ZpHBoNszwDDN63Ip1Qipia~9La5FXMANL3MWKbkCj0J6ZkrS32UEVL0HkQ4GH~PwclfdGiGJtF1Z-5vY~8pCKT3LXNbtdJPB83MpUeiHRcZ3X701Lgb~mmNG3TTgA1ID9NscZpDd5gTgHUGw6W5l8nlCcVfPjbPNRR6rPlup4Tlz9uqBgYkPdwP8cXQymBHF~QLFp6mAr9DY4yY8BbQSPBjiLcE-5ymvQmLgVJZivZJOspS0Jl~pbhQ6jmVCdiQ4r6Bfsz28typHZRyh17Zw2LPnDXmbTQ__"
             alt="Video thumbnail"
             className="w-full h-full object-cover"
           />
