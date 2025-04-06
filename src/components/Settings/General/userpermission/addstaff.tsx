@@ -53,7 +53,7 @@ const PermissionSection: React.FC<PermissionSectionProps> = ({
         }`}
         onClick={section.isCollapsible ? onExpand : undefined}
       >
-        <span className="text-[14px] font-inter font-[500] text-gray-900 ">
+        <span className="text-[14px] font-inter font-[500] text-black ">
           {section.name}
         </span>
         <div className="flex items-center gap-3">
@@ -73,13 +73,13 @@ const PermissionSection: React.FC<PermissionSectionProps> = ({
       {section.actions.length > 0 &&
         section.enabled &&
         !section.isCollapsible && (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-30 ">
             {section.actions.map((action) => (
               <div
                 key={action.id}
-                className="flex items-center justify-between p-4 pl-8 bg-white"
+                className="flex items-center justify-between p-4 bg-white"
               >
-                <span className="text-[14px] font-inter text-gray-700">
+                <span className="text-[12px] font-inter font-[500] text-textHeading">
                   {action.name}
                 </span>
                 <ToggleSwitch
@@ -92,12 +92,14 @@ const PermissionSection: React.FC<PermissionSectionProps> = ({
         )}
 
       {section.isCollapsible && isExpanded && (
-        <div className="bg-white p-4"> {/* Added bg-white here */}
-        <div className="border-t border-gray-200 p-4">
-          <div className="text-[14px] font-inter text-gray-600">
-            Content for {section.name}
+        <div className="bg-white p-4">
+          {" "}
+          {/* Added bg-white here */}
+          <div className="border-t border-gray-200 p-4">
+            <div className="text-[14px] font-inter text-textHeading">
+              Content for {section.name}
+            </div>
           </div>
-        </div>
         </div>
       )}
     </div>
@@ -271,22 +273,25 @@ const AddStaff: React.FC<{
 
       <div className=" mt-4">
         <div className="space-y-6 p-6 bg-backgroundWhite rounded-custom12px">
-          {/* Staff Name */}
-          <div>
-            <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
-              Staff Name*
-            </label>
-            <input
-              type="text"
-              value={staffName}
-              onChange={(e) => setStaffName(e.target.value)}
-              className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]"
-              placeholder="Store Manager"
-            />
-          </div>
+          <div className="flex flex-col sm:flex-row gap-8">
+            {/* Staff Name */}
+            <div className="flex-1">
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
+                Staff Name*
+              </label>
+              <input
+                type="text"
+                value={staffName}
+                onChange={(e) => setStaffName(e.target.value)}
+                className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
+                placeholder="Store Manager"
+              />
+            </div>
 
-          {/* Description */}
-          <div>
+            {/* Assign Store */}
+            <div className="flex-1">
+                        {/* Description */}
+          {/* <div>
             <label className="block text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
               Description
             </label>
@@ -297,67 +302,99 @@ const AddStaff: React.FC<{
               className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]"
               placeholder="Lorem ipsum"
             />
+          </div> */}
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
+                Assign Store*
+              </label>
+              <div className="relative">
+                <select
+                  // value={assignedStore}
+                  // onChange={(e) => setAssignedStore(e.target.value)}
+                  className="w-full appearance-none px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
+                >
+                  <option value="" disabled className="text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]">Select Store</option>
+                  <option value="store1" className="text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]">Store 1</option>
+                  <option value="store2" className="text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]">Store 2</option>
+                </select>
+                {/* SVG icon */}
+                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex w-full gap-8 ">
             <div className="flex-1 border-r border-gray-100">
-              <label className="block text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
                 Email
               </label>
               <input
                 type="email"
                 // value={email}
                 // onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]"
+                className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
                 placeholder="Enter email"
               />
             </div>
 
             <div className="flex-1 ">
-              <label className="block text-[14px] font-inter font-[500] text-paragraphBlack mb-2">
+              <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
                 Password
               </label>
               <input
                 type="password"
                 // value={password}
                 // onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400]"
+                className="w-full px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
                 placeholder="Set password"
               />
             </div>
           </div>
-          </div>
-         
+        </div>
 
-          <div className="mt-5">
+        <div className="mt-5">
           <h3 className="text-[14px] font-inter font-[600] text-headding-color mb-4 ms-2">
-              Permissions
-            </h3>
-            </div>
-          {/* Permissions */}
-            <div className="grid grid-cols-4 gap-20 ">
-              {/* Left Sidebar */}
-              <div className="space-y-2 bg-backgroundWhite p-3 rounded-custom12px w-56">
-                {menuItems.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => setSelectedTab(item)}
-                    className={`text-[14px] font-inter w-full text-left px-4 py-2 rounded transition-colors
+            Permissions
+          </h3>
+        </div>
+        {/* Permissions */}
+        <div className="grid grid-cols-2 md:grid-cols-3 sm:md:grid-cols-3 lg:md:grid-cols-3 xl:md:grid-cols-3 gap-4 ">
+          {/* Left Sidebar */}
+          <div className="space-y-2 bg-backgroundWhite p-3 rounded-custom12px md:w-64 sm:w-64 lg:w-64 xl:w-64 w-48 ">
+            {menuItems.map((item) => (
+              <button
+                key={item}
+                onClick={() => setSelectedTab(item)}
+                className={`text-[14px] font-inter w-full text-left px-4 py-2 whitespace-nowrap
+  rounded transition-colors
                       ${
                         selectedTab === item
                           ? "bg-subMenus text-verifyOtp font-[500] p-0"
                           : "text-headding-color font-[400]"
                       }`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
+              >
+                {item}
+              </button>
+            ))}
+          </div>
 
-              {/* Right Content */}
-              <div className="col-span-3 rounded-custom12px">{renderPermissionContent()}</div>
-            </div>
-   
-       
+          {/* Right Content */}
+          <div className="col-span-1 md:col-span-2 sm:col-span-2 lg:col-span-2 xl:col-span-2 rounded-custom12px whitespace-nowrap p-0">
+            {renderPermissionContent()}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ const ColorPicker: React.FC<{
 
   return (
     <div className="mb-6 relative w-full">
-      <div className="flex flex-col md:flex-row sm:flex-row lg:flex-row xl:flex-row justify-between items-start w-full">
+      <div className="flex flex-col md:flex-row sm:flex-row lg:flex-row xl:flex-row justify-between items-start w-full border-b border-grey-border pb-4">
         {/* Mobile View */}
         <div className="md:hidden sm:hidden lg:hidden xl:hidden block w-full flex flex-wrap">
           <h3 className=" text-[11px] font-inter font-[500] text-textHeading mb-1 ">{label}</h3>

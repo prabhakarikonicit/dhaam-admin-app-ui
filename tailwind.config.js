@@ -95,6 +95,7 @@ module.exports = {
         custom4x: "4px",
         custom7px: "7px",
         custom8px: "8px",
+        custom10px: "10px",
         custom12px: "12px",
         custom16px: "16px",
         custom18px: "18px",

@@ -77,7 +77,7 @@ const PaymentsForm: React.FC = () => {
       field: "status",
       headerName: "Status",
       headerClassName: "status-heading",
-      width: "120px",
+      width: "10px",
       renderCell: (value: any, row: any) => (
         <div
           className={`status-pill ${
@@ -345,7 +345,7 @@ const PaymentsForm: React.FC = () => {
                     width: "120px",
                     renderCell: (value) => (
                       <div
-                        className={`px-3 py-1 rounded-custom80px text-center text-[12px] font-inter font-[500] ${
+                        className={`px-2 py-1 w-16 rounded-custom80px text-center text-[12px] font-inter font-[500] ${
                           value === "Paid"
                             ? "bg-green text-customWhiteColor"
                             : "bg-gray-200 text-gray-600"
@@ -401,7 +401,9 @@ const PaymentsForm: React.FC = () => {
 
       {showTransactionDetails && selectedTransaction && (
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-end ">
-          <div className="bg-white w-full sm:w-96 h-full overflow-y-auto mt-5 mr-2 rounded-custom12px">
+      <div className="bg-white w-full sm:w-96 h-full overflow-y-auto mt-5 mr-2 rounded-custom12px 
+               auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+
             <div className="p-3 flex justify-between border-b  bg-background-grey mb-5">
               <h2 className="text-billingNumber font-inter font-[600] font-[16px] cursor-pointer hover:underline">
                 {selectedTransaction?.transactionId}

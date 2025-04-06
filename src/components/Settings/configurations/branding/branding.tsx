@@ -124,7 +124,7 @@ export const Branding: React.FC = () => {
       <div className="p-6 bg-backgroundWhite rounded-bl-custom8px rounded-br-custom8px">
         {/* Website Section */}
         <div className="mb-8">
-          <div className="bg-backgroundWhite ">
+          <div className="bg-backgroundWhite border-b ">
             <FileUpload
               label="Website logo"
               dimensions="140×40 pixels"

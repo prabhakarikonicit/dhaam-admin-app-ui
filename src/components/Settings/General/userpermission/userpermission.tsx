@@ -6,7 +6,7 @@ interface StaffMember {
   name: string;
   createdOn: string;
   time: string;
-  status: "Paid" | "Pending" | "Failed";
+  status: "Active" | "Inactive";
   description: string;
 }
 
@@ -20,47 +20,79 @@ const UserPermission: React.FC = () => {
       name: "Administrator",
       createdOn: "January 26",
       time: "06:30 PM",
-      status: "Paid",
+      status: "Active",
       description: "Lorem ipsum",
     },
     {
       id: "2",
       name: "Administrator",
-      createdOn: "January 26",
+      createdOn: "February 26",
       time: "06:30 PM",
-      status: "Paid",
+      status: "Inactive",
       description: "Dolor sit amet",
     },
     {
       id: "3",
       name: "Administrator",
-      createdOn: "January 26",
+      createdOn: "March 26",
       time: "06:30 PM",
-      status: "Paid",
+      status: "Inactive",
       description: "Tempor incididunt...",
     },
     {
       id: "4",
       name: "Cashier",
-      createdOn: "January 26",
+      createdOn: "April 26",
       time: "06:30 PM",
-      status: "Paid",
+      status: "Active",
       description: "Consectetur adipi...",
     },
     {
       id: "5",
       name: "Administrator",
-      createdOn: "January 26",
+      createdOn: "May 26",
       time: "06:30 PM",
-      status: "Pending",
+      status: "Inactive",
       description: "Tempor incididunt...",
     },
     {
       id: "6",
       name: "Store Manager",
-      createdOn: "January 26",
+      createdOn: "June 26",
       time: "06:30 PM",
-      status: "Failed",
+      status: "Inactive",
+      description: "Sed do eiusmod",
+    },
+    {
+      id: "7",
+      name: "Stock Clerks",
+      createdOn: "July 26",
+      time: "06:30 PM",
+      status: "Inactive",
+      description: "Sed do eiusmod",
+    },
+    {
+      id: "8",
+      name: "Administrator",
+      createdOn: "August 26",
+      time: "06:30 PM",
+      status: "Inactive",
+      description: "Sed do eiusmod",
+    },
+    {
+      id: "9",
+      name: "Baggers",
+      createdOn: "September 26",
+      time: "06:30 PM",
+      status: "Inactive",
+      description: "Sed do eiusmod",
+    },
+    {
+      id: "10",
+      name: "Assistant Store M...",
+      createdOn: "October 26",
+      time: "06:30 PM",
+      status: "Inactive",
       description: "Sed do eiusmod",
     },
   ];
@@ -153,7 +185,7 @@ const UserPermission: React.FC = () => {
                 {
                   field: "name",
                   headerName: "Staff Name",
-                  width: "200px",
+                  width: "150px",
                   renderCell: (value) => (
                     <span className="text-billingNumber font-inter font-[600] cursor-pointer hover:underline">
                       {value}
@@ -168,7 +200,18 @@ const UserPermission: React.FC = () => {
                 {
                   field: "status",
                   headerName: "Status",
-                  width: "120px",
+                  width: "150px",
+                  renderCell: (value) => (
+                    <div
+                    className={`px-1 py-1 w-20 rounded-custom80px text-center text-[12px] font-inter font-[600] ${
+                      value === "Active"
+                        ? "bg-green text-customWhiteColor"
+                        : "bg-gray-200 text-gray-600"
+                    }`}
+                  >
+                    {value}
+                  </div>
+                  ),
                 },
                 {
                   field: "description",
