@@ -734,60 +734,60 @@ export const StoreTimingAvailability = ({
       <div className="bg-backgroundWhite rounded-bl-custom8px rounded-br-custom8px border border-reloadBorder p-4 ">
         {/* Day Options */}
         <div className="py-4">
-          {dayOptions.map((option) => (
-            <div key={option.id} className="py-2">
-              <label className="flex items-center cursor-pointer">
-                <div className="relative flex items-center">
-                  <input
-                    type="radio"
-                    name="dayOption"
-                    checked={selectedDayOption === option.id}
-                    onChange={() => setSelectedDayOption(option.id)}
-                    className="appearance-none checked:border-bgButton checked:border-1 w-5 h-5 rounded-full border border-gray-300 "
-                  />
-                  {selectedDayOption === option.id && (
-                    <div className="absolute w-3 h-3 rounded-full bg-bgButton  left-1 top-1"></div>
-                  )}
-                </div>
-                <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px] ">
-                  {option.label}
-                </span>
-              </label>
-            </div>
-          ))}
+  {dayOptions.map((option, index) => (
+    <div key={option.id} className={`py-3 ${index === 0 ? 'border-b border-grey-border' : ''}`}>
+      <label className="flex items-center cursor-pointer">
+        <div className="relative flex items-center">
+          <input
+            type="radio"
+            name="dayOption"
+            checked={selectedDayOption === option.id}
+            onChange={() => setSelectedDayOption(option.id)}
+            className="appearance-none checked:border-bgButton checked:border-1 w-5 h-5 rounded-full border border-gray-300 "
+          />
+          {selectedDayOption === option.id && (
+            <div className="absolute w-3 h-3 rounded-full bg-bgButton left-1 top-1"></div>
+          )}
         </div>
+        <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px] ">
+          {option.label}
+        </span>
+      </label>
+    </div>
+  ))}
+</div>
 
         {/* Time Options */}
         <div className="border-t border-reloadBorder py-4">
-          {timeOptions.map((option) => (
-            <div key={option.id} className="py-2">
-              <label className="flex items-center cursor-pointer ">
-                <div className="relative">
-                  <input
-                    type="radio"
-                    name="timeOption"
-                    checked={selectedTimeOption === option.id}
-                    onChange={() => setSelectedTimeOption(option.id)}
-                    className="sr-only"
-                  />
-                  <div
-                    className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                      selectedTimeOption === option.id
-                        ? "border-1 border-[#7E3AF2]"
-                        : "border border-gray-300"
-                    }`}
-                  >
-                    {selectedTimeOption === option.id && (
-                      <div className="w-3 h-3 rounded-full bg-[#7E3AF2]"></div>
-                    )}
-                  </div>
-                </div>
-                <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px]">
-                  {option.label}
-                </span>
-              </label>
-            </div>
-          ))}
+        {timeOptions.map((option, index) => (
+  <div key={option.id} className={`py-3 ${index === 0 ? 'border-b border-grey-border' : ''}`}>
+    <label className="flex items-center cursor-pointer">
+      <div className="relative">
+        <input
+          type="radio"
+          name="timeOption"
+          checked={selectedTimeOption === option.id}
+          onChange={() => setSelectedTimeOption(option.id)}
+          className="sr-only"
+        />
+        <div
+          className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+            selectedTimeOption === option.id
+              ? "border-1 border-[#7E3AF2]"
+              : "border border-gray-300"
+          }`}
+        >
+          {selectedTimeOption === option.id && (
+            <div className="w-3 h-3 rounded-full bg-[#7E3AF2]"></div>
+          )}
+        </div>
+      </div>
+      <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px]">
+        {option.label}
+      </span>
+    </label>
+  </div>
+))}
         </div>
       </div>
     </div>

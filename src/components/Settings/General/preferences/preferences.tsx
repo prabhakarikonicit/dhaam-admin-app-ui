@@ -74,7 +74,7 @@ const Preferences: React.FC = () => {
         {preferences.map((pref) => (
           <div 
             key={pref.id}
-            className="flex items-center justify-between py-4 border-b border-grey-border last:border-0"
+            className="flex items-center justify-between py-2 border-b border-grey-border last:border-0"
           >
             <div>
               <h3 

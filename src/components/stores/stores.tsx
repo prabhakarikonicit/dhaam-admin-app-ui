@@ -272,7 +272,7 @@ const Stores: React.FC = () => {
     {
       field: "address",
       headerName: "Store Address",
-      width: "700px",
+      width: "472px",
     },
     {
       field: "rating",

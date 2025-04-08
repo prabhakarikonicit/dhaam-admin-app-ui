@@ -118,7 +118,7 @@ const UploadFileModal: React.FC<UploadFileModalProps> = ({ isOpen, onClose, onUp
             disabled={!selectedFile}
             className={`px-4 py-2 ${
               selectedFile
-                ? 'bg-purpleColor hover:bg-purple-700 text-white font-inter'
+                ? 'bg-bgButton hover:bg-bgButton text-white font-inter'
                 : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             } rounded-custom7px`}
           >

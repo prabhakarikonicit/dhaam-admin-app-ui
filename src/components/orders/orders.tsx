@@ -272,7 +272,7 @@ const Orders: React.FC = () => {
 
     // Reject icon (red X)
     const rejectIcon = (
-      <div className="flex justify-center items-center w-8 h-8 rounded-custom border border-borderCrossIcon bg-bgCrossIcon">
+      <div className="flex justify-center items-center w-8 h-8 rounded-custom border border-borderCrossIcon bg-bgCrossIcon"> 
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="15"
@@ -356,8 +356,9 @@ const Orders: React.FC = () => {
     } else if (method === "Credit Card") {
       styleClass =
         "bg-blueCredit rounded-custom4x text-primaryCredit font-inter font-[600]";
-      widthClass = "w-30";
+      widthClass = "w-32";
     }
+  
 
     return (
       <div
@@ -501,7 +502,7 @@ const Orders: React.FC = () => {
     {
       field: "deliveryAddress",
       headerName: "Delivery Address",
-      width: "500px",
+    width: "55%",
       type: "text",
       //  renderCell: (value, row) => (
       //   <div className="text-[12px] font-inter font-[500] text-cardValue whitespace-nowrap overflow-hidden text-ellipsis p-0">
@@ -525,12 +526,12 @@ const Orders: React.FC = () => {
     {
       field: "scheduleTime",
       headerName: "Schedule Time",
-      width: "62%",
+      width: "",
       type: "text",
       renderCell: (value, row) => (
-        <div className="flex items-center justify-between w-full pr-14 ">
+        <div className="flex items-center justify-between w-[96px]  pr-1 mr-3">
           <div>
-            <div className="text-[14px] font-inter font-[500] text-cardValue leading-[21px]">
+            <div className="text-[14px] font-inter  w-[80px]  font-[500] text-cardValue leading-[21px] mr-4">
               {row.scheduleDate}
             </div>
             <div className="text-[11px] font-[400] font-inter text-cardTitle">
@@ -570,7 +571,7 @@ const Orders: React.FC = () => {
     {
       field: "paymentMethod",
       headerName: "Payment Method",
-      width: "100%",
+      width: "",
       type: "text",
       renderCell: (value, row) => renderPaymentMethod(value, row),
     },

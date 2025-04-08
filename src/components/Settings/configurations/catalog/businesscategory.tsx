@@ -238,10 +238,15 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
       renderCell: (value: any, row: any) => (
         <div className="flex items-center">
           <button onClick={() => handleDeleteCategory(row)} className="p-1">
-            <Trash2 className="w-5 h-5 text-gray-600" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.20003 1.59961C6.89701 1.59961 6.62 1.77081 6.48448 2.04184L5.9056 3.19961H3.20002C2.7582 3.19961 2.40002 3.55778 2.40002 3.99961C2.40002 4.44144 2.7582 4.79961 3.20002 4.79961L3.20002 12.7996C3.20002 13.6833 3.91637 14.3996 4.80002 14.3996H11.2C12.0837 14.3996 12.8 13.6833 12.8 12.7996V4.79961C13.2419 4.79961 13.6 4.44144 13.6 3.99961C13.6 3.55778 13.2419 3.19961 12.8 3.19961H10.0945L9.51557 2.04184C9.38005 1.77081 9.10304 1.59961 8.80003 1.59961H7.20003ZM5.60002 6.39961C5.60002 5.95778 5.9582 5.59961 6.40002 5.59961C6.84185 5.59961 7.20002 5.95778 7.20002 6.39961V11.1996C7.20002 11.6414 6.84185 11.9996 6.40002 11.9996C5.9582 11.9996 5.60002 11.6414 5.60002 11.1996V6.39961ZM9.60003 5.59961C9.1582 5.59961 8.80002 5.95778 8.80002 6.39961V11.1996C8.80002 11.6414 9.1582 11.9996 9.60003 11.9996C10.0419 11.9996 10.4 11.6414 10.4 11.1996V6.39961C10.4 5.95778 10.0419 5.59961 9.60003 5.59961Z" fill="#2B2B2B"/>
+</svg>
           </button>
           <button onClick={() => handleEditCategory(row)} className="p-1 ml-2">
-            <PenSquare className="w-5 h-5 text-gray-600" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+  <path d="M13.9313 2.06824C13.3065 1.4434 12.2934 1.4434 11.6686 2.06824L5.59998 8.13687V10.3996H7.86271L13.9313 4.33098C14.5562 3.70614 14.5562 2.69308 13.9313 2.06824Z" fill="#2B2B2B"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.59998 4.79961C1.59998 3.91595 2.31632 3.19961 3.19998 3.19961H6.39998C6.8418 3.19961 7.19998 3.55778 7.19998 3.99961C7.19998 4.44144 6.8418 4.79961 6.39998 4.79961H3.19998V12.7996H11.2V9.59961C11.2 9.15778 11.5581 8.79961 12 8.79961C12.4418 8.79961 12.8 9.15778 12.8 9.59961V12.7996C12.8 13.6833 12.0836 14.3996 11.2 14.3996H3.19998C2.31632 14.3996 1.59998 13.6833 1.59998 12.7996V4.79961Z" fill="#2B2B2B"/>
+</svg>
           </button>
         </div>
       ),
@@ -318,7 +323,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
           <div className="flex">
             <button
               onClick={() => setActiveFilter("All")}
-              className={`px-4 py-2 text-[12px] rounded-custom4px text-textHeading  ${
+              className={`px-4 py-2 text-[12px] rounded-custom4px font-inter text-textHeading  ${
                 activeFilter === "All"
                   ? "bg-subMenus font-inter border-1 border border-cardTitle"
                   : "bg-white"
@@ -328,7 +333,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
             </button>
             <button
               onClick={() => setActiveFilter("Active")}
-              className={`px-4 py-2 text-[12px] rounded-custom4px text-textHeading ${
+              className={`px-4 py-2 text-[12px] font-inter rounded-custom4px text-textHeading ${
                 activeFilter === "Active"
                   ? "bg-subMenus font-inter border-2 border border-cardTitle"
                   : "bg-white"
@@ -338,7 +343,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
             </button>
             <button
               onClick={() => setActiveFilter("Inactive")}
-              className={`px-4 py-2 text-[12px] rounded-custom4px text-textHeading ${
+              className={`px-4 py-2 text-[12px] font-inter rounded-custom4px text-textHeading ${
                 activeFilter === "Inactive"
                   ? "bg-subMenus font-inter border-2 border border-cardTitle"
                   : "bg-white"

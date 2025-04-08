@@ -109,6 +109,41 @@ export interface CustomModalProps<T extends BaseItem> {
     deliveryAddress: string;
   };
 }
+const ToggleSwitch = ({ 
+  label, 
+  checked, 
+  onChange, 
+  disabled 
+}: { 
+  label: string; 
+  checked: boolean; 
+  onChange: () => void; 
+  disabled?: boolean 
+}) => {
+  return (
+    <div className="flex items-center justify-between py-4">
+      <span className="font-inter text-[14px] text-paragraphBlack">{label}</span>
+      <div 
+        className={`relative inline-block w-12 h-6 rounded-full cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+        onClick={disabled ? undefined : onChange}
+      >
+        <div
+          className={`
+            absolute left-0 top-0 w-12 h-6 rounded-full transition-colors duration-200 ease-in-out
+            ${checked ? 'bg-blue-500' : 'bg-gray-300'}
+          `}
+        />
+        <div
+          className={`
+            absolute w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out
+            ${checked ? 'translate-x-6' : 'translate-x-1'} top-0.5
+          `}
+        />
+      </div>
+    </div>
+  );
+};
+
 
 // Toggle component for enabling/disabling items
 const Toggle: React.FC<{
@@ -488,8 +523,39 @@ function CustomModal<T extends BaseItem>({
         disabled: isDisabled
       });
     }
+    if (field.id === "applicableType" || field.id === "applicableOn" || field.id === "type"  || field.id === "serviceFeeAppliedOn" || field.id === "selectMerchant"){
+      return (
+        <div className="relative font-inter font-[400] text-[12px]">
+        <select
+          id={field.id}
+          value={value}
+          onChange={(e) => handleChange(field.id, e.target.value)}
+          disabled={isDisabled}
+          className={`
+            ${baseInputClass}
+            appearance-none font-inter font-[400] text-[14px]
+            placeholder:font-inter placeholder:font-[400] placeholder:text-[12px] text-reloadBorder
+            ${field.id === "selectMerchant" ? "w-full  " : ""}
+          `}
 
-    if (field.id === "apiEndpoint") {
+        >
+          <option value="" disabled className="font-inter font-[400] text-[14px] placeholder:font-inter placeholder:font-[400] placeholder:text-[14px] text-reloadBorder ">Select {field.label}</option>
+          {field.options?.map((option) => (
+            <option key={option.value} value={option.value} className="font-inter font-[400] text-[14px]">
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.70711 7.29289L10 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68342 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#949494"/>
+</svg>
+        </div>
+      </div>
+      );
+
+    }
+    if (field.id === "apiEndpoint" ) {
       return (
         <div className="relative">
           <input

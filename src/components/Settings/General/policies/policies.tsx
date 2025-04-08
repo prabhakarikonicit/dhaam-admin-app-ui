@@ -408,18 +408,64 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
 
   // Define columns for the DataGrid
   const policyColumns = [
-    { field: "name", headerName: "Name", width: "25%" },
-    { field: "description", headerName: "Description", width: "30%" },
-    { field: "createdOn", headerName: "Created on", width: "15%",renderCell: (value: string) => (
-      <span className="text-billingNumber font-[12px] font-inter font-[500] whitespace-nowrap overflow-hidden text-ellipsis">{value}</span>
-    ) },
+    { field: "name", headerName: "Name", width: "50%" },
+    { field: "description", headerName: "Description", width: "80%" },
+    {
+      field: "createdOn",
+      headerName: "Created on",
+      width: "15%",
+      renderCell: (value: string) => (
+        <span className="text-cardValue font-[12px] font-inter font-[500] whitespace-nowrap overflow-hidden text-ellipsis">
+          {value}
+        </span>
+      ),
+    },
     {
       field: "action",
       headerName: "Action",
-      width: "20%",
+      width: "40%",
       renderCell: (value: any, row: any) => (
-        <div className="flex items-center">
-          <LinkIcon
+        <div className="flex items-center justify-evenly">
+          <span className="w-4 h-4 text-blue-600 mr-3 cursor-pointer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M10.0702 3.66863C10.695 3.04379 11.7081 3.04379 12.3329 3.66863C12.9578 4.29347 12.9578 5.30653 12.3329 5.93137L9.93292 8.33137C9.30808 8.95621 8.29502 8.95621 7.67018 8.33137C7.35776 8.01895 6.85123 8.01895 6.53881 8.33137C6.22639 8.64379 6.22639 9.15032 6.53881 9.46274C7.78848 10.7124 9.81461 10.7124 11.0643 9.46274L13.4643 7.06274C14.714 5.81306 14.714 3.78693 13.4643 2.53726C12.2146 1.28758 10.1885 1.28758 8.93881 2.53726L7.73881 3.73726C7.42639 4.04968 7.42639 4.55621 7.73881 4.86863C8.05123 5.18105 8.55776 5.18105 8.87018 4.86863L10.0702 3.66863Z"
+                fill="#2B2B2B"
+              />
+              <path
+                d="M6.07019 7.66863C6.69503 7.04379 7.70809 7.04379 8.33293 7.66863C8.64535 7.98105 9.15188 7.98105 9.4643 7.66863C9.77672 7.35621 9.77672 6.84968 9.4643 6.53726C8.21463 5.28758 6.1885 5.28758 4.93882 6.53726L2.53882 8.93726C1.28914 10.1869 1.28914 12.2131 2.53882 13.4627C3.7885 14.7124 5.81463 14.7124 7.0643 13.4627L8.2643 12.2627C8.57672 11.9503 8.57672 11.4438 8.2643 11.1314C7.95188 10.8189 7.44535 10.8189 7.13293 11.1314L5.93293 12.3314C5.30809 12.9562 4.29503 12.9562 3.67019 12.3314C3.04535 11.7065 3.04535 10.6935 3.67019 10.0686L6.07019 7.66863Z"
+                fill="#2B2B2B"
+              />
+            </svg>
+          </span>
+          <span  onClick={() => handleEditPolicy(row)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="17"
+            height="16"
+            viewBox="0 0 17 16"
+            fill="none"
+          >
+            <path
+              d="M14.6829 2.06863C14.0581 1.44379 13.045 1.44379 12.4202 2.06863L6.35156 8.13726V10.4H8.6143L14.6829 4.33137C15.3078 3.70653 15.3078 2.69347 14.6829 2.06863Z"
+              fill="#2B2B2B"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.35156 4.8C2.35156 3.91634 3.06791 3.2 3.95156 3.2H7.15156C7.59339 3.2 7.95156 3.55817 7.95156 4C7.95156 4.44183 7.59339 4.8 7.15156 4.8H3.95156V12.8H11.9516V9.6C11.9516 9.15817 12.3097 8.8 12.7516 8.8C13.1934 8.8 13.5516 9.15817 13.5516 9.6V12.8C13.5516 13.6837 12.8352 14.4 11.9516 14.4H3.95156C3.06791 14.4 2.35156 13.6837 2.35156 12.8V4.8Z"
+              fill="#2B2B2B"
+            />
+          </svg>
+
+          </span>
+          {/* <LinkIcon
             className="w-4 h-4 text-blue-600 mr-3 cursor-pointer"
             onClick={() =>
               window.open(
@@ -427,11 +473,11 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
                 "_blank"
               )
             }
-          />
-          <PenSquare
+          /> */}
+          {/* <PenSquare
             className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
             onClick={() => handleEditPolicy(row)}
-          />
+          /> */}
         </div>
       ),
     },

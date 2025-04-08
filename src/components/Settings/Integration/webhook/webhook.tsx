@@ -145,7 +145,10 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
   ];
 
   // Open modal to add or edit a webhook
-  const openModal = (mode: "add" | "edit" | "view" | "delete", webhook?: Webhook) => {
+  const openModal = (
+    mode: "add" | "edit" | "view" | "delete",
+    webhook?: Webhook
+  ) => {
     setModalMode(mode);
     setSelectedWebhook(webhook || null);
     setIsModalOpen(true);
@@ -172,14 +175,18 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       setTimeout(() => setShowNotification(false), 3000);
     } else if (modalMode === "edit" && selectedWebhook) {
       setWebhooks(
-        webhooks.map((webhook) => (webhook.id === newWebhook.id ? newWebhook : webhook))
+        webhooks.map((webhook) =>
+          webhook.id === newWebhook.id ? newWebhook : webhook
+        )
       );
 
       setNotificationMessage("Webhook updated successfully!");
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
     } else if (modalMode === "delete" && selectedWebhook) {
-      setWebhooks(webhooks.filter((webhook) => webhook.id !== selectedWebhook.id));
+      setWebhooks(
+        webhooks.filter((webhook) => webhook.id !== selectedWebhook.id)
+      );
 
       setNotificationMessage("Webhook deleted successfully!");
       setShowNotification(true);
@@ -227,30 +234,63 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
     {
       field: "webhookId",
       headerName: "Webhook ID",
-      width: "25%",
+      width: "35%",
       renderCell: (value: string) => (
-        <span className="text-billingNumber font-[14px] font-inter font-[600]">{value}</span>
-      )
+        <span className="text-billingNumber font-[12px] font-inter font-[500]">
+          {value}
+        </span>
+      ),
     },
     {
       field: "event",
       headerName: "Event",
-      width: "20%"
+      width: "30%",
+      renderCell: (value: string) => (
+        <span
+          className="text-cardValue font-[12px] font-inter font-[500] whitespace-nowrap
+ "
+        >
+          {value}
+        </span>
+      ),
     },
     {
       field: "url",
       headerName: "Url",
       width: "15%",
       renderCell: () => (
-        <div className="flex justify-center">
-          <Link className="w-5 h-5 text-gray-600 cursor-pointer" />
+        <div className="flex justify-center border border-reloadBorder w-8 rounded-custom py-1 ">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="14"
+            viewBox="0 0 15 14"
+            fill="none"
+          >
+            <path
+              d="M9.31043 3.20995C9.85716 2.66322 10.7436 2.66322 11.2903 3.20995C11.8371 3.75669 11.8371 4.64312 11.2903 5.18985L9.19033 7.28985C8.64359 7.83659 7.75716 7.83659 7.21043 7.28985C6.93706 7.01649 6.49385 7.01649 6.22048 7.28985C5.94711 7.56322 5.94711 8.00644 6.22048 8.2798C7.31395 9.37327 9.08681 9.37327 10.1803 8.2798L12.2803 6.1798C13.3737 5.08633 13.3737 3.31347 12.2803 2.22C11.1868 1.12654 9.41395 1.12654 8.32048 2.22L7.27048 3.27C6.99711 3.54337 6.99711 3.98659 7.27048 4.25995C7.54385 4.53332 7.98706 4.53332 8.26043 4.25995L9.31043 3.20995Z"
+              fill="#212121"
+            />
+            <path
+              d="M5.81044 6.70995C6.35718 6.16322 7.24361 6.16322 7.79034 6.70995C8.06371 6.98332 8.50692 6.98332 8.78029 6.70995C9.05366 6.43659 9.05366 5.99337 8.78029 5.72C7.68682 4.62654 5.91396 4.62654 4.82049 5.72L2.72049 7.82C1.62702 8.91347 1.62702 10.6863 2.72049 11.7798C3.81396 12.8733 5.58682 12.8733 6.68029 11.7798L7.73029 10.7298C8.00366 10.4564 8.00366 10.0132 7.73029 9.73985C7.45692 9.46649 7.01371 9.46649 6.74034 9.73985L5.69034 10.7899C5.14361 11.3366 4.25718 11.3366 3.71044 10.7899C3.16371 10.2431 3.16371 9.35669 3.71044 8.80995L5.81044 6.70995Z"
+              fill="#212121"
+            />
+          </svg>
         </div>
       ),
     },
     {
       field: "authToken",
       headerName: "Auth Token",
-      width: "25%"
+      width: "25%",
+      renderCell: (value: string) => (
+        <span
+          className="text-cardValue font-[12px] font-inter font-[500] whitespace-nowrap
+ "
+        >
+          {value}
+        </span>
+      ),
     },
     {
       field: "action",
@@ -258,14 +298,46 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       width: "15%",
       renderCell: (value: any, row: any) => (
         <div className="flex items-center space-x-3">
-          <Trash2
+          <span onClick={() => handleDeleteWebhook(row)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7.20039 1.6001C6.89737 1.6001 6.62036 1.7713 6.48485 2.04233L5.90596 3.2001H3.20039C2.75856 3.2001 2.40039 3.55827 2.40039 4.0001C2.40039 4.44193 2.75856 4.8001 3.20039 4.8001L3.20039 12.8001C3.20039 13.6838 3.91674 14.4001 4.80039 14.4001H11.2004C12.084 14.4001 12.8004 13.6838 12.8004 12.8001V4.8001C13.2422 4.8001 13.6004 4.44193 13.6004 4.0001C13.6004 3.55827 13.2422 3.2001 12.8004 3.2001H10.0948L9.51593 2.04233C9.38042 1.7713 9.10341 1.6001 8.80039 1.6001H7.20039ZM5.60039 6.4001C5.60039 5.95827 5.95856 5.6001 6.40039 5.6001C6.84222 5.6001 7.20039 5.95827 7.20039 6.4001V11.2001C7.20039 11.6419 6.84222 12.0001 6.40039 12.0001C5.95856 12.0001 5.60039 11.6419 5.60039 11.2001V6.4001ZM9.60039 5.6001C9.15856 5.6001 8.80039 5.95827 8.80039 6.4001V11.2001C8.80039 11.6419 9.15856 12.0001 9.60039 12.0001C10.0422 12.0001 10.4004 11.6419 10.4004 11.2001V6.4001C10.4004 5.95827 10.0422 5.6001 9.60039 5.6001Z"
+                fill="#2B2B2B"
+              />
+            </svg>
+          </span>
+          {/* <Trash2
             className="w-5 h-5 text-gray-600 cursor-pointer"
             onClick={() => handleDeleteWebhook(row)}
-          />
-          <PenSquare
-            className="w-5 h-5 text-gray-600 cursor-pointer"
-            onClick={() => handleEditWebhook(row)}
-          />
+          /> */}
+          <span onClick={() => handleEditWebhook(row)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M13.931 2.06873C13.3061 1.44389 12.2931 1.44389 11.6682 2.06873L5.59961 8.13736V10.4001H7.86235L13.931 4.33147C14.5558 3.70663 14.5558 2.69357 13.931 2.06873Z"
+                fill="#2B2B2B"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M1.59961 4.8001C1.59961 3.91644 2.31595 3.2001 3.19961 3.2001H6.39961C6.84144 3.2001 7.19961 3.55827 7.19961 4.0001C7.19961 4.44193 6.84144 4.8001 6.39961 4.8001H3.19961V12.8001H11.1996V9.6001C11.1996 9.15827 11.5578 8.8001 11.9996 8.8001C12.4414 8.8001 12.7996 9.15827 12.7996 9.6001V12.8001C12.7996 13.6838 12.0833 14.4001 11.1996 14.4001H3.19961C2.31595 14.4001 1.59961 13.6838 1.59961 12.8001V4.8001Z"
+                fill="#2B2B2B"
+              />
+            </svg>
+          </span>
         </div>
       ),
     },
@@ -349,7 +421,6 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
             Added webhooks
           </h2>
           <div className="border rounded-lg overflow-x-auto">
-
             <CustomDataGrid
               columns={webhookColumns}
               rows={webhooks}
@@ -360,7 +431,6 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
               hideToolbar={false}
             />
           </div>
-
         </div>
       </div>
 
@@ -375,21 +445,20 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
             label: "Learn More",
             onClick: () => {
               console.log("New button clicked!");
-              
             },
-            className: "bg-transperant", 
-            disabled: false, 
+            className: "bg-transperant",
+            disabled: false,
           }}
           item={
             selectedWebhook
               ? {
-                id: selectedWebhook.id,
-                webhookId: selectedWebhook.webhookId,
-                event: selectedWebhook.event,
-                url: selectedWebhook.url,
-                authToken: selectedWebhook.authToken,
-                isActive: selectedWebhook.enabled,
-              }
+                  id: selectedWebhook.id,
+                  webhookId: selectedWebhook.webhookId,
+                  event: selectedWebhook.event,
+                  url: selectedWebhook.url,
+                  authToken: selectedWebhook.authToken,
+                  isActive: selectedWebhook.enabled,
+                }
               : undefined
           }
           onSave={handleSaveWebhook}
@@ -406,19 +475,23 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
             modalMode === "add"
               ? "Save"
               : modalMode === "edit"
-                ? "Save Changes"
-                : modalMode === "delete"
-                  ? "Delete"
-                  : modalMode === "view"
-                    ? "Close"
-                    : "OK"
+              ? "Save Changes"
+              : modalMode === "delete"
+              ? "Delete"
+              : modalMode === "view"
+              ? "Close"
+              : "OK"
           }
         >
           {modalMode === "delete" && (
             <p className="text-gray-600">
-              This action cannot be undone. This will permanently delete the webhook
-              <span className="font-medium"> {selectedWebhook?.webhookId}</span> and
-              remove all associated data.
+              This action cannot be undone. This will permanently delete the
+              webhook
+              <span className="font-medium">
+                {" "}
+                {selectedWebhook?.webhookId}
+              </span>{" "}
+              and remove all associated data.
             </p>
           )}
         </CustomModal>

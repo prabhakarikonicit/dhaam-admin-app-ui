@@ -133,7 +133,7 @@ const CustomerRights: React.FC<CustomerRightsProps> = ({ onClose, onSave }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description here..."
-              className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter min-h-[120px] resize-none"
+              className="w-full px-3 py-2 placeholder:text-[14px] placeholder:font-[400] border border-reloadBorder placeholder:text-reloadBorder rounded-custom8px font-inter min-h-[100px] resize-none"
             />
           </div>
         </div>

@@ -415,7 +415,7 @@ const TaxManagement: React.FC<TaxManagementProps> = ({ onSave, onCancel }) => {
   // Get title for modal based on mode
   const getModalTitle = () => {
     switch (modalMode) {
-      case "add": return "Add New Tax";
+      case "add": return "Add Marketplace Tax";
       case "edit": return "Edit Tax";
       case "view": return "View Tax Details";
       default: return "Tax";

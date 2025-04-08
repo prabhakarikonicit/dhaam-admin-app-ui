@@ -69,7 +69,7 @@ const BrandingPage: React.FC = () => {
         </p>
       </div>
       <div className="bg-white rounded-lg p-4 border border-reloadBorder">
-      <div className="bg-backgroundWhite  rounded-lg p-3 mb-6 text-[14px] font-[500]">
+      <div className="bg-backgroundWhite rounded-lg p-3 mb-6 text-[14px] font-[500]">
         <ColorPicker
           label="Header Color"
           description="Set the background color of the marketplace header."
