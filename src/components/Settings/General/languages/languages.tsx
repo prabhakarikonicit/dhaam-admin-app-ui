@@ -209,9 +209,9 @@ const LanguagesForm: React.FC = () => {
               onChange={(e) => handleLanguageChange(e.target.value, "website")}
               value={websiteLanguage}
             >
-              <option value="english">English</option>
-              <option value="spanish">Spanish</option>
-              <option value="french">French</option>
+              <option value="english" className="ext-[12px] font-inter font-[500] text-paragraphBlack">English</option>
+              <option value="spanish" className="ext-[12px] font-inter font-[500] text-paragraphBlack">Spanish</option>
+              <option value="french" className="ext-[12px] font-inter font-[500] text-paragraphBlack">French</option>
             </select>
 
             {/* Visual representation */}
@@ -240,9 +240,9 @@ const LanguagesForm: React.FC = () => {
                 onChange={(e) => handleLanguageChange(e.target.value, "admin")}
                 value={adminLanguage}
               >
-                <option value="english">English</option>
-                <option value="spanish">Spanish</option>
-                <option value="french">French</option>
+                <option value="english" className="ext-[12px] font-inter font-[500] text-paragraphBlack">English</option>
+                <option value="spanish" className="ext-[12px] font-inter font-[500] text-paragraphBlack">Spanish</option>
+                <option value="french" className="ext-[12px] font-inter font-[500] text-paragraphBlack">French</option>
               </select>
 
               {/* Visual representation */}
