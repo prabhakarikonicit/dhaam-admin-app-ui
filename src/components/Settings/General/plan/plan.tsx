@@ -22,7 +22,7 @@ const ChevronRightIcon = () => (
 
 const PlanForm: React.FC = () => {
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="flex justify-between items-center mb-3 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Plan
@@ -33,7 +33,7 @@ const PlanForm: React.FC = () => {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-backgroundWhite rounded-custom8px p-6">
+        <div className="bg-backgroundWhite rounded-custom8px p-3 md:p-6 sm:p-6 lg:p-6 xl:p-6">
           <h3 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Current plan details
           </h3>
@@ -97,7 +97,7 @@ const PlanForm: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 md:grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 text-center">
+            <div className="grid grid-cols-3 md:grid-cols-4 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 text-center ">
               <StatCard
                 value="100"
                 description={
@@ -119,12 +119,12 @@ const PlanForm: React.FC = () => {
                 fontWeight="400"
               />
 
-              <div className="mt-[-18px] ms-4 md:block w-full sm:block lg:block xl:block hidden">
-                <div className="rounded-custom12px p-4">
+              <div className="mt-[-24px] ms-4 md:block w-full sm:block lg:block xl:block hidden">
+                <div className="rounded-custom12px py-1 ms-12 mr-4  ">
                   <img
                     src={Plan}
                     alt="Plan illustration"
-                    className="w-full h-[100px] rotate-12 opacity-50"
+                    className="w-full h-[100px] rotate-12 opacity-50 "
                     style={{
                       transformOrigin: "center center",
                     }}

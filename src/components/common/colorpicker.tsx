@@ -31,7 +31,7 @@ const ColorPicker: React.FC<{
   // Color picker component that we'll reuse
   const ColorPickerControl = () => (
     <div 
-      className="flex items-center border border-reloadBorder px-2 rounded-md overflow-hidden cursor-pointer"
+      className="flex items-center border border-reloadBorder px-2 rounded-md overflow-hidden cursor-pointer mb-4 md:mb-0 sm:mb-0 lg:mb-0 xl:mb-0"
       onClick={handleClick}
     >
       <input 

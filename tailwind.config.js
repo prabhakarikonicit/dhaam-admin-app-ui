@@ -54,6 +54,7 @@ module.exports = {
         headingBlack: "000B33",
         maroon: "#9C1616",
         primaryCredit: "#EAEDFB",
+        reject: "#620E0E",
 
       },
       backgroundColor: {
@@ -64,6 +65,7 @@ module.exports = {
         bgActive: "#1D962B",
         bgCrossIcon: "#FBE9E9",
         reloadBorder: "#C2C2C2",
+        bgred: "#E14747",
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
         subMenus: "#F2F2F2",
@@ -74,12 +76,14 @@ module.exports = {
         maroon: "#9C1616",
         purple: "#F2ECFC",
         blueCredit: "#506FDC",
+        tableFooter: "#F7F7F7",
       },
       borderColor: {
         "grey-border": "#DBDBDB",
         reloadBorder: "#C2C2C2",
         btnBorder: "#5D32A7",
         borderCrossIcon: "#F09E9E",
+        acceptButton:"#8ECC96",
        borderGreeen:  "#788C7A",
         bgButton: "#7C43DF",
         cardTitle: "#949494",
@@ -100,10 +104,12 @@ module.exports = {
         custom16px: "16px",
         custom18px: "18px",
         custom28px: "28px",
+        custom38px: "38px",
         custom20px: "20px",
         custom44px: "44px",
         custom80px: "80px",
         custom100px: "100px",
+        
       },
     },
     fontFamily: {

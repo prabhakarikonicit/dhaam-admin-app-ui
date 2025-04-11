@@ -109,41 +109,44 @@ export interface CustomModalProps<T extends BaseItem> {
     deliveryAddress: string;
   };
 }
-const ToggleSwitch = ({ 
-  label, 
-  checked, 
-  onChange, 
-  disabled 
-}: { 
-  label: string; 
-  checked: boolean; 
-  onChange: () => void; 
-  disabled?: boolean 
+const ToggleSwitch = ({
+  label,
+  checked,
+  onChange,
+  disabled,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+  disabled?: boolean;
 }) => {
   return (
     <div className="flex items-center justify-between py-4">
-      <span className="font-inter text-[14px] text-paragraphBlack">{label}</span>
-      <div 
-        className={`relative inline-block w-12 h-6 rounded-full cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      <span className="font-inter text-[14px] text-paragraphBlack">
+        {label}
+      </span>
+      <div
+        className={`relative inline-block w-12 h-6 rounded-full cursor-pointer ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
         onClick={disabled ? undefined : onChange}
       >
         <div
           className={`
             absolute left-0 top-0 w-12 h-6 rounded-full transition-colors duration-200 ease-in-out
-            ${checked ? 'bg-blue-500' : 'bg-gray-300'}
+            ${checked ? "bg-blue-500" : "bg-gray-300"}
           `}
         />
         <div
           className={`
             absolute w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out
-            ${checked ? 'translate-x-6' : 'translate-x-1'} top-0.5
+            ${checked ? "translate-x-6" : "translate-x-1"} top-0.5
           `}
         />
       </div>
     </div>
   );
 };
-
 
 // Toggle component for enabling/disabling items
 const Toggle: React.FC<{
@@ -178,13 +181,13 @@ const ImageUpload: React.FC<{
   disabled?: boolean;
 }> = ({ value, onChange, disabled = false }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string>('');
-  const [fileName, setFileName] = useState<string>('');
-  const [fileSize, setFileSize] = useState<string>('');
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [fileName, setFileName] = useState<string>("");
+  const [fileSize, setFileSize] = useState<string>("");
 
   useEffect(() => {
     // Handle initial value
-    if (typeof value === 'string' && value) {
+    if (typeof value === "string" && value) {
       setImagePreview(value);
     } else if (value instanceof File) {
       setImagePreview(URL.createObjectURL(value));
@@ -245,22 +248,23 @@ const ImageUpload: React.FC<{
 
     if (imagePreview) {
       // Only revoke if it's a blob URL (created by URL.createObjectURL)
-      if (imagePreview.startsWith('blob:')) {
+      if (imagePreview.startsWith("blob:")) {
         URL.revokeObjectURL(imagePreview);
       }
     }
 
-    setImagePreview('');
-    setFileName('');
-    setFileSize('');
+    setImagePreview("");
+    setFileName("");
+    setFileSize("");
     onChange(null);
   };
 
   return (
     <div>
       <div
-        className={`border-2 border-dashed rounded-lg p-6 text-center ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`border-2 border-dashed rounded-lg p-6 text-center ${
+          isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"
+        } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
@@ -279,18 +283,42 @@ const ImageUpload: React.FC<{
                 onClick={handleRemoveImage}
                 className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 transform translate-x-1/2 -translate-y-1/2"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             )}
           </div>
         ) : (
           <>
-            <div className="text-gray-400 mb-2">Drop item here or Browse file</div>
+            <div className="text-gray-400 mb-2">
+              Drop item here or Browse file
+            </div>
             <div className="flex justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                />
               </svg>
             </div>
             {!disabled && (
@@ -305,7 +333,11 @@ const ImageUpload: React.FC<{
                 />
                 <label
                   htmlFor="file-upload"
-                  className={`mt-2 inline-block ${disabled ? 'cursor-not-allowed text-gray-400' : 'cursor-pointer text-blue-600 hover:text-blue-800'} text-sm`}
+                  className={`mt-2 inline-block ${
+                    disabled
+                      ? "cursor-not-allowed text-gray-400"
+                      : "cursor-pointer text-blue-600 hover:text-blue-800"
+                  } text-sm`}
                 >
                   Browse
                 </label>
@@ -337,8 +369,19 @@ const ImageUpload: React.FC<{
               onClick={handleRemoveImage}
               className="text-red-500 hover:text-red-700"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
               </svg>
             </button>
           )}
@@ -368,7 +411,9 @@ const PaymentDetails: React.FC<{
     <div className="px-4">
       <div className="flex justify-between items-center ">
         <div className="flex items-center">
-          <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">{paymentDetails.orderId}</h2>
+          <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">
+            {paymentDetails.orderId}
+          </h2>
           <div className="ml-2 px-3 py-1 bg-[#1A8917] text-white rounded-custom4px font-inter text-[12px] font-[500]">
             {paymentDetails.paymentMethod}
           </div>
@@ -378,59 +423,135 @@ const PaymentDetails: React.FC<{
       <div className="mb-6">
         <h3 className="text-[14px] font-inter font-[500] mb-3">Item Ordered</h3>
         {paymentDetails.items.map((item, index) => (
-          <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100">
+          <div
+            key={index}
+            className="flex justify-between items-center py-2 border-b border-gray-100"
+          >
             <div className="flex items-center">
               <div className="bg-gray-100 w-8 h-8 rounded flex items-center justify-center mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path>
                   <path d="M3 9l2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
                 </svg>
               </div>
               <div>
-                <p className="text-[14px] font-inter font-[500] text-cardValue">{item.name}</p>
-                <p className="text-[12px] font-inter font-[400] text-cardTitle">x {item.quantity}</p>
+                <p className="text-[14px] font-inter font-[500] text-cardValue">
+                  {item.name}
+                </p>
+                <p className="text-[12px] font-inter font-[400] text-cardTitle">
+                  x {item.quantity}
+                </p>
               </div>
             </div>
-            <div className="text-[14px] font-inter font-[500] text-cardValue">{item.price}</div>
+            <div className="text-[14px] font-inter font-[500] text-cardValue">
+              {item.price}
+            </div>
           </div>
         ))}
 
         <div className="flex justify-between mt-4 mb-6">
-          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">Grand Total</div>
-          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">{paymentDetails.total}</div>
+          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">
+            Grand Total
+          </div>
+          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">
+            {paymentDetails.total}
+          </div>
         </div>
 
         <div className="bg-gray-50 p-4 rounded-md mb-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">Store</h4>
-              <p className="text-[14px] font-inter font-[500] text-cardValue">{paymentDetails.store}</p>
-              <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">{paymentDetails.storeAddress}</p>
+              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                Store
+              </h4>
+              <p className="text-[14px] font-inter font-[500] text-cardValue">
+                {paymentDetails.store}
+              </p>
+              <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">
+                {paymentDetails.storeAddress}
+              </p>
             </div>
             <div>
-              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">Delivery Address</h4>
-              <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">{paymentDetails.deliveryAddress}</p>
+              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+                Delivery Address
+              </h4>
+              <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">
+                {paymentDetails.deliveryAddress}
+              </p>
             </div>
           </div>
         </div>
 
         <div className="relative">
-          <label htmlFor="status" className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
+          <label
+            htmlFor="status"
+            className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2"
+          >
             Change status
           </label>
           <select
             id="status"
             className="w-full pl-3 pr-10 py-2 text-[14px] font-inter font-[400] text-cardTitle bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="" className="text-[14px] font-inter font-[400] text-cardTitle">Select status</option>
-            <option value="Pending" className="text-[14px] font-inter font-[400] text-cardTitle">Pending</option>
-            <option value="Completed" className="text-[14px] font-inter font-[400] text-cardTitle">Completed</option>
-            <option value="Dispatched" className="text-[14px] font-inter font-[400] text-cardTitle">Dispatched</option>
-            <option value="Out for delivery" className="text-[14px] font-inter font-[400] text-cardTitle">Out for delivery</option>
-            <option value="Cancelled" className="text-[14px] font-inter font-[400] text-cardTitle">Cancelled</option>
+            <option
+              value=""
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Select status
+            </option>
+            <option
+              value="Pending"
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Pending
+            </option>
+            <option
+              value="Completed"
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Completed
+            </option>
+            <option
+              value="Dispatched"
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Dispatched
+            </option>
+            <option
+              value="Out for delivery"
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Out for delivery
+            </option>
+            <option
+              value="Cancelled"
+              className="text-[14px] font-inter font-[400] text-cardTitle"
+            >
+              Cancelled
+            </option>
           </select>
           <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </div>
@@ -512,50 +633,76 @@ function CustomModal<T extends BaseItem>({
     const isDisabled = mode === "view" || field.disabled;
     const value = formData[field.id] !== undefined ? formData[field.id] : "";
 
-    const baseInputClass = `w-full px-3 py-2 border border-reloadBorder rounded-custom8px text-cardTitle focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter font-[400] text-[14px] ${isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
-      } border-gray-300 ${field.inputClassName || ""}`;
+    const baseInputClass = `w-full px-3 py-2 border border-reloadBorder rounded-custom8px text-cardTitle focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter font-[400] text-[14px] ${
+      isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
+    } border-gray-300 ${field.inputClassName || ""}`;
 
     // If field has custom render function, use it
     if (field.customRender) {
       return field.customRender({
         value,
         onChange: (newValue) => handleChange(field.id, newValue),
-        disabled: isDisabled
+        disabled: isDisabled,
       });
     }
-    if (field.id === "applicableType" || field.id === "applicableOn" || field.id === "type"  || field.id === "serviceFeeAppliedOn" || field.id === "selectMerchant"){
+    if (
+      field.id === "applicableType" ||
+      field.id === "applicableOn" ||
+      field.id === "type" ||
+      field.id === "serviceFeeAppliedOn" ||
+      field.id === "selectMerchant"
+    ) {
       return (
         <div className="relative font-inter font-[400] text-[12px]">
-        <select
-          id={field.id}
-          value={value}
-          onChange={(e) => handleChange(field.id, e.target.value)}
-          disabled={isDisabled}
-          className={`
+          <select
+            id={field.id}
+            value={value}
+            onChange={(e) => handleChange(field.id, e.target.value)}
+            disabled={isDisabled}
+            className={`
             ${baseInputClass}
             appearance-none font-inter font-[400] text-[14px]
             placeholder:font-inter placeholder:font-[400] placeholder:text-[12px] text-reloadBorder
             ${field.id === "selectMerchant" ? "w-full  " : ""}
           `}
-
-        >
-          <option value="" disabled className="font-inter font-[400] text-[14px] placeholder:font-inter placeholder:font-[400] placeholder:text-[14px] text-reloadBorder ">Select {field.label}</option>
-          {field.options?.map((option) => (
-            <option key={option.value} value={option.value} className="font-inter font-[400] text-[14px]">
-              {option.label}
+          >
+            <option
+              value=""
+              disabled
+              className="font-inter font-[400] text-[14px] placeholder:font-inter placeholder:font-[400] placeholder:text-[14px] text-reloadBorder "
+            >
+              Select {field.label}
             </option>
-          ))}
-        </select>
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.70711 7.29289L10 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68342 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z" fill="#949494"/>
-</svg>
+            {field.options?.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="font-inter font-[400] text-[14px]"
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M5.29289 7.29289C5.68342 6.90237 6.31658 6.90237 6.70711 7.29289L10 10.5858L13.2929 7.29289C13.6834 6.90237 14.3166 6.90237 14.7071 7.29289C15.0976 7.68342 15.0976 8.31658 14.7071 8.70711L10.7071 12.7071C10.3166 13.0976 9.68342 13.0976 9.29289 12.7071L5.29289 8.70711C4.90237 8.31658 4.90237 7.68342 5.29289 7.29289Z"
+                fill="#949494"
+              />
+            </svg>
+          </div>
         </div>
-      </div>
       );
-
     }
-    if (field.id === "apiEndpoint" ) {
+    if (field.id === "apiEndpoint") {
       return (
         <div className="relative">
           <input
@@ -578,7 +725,6 @@ function CustomModal<T extends BaseItem>({
         </div>
       );
     }
-
 
     if (field.id === "token") {
       return (
@@ -622,11 +768,14 @@ function CustomModal<T extends BaseItem>({
               onChange={(e) => handleChange(field.id, e.target.value)}
               disabled={isDisabled}
               className={`${baseInputClass} appearance-none`}
-
             >
               <option value="">Select {field.label}</option>
               {field.options?.map((option) => (
-                <option key={option.value} value={option.value} className="font-inter font-[400] text-[14px]">
+                <option
+                  key={option.value}
+                  value={option.value}
+                  className="font-inter font-[400] text-[14px]"
+                >
                   {option.label}
                 </option>
               ))}
@@ -772,7 +921,7 @@ function CustomModal<T extends BaseItem>({
       view: "View Item Details",
       delete: "Confirm Delete",
       confirm: "Confirm Action",
-      payment: paymentDetails?.orderId || "Order Details"
+      payment: paymentDetails?.orderId || "Order Details",
     }[mode];
 
   const submitButtonText =
@@ -783,7 +932,7 @@ function CustomModal<T extends BaseItem>({
       view: "Close",
       delete: "Delete",
       confirm: "Confirm",
-      payment: "Save"
+      payment: "Save",
     }[mode];
 
   // Modal size classes
@@ -794,7 +943,6 @@ function CustomModal<T extends BaseItem>({
     xl: "max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl",
     full: "max-w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl mx-4",
   }[size];
-
 
   // Button classes based on mode
   const buttonClasses = {
@@ -810,20 +958,22 @@ function CustomModal<T extends BaseItem>({
   const renderFormFields = () => {
     if (formLayout === "grid") {
       return (
-        <div className={`grid grid-cols-1  md:grid-cols-${gridColumns} sm:grid-cols-${gridColumns}  lg:grid-cols-${gridColumns} xl:grid-cols-${gridColumns} gap-4`}>
+        <div
+          className={`grid grid-cols-1  md:grid-cols-${gridColumns} sm:grid-cols-${gridColumns}  lg:grid-cols-${gridColumns} xl:grid-cols-${gridColumns} gap-4`}
+        >
           {fields.map((field) => (
             <div
               key={field.id}
-              className={`space-y-1  ${field.fullWidth ? `col-span-1 md:col-span-${gridColumns}` : ''} ${field.containerClassName || ''}`}
+              className={`space-y-1  ${
+                field.fullWidth ? `col-span-1 md:col-span-${gridColumns}` : ""
+              } ${field.containerClassName || ""}`}
             >
               <label
                 htmlFor={field.id}
                 className="block text-[12px] font-inter font-[500] text-paragraphBlack "
               >
                 {field.label}{" "}
-                {field.required && (
-                  <span className="text-red-500 "></span>
-                )}
+                {field.required && <span className="text-red-500 "></span>}
               </label>
               {renderField(field)}
               {field.helperText && (
@@ -841,20 +991,18 @@ function CustomModal<T extends BaseItem>({
     } else {
       // Standard layout (vertical stacking)
       return (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {fields.map((field) => (
             <div
               key={field.id}
-              className={`space-y-1 ${field.containerClassName || ''}`}
+              className={`space-y-1 ${field.containerClassName || ""}`}
             >
               <label
                 htmlFor={field.id}
                 className="block text-[12px] font-inter font-[500] text-paragraphBlack"
               >
                 {field.label}{" "}
-                {field.required && (
-                  <span className="text-red-500"></span>
-                )}
+                {field.required && <span className="text-red-500"></span>}
               </label>
               {renderField(field)}
               {field.helperText && (
@@ -882,13 +1030,13 @@ function CustomModal<T extends BaseItem>({
         className={`bg-white rounded-custom18px shadow-xl w-full ${sizeClasses} z-10 overflow-hidden transform transition-all ${className}`}
       >
         {/* Modal Header */}
-        <div className="bg-gray-100 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <div className="bg-background-grey px-6 py-4 mt-0 border-b border-reloadBorder flex justify-between items-center">
           <div>
-            <h3 className="text-[14px] font-inter font-[500] text-paragraphBlack">
+            <h3 className="text-[16px] font-inter font-[600] text-black">
               {mode === "payment" ? modalTitle : modalTitle}
             </h3>
             {subtitle && (
-              <p className="text-[12px] font-inter font-[500] text-paragraphBlack0 mt-1">
+              <p className="text-[12px] font-inter font-[500] text-paragraphBlack mt-1">
                 {subtitle}
               </p>
             )}
@@ -923,7 +1071,14 @@ function CustomModal<T extends BaseItem>({
         </div>
 
         {/* Modal Body */}
-        <form onSubmit={handleSubmit} className="px-6 py-4">
+        <form
+          onSubmit={handleSubmit}
+          className="px-6 py-4 max-h-[calc(80vh-120px)] overflow-y-auto "
+          style={{ 
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#d1d5db transparent'
+          }}
+        >
           {/* For payment modal */}
           {mode === "payment" && paymentDetails && (
             <PaymentDetails paymentDetails={paymentDetails} />
@@ -953,9 +1108,7 @@ function CustomModal<T extends BaseItem>({
 
           {/* Form fields or custom content */}
           {mode !== "confirm" && mode !== "delete" && mode !== "payment" && (
-            <>
-              {formLayout === "custom" ? children : renderFormFields()}
-            </>
+            <>{formLayout === "custom" ? children : renderFormFields()}</>
           )}
 
           {/* Modal Footer */}
@@ -1023,8 +1176,9 @@ function CustomModal<T extends BaseItem>({
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className={`px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${isLoading ? "opacity-75 cursor-not-allowed" : ""
-                          }`}
+                        className={`px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${
+                          isLoading ? "opacity-75 cursor-not-allowed" : ""
+                        }`}
                       >
                         {isLoading ? (
                           <div className="flex items-center">

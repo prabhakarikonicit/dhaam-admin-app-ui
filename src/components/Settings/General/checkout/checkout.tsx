@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import { ChevronDown, Plus, X } from "lucide-react";
+import { PlusCircle, Trash2, Edit } from "lucide-react";
 import CustomModal from "../../../common/modals";
 
-interface CheckoutProps {
-  onClose: () => void;
-  onSave: (data: any) => void;
-}
 interface CustomField {
   id: number;
   title: string;
@@ -14,16 +11,30 @@ interface CustomField {
   type: string;
   compulsory: boolean;
 }
+interface InputValue {
+  id: number;
+  amount: string;
+  type: string;
+}
+interface CheckoutProps {
+  onClose: () => void;
+  onSave: (data: any) => void;
+}
+
 const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
   // State for all form fields
   const [sideOrder, setSideOrder] = useState(false);
   const [outstandingPayment, setOutstandingPayment] = useState(false);
   const [mandatoryOption, setMandatoryOption] = useState(false);
-
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [deliveryModes, setDeliveryModes] = useState({
     takeAway: true,
     homeDelivery: false,
   });
+ 
+  const [inputValues, setInputValues] = useState<InputValue[]>([
+    { id: 1, amount: '', type: 'Fixed' }
+  ]);
   const [deliveryTime, setDeliveryTime] = useState("");
   const [customOrderFields, setCustomOrderFields] = useState(false);
   const [eta, setEta] = useState(false);
@@ -42,7 +53,12 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
     options: ["10", "20", "30", "40", "50"],
   });
   const [showCustomFieldsModal, setShowCustomFieldsModal] = useState(false);
-  const [customFields, setCustomFields] = useState([
+
+  // Add state for new tip option
+  const [newTipOption, setNewTipOption] = useState("");
+  const [newTipType, setNewTipType] = useState("Fixed");
+
+  const [fields, setFields] = useState<CustomField[]>([
     {
       id: 1,
       title: "Delivery Instructions",
@@ -51,18 +67,39 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
       compulsory: true,
     },
   ]);
-  const [newField, setNewField] = useState({
+
+  // Using the full CustomField type for newField
+  const [newField, setNewField] = useState<CustomField>({
+    id: Date.now(),
     title: "",
     placeholder: "",
     type: "Text",
     compulsory: false,
   });
+  const addNewInputField = () => {
+    const newId = inputValues.length > 0 ? Math.max(...inputValues.map(item => item.id)) + 1 : 1;
+    setInputValues([...inputValues, { id: newId, amount: '', type: 'Fixed' }]);
+  };
+  
+  // Function to handle input changes
+  const handleInputChange = (id: number, field: keyof Omit<InputValue, 'id'>, value: string) => {
+    setInputValues(prevValues => 
+      prevValues.map(item => 
+        item.id === id ? { ...item, [field]: value } : item
+      )
+    );
+  };
+  
+  const handleFieldChange = (id: number, field: Partial<CustomField>) => {
+    setFields(fields.map((f) => (f.id === id ? { ...f, ...field } : f)));
+  };
 
-  // Add this function to handle adding a new field
-  const addCustomField = () => {
+  const addField = () => {
     if (newField.title.trim()) {
-      setCustomFields([...customFields, { ...newField, id: Date.now() }]);
+      const fieldToAdd = { ...newField, id: Date.now() };
+      setFields([...fields, fieldToAdd]);
       setNewField({
+        id: Date.now() + 1,
         title: "",
         placeholder: "",
         type: "Text",
@@ -71,11 +108,91 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
     }
   };
 
-  // Add this function to handle removing a field
-  const removeCustomField = (id: number) => {
-    setCustomFields(customFields.filter((field) => field.id !== id));
+  const removeField = (id: number) => {
+    setFields(fields.filter((f) => f.id !== id));
   };
+
+  const saveCustomFields = () => {
+    setShowCustomFieldsModal(false);
+  };
+
+  // Add function to handle editing a field
+  const handleEditField = (id: number) => {
+    const fieldToEdit = fields.find((f) => f.id === id);
+    if (fieldToEdit) {
+      // Set the editing ID and populate the new field form with existing field data
+      setEditingId(id);
+      setNewField({ ...fieldToEdit });
+
+      // Optional: You might want to scroll to the add/edit field section
+      // This would require a ref or programmatic scrolling logic
+    }
+  };
+
+  // Update the addField function to handle editing
+  const handleSaveField = () => {
+    if (newField.title.trim()) {
+      if (editingId !== null) {
+        // Update existing field
+        setFields(
+          fields.map((f) =>
+            f.id === editingId
+              ? {
+                  ...newField,
+                  id: editingId, // Preserve the original ID
+                }
+              : f
+          )
+        );
+        // Reset editing state
+        setEditingId(null);
+      } else {
+        // Add new field
+        const fieldToAdd = {
+          ...newField,
+          id: Date.now(),
+        };
+        setFields([...fields, fieldToAdd]);
+      }
+
+      // Reset the new field state
+      setNewField({
+        id: Date.now(),
+        title: "",
+        placeholder: "",
+        type: "Text",
+        compulsory: false,
+      });
+    }
+  };
+
+  // Add function to handle adding a new tip option
+  const addTipOption = () => {
+    // Trim the new tip option and validate it
+    const trimmedOption = newTipOption.trim();
+    if (trimmedOption) {
+      // Check if the option already exists to prevent duplicates
+      if (!multipleTipOptions.options.includes(trimmedOption)) {
+        setMultipleTipOptions((prev) => ({
+          ...prev,
+          options: [...prev.options, trimmedOption],
+        }));
+        // Reset the new tip option input
+        setNewTipOption("");
+      } else {
+        // Optional: You might want to show an error or toast that the option already exists
+        console.warn("Tip option already exists");
+      }
+    }
+  };
+
+  // Fix the handleToggle function in your Checkout component
   const handleToggle = (field: string) => (e: React.MouseEvent) => {
+    // Always stop propagation to prevent event bubbling issues
+    e.stopPropagation();
+
+    console.log(`Toggling ${field}`); // Add logging for debugging
+
     switch (field) {
       case "sideOrder":
         setSideOrder(!sideOrder);
@@ -87,7 +204,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         setMandatoryOption(!mandatoryOption);
         break;
       case "customOrderFields":
-        setCustomOrderFields(!mandatoryOption);
+        setCustomOrderFields(!customOrderFields); // Fixed: was using wrong state variable
         break;
       case "eta":
         setEta(!eta);
@@ -108,8 +225,26 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
     }));
   };
 
+  // Function to handle saving the entire form
+  const handleSaveForm = () => {
+    onSave({
+      sideOrder,
+      outstandingPayment,
+      mandatoryOption,
+      deliveryModes,
+      deliveryTime,
+      customOrderFields,
+      customFields: fields, // Include the custom fields data
+      eta,
+      googleMapApiKey,
+      deliveryCharge,
+      tip,
+      multipleTipOptions,
+    });
+  };
+
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible ">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible ">
       <div className="flex items-center justify-between py-2 mt-0 sm:mt-4 md:mt-6 lg:mt-10 xl-mt-10">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Checkout
@@ -122,21 +257,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
             Discard
           </button>
           <button
-            onClick={() =>
-              onSave({
-                sideOrder,
-                outstandingPayment,
-                mandatoryOption,
-                deliveryModes,
-                deliveryTime,
-                customOrderFields,
-                eta,
-                googleMapApiKey,
-                deliveryCharge,
-                tip,
-                multipleTipOptions,
-              })
-            }
+            onClick={handleSaveForm}
             className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom"
           >
             Save
@@ -144,7 +265,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
       </div>
 
-      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 space-y-6">
+      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 space-y-6">
         {/* Side Order */}
         <div className="bg-backgroundWhite rounded-custom12px p-3 border border-gray-200 shadow-custom">
           <div className="flex items-center justify-between">
@@ -173,7 +294,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
 
         <div className="bg-backgroundWhite rounded-custom12px p-3 border border-gray-200 shadow-custom">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-grey-border pb-3">
             <div>
               <h3
                 id="side-order-title"
@@ -183,9 +304,9 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
               </h3>
               <p
                 id="side-order-desc"
-                className="text-[12px] font-inter font-[500] text-cardTitle border-b pb-3"
+                className="text-[12px] font-inter font-[500] text-cardTitle"
               >
-                Add debt to a customer’s account for outstanding payments,
+                Add debt to a customer's account for outstanding payments,
                 cancellation fees,
                 <br /> or ad-hoc charges. This will be visible to the customer
                 upon opening the web or mobile app.
@@ -255,6 +376,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
               <input
                 type="checkbox"
                 checked={deliveryModes.homeDelivery}
+                style={{ accentColor: "#7C43DF" }}
                 onChange={() =>
                   setDeliveryModes((prev) => ({
                     ...prev,
@@ -301,9 +423,9 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 <path
                   d="M10 6.66667V10L12.5 12.5M17.5 10C17.5 14.1421 14.1421 17.5 10 17.5C5.85786 17.5 2.5 14.1421 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5C14.1421 2.5 17.5 5.85786 17.5 10Z"
                   stroke="#636363"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
@@ -333,8 +455,8 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                     fill="none"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M5.10542 10.295C4.83205 10.0216 4.83205 9.57839 5.10542 9.30503L7.41044 7L5.10542 4.69497C4.83205 4.42161 4.83205 3.97839 5.10542 3.70503C5.37878 3.43166 5.822 3.43166 6.09537 3.70503L8.89537 6.50503C9.16873 6.77839 9.16873 7.22161 8.89537 7.49497L6.09537 10.295C5.822 10.5683 5.37878 10.5683 5.10542 10.295Z"
                       fill="#212121"
                     />
@@ -359,209 +481,613 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
 
         {/* Custom Fields Modal */}
         {showCustomFieldsModal && (
-  <CustomModal
-    title="Custom Order Fields"
-    isOpen={showCustomFieldsModal}
-    mode="edit"
-    onClose={() => setShowCustomFieldsModal(false)}
-    onSave={() => {
-      // Save the custom fields data
-      setShowCustomFieldsModal(false);
-    }}
-  >
-            <div className="w-full p-6">
-              {/* Existing fields */}
-              {customFields.map((field, index) => (
-                <div key={field.id} className="mb-4 flex items-center gap-4">
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={field.title}
-                      onChange={(e) => {
-                        const updatedFields = [...customFields];
-                        updatedFields[index].title = e.target.value;
-                        setCustomFields(updatedFields);
-                      }}
-                      placeholder="Field Title"
-                      className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter"
-                    />
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-30 absolute inset-0 flex items-center justify-center">
+            <div className="bg-white rounded-lg w-full max-w-full h-full m-4 overflow-y-auto shadow-lg relative z-10">
+              {/* Header */}
+              <div className="flex justify-between items-center px-6 py-4 border-b border-grey-border bg-background-grey">
+                <h1 className="text-[16px] font-[600] font-inter">
+                  Custom Order Fields
+                </h1>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowCustomFieldsModal(false);
+                      setEditingId(null);
+                      setNewField({
+                        id: Date.now(),
+                        title: "",
+                        placeholder: "",
+                        type: "Text",
+                        compulsory: false,
+                      });
+                    }}
+                    className="px-5 py-2 text-cardValue text-[12px] font-inter font-[600]"
+                  >
+                    Discard
+                  </button>
+                  <button
+                    onClick={saveCustomFields}
+                    className="px-6 py-2 bg-bgButton text-white border border-btnBorder rounded-custom text-[12px] font-inter font-[600]"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 flex flex-col sm:flex-row">
+                {/* Left side - field editor */}
+                <div className="w-full sm:w-2/3 md:w-2/3 sm:pr-6 md:pr-6 bg-white">
+                  {/* Existing fields */}
+                  <div className="space-y-4 mb-8">
+                    {fields.map((field) => (
+                      <div key={field.id}>
+                        {/* Tablet view (sm) and Mobile view */}
+                        <div className="md:hidden">
+                          {/* Row 1: Title + Placeholder */}
+                          <div className="flex gap-4 mb-3">
+                            <div className="w-1/2">
+                              <input
+                                type="text"
+                                value={field.title}
+                                onChange={(e) =>
+                                  handleFieldChange(field.id, {
+                                    title: e.target.value,
+                                  })
+                                }
+                                placeholder="Field Title"
+                                className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                          ${
+                            field.compulsory
+                              ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                              : "border-reloadBorder text-reloadBorder"
+                          } focus:border-reloadBorder`}
+                              />
+                            </div>
+                            <div className="w-1/2">
+                              <input
+                                type="text"
+                                value={field.placeholder}
+                                onChange={(e) =>
+                                  handleFieldChange(field.id, {
+                                    placeholder: e.target.value,
+                                  })
+                                }
+                                placeholder="Field Placeholder"
+                                className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                          ${
+                            field.compulsory
+                              ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                              : "border-reloadBorder text-reloadBorder"
+                          } focus:border-reloadBorder`}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Row 2: Type + Delete + Compulsory */}
+                          <div className="flex items-center mb-6">
+                            <div className="w-[120px] mr-3">
+                              <div className="relative">
+                                <select
+                                  value={field.type}
+                                  onChange={(e) =>
+                                    handleFieldChange(field.id, {
+                                      type: e.target.value,
+                                    })
+                                  }
+                                  className={`w-full px-4 py-3 border rounded-custom8px text-reloadBorde text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out appearance-none
+                            ${
+                              field.compulsory
+                                ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                                : "border-reloadBorder text-reloadBorder"
+                            } focus:border-reloadBorder`}
+                                >
+                                  <option
+                                    value="Text"
+                                    className="text-[14px] font-inter font-[400]"
+                                  >
+                                    Text
+                                  </option>
+                                  <option
+                                    value="Text area"
+                                    className="text-[14px] font-inter font-[400]"
+                                  >
+                                    Text area
+                                  </option>
+                                  <option
+                                    value="Number"
+                                    className="text-[14px] font-inter font-[400]"
+                                  >
+                                    Number
+                                  </option>
+                                </select>
+                                <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                                  <ChevronDown
+                                    size={16}
+                                    className="text-gray-500"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => removeField(field.id)}
+                              className="p-2 mr-3 rounded-custom8px border border-reloadBorder hover:text-red-500"
+                            >
+                              <Trash2 size={20} />
+                            </button>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[14px] font-inter font-[400]">
+                                Compulsory
+                              </span>
+                              <div className="relative">
+                                <input
+                                  type="checkbox"
+                                  checked={field.compulsory}
+                                  onChange={() =>
+                                    handleFieldChange(field.id, {
+                                      compulsory: !field.compulsory,
+                                    })
+                                  }
+                                  id={`compulsory-sm-${field.id}`}
+                                  className="sr-only"
+                                />
+                                <label
+                                  htmlFor={`compulsory-sm-${field.id}`}
+                                  className={`block w-12 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+                                    field.compulsory
+                                      ? "bg-bgButton"
+                                      : "bg-gray-200"
+                                  }`}
+                                >
+                                  <span
+                                    className={`block w-5 h-5 mt-0.5 ml-0.5 bg-white rounded-full transform transition-transform duration-200 ease-in-out ${
+                                      field.compulsory ? "translate-x-6" : ""
+                                    }`}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="border-t border-gray-200 mb-4"></div>
+                        </div>
+
+                        {/* Original desktop/laptop layout */}
+                        <div className="hidden md:flex items-center gap-4 md:flex-nowrap">
+                          <div className="w-1/3">
+                            <input
+                              type="text"
+                              value={field.title}
+                              onChange={(e) =>
+                                handleFieldChange(field.id, {
+                                  title: e.target.value,
+                                })
+                              }
+                              placeholder="Field Title"
+                              className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                        ${
+                          field.compulsory
+                            ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                            : "border-reloadBorder text-reloadBorder"
+                        } focus:border-reloadBorder`}
+                            />
+                          </div>
+                          <div className="w-1/3">
+                            <input
+                              type="text"
+                              value={field.placeholder}
+                              onChange={(e) =>
+                                handleFieldChange(field.id, {
+                                  placeholder: e.target.value,
+                                })
+                              }
+                              placeholder="Field Placeholder"
+                              className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                        ${
+                          field.compulsory
+                            ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                            : "border-reloadBorder text-reloadBorder"
+                        } focus:border-reloadBorder`}
+                            />
+                          </div>
+                          <div className="w-[140px]">
+                            <div className="relative">
+                              <select
+                                value={field.type}
+                                onChange={(e) =>
+                                  handleFieldChange(field.id, {
+                                    type: e.target.value,
+                                  })
+                                }
+                                className={`w-full px-4 py-3 border rounded-custom8px text-reloadBorde text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out appearance-none
+                          ${
+                            field.compulsory
+                              ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                              : "border-reloadBorder text-reloadBorder"
+                          } focus:border-reloadBorder`}
+                              >
+                                <option
+                                  value="Text"
+                                  className="text-[14px] font-inter font-[400]"
+                                >
+                                  Text
+                                </option>
+                                <option
+                                  value="Text area"
+                                  className="text-[14px] font-inter font-[400]"
+                                >
+                                  Text area
+                                </option>
+                                <option
+                                  value="Number"
+                                  className="text-[14px] font-inter font-[400]"
+                                >
+                                  Number
+                                </option>
+                              </select>
+                              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                                <ChevronDown
+                                  size={16}
+                                  className="text-gray-500"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => removeField(field.id)}
+                            className="p-2 rounded-custom8px border border-reloadBorder hover:text-red-500"
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                          <div className="flex items-center gap-2 ml-auto">
+                            <span className="rounded-custom8px text-[14px] font-inter font-[400]">
+                              Compulsory
+                            </span>
+                            <div className="relative">
+                              <input
+                                type="checkbox"
+                                checked={field.compulsory}
+                                onChange={() =>
+                                  handleFieldChange(field.id, {
+                                    compulsory: !field.compulsory,
+                                  })
+                                }
+                                id={`compulsory-${field.id}`}
+                                className="sr-only"
+                              />
+                              <label
+                                htmlFor={`compulsory-${field.id}`}
+                                className={`block w-12 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+                                  field.compulsory
+                                    ? "bg-bgButton"
+                                    : "bg-gray-200"
+                                }`}
+                              >
+                                <span
+                                  className={`block w-5 h-5 mt-0.5 ml-0.5 bg-white rounded-full transform transition-transform duration-200 ease-in-out ${
+                                    field.compulsory ? "translate-x-6" : ""
+                                  }`}
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={field.placeholder}
-                      onChange={(e) => {
-                        const updatedFields = [...customFields];
-                        updatedFields[index].placeholder = e.target.value;
-                        setCustomFields(updatedFields);
-                      }}
-                      placeholder="Field Placeholder"
-                      className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter"
-                    />
-                  </div>
-                  <div className="w-40">
-                    <div className="relative">
-                      <select
-                        value={field.type}
-                        onChange={(e) => {
-                          const updatedFields = [...customFields];
-                          updatedFields[index].type = e.target.value;
-                          setCustomFields(updatedFields);
-                        }}
-                        className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter appearance-none pr-10"
+
+                  {/* Add new field form */}
+                  <div className="p-0">
+                    {/* Tablet view (sm) and Mobile view */}
+                    <div className="md:hidden">
+                      {/* Row 1: Title + Placeholder */}
+                      <div className="flex gap-4 mb-3">
+                        <div className="w-1/2">
+                          <input
+                            type="text"
+                            value={newField.title}
+                            onChange={(e) =>
+                              setNewField({
+                                ...newField,
+                                title: e.target.value,
+                              })
+                            }
+                            placeholder="Field Title"
+                            className={`w-full px-4 py-3 border text-menuSubHeadingColor text-bgButton rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                      ${
+                        newField.compulsory
+                          ? "border-menuSubHeadingColor text-menuSubHeadingColor placeholder:text-menuSubHeadingColor"
+                          : "border-reloadBorder text-reloadBorder placeholder:text-reloadBorder"
+                      } focus:border-reloadBorder`}
+                          />
+                        </div>
+                        <div className="w-1/2">
+                          <input
+                            type="text"
+                            value={newField.placeholder}
+                            onChange={(e) =>
+                              setNewField({
+                                ...newField,
+                                placeholder: e.target.value,
+                              })
+                            }
+                            placeholder="Field Placeholder"
+                            className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                      ${
+                        newField.compulsory
+                          ? "border-menuSubHeadingColor text-menuSubHeadingColor placeholder:text-menuSubHeadingColor"
+                          : "border-reloadBorder text-reloadBorder placeholder:text-reloadBorder"
+                      } focus:border-reloadBorder`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Row 2: Type + Add + Compulsory */}
+                      <div className="flex items-center">
+                        <div className="w-[120px] mr-3">
+                          <div className="relative">
+                            <select
+                              value={newField.type}
+                              onChange={(e) =>
+                                setNewField({
+                                  ...newField,
+                                  type: e.target.value,
+                                })
+                              }
+                              className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out appearance-none
+                        ${
+                          newField.compulsory
+                            ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                            : "border-reloadBorder text-reloadBorder"
+                        } focus:border-reloadBorder`}
+                            >
+                              <option
+                                value="Text"
+                                className="text-[14px] font-inter font-[400]"
+                              >
+                                Text
+                              </option>
+                              <option
+                                value="Text area"
+                                className="text-[14px] font-inter font-[400]"
+                              >
+                                Text area
+                              </option>
+                              <option
+                                value="Number"
+                                className="text-[14px] font-inter font-[400]"
+                              >
+                                Number
+                              </option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                              <ChevronDown
+                                size={16}
+                                className="text-gray-500"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          onClick={handleSaveField}
+                          className="p-2 mr-3 rounded-custom8px border border-reloadBorder hover:text-purple-600"
+                        >
+                          <PlusCircle size={24} />
+                        </button>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[14px] font-inter font-[400]">
+                            Compulsory
+                          </span>
+                          <div className="relative">
+                            <input
+                              type="checkbox"
+                              checked={newField.compulsory}
+                              onChange={() =>
+                                setNewField({
+                                  ...newField,
+                                  compulsory: !newField.compulsory,
+                                })
+                              }
+                              id="compulsory-new-sm"
+                              className="sr-only"
+                            />
+                            <label
+                              htmlFor="compulsory-new-sm"
+                              className={`block w-12 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+                                newField.compulsory
+                                  ? "bg-bgButton"
+                                  : "bg-gray-200"
+                              }`}
+                            >
+                              <span
+                                className={`block w-5 h-5 mt-0.5 ml-0.5 bg-white rounded-full transform transition-transform duration-200 ease-in-out ${
+                                  newField.compulsory ? "translate-x-6" : ""
+                                }`}
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Original desktop/laptop layout */}
+                    <div className="hidden md:flex items-center gap-4 md:flex-nowrap">
+                      <div className="w-1/3">
+                        <input
+                          type="text"
+                          value={newField.title}
+                          onChange={(e) =>
+                            setNewField({ ...newField, title: e.target.value })
+                          }
+                          placeholder="Field Title"
+                          className={`w-full px-4 py-3 border text-menuSubHeadingColor text-bgButton rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                    ${
+                      newField.compulsory
+                        ? "border-menuSubHeadingColor text-menuSubHeadingColor placeholder:text-menuSubHeadingColor"
+                        : "border-reloadBorder text-reloadBorder placeholder:text-reloadBorder"
+                    } focus:border-reloadBorder`}
+                        />
+                      </div>
+                      <div className="w-1/3">
+                        <input
+                          type="text"
+                          value={newField.placeholder}
+                          onChange={(e) =>
+                            setNewField({
+                              ...newField,
+                              placeholder: e.target.value,
+                            })
+                          }
+                          placeholder="Field Placeholder"
+                          className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out
+                    ${
+                      newField.compulsory
+                        ? "border-menuSubHeadingColor text-menuSubHeadingColor placeholder:text-menuSubHeadingColor"
+                        : "border-reloadBorder text-reloadBorder placeholder:text-reloadBorder"
+                    } focus:border-reloadBorder`}
+                        />
+                      </div>
+                      <div className="w-[140px]">
+                        <div className="relative">
+                          <select
+                            value={newField.type}
+                            onChange={(e) =>
+                              setNewField({ ...newField, type: e.target.value })
+                            }
+                            className={`w-full px-4 py-3 border rounded-custom8px text-[14px] font-inter font-[400] focus:ring-1 focus:ring-red-300 transition-all duration-300 ease-in-out appearance-none
+                      ${
+                        newField.compulsory
+                          ? "border-menuSubHeadingColor text-menuSubHeadingColor"
+                          : "border-reloadBorder text-reloadBorder"
+                      } focus:border-reloadBorder`}
+                          >
+                            <option
+                              value="Text"
+                              className="text-[14px] font-inter font-[400]"
+                            >
+                              Text
+                            </option>
+                            <option
+                              value="Text area"
+                              className="text-[14px] font-inter font-[400]"
+                            >
+                              Text area
+                            </option>
+                            <option
+                              value="Number"
+                              className="text-[14px] font-inter font-[400]"
+                            >
+                              Number
+                            </option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                            <ChevronDown size={16} className="text-gray-500" />
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleSaveField}
+                        className="p-2 rounded-custom8px border border-reloadBorder hover:text-purple-600"
                       >
-                        <option value="Text">Text</option>
-                        <option value="Text area">Text area</option>
-                        <option value="Number">Number</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <ChevronDown size={16} className="text-gray-500" />
+                        <PlusCircle size={24} />
+                      </button>
+                      <div className="flex items-center gap-2 ml-auto">
+                        <span className="rounded-custom8px text-[14px] font-inter font-[400]">
+                          Compulsory
+                        </span>
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            checked={newField.compulsory}
+                            onChange={() =>
+                              setNewField({
+                                ...newField,
+                                compulsory: !newField.compulsory,
+                              })
+                            }
+                            id="compulsory-new"
+                            className="sr-only"
+                          />
+                          <label
+                            htmlFor="compulsory-new"
+                            className={`block w-12 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+                              newField.compulsory
+                                ? "bg-bgButton"
+                                : "bg-gray-200"
+                            }`}
+                          >
+                            <span
+                              className={`block w-5 h-5 mt-0.5 ml-0.5 bg-white rounded-full transform transition-transform duration-200 ease-in-out ${
+                                newField.compulsory ? "translate-x-6" : ""
+                              }`}
+                            />
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="w-10">
-                    <button
-                      className="p-2 text-gray-500 hover:text-red-500"
-                      onClick={() => removeCustomField(field.id)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M3 6h18"></path>
-                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="mr-2 text-[14px] font-inter">
-                      Compulsory
-                    </span>
-                    <div className="relative inline-block w-10 align-middle select-none">
-                      <input
-                        type="checkbox"
-                        checked={field.compulsory}
-                        onChange={() => {
-                          const updatedFields = [...customFields];
-                          updatedFields[index].compulsory =
-                            !updatedFields[index].compulsory;
-                          setCustomFields(updatedFields);
-                        }}
-                        className="sr-only"
-                        id={`compulsory-${field.id}`}
-                      />
-                      <label
-                        htmlFor={`compulsory-${field.id}`}
-                        className={`block h-6 rounded-full ${
-                          field.compulsory ? "bg-[#7E3AF2]" : "bg-gray-300"
-                        } cursor-pointer`}
-                      >
-                        <span
-                          className={`absolute w-4 h-4 mt-1 transform bg-white rounded-full transition-transform duration-200 ease-in-out ${
-                            field.compulsory
-                              ? "translate-x-5 ml-1"
-                              : "translate-x-1"
-                          }`}
-                        ></span>
-                      </label>
-                    </div>
-                  </div>
                 </div>
-              ))}
 
-              {/* Add new field form */}
-              <div className="mt-6 flex items-center gap-4">
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={newField.title}
-                    onChange={(e) =>
-                      setNewField({ ...newField, title: e.target.value })
-                    }
-                    placeholder="Field Title"
-                    className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter"
-                  />
-                </div>
-                <div className="flex-1">
-                  <input
-                    type="text"
-                    value={newField.placeholder}
-                    onChange={(e) =>
-                      setNewField({ ...newField, placeholder: e.target.value })
-                    }
-                    placeholder="Field Placeholder"
-                    className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter"
-                  />
-                </div>
-                <div className="w-40">
-                  <div className="relative">
-                    <select
-                      value={newField.type}
-                      onChange={(e) =>
-                        setNewField({ ...newField, type: e.target.value })
-                      }
-                      className="w-full p-3 border border-gray-200 rounded-lg text-[14px] font-inter appearance-none pr-10"
-                    >
-                      <option value="Text">Text</option>
-                      <option value="Text area">Text area</option>
-                      <option value="Number">Number</option>
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <ChevronDown size={16} className="text-gray-500" />
+                {/* Right side - field preview */}
+                <div className="w-full sm:w-1/3 md:w-1/3 border-l sm:pl-6 md:pl-6 mt-8 sm:mt-0 md:mt-0 p-3 h-screen bg-background-grey">
+                  <div className="pt-4 md:pt-0">
+                    <div className="space-y-4 h-full">
+                      {fields.map((field) => (
+                        <div key={field.id} className="mb-6">
+                          <div className="mb-2">
+                            <div className="border border-cardTitle p-3 rounded-custom8px">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="none"
+                                    className="text-gray-400"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeWidth="1.5"
+                                      d="M1.75 4h12.5M1.75 8h12.5M1.75 12h12.5"
+                                    />
+                                  </svg>
+                                  <span className="text-sm font-medium text-gray-800">
+                                    {field.title}
+                                  </span>
+                                </div>
+                                <button
+                                  className="text-gray-500 hover:text-blue-500"
+                                  onClick={() => handleEditField(field.id)}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    className="w-4 h-4"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                </div>
-                <div className="w-10">
-                  <button
-                    className="p-2 text-gray-500 hover:text-green-500"
-                    onClick={addCustomField}
-                  >
-                    <Plus size={20} />
-                  </button>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-2 text-[14px] font-inter">
-                    Compulsory
-                  </span>
-                  <div className="relative inline-block w-10 align-middle select-none">
-                    <input
-                      type="checkbox"
-                      checked={newField.compulsory}
-                      onChange={() =>
-                        setNewField({
-                          ...newField,
-                          compulsory: !newField.compulsory,
-                        })
-                      }
-                      className="sr-only"
-                      id="compulsory-new"
-                    />
-                    <label
-                      htmlFor="compulsory-new"
-                      className={`block h-6 rounded-full ${
-                        newField.compulsory ? "bg-[#7E3AF2]" : "bg-gray-300"
-                      } cursor-pointer`}
-                    >
-                      <span
-                        className={`absolute w-4 h-4 mt-1 transform bg-white rounded-full transition-transform duration-200 ease-in-out ${
-                          newField.compulsory
-                            ? "translate-x-5 ml-1"
-                            : "translate-x-1"
-                        }`}
-                      ></span>
-                    </label>
                   </div>
                 </div>
               </div>
             </div>
-          </CustomModal>
+          </div>
         )}
 
         {/* ETA */}
@@ -605,16 +1131,16 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
 
         {/* Delivery Charge */}
-        <div className="">
-          <div className="border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] p-6">
+        <div className="border border-reloadBorder rounded-[12px]  overflow-hidden">
+          <div className="border-b border-reloadBorder p-6">
             <h3 className="text-[14px] font-inter text-textHeading">
               Delivery Charge
             </h3>
-            <p className="text-[12px] font-inter text-cardTitle mb-4">
+            <p className="text-[12px] font-inter text-cardTitle">
               Set the charge for delivery on orders.
             </p>
           </div>
-          <div className="flex gap-4 p-4 bg-backgroundWhite border rounded-bl-[12px] rounded-br-[12px]">
+          <div className="flex gap-4 p-6 bg-backgroundWhite">
             <input
               type="text"
               placeholder="Enter delivery charge amount"
@@ -625,18 +1151,41 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                   amount: e.target.value,
                 }))
               }
-              className="flex-1 p-4 border border-reloadBorder w-10 rounded-lg text-[14px] font-inter"
+              className="flex-1 p-4 border border-reloadBorder rounded-lg text-[14px] font-inter focus:outline-none focus:ring-1 focus:ring-purple-500"
             />
-            <select
-              value={deliveryCharge.type}
-              onChange={(e) =>
-                setDeliveryCharge((prev) => ({ ...prev, type: e.target.value }))
-              }
-              className="px-3 py-2 border border-reloadBorder rounded-lg text-[14px] font-inter"
-            >
-              <option>Fixed</option>
-              <option>Percentage</option>
-            </select>
+            <div className="relative w-full max-w-[280px]">
+              <select
+                value={deliveryCharge.type}
+                onChange={(e) =>
+                  setDeliveryCharge((prev) => ({
+                    ...prev,
+                    type: e.target.value,
+                  }))
+                }
+                className="w-full h-full appearance-none p-4 border border-reloadBorder rounded-lg text-[14px] font-inter focus:outline-none focus:ring-1 focus:ring-purple-500"
+              >
+                <option className="w-full h-full appearance-none p-4 border border-reloadBorder rounded-lg text-[14px] font-inter focus:outline-none focus:ring-1 focus:ring-purple-500">
+                  Fixed
+                </option>
+                <option className="w-full h-full appearance-none p-4 border border-reloadBorder rounded-lg text-[14px] font-inter focus:outline-none focus:ring-1 focus:ring-purple-500">
+                  Percentage
+                </option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -721,67 +1270,128 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 </div>
 
                 {multipleTipOptions.enabled && (
-                  <div className="space-y-4">
-                    <div className="flex gap-4 flex-wrap">
-                      <input
-                        type="text"
-                        placeholder="Enter amount"
-                        className="flex-1 px-3 py-2 border border-reloadBorder rounded-lg text-[14px] font-inter"
-                      />
-                      <button className="p-2 border border-reloadBorder rounded-lg">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M11.9996 3.59998C12.6624 3.59998 13.1996 4.13723 13.1996 4.79998V10.8H19.1996C19.8624 10.8 20.3996 11.3372 20.3996 12C20.3996 12.6627 19.8623 13.2 19.1996 13.2H13.1996V19.2C13.1996 19.8627 12.6624 20.4 11.9996 20.4C11.3369 20.4 10.7996 19.8627 10.7996 19.2V13.2H4.79961C4.13687 13.2 3.59961 12.6627 3.59961 12C3.59961 11.3372 4.13687 10.8 4.79961 10.8L10.7996 10.8V4.79998C10.7996 4.13723 11.3369 3.59998 11.9996 3.59998Z"
-                            fill="#212121"
-                          />
-                        </svg>
-                      </button>
-                      <select className="px-3 py-2 border border-reloadBorder rounded-lg text-[14px] font-inter placeholder:font-[500] placeholder:text-reloadBorder">
-                        <option className="text-[14px] font-inter font-[500] text-reloadBorder">
-                          Fixed
-                        </option>
-                        <option className="text-[14px] font-inter font-[500] text-reloadBorder">
-                          Percentage
-                        </option>
-                      </select>
-                    </div>
-                    <p className="text-[12px] text-inter font-[500] ">
-                      <span className="text-cardTitle text-[12px] font-inter font-[500]">
-                        {" "}
-                        Default tip set to
-                      </span>{" "}
-                      <span className="text-menuSubHeadingColor text-[12px] text-inter font-[500]">
-                        ₹10
-                      </span>
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {multipleTipOptions.options.map((option) => (
-                        <div
-                          key={option}
-                          className="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full"
-                        >
-                          <span className="text-[14px] font-inter text-gray-700">
-                            ₹{option}
-                          </span>
-                          {/* <button
-                            onClick={() => removeTipOption(option)}
-                            className="text-gray-500 hover:text-gray-700"
-                          >
-                            <X className="w-4 h-4" />
-                          </button> */}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+  <div className="space-y-4">
+    {/* Replace the single input with mapped inputs */}
+    {inputValues.map((input) => (
+      <div key={input.id} className="flex gap-4 flex-wrap">
+        <input
+          type="text"
+          placeholder="Enter amount"
+          value={input.amount}
+          onChange={(e) => handleInputChange(input.id, 'amount', e.target.value)}
+          className="flex-1 px-3 py-2 border border-reloadBorder rounded-lg text-[14px] font-inter"
+        />
+        
+        {/* Show delete button only if there's more than one input */}
+        {inputValues.length > 1 && (
+          <button 
+            className="p-2 border border-reloadBorder rounded-lg"
+            onClick={() => setInputValues(prevValues => prevValues.filter(item => item.id !== input.id))}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        )}
+        
+        {/* Only show the add button on the last input */}
+        {input.id === Math.max(...inputValues.map(item => item.id)) && (
+          <button
+            className="p-2 border border-reloadBorder rounded-lg"
+            onClick={addNewInputField}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M11.9996 3.59998C12.6624 3.59998 13.1996 4.13723 13.1996 4.79998V10.8H19.1996C19.8624 10.8 20.3996 11.3372 20.3996 12C20.3996 12.6627 19.8623 13.2 19.1996 13.2H13.1996V19.2C13.1996 19.8627 12.6624 20.4 11.9996 20.4C11.3369 20.4 10.7996 19.8627 10.7996 19.2V13.2H4.79961C4.13687 13.2 3.59961 12.6627 3.59961 12C3.59961 11.3372 4.13687 10.8 4.79961 10.8L10.7996 10.8V4.79998C10.7996 4.13723 11.3369 3.59998 11.9996 3.59998Z"
+                fill="#212121"
+              />
+            </svg>
+          </button>
+        )}
+        
+        <div className="relative w-[200px]">
+          <select 
+            className="w-full px-3 py-4 border border-reloadBorder rounded-lg text-[14px] font-inter placeholder:font-[500] placeholder:text-reloadBorder appearance-none"
+            value={input.type}
+            onChange={(e) => handleInputChange(input.id, 'type', e.target.value)}
+          >
+            <option className="text-[14px] font-inter font-[500] text-reloadBorder">
+              Fixed
+            </option>
+            <option className="text-[14px] font-inter font-[500] text-reloadBorder">
+              Percentage
+            </option>
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M4 6L8 10L12 6"
+                stroke="#687182"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    ))}
+    
+    <p className="text-[12px] text-inter font-[500] ">
+      <span className="text-cardTitle text-[12px] font-inter font-[500]">
+        {" "}
+        Default tip set to
+      </span>{" "}
+      <span className="text-menuSubHeadingColor text-[12px] text-inter font-[500]">
+        ₹10
+      </span>
+    </p>
+    <div className="flex flex-wrap gap-2">
+      {multipleTipOptions.options.map((option) => (
+        <div
+          key={option}
+          className="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full"
+        >
+          <span className="text-[14px] font-inter text-gray-700">
+            ₹{option}
+          </span>
+          {/* <button
+            onClick={() => removeTipOption(option)}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <X className="w-4 h-4" />
+          </button> */}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+                
               </div>
             </div>
           )}

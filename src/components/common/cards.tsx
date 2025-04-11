@@ -258,39 +258,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
         )}
       </div>
 
-      {/* Custom Order Fields Card */}
-      <div className="bg-white rounded-lg p-6">
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center space-x-2">
-            <h2 className="text-[14px] font-inter font-[500] text-textHeading">
-              Custom Order Fields
-            </h2>
-            <button className="rounded-full p-1 border border-gray-300 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-          <ToggleSwitch
-            checked={settings.customOrderFields}
-            onChange={() => toggleSetting("customOrderFields")}
-            aria-labelledby="custom-order-fields"
-          />
-        </div>
-
-        <p className="text-[12px] font-inter font-[500] text-cardTitle">
-          Allow customers to enter additional information during checkout.
-        </p>
-      </div>
+      
     </div>
   );
 };

@@ -59,7 +59,7 @@ const BrandingPage: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="bg-background-grey p-5 border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px] p-1">
+      <div className="bg-background-grey p-5 border border-reloadBorder rounded-tl-[12px] rounded-tr-[12px]">
         <h2 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[600] text-headding-color mb-1">
           Marketplace Branding
         </h2>

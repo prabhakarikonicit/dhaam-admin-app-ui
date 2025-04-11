@@ -412,7 +412,7 @@ const Webhook: React.FC<WebhookProps> = ({ onSave, onCancel }) => {
       </div>
 
       {/* Main content */}
-      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0">
+      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         <div className="bg-backgroundWhite p-5 w-full">
           <h2
             className="text-[14px] font-inter font-[600] text-textHeading mb-5"

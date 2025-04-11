@@ -206,7 +206,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 mt-4 max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="space-y-6 mt-4 max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div>
         <div className="rounded-tl-custom8px rounded-tr-custom8px border border-reloadBorder p-6">
           <h2 className="text-[14px] font-inter font-[500] text-headding-color mb-1">

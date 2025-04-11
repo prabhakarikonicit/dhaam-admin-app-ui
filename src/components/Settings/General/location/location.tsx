@@ -378,17 +378,35 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
 
   // Toggle item status
   const toggleItemStatus = (id: string, section: "cities" | "geofence") => {
+    console.log(`Toggling ${section} item with ID: ${id}`);
+
     if (section === "cities") {
-      setCities(
-        cities.map((city) =>
-          city.id === id ? { ...city, isActive: !city.isActive } : city
-        )
+      setCities((prevCities) =>
+        prevCities.map((city) => {
+          if (city.id === id) {
+            console.log(
+              `Toggling city ${city.name} from ${
+                city.isActive
+              } to ${!city.isActive}`
+            );
+            return { ...city, isActive: !city.isActive };
+          }
+          return city;
+        })
       );
     } else {
-      setGeofences(
-        geofences.map((geo) =>
-          geo.id === id ? { ...geo, isActive: !geo.isActive } : geo
-        )
+      setGeofences((prevGeofences) =>
+        prevGeofences.map((geo) => {
+          if (geo.id === id) {
+            console.log(
+              `Toggling geofence ${geo.name} from ${
+                geo.isActive
+              } to ${!geo.isActive}`
+            );
+            return { ...geo, isActive: !geo.isActive };
+          }
+          return geo;
+        })
       );
     }
   };
@@ -682,7 +700,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
   */
 
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
       <div className="flex justify-between items-center p-4 mt-0 sm:mt-6 md:mt-8 lg:mt-10 xl-mt-12">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
@@ -691,7 +709,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       </div>
 
       {/* Main content */}
-      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0">
+      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         {/* Geofence Section */}
         <div className="bg-backgroundWhite p-5 rounded-custom12px">
           <div className="flex justify-between items-center mb-4">
@@ -764,7 +782,10 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
       {isModalOpen &&
         currentSection === "geofence" &&
         modalMode !== "delete" && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto ">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto " style={{ 
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#d1d5db transparent'
+          }}>
             <div className="bg-white w-full rounded-lg shadow-lg m-4 overflow-hidden mt-44 md:mt-28 sm:mt-28 lg:mt-28 xl:mt-28">
               <div className="flex justify-between items-center p-4 border-b border-gray-200">
                 <h2 className="text-[16px] font-[600] font-inter text-black">
@@ -939,7 +960,7 @@ const LocationManagement: React.FC<LocationManagementProps> = ({
           </div>
         )}
 
-      {/* Regular Modal for Cities and Delete operations */}
+   
       {/* Regular Modal for Cities and Delete operations */}
       {isModalOpen &&
         (currentSection !== "geofence" || modalMode === "delete") && (
