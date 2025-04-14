@@ -72,27 +72,64 @@ const Preferences: React.FC = () => {
 
       <div className="space-y-6 bg-backgroundWhite p-6 rounded-custom12px">
         {preferences.map((pref) => (
-          <div 
+          <div
             key={pref.id}
             className="flex items-center justify-between py-2 border-b border-grey-border last:border-0"
           >
             <div>
-              <h3 
+              <h3
                 id={`${pref.id}-title`}
                 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]font-inter font-[500] font-inter text-textHeading  mb-1"
               >
                 {pref.title}
               </h3>
-              <p 
+              <p
+                id={`${pref.id}-description`}
+                className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter text-cardTitle"
+              >
+                {pref.id === "addressConfirmation" ||
+                pref.id === "analytics" ||
+                pref.id === "orderControl" ? (
+                  <>
+                    {pref.id === "addressConfirmation" ? (
+                      <>
+                        Require customers to confirm their{" "}
+                        <span className="md:hidden">
+                          <br />
+                        </span>
+                        address before marking an order as ready.
+                      </>
+                    ) : pref.id === "orderControl" ? (
+                      <>
+                        Allow store add side items or categories{" "}
+                        <span className="md:hidden">
+                          <br />
+                        </span>
+                        to complement main orders.
+                      </>
+                    ) : (
+                      <>
+                        Track and analyze platform performance{" "}
+                        <span className="md:hidden">
+                          <br />
+                        </span>
+                        and store activity.
+                      </>
+                    )}
+                  </>
+                ) : (
+                  pref.description
+                )}
+              </p>
+              {/* <p 
                 id={`${pref.id}-description`}
                 className="text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter text-cardTitle"
               >
                 {pref.description}
-              </p>
+              </p> */}
             </div>
             <ToggleSwitch
               checked={pref.enabled}
-             
               onChange={handleToggle(pref.id)}
               aria-labelledby={`${pref.id}-title`}
               aria-describedby={`${pref.id}-description`}
