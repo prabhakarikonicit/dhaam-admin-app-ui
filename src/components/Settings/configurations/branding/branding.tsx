@@ -58,7 +58,7 @@ const InputField: React.FC<{
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="w-full border border-grey-border rounded-custom px-3 py-2 focus:outline-none focus:ring-2 placeholder-text-[12px] font-inter placeholder:text-cardTitle text-cardTitle   focus:ring-purple-500"
+          className="w-full border border-grey-border rounded-custom px-3 py-4 focus:outline-none focus:ring-2 placeholder-text-[12px] font-inter placeholder:text-cardTitle text-cardTitle   focus:ring-purple-500"
         />
         {success && (
           <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500">
@@ -91,6 +91,33 @@ export const Branding: React.FC = () => {
     customerAppUrl: "",
     merchantAppUrl: "",
   });
+  const [brandingState, setBrandingState] = useState({
+    websiteLogo: null as File | null,
+    favicon: { name: "favicon.png", size: "139.0 KB" },
+    // Other state properties
+  });
+  const handleFileUpload = (fieldName: string) => (file: File) => {
+    if (fieldName === "favicon") {
+      setBrandingState((prev) => ({
+        ...prev,
+        [fieldName]: {
+          name: file.name,
+          size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
+        },
+      }));
+    } else {
+      setBrandingState((prev) => ({
+        ...prev,
+        [fieldName]: file,
+      }));
+    }
+  };
+  const handleFileDelete = (fieldName: string) => () => {
+    setBrandingState((prev) => ({
+      ...prev,
+      [fieldName]: null,
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,14 +125,14 @@ export const Branding: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl rounded-custom12px p-0 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full  overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible  overflow-visible">
       <div className="flex justify-between items-center p-4  mt-0 sm:mt-8 md:mt-8 lg:mt-8 xl:8 md:px-1 sm:px-1 lg:px-1 xl:px-1 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
           Branding
         </h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-[12px] font-inter font-[500] text-paragraphBlack">
-          Discard
+            Discard
           </button>
           <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton rounded-lg border border-reloadBorder">
             Save
@@ -129,13 +156,37 @@ export const Branding: React.FC = () => {
               label="Website logo"
               dimensions="140×40 pixels"
               description="Upload and manage your website's logo for branding and visibility."
+              fileInfo={
+                brandingState.websiteLogo
+                  ? {
+                      name: brandingState.websiteLogo.name,
+                      size: `${(
+                        brandingState.websiteLogo.size /
+                        (1024 * 1024)
+                      ).toFixed(1)} MB`,
+                    }
+                  : undefined
+              }
+              onUpload={handleFileUpload("websiteLogo")}
+              onDelete={handleFileDelete("websiteLogo")}
+              placeholderText="Choose a file or drag & drop your file here"
             />
 
             <FileUpload
               label="Favicon"
               dimensions="32×32 pixels"
               description="Upload a small icon that represents your website in browser tabs and bookmarks."
-              fileInfo={{ name: "favicon.png", size: "139.0 KB" }}
+              fileInfo={
+                brandingState.favicon
+                  ? {
+                      name: brandingState.favicon.name,
+                      size: brandingState.favicon.size, // Just use the string directly
+                    }
+                  : undefined
+              }
+              onUpload={handleFileUpload("favicon")}
+              onDelete={handleFileDelete("favicon")}
+              placeholderText="Choose a file or drag & drop your file here"
             />
           </div>
         </div>
@@ -199,14 +250,24 @@ export const LoginPage: React.FC = () => {
     loginTitle: "",
     loginDescription: "",
   });
+  const [colorState, setColorState] = useState({
+    themeColor: "#7C43DF",
+    backgroundColor: "#00F5FF",
+  });
 
+  const handleColorChange = (fieldName: string) => (color: string) => {
+    setColorState((prev) => ({
+      ...prev,
+      [fieldName]: color,
+    }));
+  };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <div className="space-y-6 mt-4 max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="space-y-6 mt-4 max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible ">
       <div>
         <div className="rounded-tl-custom8px rounded-tr-custom8px border border-reloadBorder p-6">
           <h2 className="text-[14px] font-inter font-[500] text-headding-color mb-1">
@@ -247,7 +308,8 @@ export const LoginPage: React.FC = () => {
           <ColorPicker
             label="Theme colour"
             description="Customize the primary colors of your platform to match your brand identity and enhance the user experience."
-            color="#7C43DF"
+            color={colorState.themeColor}
+            onChange={handleColorChange("themeColor")}
           />
         </div>
       </div>
@@ -301,11 +363,13 @@ export const LoginPage: React.FC = () => {
             dimensions="1080×1200 pixels"
             description="Set a custom background image for the login page."
           />
+          
           <div className="mt-14">
             <ColorPicker
               label="Background Colour"
               description="Choose a background color to match your brand theme."
-              color="#00F5FF"
+              color={colorState.backgroundColor}
+              onChange={handleColorChange("backgroundColor")}
             />
           </div>
         </div>

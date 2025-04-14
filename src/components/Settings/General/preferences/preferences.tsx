@@ -63,7 +63,7 @@ const Preferences: React.FC = () => {
     );
   };
   return (
-    <div className="max-w-full p-0 rounded-lg sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full p-0 rounded-lg sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="mb-6 mt-0 sm:mt-6 md:mt-8 lg:mt-12">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Preferences

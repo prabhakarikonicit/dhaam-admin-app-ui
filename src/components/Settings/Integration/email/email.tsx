@@ -389,7 +389,7 @@ const Email: React.FC = () => {
   };
 
   return (
-    <div className="max-w-full p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       <div className="mt-0 sm:mt-6 md:mt-6 lg:mt-8 ">
         <div className="p-4 md:px-1 sm:px-1 lg:px-1 xl:px-1 border-b flex justify-between items-center ">
           <h2 className="text-[14px] font-semibold font-inter font-[600] font-[14px] text-headding-color">Email</h2>

@@ -633,7 +633,7 @@ function CustomModal<T extends BaseItem>({
     const isDisabled = mode === "view" || field.disabled;
     const value = formData[field.id] !== undefined ? formData[field.id] : "";
 
-    const baseInputClass = `w-full px-3 py-2 border border-reloadBorder rounded-custom8px text-cardTitle focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter font-[400] text-[14px] ${
+    const baseInputClass = `w-full shadow-sm px-3 py-4 rounded-custom8px border border-reloadBorder font-inter font-[14px] font-[400] text-reloadBorder focus:outline-none focus:ring-2 focus:ring-blue-500 font-inter font-[400] text-[14px] ${
       isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
     } border-gray-300 ${field.inputClassName || ""}`;
 
@@ -946,8 +946,8 @@ function CustomModal<T extends BaseItem>({
 
   // Button classes based on mode
   const buttonClasses = {
-    add: "text-[12px] font-inter font-[500px] bg-bgButton text-whiteColor ",
-    edit: "text-[12px] font-inter font-[500px] bg-bgButton text-whiteColor",
+    add: "text-[14px] font-inter font-[500] bg-bgButton text-whiteColor ",
+    edit: "text-[14px] font-inter font-[500] bg-bgButton text-whiteColor",
     view: "bg-gray-600 hover:bg-gray-700 focus:ring-gray-500",
     delete: "bg-red-600 hover:bg-red-700 focus:ring-red-500",
     confirm: "bg-green-600 hover:bg-green-700 focus:ring-green-500",
@@ -1176,7 +1176,7 @@ function CustomModal<T extends BaseItem>({
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className={`px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${
+                        className={`px-5 py-2 rounded-custom border border-btnBorder shadow-sm bg-bgButton text-[12px] font-[600] font-inter text-paragraphBlack text-white focus:outline-none focus:ring-2 focus:ring-offset-2 ${buttonClasses} ${
                           isLoading ? "opacity-75 cursor-not-allowed" : ""
                         }`}
                       >
