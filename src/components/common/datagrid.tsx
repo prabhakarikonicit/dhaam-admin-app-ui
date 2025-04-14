@@ -1795,11 +1795,11 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                   .map((col) => (
                     <th
                       key={col.field}
-                      className="text-left p-2 font-inter font-[600] text-headding-color bg-background-grey whitespace-nowra"
+                      className="text-left p-4 font-inter font-[600] text-headding-color bg-background-grey whitespace-nowrap"
                       style={{ width: col.width }}
                     >
                       <div className="flex items-center">
-                        <span className="font-inter font-[600] text-headding-color">
+                        <span className="font-inter font-[600] font-[12px] text-headding-color">
                           {col.headerName}
                         </span>
                         {(col.headerName === "Store ID" ||
