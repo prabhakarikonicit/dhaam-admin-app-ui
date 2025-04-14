@@ -1023,10 +1023,10 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
               <div key={index} className="flex justify-between mb-6">
                 {/* First column */}
                 <div>
-                  <div className="text-gray-500 text-[14px] font-inter">
+                  <div className="text-gray-500 text-[14px] font-inter pb-5 px-3">
                     {pair[0].headerName}
                   </div>
-                  <div className="text-cardValue font-inter font-[500] text-[14px]">
+                  <div className="text-cardValue font-inter font-[500] text-[14px] ">
                     {renderCell(pair[0], row)}
                   </div>
                 </div>
@@ -1034,7 +1034,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                 {/* Second column (if exists) */}
                 {pair.length > 1 && (
                   <div>
-                    <div className="text-gray-500 text-[14px] font-inter text-right">
+                    <div className="text-gray-500 text-[14px] font-inter text-right pb-6">
                       {pair[1].headerName}
                     </div>
                     <div className="text-cardValue font-inter font-[500] text-[14px] text-right">

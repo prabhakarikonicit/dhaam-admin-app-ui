@@ -280,7 +280,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 id="side-order-desc"
                 className="text-[12px] font-inter font-[500] text-cardTitle"
               >
-                Allow store add side items or categories to complement main
+                Allow store add side items or categories<br/> to complement main
                 orders.
               </p>
             </div>
@@ -306,9 +306,9 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 id="side-order-desc"
                 className="text-[12px] font-inter font-[500] text-cardTitle"
               >
-                Add debt to a customer's account for outstanding payments,
+                Add debt to a customer's account for<br/> outstanding payments,
                 cancellation fees,
-                <br /> or ad-hoc charges. This will be visible to the customer
+                <br /> or ad-hoc charges.<br/> This will be visible to the<br/> customer
                 upon opening the web or mobile app.
               </p>
             </div>
@@ -331,7 +331,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 id="side-order-desc"
                 className="text-[12px] font-inter font-[500] text-cardTitle"
               >
-                If enabled, customers must clear their outstanding payments
+                If enabled, customers must clear<br/> their outstanding payments
                 before placing a new order.
               </p>
             </div>
@@ -467,7 +467,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
                 id="custom-fields-desc"
                 className="text-[12px] font-inter text-cardTitle"
               >
-                Allow customers to enter additional information during checkout.
+                Allow customers to enter additional<br/> information during checkout.
               </p>
             </div>
             <ToggleSwitch

@@ -181,7 +181,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
               Delivery Manager
             </h2>
             <p className="text-[12px] font-inter font-[500] text-cardTitle">
-              Configure delivery management settings for order fulfillment and
+              Configure delivery management settings <br/>for order fulfillment and
               logistics.
             </p>
           </div>
@@ -645,7 +645,7 @@ export const OrderControlCard: React.FC<{
               Product Multi-Selection
             </h2>
             <p className="text-[12px] font-inter font-[500] text-cardTitle">
-              Allow customers to select multiple products within a category or
+              Allow customers to select multiple products<br/> within a category or
               option group.
             </p>
           </div>
@@ -785,7 +785,7 @@ export const ScheduledOrderCard: React.FC<{
             Scheduled Order Time Range
           </h2>
           <p className="text-[12px] font-inter font-[500] text-cardTitle">
-            Set a delivery time range for scheduled orders to ensure timely
+            Set a delivery time range for scheduled<br/> orders to ensure timely
             fulfillment.
           </p>
         </div>
