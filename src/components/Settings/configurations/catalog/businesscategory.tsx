@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { PenSquare, Trash2, Search, ChevronLeft } from "lucide-react";
 import CustomDataGrid from "../../../common/datagrid";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import CustomModal, { FieldDefinition } from "../../../common/modals";
-
+import Food from "../../../../lib/Images/food.png"
+import FileUpload from "../../../common/fileupload";
 // Define BusinessCategory interface
 interface BusinessCategory {
   id: string;
@@ -11,6 +12,11 @@ interface BusinessCategory {
   name: string;
   image: string;
   enabled: boolean;
+}
+interface UploadedFile {
+  name: string;
+  size: number;
+  // Add other properties your File object might have
 }
 
 // Define props interface for BusinessCategoryManagement
@@ -23,6 +29,7 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
   onClose,
   onSave,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   // State for categories
   const [categories, setCategories] = useState<BusinessCategory[]>([
     { id: "1", order: 1, name: "Food", image: "/food.png", enabled: true },
@@ -65,9 +72,21 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
 
   // Selected rows for DataGrid
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-
-  // State for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // State for modal
+
+  const [formData, setFormData] = useState<{
+    order: string;
+    name: string;
+    image: UploadedFile | null;
+    isActive: boolean;
+  }>({
+    order: "",
+    name: "",
+    image: null,
+    isActive: false,
+  });
+
   const [selectedCategory, setSelectedCategory] =
     useState<BusinessCategory | null>(null);
 
@@ -167,6 +186,32 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
     }
     setIsModalOpen(false);
   };
+  const handleFileUpload = (file: UploadedFile) => {
+    setFormData({
+      ...formData,
+      image: file,
+    });
+  };
+  // Function to handle file deletion
+  const handleFileDelete = () => {
+    setFormData({
+      ...formData,
+      image: null,
+    });
+  };
+
+  // Handle form field changes
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Handle saving the categor
 
   // Filter categories based on active filter and search term
   const getFilteredCategories = () => {
@@ -238,15 +283,40 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
       renderCell: (value: any, row: any) => (
         <div className="flex items-center">
           <button onClick={() => handleDeleteCategory(row)} className="p-1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.20003 1.59961C6.89701 1.59961 6.62 1.77081 6.48448 2.04184L5.9056 3.19961H3.20002C2.7582 3.19961 2.40002 3.55778 2.40002 3.99961C2.40002 4.44144 2.7582 4.79961 3.20002 4.79961L3.20002 12.7996C3.20002 13.6833 3.91637 14.3996 4.80002 14.3996H11.2C12.0837 14.3996 12.8 13.6833 12.8 12.7996V4.79961C13.2419 4.79961 13.6 4.44144 13.6 3.99961C13.6 3.55778 13.2419 3.19961 12.8 3.19961H10.0945L9.51557 2.04184C9.38005 1.77081 9.10304 1.59961 8.80003 1.59961H7.20003ZM5.60002 6.39961C5.60002 5.95778 5.9582 5.59961 6.40002 5.59961C6.84185 5.59961 7.20002 5.95778 7.20002 6.39961V11.1996C7.20002 11.6414 6.84185 11.9996 6.40002 11.9996C5.9582 11.9996 5.60002 11.6414 5.60002 11.1996V6.39961ZM9.60003 5.59961C9.1582 5.59961 8.80002 5.95778 8.80002 6.39961V11.1996C8.80002 11.6414 9.1582 11.9996 9.60003 11.9996C10.0419 11.9996 10.4 11.6414 10.4 11.1996V6.39961C10.4 5.95778 10.0419 5.59961 9.60003 5.59961Z" fill="#2B2B2B"/>
-</svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7.20003 1.59961C6.89701 1.59961 6.62 1.77081 6.48448 2.04184L5.9056 3.19961H3.20002C2.7582 3.19961 2.40002 3.55778 2.40002 3.99961C2.40002 4.44144 2.7582 4.79961 3.20002 4.79961L3.20002 12.7996C3.20002 13.6833 3.91637 14.3996 4.80002 14.3996H11.2C12.0837 14.3996 12.8 13.6833 12.8 12.7996V4.79961C13.2419 4.79961 13.6 4.44144 13.6 3.99961C13.6 3.55778 13.2419 3.19961 12.8 3.19961H10.0945L9.51557 2.04184C9.38005 1.77081 9.10304 1.59961 8.80003 1.59961H7.20003ZM5.60002 6.39961C5.60002 5.95778 5.9582 5.59961 6.40002 5.59961C6.84185 5.59961 7.20002 5.95778 7.20002 6.39961V11.1996C7.20002 11.6414 6.84185 11.9996 6.40002 11.9996C5.9582 11.9996 5.60002 11.6414 5.60002 11.1996V6.39961ZM9.60003 5.59961C9.1582 5.59961 8.80002 5.95778 8.80002 6.39961V11.1996C8.80002 11.6414 9.1582 11.9996 9.60003 11.9996C10.0419 11.9996 10.4 11.6414 10.4 11.1996V6.39961C10.4 5.95778 10.0419 5.59961 9.60003 5.59961Z"
+                fill="#2B2B2B"
+              />
+            </svg>
           </button>
           <button onClick={() => handleEditCategory(row)} className="p-1 ml-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path d="M13.9313 2.06824C13.3065 1.4434 12.2934 1.4434 11.6686 2.06824L5.59998 8.13687V10.3996H7.86271L13.9313 4.33098C14.5562 3.70614 14.5562 2.69308 13.9313 2.06824Z" fill="#2B2B2B"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.59998 4.79961C1.59998 3.91595 2.31632 3.19961 3.19998 3.19961H6.39998C6.8418 3.19961 7.19998 3.55778 7.19998 3.99961C7.19998 4.44144 6.8418 4.79961 6.39998 4.79961H3.19998V12.7996H11.2V9.59961C11.2 9.15778 11.5581 8.79961 12 8.79961C12.4418 8.79961 12.8 9.15778 12.8 9.59961V12.7996C12.8 13.6833 12.0836 14.3996 11.2 14.3996H3.19998C2.31632 14.3996 1.59998 13.6833 1.59998 12.7996V4.79961Z" fill="#2B2B2B"/>
-</svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M13.9313 2.06824C13.3065 1.4434 12.2934 1.4434 11.6686 2.06824L5.59998 8.13687V10.3996H7.86271L13.9313 4.33098C14.5562 3.70614 14.5562 2.69308 13.9313 2.06824Z"
+                fill="#2B2B2B"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M1.59998 4.79961C1.59998 3.91595 2.31632 3.19961 3.19998 3.19961H6.39998C6.8418 3.19961 7.19998 3.55778 7.19998 3.99961C7.19998 4.44144 6.8418 4.79961 6.39998 4.79961H3.19998V12.7996H11.2V9.59961C11.2 9.15778 11.5581 8.79961 12 8.79961C12.4418 8.79961 12.8 9.15778 12.8 9.59961V12.7996C12.8 13.6833 12.0836 14.3996 11.2 14.3996H3.19998C2.31632 14.3996 1.59998 13.6833 1.59998 12.7996V4.79961Z"
+                fill="#2B2B2B"
+              />
+            </svg>
           </button>
         </div>
       ),
@@ -418,8 +488,164 @@ const BusinessCategory: React.FC<BusinessCategoryManagementProps> = ({
           selectedCategory ? "Edit Business Category" : "Add Business Category"
         }
         size="md"
-        formLayout="grid"
-        gridColumns={2}
+        formLayout="custom"
+        customFooter={
+          <div className="w-full px-2 pt-0 pb-4">
+            {/* Form Content */}
+            <div className="mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {/* Order Field */}
+                <div>
+                  <label className="block text-[12px] font-[500] font-inter text-paragraphBlack mb-2">
+                    Order
+                  </label>
+                  <div className="relative">
+                    <select
+                      name="order"
+                      value={formData.order}
+                      onChange={handleInputChange}
+                      className="block w-full px-3 py-4 focus:border-indigo-300 rounded-custom8px border border-reloadBorder font-inter font-[14px] font-[400] text-reloadBorder focus:ring focus:ring-indigo-200 focus:ring-opacity-50 appearance-none "
+                    >
+                      <option value="" className="text-paragraphBlack">Select</option>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                        <option key={num} value={num} className="text-paragraphBlack">
+                          {num}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="21"
+                        viewBox="0 0 20 21"
+                        fill="none"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.29289 7.79289C5.68342 7.40237 6.31658 7.40237 6.70711 7.79289L10 11.0858L13.2929 7.79289C13.6834 7.40237 14.3166 7.40237 14.7071 7.79289C15.0976 8.18342 15.0976 8.81658 14.7071 9.20711L10.7071 13.2071C10.3166 13.5976 9.68342 13.5976 9.29289 13.2071L5.29289 9.20711C4.90237 8.81658 4.90237 8.18342 5.29289 7.79289Z"
+                          fill="#636363"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Name Field */}
+                <div>
+                  <label className="block text-[12px] font-[500] font-inter text-paragraphBlack mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Name"
+                    className="block w-full px-3 py-4 focus:border-indigo-300 rounded-custom8px border border-reloadBorder font-inter font-[14px] font-[400] text-reloadBorder focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  />
+                </div>
+              </div>
+
+              {/* Upload Business Category Image Label */}
+              <label className="block text-[12px] font-[500] font-inter text-paragraphBlack mb-2">
+                Upload Business Category Image
+              </label>
+
+              {/* Upload Component - Dashed border area */}
+              <div
+                className="border-[2px] border-dashed border-reloadBorder rounded-custom10px p-6 flex items-center justify-between text-start cursor-pointer hover:bg-gray-50 mb-4"
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleFileUpload(
+                      e.dataTransfer.files[0] as unknown as UploadedFile
+                    );
+                  }
+                }}
+              >
+                <div className="flex items-center">
+                  <p className="text-[12px] font-[500] font-inter text-reloadBorder">
+                    Drop item here or Browse file
+                  </p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        handleFileUpload(
+                          e.target.files[0] as unknown as UploadedFile
+                        );
+                      }
+                    }}
+                    accept="image/*"
+                  />
+                </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                >
+                  <path
+                    d="M3.33334 13.8337L3.33334 14.667C3.33334 16.0477 4.45263 17.167 5.83334 17.167L14.1667 17.167C15.5474 17.167 16.6667 16.0477 16.6667 14.667L16.6667 13.8337M13.3333 7.16699L10 3.83366M10 3.83366L6.66668 7.16699M10 3.83366L10 13.8337"
+                    stroke="#636363"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
+              {/* Displayed file after upload */}
+              {formData.image && (
+                <div className="border border-grey-border rounded-custom8px p-3 flex items-center w-[45%] md:w-[50%]">
+                  <div className="flex items-center flex-1">
+                    <div className="w-12 h-12 bg-orange-100 rounded-md flex items-center justify-center mr-3 overflow-hidden">
+                      <img
+                        src={Food}
+                        alt="Food"
+                        className="w-12 h-12"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-[13px] font-inter text-gray-700">
+                        {formData.image.name}
+                      </p>
+                      <p className="text-[12px] font-inter text-gray-500">
+                        {(formData.image.size / (1024 * 1024)).toFixed(1)} MB
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleFileDelete}
+                    className="ml-2"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <path d="M15.8333 6.33333L15.1105 16.4521C15.0482 17.3243 14.3225 18 13.4481 18H6.55184C5.67745 18 4.95171 17.3243 4.88941 16.4521L4.16665 6.33333M8.33331 9.66667V14.6667M11.6666 9.66667V14.6667M12.5 6.33333V3.83333C12.5 3.3731 12.1269 3 11.6666 3H8.33331C7.87308 3 7.49998 3.3731 7.49998 3.83333V6.33333M3.33331 6.33333H16.6666" stroke="#DB1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Footer buttons */}
+            <div className="pt-4 pb-0 flex justify-end">
+              <button
+                onClick={handleSaveCategory}
+                className="rounded-custom border border-btnBorder shadow-sm px-4 py-2 bg-bgButton text-[12px] font-[600] font-inter text-paragraphBlack text-white"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        }
         showToggle={false}
         confirmText="Save"
       />

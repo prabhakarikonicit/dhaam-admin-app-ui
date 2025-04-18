@@ -64,7 +64,7 @@ const UploadFileModal: React.FC<UploadFileModalProps> = ({ isOpen, onClose, onUp
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
       <div
-        className={`bg-white rounded-lg w-full overflow-auto transition-all duration-300 rounded-t-custom18px ${
+        className={`bg-white rounded-lg  sm:w-full md:w-full lg:w-full xl:w-full overflow-auto transition-all duration-300 rounded-t-custom18px ${
           selectedFile ? 'max-w-3xl max-h-[80vh]' : 'max-w-2xl max-h-[60vh]'
         }`}
       >
