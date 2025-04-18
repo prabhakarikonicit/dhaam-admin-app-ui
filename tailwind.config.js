@@ -16,6 +16,9 @@ module.exports = {
       "4xl": "2560px",
     },
     extend: {
+      boxShadow: {
+        custom: '0px 1px 4px 0px rgba(12, 12, 13, 0.05)',
+      },
       backgroundImage: {
         "linear-bg":
           "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
@@ -55,6 +58,7 @@ module.exports = {
         maroon: "#9C1616",
         primaryCredit: "#EAEDFB",
         reject: "#620E0E",
+        danger: "#E45270",
 
       },
       backgroundColor: {

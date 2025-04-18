@@ -741,7 +741,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   }
   // Mobile card view rendering
   const renderMobileCard = (row: Row) => {
-  const visibleColumns = columns.filter((col) => col.visible);
+    const visibleColumns = columns.filter((col) => col.visible);
     // Check if this is a store card or order card
     const isStoreCard = row.storeId !== undefined || row.rating !== undefined;
     const isOrderCard =
@@ -751,12 +751,14 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
     if (isStoreCard) {
       // Status style mapping
       const statusStyles = {
-        "Active": "bg-green text-white",
-        "Pending": "bg-yellow text-white",
+        Active: "bg-green text-white",
+        Pending: "bg-yellow text-white",
         // Add other status styles as needed
       };
       // Get status style or default to Active style
-      const statusStyle = statusStyles[row.status as keyof typeof statusStyles] || statusStyles["Active"];
+      const statusStyle =
+        statusStyles[row.status as keyof typeof statusStyles] ||
+        statusStyles["Active"];
       return (
         <div className="bg-white rounded-md shadow-sm mb-3 border border-gray-100">
           <div className="p-4">
@@ -809,7 +811,13 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                 <div className="text-cardTitle text-[12px] font-inter font-[500] pb-2">
                   Status
                 </div>
-                <div className={`${row.status === "Pending" ? "bg-yellow text-yellow" : "bg-green"} text-customWhiteColor font-inter font-[500] text-[14px] px-3 py-1 rounded-md inline-block`}>
+                <div
+                  className={`${
+                    row.status === "Pending"
+                      ? "bg-yellow text-yellow"
+                      : "bg-green"
+                  } text-customWhiteColor font-inter font-[500] text-[14px] px-3 py-1 rounded-md inline-block`}
+                >
                   {row.status || "Active"}
                 </div>
               </div>
@@ -825,8 +833,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
           </div>
         </div>
       );
-    }
-    else if (isOrderCard) {
+    } else if (isOrderCard) {
       const orderData: Order = {
         id: row.id || "",
         orderId: row.orderId || row.id || "",
@@ -852,7 +859,8 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
       const paymentMethodColors = {
         Cash: "bg-bgActive rounded-custom4x text-customWhiteColor font-inter font-[600]",
         UPI: "bg-yellow rounded-custom4x text-yellow font-inter font-[600]",
-        "Credit Card": "bg-blueCredit rounded-custom4x text-primaryCredit font-inter font-[600]",
+        "Credit Card":
+          "bg-blueCredit rounded-custom4x text-primaryCredit font-inter font-[600]",
       };
       const statusStyleMap = {
         Completed: "bg-customBackgroundColor text-green",
@@ -1008,9 +1016,8 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
           )}
         </div>
       );
-    }
-    else {
-      const displayFields = visibleColumns.filter(col => col.visible);
+    } else {
+      const displayFields = visibleColumns.filter((col) => col.visible);
       // A simple function to chunk the array into pairs
       const chunkedFields = [];
       for (let i = 0; i < displayFields.length; i += 2) {
@@ -1030,7 +1037,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                     {renderCell(pair[0], row)}
                   </div>
                 </div>
-                
+
                 {/* Second column (if exists) */}
                 {pair.length > 1 && (
                   <div>
@@ -1048,42 +1055,6 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
         </div>
       );
     }
-
-    // Fallback for other card types - simplified version of your original
-    // else {
-    //   const displayFields = visibleColumns.map((col) => ({
-    //     field: col.field,
-    //     headerName: col.headerName,
-    //     column: col,
-    //   }));
-
-    //   return (
-    //     <div className="bg-white rounded-md shadow-sm mb-3 border border-gray-100">
-    //       <div className="p-3">
-    //         {/* Two-column layout for mobile */}
-    //         {displayFields
-    //           .filter((item) => ![""].includes(item.field))
-    //           .map((item, index) => (
-    //             <div
-    //               key={item.field}
-    //               className={`flex justify-between items-start mb-2 pb-2 ${
-    //                 index !== displayFields.length - 1
-    //                   ? "border-b border-gray-100"
-    //                   : ""
-    //               }`}
-    //             >
-    //               <div className="text-gray-500 text-[14px] font-inter">
-    //                 {item.headerName}
-    //               </div>
-    //               <div className="text-cardValue font-inter font-[500] text-[14px] text-right ml-2">
-    //                 {renderCell(item.column, row)}
-    //               </div>
-    //             </div>
-    //           ))}
-    //       </div>
-    //     </div>
-    //   );
-    // }
   };
 
   // Function to format filter display text
@@ -1128,12 +1099,12 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
             />
           </svg>
           {isMobile && (
-            <span className="text-[14px] font-inter font-[500] text-textHeading">
+            <span className="text-[12px] font-inter font-[500] text-textHeading">
               Density
             </span>
           )}
           {!isMobile && (
-            <span className="text-[14px] font-inter font-[500] text-textHeading">
+            <span className="text-[12px] font-inter font-[500] text-textHeading">
               Density
             </span>
           )}
@@ -1277,84 +1248,14 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
       </div>
     );
   };
-  // Desktop pagination
-  const renderPagination = () => {
-    return (
-      <div className="p-4 flex justify-between sm:w-full items-center border-t border-gray-200">
-        <span className="text-[14px] font-inter font-[500] text-headding-color">
-          Showing result {Math.min(currentPageSize, filteredRows.length)} out of{" "}
-          {rows.length}
-        </span>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-            className="p-2 hover:bg-gray-100 rounded"
-            disabled={currentPage === 1}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12.7071 5.29289C13.0976 5.68342 13.0976 6.31658 12.7071 6.70711L9.41421 10L12.7071 13.2929C13.0976 13.6834 13.0976 14.3166 12.7071 14.7071C12.3166 15.0976 11.6834 15.0976 11.2929 14.7071L7.29289 10.7071C6.90237 10.3166 6.90237 9.68342 7.29289 9.29289L11.2929 5.29289C11.6834 4.90237 12.3166 4.90237 12.7071 5.29289Z"
-                fill="#4A4A4A"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-            className="p-2 hover:bg-gray-100 rounded"
-            disabled={currentPage * currentPageSize >= filteredRows.length}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M7.29289 14.7071C6.90237 14.3166 6.90237 13.6834 7.29289 13.2929L10.5858 10L7.29289 6.70711C6.90237 6.31658 6.90237 5.68342 7.29289 5.29289C7.68342 4.90237 8.31658 4.90237 8.70711 5.29289L12.7071 9.29289C13.0976 9.68342 13.0976 10.3166 12.7071 10.7071L8.70711 14.7071C8.31658 15.0976 7.68342 15.0976 7.29289 14.7071Z"
-                fill="#4A4A4A"
-              />
-            </svg>
-          </button>
-          <select
-            className="ml-2 px-4 py-4 border border-gray-200 rounded-custom text-[12px] bg-reloadBackground"
-            value={currentPageSize}
-            onChange={(e) => {
-              setCurrentPageSize(Number(e.target.value));
-              setCurrentPage(1);
-            }}
-          >
-            <option value={10} className="text-[12px] bg-reloadBackground">
-              10
-            </option>
-            <option value={20} className="text-[12px] bg-reloadBackground">
-              20
-            </option>
-            <option value={50} className="text-[12px] bg-reloadBackground">
-              50
-            </option>
-          </select>
-        </div>
-      </div>
-    );
-  };
+
   return (
-    <div className="w-full border border-grey-border bg-backgroundWhite rounded-custom8px mb-10">
+    <div className="w-full bg-backgroundWhite mb-10 border border-reloadBorder rounded-custom">
       {popoverOpen && <OrderPopover />}
       {isMobile && (
         <div className="p-4 bg-white border-b border-gray-200">
           <div className="flex justify-between items-center">
-            <span className="text-[14px] font-inter font-[500] text-gray-700">
+            <span className="text-[12px] font-inter font-[500] text-gray-700">
               Showing result 10 out of 50
             </span>
             <div className="flex items-center gap-2">
@@ -1434,7 +1335,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
         </div>
       )}
       {!hideToolbar && (
-        <div className="p-4 border-b border-gray-200 flex flex-wrap justify-between items-center gap-2">
+        <div className="p-4 border-b border-reloadBorder flex flex-wrap justify-between items-center gap-2">
           <div className="flex flex-wrap items-center gap-5">
             {/* Column toggle button */}
             <div className="relative">
@@ -1458,12 +1359,12 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                   />
                 </svg>
                 {isMobile && (
-                  <span className="text-[14px] font-inter font-[500] text-textHeading">
+                  <span className="text-[12px] font-inter font-[500] text-textHeading">
                     Column
                   </span>
                 )}
                 {!isMobile && (
-                  <span className="text-[14px] font-inter font-[500] text-textHeading">
+                  <span className="text-[12px] font-inter font-[500] text-textHeading">
                     Column
                   </span>
                 )}
@@ -1521,12 +1422,12 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                   />
                 </svg>
                 {isMobile && (
-                  <span className="text-[14px] font-inter font-[500] text-textHeading">
+                  <span className="text-[12px] font-inter font-[500] text-textHeading">
                     Filter
                   </span>
                 )}
                 {!isMobile && (
-                  <span className="text-[14px] font-inter font-[500] text-textHeading">
+                  <span className="text-[12px] font-inter font-[500] text-textHeading">
                     Filter
                   </span>
                 )}
@@ -1683,12 +1584,12 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                 />
               </svg>
               {isMobile && (
-                <span className="text-[14px] font-inter font-[500] text-textHeading">
+                <span className="text-[12px] font-inter font-[500] text-textHeading">
                   Export
                 </span>
               )}
               {!isMobile && (
-                <span className="text-[14px] font-inter font-[500] text-textHeading">
+                <span className="text-[12px] font-inter font-[500] text-textHeading">
                   Export
                 </span>
               )}
@@ -1774,9 +1675,9 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
       ) : (
         // Desktop table view
         <>
-          <table className="w-full table-auto border-collapse">
+          <table className="w-full table-auto  border-collapse ">
             <thead>
-              <tr className="border-b table-auto border-gray-200 bg-background-grey">
+              <tr className="border-b border-reloadBorder table-auto  bg-background-grey">
                 {showCheckboxes && (
                   <th className="p-4 w-[56px] text-center">
                     <input
@@ -1932,7 +1833,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                   </tr>
                 ))}
               {/* Pagination row inside the table */}
-              <tr className="border-b border-reloadBorder bg-tableFooter">
+              <tr className="bg-tableFooter">
                 <td
                   colSpan={
                     showCheckboxes
@@ -1942,9 +1843,9 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
                         (showActionColumn ? 1 : 0)
                   }
                 >
-                  <div className="p-4 flex flex-wrap sm:flex-nowrap justify-between items-center">
+                  <div className="p-4 flex flex-wrap sm:flex-nowrap border-t  border-reloadBorder justify-between items-center">
                     {/* Text showing results - responsive on small screens */}
-                    <span className="text-[14px] font-inter font-[500] text-headding-color w-full sm:w-auto mb-3 sm:mb-0">
+                    <span className="text-[12px] font-inter font-[500] text-headding-color w-full sm:w-auto mb-3 sm:mb-0">
                       Showing result{" "}
                       {Math.min(currentPageSize, filteredRows.length)} out of{" "}
                       {rows.length}
