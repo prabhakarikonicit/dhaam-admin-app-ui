@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
-import StoreDetailPage from "../stores/storedetails";
+// import StoreDetailPage from "../stores/storedetails";
+import StoreDetailPage from "../stores/showstoredetailsview";
+
 import StorePopover from "../stores/storepopover";
 import { MoreVertical } from "lucide-react";
 
@@ -264,7 +266,6 @@ const Stores: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement>,
     store: Store
   ) => {
-   
     event.stopPropagation();
 
     const storeWithItems = {
@@ -330,7 +331,12 @@ const Stores: React.FC = () => {
     {
       field: "name",
       headerName: "Store",
-      width: "250px",
+      width: "280px",
+      renderCell: (value, row) => (
+        <div className="w-[60px] pr-24 py-1 text-cardValue font-inter font-[500] text-[12px] lg:whitespace-nowrap md:whitespace-normal">
+           {value}
+        </div>
+      ),
     },
     {
       field: "address",
@@ -364,13 +370,106 @@ const Stores: React.FC = () => {
     {
       field: "activeStatus",
       headerName: "Status",
-      width: "85px",
+      width: "100px",
       renderCell: (value, row) => (
         <div className="w-[60px] px-1 py-1 rounded-custom4px bg-bgActive text-customWhiteColor text-[12px] font-[600] font-inter text-center">
           {row.status}
         </div>
       ),
     },
+    {
+      field: "toggle",
+      headerName: "Rating",
+      width: "120px",
+      renderCell: (value, row) => (
+        <div className="w-[50px]  flex items-center justify-center">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              defaultChecked={
+                row.id === "3" ||
+                row.id === "5" ||
+                row.id === "6" ||
+                row.id === "7"
+              }
+            />
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="41"
+                height="24"
+                viewBox="0 0 41 24"
+                fill="none"
+              >
+                <path
+                  d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+                  fill="#7C43DF"
+                  stroke="#7C43DF"
+                />
+                <g filter="url(#filter0_dd_7471_52700)">
+                  <circle cx="29" cy="11" r="9" fill="white" />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_dd_7471_52700"
+                    x="17"
+                    y="0"
+                    width="24"
+                    height="24"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="1" />
+                    <feGaussianBlur stdDeviation="1" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="BackgroundImageFix"
+                      result="effect1_dropShadow_7471_52700"
+                    />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="1" />
+                    <feGaussianBlur stdDeviation="1.5" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="effect1_dropShadow_7471_52700"
+                      result="effect2_dropShadow_7471_52700"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="effect2_dropShadow_7471_52700"
+                      result="shape"
+                    />
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+          </label>
+        </div>
+      ),
+    },
+
   ];
 
   // Modal field definitions
@@ -639,25 +738,25 @@ const Stores: React.FC = () => {
                   </button>
 
                   <div className="py-1">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap "
-                  >
-                    Import stores
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
-                  >
-                    Create new view
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
-                  >
-                    Hide analytics
-                  </a>
-                </div>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap "
+                    >
+                      Import stores
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    >
+                      Create new view
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    >
+                      Hide analytics
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
@@ -968,70 +1067,70 @@ const Stores: React.FC = () => {
             </div>
 
             <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
-            <StatCard
-          value="164"
-          description="Verified"
-          descriptionFirst={true}
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="24"
-              viewBox="0 0 25 24"
-              fill="none"
-            >
-              <g clipPath="url(#clip0_7339_55668)">
-                <path
-                  d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
-                  fill="#636363"
-                />
-                <path
-                  d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
-                  fill="#636363"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_7339_55668">
-                  <rect
+              <StatCard
+                value="164"
+                description="Verified"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                  >
+                    <g clipPath="url(#clip0_7339_55668)">
+                      <path
+                        d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
+                        fill="#636363"
+                      />
+                      <path
+                        d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
+                        fill="#636363"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_7339_55668">
+                        <rect
+                          width="24"
+                          height="24"
+                          fill="white"
+                          transform="translate(0.333252)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                }
+              />
+            </div>
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="23"
+                description="Verified"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     width="24"
                     height="24"
-                    fill="white"
-                    transform="translate(0.333252)"
-                  />
-                </clipPath>
-              </defs>
-            </svg>
-          }
-        />
-        </div>
-        <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
-        <StatCard
-          value="23"
-          description="Verified"
-          descriptionFirst={true}
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M21 16.5C21 16.8978 20.842 17.2794 20.5607 17.5607C20.2794 17.842 19.8978 18 19.5 18C19.1022 18 18.7206 17.842 18.4393 17.5607C18.158 17.2794 18 16.8978 18 16.5C18 16.1022 18.158 15.7206 18.4393 15.4393C18.7206 15.158 19.1022 15 19.5 15C19.8978 15 20.2794 15.158 20.5607 15.4393C20.842 15.7206 21 16.1022 21 16.5ZM21 9C21 9.39782 20.842 9.77936 20.5607 10.0607C20.2794 10.342 19.8978 10.5 19.5 10.5C19.1022 10.5 18.7206 10.342 18.4393 10.0607C18.158 9.77936 18 9.39782 18 9C18 8.60218 18.158 8.22064 18.4393 7.93934C18.7206 7.65804 19.1022 7.5 19.5 7.5C19.8978 7.5 20.2794 7.65804 20.5607 7.93934C20.842 8.22064 21 8.60218 21 9ZM15 12.75C15 13.1478 14.842 13.5294 14.5607 13.8107C14.2794 14.092 13.8978 14.25 13.5 14.25C13.1022 14.25 12.7206 14.092 12.4393 13.8107C12.158 13.5294 12 13.1478 12 12.75C12 12.3522 12.158 11.9706 12.4393 11.6893C12.7206 11.408 13.1022 11.25 13.5 11.25C13.8978 11.25 14.2794 11.408 14.5607 11.6893C14.842 11.9706 15 12.3522 15 12.75ZM15 5.25C15 5.64782 14.842 6.02936 14.5607 6.31066C14.2794 6.59196 13.8978 6.75 13.5 6.75C13.1022 6.75 12.7206 6.59196 12.4393 6.31066C12.158 6.02936 12 5.64782 12 5.25C12 4.85218 12.158 4.47064 12.4393 4.18934C12.7206 3.90804 13.1022 3.75 13.5 3.75C13.8978 3.75 14.2794 3.90804 14.5607 4.18934C14.842 4.47064 15 4.85218 15 5.25ZM15 20.25C15 20.6478 14.842 21.0294 14.5607 21.3107C14.2794 21.592 13.8978 21.75 13.5 21.75C13.1022 21.75 12.7206 21.592 12.4393 21.3107C12.158 21.0294 12 20.6478 12 20.25C12 19.8522 12.158 19.4706 12.4393 19.1893C12.7206 18.908 13.1022 18.75 13.5 18.75C13.8978 18.75 14.2794 18.908 14.5607 19.1893C14.842 19.4706 15 19.8522 15 20.25ZM9 16.5C9 16.8978 8.84196 17.2794 8.56066 17.5607C8.27936 17.842 7.89782 18 7.5 18C7.10218 18 6.72064 17.842 6.43934 17.5607C6.15804 17.2794 6 16.8978 6 16.5C6 16.1022 6.15804 15.7206 6.43934 15.4393C6.72064 15.158 7.10218 15 7.5 15C7.89782 15 8.27936 15.158 8.56066 15.4393C8.84196 15.7206 9 16.1022 9 16.5ZM9 9C9 9.39782 8.84196 9.77936 8.56066 10.0607C8.27936 10.342 7.89782 10.5 7.5 10.5C7.10218 10.5 6.72064 10.342 6.43934 10.0607C6.15804 9.77936 6 9.39782 6 9C6 8.60218 6.15804 8.22064 6.43934 7.93934C6.72064 7.65804 7.10218 7.5 7.5 7.5C7.89782 7.5 8.27936 7.65804 8.56066 7.93934C8.84196 8.22064 9 8.60218 9 9ZM19.125 3.75H4.875C4.17904 3.75 3.51169 4.02656 3.02252 4.51573C2.53335 5.0049 2.25679 5.67225 2.25679 6.36821C2.25679 7.06416 2.53335 7.73152 3.02252 8.22069C3.51169 8.70985 4.17904 8.98641 4.875 8.98641H19.125C19.821 8.98641 20.4883 8.70985 20.9775 8.22069C21.4667 7.73152 21.7432 7.06416 21.7432 6.36821C21.7432 5.67225 21.4667 5.0049 20.9775 4.51573C20.4883 4.02656 19.821 3.75 19.125 3.75Z"
-                fill="#636363"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M21 16.5C21 16.8978 20.842 17.2794 20.5607 17.5607C20.2794 17.842 19.8978 18 19.5 18C19.1022 18 18.7206 17.842 18.4393 17.5607C18.158 17.2794 18 16.8978 18 16.5C18 16.1022 18.158 15.7206 18.4393 15.4393C18.7206 15.158 19.1022 15 19.5 15C19.8978 15 20.2794 15.158 20.5607 15.4393C20.842 15.7206 21 16.1022 21 16.5ZM21 9C21 9.39782 20.842 9.77936 20.5607 10.0607C20.2794 10.342 19.8978 10.5 19.5 10.5C19.1022 10.5 18.7206 10.342 18.4393 10.0607C18.158 9.77936 18 9.39782 18 9C18 8.60218 18.158 8.22064 18.4393 7.93934C18.7206 7.65804 19.1022 7.5 19.5 7.5C19.8978 7.5 20.2794 7.65804 20.5607 7.93934C20.842 8.22064 21 8.60218 21 9ZM15 12.75C15 13.1478 14.842 13.5294 14.5607 13.8107C14.2794 14.092 13.8978 14.25 13.5 14.25C13.1022 14.25 12.7206 14.092 12.4393 13.8107C12.158 13.5294 12 13.1478 12 12.75C12 12.3522 12.158 11.9706 12.4393 11.6893C12.7206 11.408 13.1022 11.25 13.5 11.25C13.8978 11.25 14.2794 11.408 14.5607 11.6893C14.842 11.9706 15 12.3522 15 12.75ZM15 5.25C15 5.64782 14.842 6.02936 14.5607 6.31066C14.2794 6.59196 13.8978 6.75 13.5 6.75C13.1022 6.75 12.7206 6.59196 12.4393 6.31066C12.158 6.02936 12 5.64782 12 5.25C12 4.85218 12.158 4.47064 12.4393 4.18934C12.7206 3.90804 13.1022 3.75 13.5 3.75C13.8978 3.75 14.2794 3.90804 14.5607 4.18934C14.842 4.47064 15 4.85218 15 5.25ZM15 20.25C15 20.6478 14.842 21.0294 14.5607 21.3107C14.2794 21.592 13.8978 21.75 13.5 21.75C13.1022 21.75 12.7206 21.592 12.4393 21.3107C12.158 21.0294 12 20.6478 12 20.25C12 19.8522 12.158 19.4706 12.4393 19.1893C12.7206 18.908 13.1022 18.75 13.5 18.75C13.8978 18.75 14.2794 18.908 14.5607 19.1893C14.842 19.4706 15 19.8522 15 20.25ZM9 16.5C9 16.8978 8.84196 17.2794 8.56066 17.5607C8.27936 17.842 7.89782 18 7.5 18C7.10218 18 6.72064 17.842 6.43934 17.5607C6.15804 17.2794 6 16.8978 6 16.5C6 16.1022 6.15804 15.7206 6.43934 15.4393C6.72064 15.158 7.10218 15 7.5 15C7.89782 15 8.27936 15.158 8.56066 15.4393C8.84196 15.7206 9 16.1022 9 16.5ZM9 9C9 9.39782 8.84196 9.77936 8.56066 10.0607C8.27936 10.342 7.89782 10.5 7.5 10.5C7.10218 10.5 6.72064 10.342 6.43934 10.0607C6.15804 9.77936 6 9.39782 6 9C6 8.60218 6.15804 8.22064 6.43934 7.93934C6.72064 7.65804 7.10218 7.5 7.5 7.5C7.89782 7.5 8.27936 7.65804 8.56066 7.93934C8.84196 8.22064 9 8.60218 9 9ZM19.125 3.75H4.875C4.17904 3.75 3.51169 4.02656 3.02252 4.51573C2.53335 5.0049 2.25679 5.67225 2.25679 6.36821C2.25679 7.06416 2.53335 7.73152 3.02252 8.22069C3.51169 8.70985 4.17904 8.98641 4.875 8.98641H19.125C19.821 8.98641 20.4883 8.70985 20.9775 8.22069C21.4667 7.73152 21.7432 7.06416 21.7432 6.36821C21.7432 5.67225 21.4667 5.0049 20.9775 4.51573C20.4883 4.02656 19.821 3.75 19.125 3.75Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
               />
-            </svg>
-          }
-        />
-
-        </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="md:px-6 sm:px-6 lg:px-6 xl:px-6 pb-8 px-2 overflow-x-auto">
+      <div className="md:px-6 sm:px-6 lg:px-6 xl:px-6 pb-8 px-2 overflow-x-auto ">
+     
         <CustomDataGrid
           rows={paginatedData}
           columns={columns}
@@ -1044,6 +1143,7 @@ const Stores: React.FC = () => {
           showCheckboxes={true}
           enableDateFilters={true}
           densityFirst={true} // Change to false if you want export button before density
+          showBorder={false} 
           dateRange={{
             label: `Feb 10–31, 2025`,
             startDate: startDate,
@@ -1076,6 +1176,7 @@ const Stores: React.FC = () => {
             },
           }}
         />
+        
       </div>
       {/* StorePopover component */}
       <StorePopover

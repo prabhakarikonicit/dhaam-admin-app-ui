@@ -310,10 +310,10 @@ const AddonsTable: React.FC = () => {
 
   // Render mobile view
   const renderMobileView = () => (
-    <div className="md:hidden flex flex-col p-0 bg-background-gre rounded-custom12px mb-32 ">
-      <div className="flex flex-col gap-4 ">
+    <div className="md:hidden flex flex-col p-0 bg-background-gre rounded-custom12px mb-32">
+      <div className="flex flex-col gap-4">
         {/* Header with title and dropdown */}
-        {/* <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <h2 className="text-cardValue text-[20px] font-inter font-[600]">
             Add-ons
           </h2>
@@ -340,10 +340,10 @@ const AddonsTable: React.FC = () => {
               </svg>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* Search and Action buttons */}
-        <div className="bg-backgroundWhite p-0 py-0 rounded-custom12px ">
+        <div className="bg-backgroundWhite p-4 py-3 rounded-custom12px">
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -365,12 +365,12 @@ const AddonsTable: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search Add-on"
-                className="block w-full md:w-[213px] pl-10 pr-3 py-3 border border-grey-border rounded-custom7px leading-5 text-[12px] text-cardTitle font-inter font-[500] bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-[12px]"
+                className="block w-full md:w-[213px] pl-10 pr-3 py-2 border border-grey-border rounded-custom7px leading-5 text-[12px] text-cardTitle font-inter font-[500] bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 sm:text-[12px]"
                 value={searchQuery}
                 onChange={handleSearch}
               />
             </div>
-            <button className="px-5 py-3 border border-btnBorder text-[12px] font-[600] font-inter rounded-custom text-whiteColor bg-bgButton hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            <button className="px-5 py-2 border border-btnBorder text-[12px] font-[600] font-inter rounded-custom text-whiteColor bg-bgButton hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
               Create New
             </button>
           </div>
@@ -485,7 +485,7 @@ const AddonsTable: React.FC = () => {
 
   // Render desktop view (original table)
   const renderDesktopView = () => (
-    <div className="bg-white rounded-lg border border-reloadBorder overflow-hidden mb-24">
+    <div className=" bg-white rounded-lg border border-reloadBorder overflow-hidden mb-24">
       {/* Header section */}
       <div className="py-4 px-3 flex justify-between items-center bg-white border-b border-reloadBorder ">
         <div className="flex items-center">

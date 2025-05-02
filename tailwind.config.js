@@ -18,7 +18,11 @@ module.exports = {
     extend: {
       boxShadow: {
         custom: '0px 1px 4px 0px rgba(12, 12, 13, 0.05)',
+        'custom-top': '0px -4px 20px 0px rgba(0, 0, 0, 0.11)',
+        'headerShadow': '0px 1px 8px 0px rgba(12, 12, 13, 0.10)',
+
       },
+
       backgroundImage: {
         "linear-bg":
           "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
@@ -88,15 +92,14 @@ module.exports = {
         btnBorder: "#5D32A7",
         borderCrossIcon: "#F09E9E",
         acceptButton:"#8ECC96",
-       borderGreeen:  "#788C7A",
+         borderGreeen:  "#788C7A",
         bgButton: "#7C43DF",
         cardTitle: "#949494",
         subMenus: "#F2F2F2",
+        greyBorder:"#F1F1F1",
         menuSubHeadingColor: "#4F4F4F",
       },
-      boxShadow: {
-        custom: "0px 1px 4px 0px rgba(12, 12, 13, 0.05)",
-      },
+
       borderRadius: {
         custom4px: "4px",
         custom: "6px",
@@ -151,5 +154,17 @@ module.exports = {
       "22px": "22px",
     },
   },
-  plugins: [],
+  plugins: [ // This plugin is using for scrolling functionality but won't display any visible scrollbars
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    }],
 };

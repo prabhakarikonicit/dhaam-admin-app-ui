@@ -159,7 +159,7 @@ const ProductsTable: React.FC = () => {
 
   // Render mobile view
   const renderMobileView = () => (
-    <div className="md:hidden flex flex-col gap-y-4 py-1 bg-white rounded-custom12px mb-32">
+    <div className="md:hidden flex flex-col gap-4 p-3 bg-white rounded-custom12px mb-32">
       {/* Header with search and add button */}
       {/* <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">

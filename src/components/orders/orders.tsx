@@ -1518,6 +1518,7 @@ const Orders: React.FC = () => {
           showActionColumn={false}
           enableDateFilters={true}
           densityFirst={true} // Change to false if you want export button before density
+          showBorder={false} 
           dateRange={{
             label: `Feb 10–31, 2025`,
             startDate: startDate,

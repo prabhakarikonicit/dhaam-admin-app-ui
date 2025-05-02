@@ -48,7 +48,7 @@ const ProductManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-background-grey flex-grow overflow-auto h-[calc(100vh-60px)]">
       {/* Header */}
-      <div className="hidden lg:block w-full bg-background-grey ">
+      <div className="hidden lg:block w-full bg-background-grey">
         <div className="max-w-full rounded-custom12px p-6  sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0 mx-auto px-4 sm:px-6 lg:px-4 py-4 flex justify-between items-center">
           <h1 className="text-cardValue text-[20px] font-inter font-[600]">
             Product
@@ -79,13 +79,13 @@ const ProductManagement: React.FC = () => {
         </div>
       </div>
       {/* Mobile Header - Visible only on small screens */}
-      <div className="md:hidden w-full bg-purple-100 shadow-headerShadow mb-5 md:shadow-none md:mb-0">
+      <div className="lg:hidden w-full bg-purple-100">
         <div className="flex justify-between items-center p-4">
           <h1 className="text-[18px] font-inter font-[600] text-gray-800">
             Product
           </h1>
-          <div className="relative w-[56%]">
-            <select className="appearance-none block w-full bg-white border border-reloadBorder rounded-custom8px py-3 pl-3 pr-4 text-verifyOtp text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[400] focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+          <div className="relative w-[60%]">
+            <select className="appearance-none block w-full bg-white border border-reloadBorder rounded-custom8px py-2 pl-3 pr-6 text-verifyOtp text-[14px] font-inter font-[400] focus:outline-none focus:ring-purple-500 focus:border-purple-500">
               <option className="border border-reloadBorder py-2 pl-3 pr-10 text-verifyOtp text-[14px] font-inter font-[400]">
                 Queenstown Public House
               </option>
@@ -111,9 +111,8 @@ const ProductManagement: React.FC = () => {
       </div>
 
       {/* Mobile Search and Actions - Visible only on small screens */}
-      {/* <div className="bg-white "> */}
-      {/* <div className="md:hidden flex flex-row justify-between items-center bg-white rounded-tl-custom12px rounded-tr-custom12px mx-4 px-4 py-3 border-b "> */}
-      <div className="md:hidden flex flex-row justify-between items-center bg-white rounded-tl-custom12px rounded-tr-custom12px mx-4 px-4 py-3 relative">
+      <div className="bg-white ">
+      <div className="md:hidden flex flex-row justify-between items-center bg-whit mx-5  p-4 border-b">
         <div className="relative w-[70%]">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg
@@ -134,7 +133,7 @@ const ProductManagement: React.FC = () => {
           <input
             type="text"
             placeholder="Search Products"
-            className="block w-[93%] pl-10 pr-3 py-3  border border-grey-border rounded-custom7px leading-5 text-[12px] text-cardTitle font-inter font-[500] bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-bgButton focus:border-purple-500"
+            className="block w-full pl-10 pr-3 py-2  border border-grey-border rounded-custom7px leading-5 text-[12px] text-cardTitle font-inter font-[500] bg-white shadow-sm focus:outline-none focus:ring-1 focus:ring-bgButton focus:border-purple-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -142,37 +141,33 @@ const ProductManagement: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={handleOpenSidebar}
-            className="whitespace-nowrap px-4 py-3 border border-btnBorder text-[12px] font-[600] font-inter rounded-custom text-whiteColor bg-bgButton hover:bg-purple-700 focus:outline-none"
+            className="whitespace-nowrap px-4 py-2 border border-btnBorder text-[12px] font-[600] font-inter rounded-custom text-whiteColor bg-bgButton hover:bg-purple-700 focus:outline-none"
           >
             Add Product
           </button>
-          <div className="absolute bottom-0 left-2 right-4 h-[1px] bg-reloadBackground "></div>
-          <button className="p-2 rounded-custom border border-reloadBorder">
+          <button className="p-2 rounded-md border border-gray-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
               fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <path
-                d="M10 6C8.89543 6 8 5.10457 8 4C8 2.89543 8.89543 2 10 2C11.1046 2 12 2.89543 12 4C12 5.10457 11.1046 6 10 6Z"
-                fill="#212121"
-              />
-              <path
-                d="M10 12C8.89543 12 8 11.1046 8 10C8 8.89543 8.89543 8 10 8C11.1046 8 12 8.89543 12 10C12 11.1046 11.1046 12 10 12Z"
-                fill="#212121"
-              />
-              <path
-                d="M10 18C8.89543 18 8 17.1046 8 16C8 14.8954 8.89543 14 10 14C11.1046 14 12 14.8954 12 16C12 17.1046 11.1046 18 10 18Z"
-                fill="#212121"
-              />
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="12" cy="5" r="1" />
+              <circle cx="12" cy="19" r="1" />
             </svg>
           </button>
+
         </div>
+        
       </div>
       {/* Main Content */}
-      <div className="max-w-8xl mx-4 md:mx-auto sm:mx-auto lg:mx-auto xl:mx-auto px-4 sm:px-4 lg:px-4 py-2  lg:px-4 py-2 bg-white h-full md:bg-transparent">
+      <div className="max-w-8xl mx-4 md:mx-auto sm:mx-auto lg:mx-auto xl:mx-auto px-4 sm:px-4 lg:px-4 py-2 rounded-custom12px lg:px-4 py-2 bg-white h-full md:bg-transparent">
         {/* Search and Actions */}
         <div className="hidden md:block">
           <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 rounded-custom10px bg-backgroundWhite p-4">
@@ -302,6 +297,7 @@ const ProductManagement: React.FC = () => {
                   </button>
                 </div>
               </div>
+           
             )}
           </>
         )}
@@ -313,7 +309,7 @@ const ProductManagement: React.FC = () => {
           onSave={handleSaveProduct}
         />
       </div>
-      {/* </div> */}
+      </div>
     </div>
   );
 };

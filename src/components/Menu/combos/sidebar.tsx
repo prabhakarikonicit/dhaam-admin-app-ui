@@ -127,18 +127,17 @@ const ComboSidebar: React.FC<{
           <h2 className="text-[16px] font-[600] font-inter text-paragraphBlack">
             Create New Combo
           </h2>
-          <div className="flex items-center space-x-2">
+          {/* Desktop buttons - hide on mobile */}
+          <div className="hidden md:flex space-x-2">
             <button
-              type="button"
               onClick={onClose}
-              className="px-6 py-2 text-[12px] font-[600] font-inter text-cardValue bg-white border border-reloadBorder rounded-custom hover:bg-gray-50"
+              className="px-5 py-2 bg-white text-cardValue rounded-custom font-inter border border-reloadBorder"
             >
-              Cancel
+              Discard
             </button>
             <button
-              type="button"
               onClick={handleSubmit}
-              className="px-6 py-2 text-[12px] font-[600] font-inter text-whiteColor bg-bgButton border border-btnBorder rounded-custom hover:bg-purple-700"
+              className="px-5 py-2 bg-bgButton text-whiteColor rounded-custom font-inter border border-reloadBorder"
             >
               Save
             </button>
@@ -149,7 +148,7 @@ const ComboSidebar: React.FC<{
         <div className="py-6 px-6 space-y-6">
           <div className="flex space-x-4">
             {/* Combo Name */}
-            <div className="flex-1">
+            <div className="flex-1 ">
               <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-2">
                 Combo Name <span className="text-red-500">*</span>
               </label>
@@ -341,7 +340,7 @@ const ComboSidebar: React.FC<{
               onDrop={handleDrop}
             >
               <div className="flex items-center justify-center">
-                <span className="text-reloadBorder font-inter font-[400] font-[14px] mx-3">
+                <span className="text-reloadBorder font-inter font-[400] text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] mx-3 whitespace-nowrap mx-3">
                   Choose a file or drag & drop your image here
                 </span>
                 <svg
@@ -369,6 +368,23 @@ const ComboSidebar: React.FC<{
               />
             </div>
           </div>
+        </div>
+        {/* Mobile buttons at bottom - only visible on mobile */}
+
+        <div className="md:hidden mt-14 shadow-custom-top bg-background-grey grid grid-cols-2 gap-3 p-4">
+
+          <button
+            onClick={onClose}
+            className="py-3 bg-backgroundWhite text-cardValue rounded-custom8px font-inter border border-reloadBorder text-center"
+          >
+            Discard
+          </button>
+          <button
+            onClick={handleSubmit}
+            className="py-3 bg-bgButton text-white rounded-custom8px font-inter text-center"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>

@@ -75,6 +75,7 @@ interface DataGridProps {
   onDelete?: (row: Row) => void;
   enableDateFilters?: boolean;
   showCheckboxes?: boolean;
+  showBorder?: boolean;
 
   // Add new props for date range and density
   dateRange?: {
@@ -99,7 +100,7 @@ const useMobileView = () => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 500);
+      setIsMobile(window.innerWidth < 800);
     };
 
     checkMobile();
@@ -128,6 +129,7 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   densityOptions,
   densityFirst = false, // Default to false for backward compatibility
   showCheckboxes = false,
+  showBorder = true
 }) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -1250,7 +1252,8 @@ const CustomDataGrid: React.FC<DataGridProps> = ({
   };
 
   return (
-    <div className="w-full bg-backgroundWhite mb-10 border border-reloadBorder rounded-custom">
+    // <div className="w-full bg-backgroundWhite mb-10 border border-reloadBorder rounded-custom">
+       <div className={`w-full bg-backgroundWhite mb-10 ${showBorder ? 'border border-reloadBorder rounded-custom' : ''}`}>
       {popoverOpen && <OrderPopover />}
       {isMobile && (
         <div className="p-4 bg-white border-b border-gray-200">

@@ -53,14 +53,13 @@ const AddonsManagement: React.FC = () => {
   return (
     <div className="min-h-screen bg-background-grey flex-grow overflow-auto h-[calc(100vh-50px)] ">
       {/* Header */}
-      <div className="w-full bg-background-grey shadow-headerShadow mb-5 md:shadow-none md:mb-0">
-        
-        <div className="max-w-full rounded-custom12px p-4 sm:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0 mx-auto sm:px-6 lg:px-4 flex justify-between items-center ">
+      <div className="w-full bg-background-grey">
+        <div className="max-w-full rounded-custom12px p-4 sm:p-6 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0 mx-auto sm:px-6 lg:px-4 flex justify-between items-center">
           <h1 className="text-cardValue text-[18px] sm:text-[20px] font-inter font-[600]">
             Add-Ons
           </h1>
-          <div className="relative w-[56%] sm:w-auto md:w-[22%]">
-            <select className="appearance-none block w-full bg-white border border-reloadBorder rounded-custom8px py-3 sm:py-3 pl-3 pr-6 text-verifyOtp text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[400] placeholder: focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+          <div className="relative w-[60%] sm:w-auto md:w-[22%]">
+            <select className="appearance-none block w-full bg-white border border-reloadBorder rounded-custom8px py-2 sm:py-3 pl-3 pr-6 text-verifyOtp text-[12px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[400] placeholder: focus:outline-none focus:ring-purple-500 focus:border-purple-500">
               <option className="border border-reloadBorder py-2 pl-3 pr-10 text-verifyOtp text-[14px] font-inter font-[400] ">
                 Queenstown Public House
               </option>
@@ -86,7 +85,7 @@ const AddonsManagement: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-8xl mx-4 md:mx-auto sm:mx-auto lg:mx-auto xl:mx-auto px-4 sm:px-4 rounded-custom12px lg:px-4 py-2 bg-white h-full  md:bg-transparent">
+      <div className="max-w-8xl mx-4 md:mx-auto sm:mx-auto lg:mx-auto xl:mx-auto px-4 sm:px-4 rounded-custom12px lg:px-4 py-2 bg-white h-full md:bg-transparent">
         {showTable ? (
           <AddonsTable />
         ) : (

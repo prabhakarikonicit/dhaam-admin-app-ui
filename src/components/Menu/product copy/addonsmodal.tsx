@@ -64,10 +64,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3 border-t border-grey-border">
               <div className="grid grid-cols-12 mb-3 pt-8">
-                <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">
@@ -130,10 +130,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3  border-t border-grey-border">
               <div className="grid grid-cols-12 mb-2 pt-8">
-              <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">
@@ -196,10 +196,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3 border-t border-grey-border">
               <div className="grid grid-cols-12 mb-2 pt-8">
-              <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">

@@ -27,18 +27,18 @@ const AddOnsModal: React.FC<{
         
         <div className="flex items-center justify-between p-4 border-b border-reloadBorder bg-background-grey rounded-custom10px ">
           <h2 className="text-[16px] font-inter font-[600] text-black">
-          Adding Add-Ons in {`{productName}`}
+            Adding Add-Ons in {productName}
           </h2>
-         <div className="hidden md:flex space-x-2">
+          <div className="flex space-x-2">
             <button
               onClick={onClose}
-              className="px-5 py-2 bg-white text-cardValue rounded-custom font-inter border border-reloadBorder"
+              className="px-6 py-2 text-[12px] font-[600] font-inter text-cardValue bg-white border border-reloadBorder rounded-custom hover:bg-gray-50"
             >
-              Discard
+              Cancel
             </button>
             <button
               onClick={onSave}
-              className="px-5 py-2 bg-bgButton text-whiteColor rounded-custom font-inter border border-reloadBorder"
+              className="px-6 py-2 text-[12px] font-[600] font-inter text-whiteColor bg-bgButton border border-btnBorder rounded-custom hover:bg-purple-700"
             >
               Save
             </button>
@@ -64,10 +64,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3 border-t border-grey-border">
               <div className="grid grid-cols-12 mb-3 pt-8">
-                <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">
@@ -130,10 +130,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3  border-t border-grey-border">
               <div className="grid grid-cols-12 mb-2 pt-8">
-              <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">
@@ -196,10 +196,10 @@ const AddOnsModal: React.FC<{
 
             <div className="mt-3 border-t border-grey-border">
               <div className="grid grid-cols-12 mb-2 pt-8">
-              <div className="col-span-2 -ms-3 md:pr-16 md:ps-4 sm:ps-4 lg:ps-4 xl:ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-2 ps-4 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Default
                 </div>
-                <div className="col-span-6 pl-0 md:pl-0 font-inter text-[12px] font-[500] text-paragraphBlack">
+                <div className="col-span-6 font-inter text-[12px] font-[500] text-paragraphBlack">
                   Options
                 </div>
                 <div className="col-span-4 ps-2 font-inter text-[12px] font-[500] text-paragraphBlack">
@@ -244,22 +244,6 @@ const AddOnsModal: React.FC<{
             </div>
           </div>
         </div>
-        {/* Mobile buttons at bottom - only visible on mobile */}
-
-        <div className="md:hidden mt-14 shadow-custom-top bg-background-grey grid grid-cols-2 gap-3 p-4">
-            <button
-              onClick={onClose}
-              className="py-3 bg-white text-cardValue rounded-custom8px font-inter border border-reloadBorder text-center"
-            >
-              Discard
-            </button>
-            <button
-              onClick={onSave}
-              className="py-3 bg-bgButton text-white rounded-custom8px font-inter text-center"
-            >
-              Save
-            </button>
-          </div>
       </div>
     </div>
   );

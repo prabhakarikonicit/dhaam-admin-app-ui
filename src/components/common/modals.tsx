@@ -75,7 +75,7 @@ export interface CustomModalProps<T extends BaseItem> {
   fields?: FieldDefinition[];
   item?: T;
   onSave: (item: T) => void;
-  title: string;
+  title: string | ReactNode;
   subtitle?: string;
   size?: "sm" | "md" | "lg" | "xl" | "full";
   showFooter?: boolean;
@@ -1027,7 +1027,7 @@ function CustomModal<T extends BaseItem>({
 
       {/* Modal Content */}
       <div
-        className={`bg-white rounded-custom18px shadow-xl w-full ${sizeClasses} z-10 overflow-hidden transform transition-all ${className}`}
+        className={`bg-white rounded-custom18px shadow-xl mx-3 w-full ${sizeClasses} z-10 overflow-hidden transform transition-all ${className}`}
       >
         {/* Modal Header */}
         <div className="bg-background-grey px-6 py-4 mt-0 border-b border-reloadBorder flex justify-between items-center">
