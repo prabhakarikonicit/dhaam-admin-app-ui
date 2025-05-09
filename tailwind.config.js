@@ -20,6 +20,8 @@ module.exports = {
         custom: '0px 1px 4px 0px rgba(12, 12, 13, 0.05)',
         'custom-top': '0px -4px 20px 0px rgba(0, 0, 0, 0.11)',
         'headerShadow': '0px 1px 8px 0px rgba(12, 12, 13, 0.10)',
+        'popoverShadow': '0px 1px 12px 0px rgba(12, 12, 13, 0.14)'
+      
 
       },
 
@@ -80,6 +82,7 @@ module.exports = {
         orangeColor: "#FFF2CC",
         primary: "#EAEDFB",
         green: "#2C6333",
+        bgCardTitle: "#949494",
         yellow: "#FFD557",
         maroon: "#9C1616",
         purple: "#F2ECFC",
@@ -112,6 +115,8 @@ module.exports = {
         custom16px: "16px",
         custom18px: "18px",
         custom28px: "28px",
+        custom30px: "30px",
+        custom160px: "160px",
         custom36px: "36px",
         custom38px: "38px",
         custom20px: "20px",

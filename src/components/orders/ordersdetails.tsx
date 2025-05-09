@@ -67,25 +67,24 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
 }) => {
   // Default burger image
   const [dropdownOpen, setDropdownOpen] = useState(false);
-   const [showMobileMenu, setShowMobileMenu] = useState(false);
-   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   // console.log(dropdownOpen);
-   useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          mobileMenuRef.current &&
-          !mobileMenuRef.current.contains(event.target as Node)
-        ) {
-          
-          setShowMobileMenu(false);
-        }
-      };
-  
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowMobileMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="w-full min-h-screen mt-3">
       {/* Header with back button, order ID, and action buttons */}
@@ -120,7 +119,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
             <span
               className={`ml-2 px-3 py-1 text-[12px] font-inter font-[600] text-customWhiteColor bg-green rounded-custom80px leading-[15.6px] ${
                 orderStatus === "Prepaid"
-                  ? "bg-green-800 text-white"
+                  ? "bg-green-800 text-customWhiteColor"
                   : orderStatus === "COD"
                   ? "bg-blue-800 text-white"
                   : orderStatus === "Completed"
@@ -131,20 +130,20 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
               {orderStatus}
             </span>
           </div>
-          <p className="text-[12px] font-inter font-[500] text-menuSubHeadingColor">
+          <p className="text-[10px] md:text-[12px] font-inter font-[400] text-menuSubHeadingColor mt-2 whitespace-nowrap">
             {orderDate} at {orderTime} from{" "}
             <span className="text-[12px] font-inter font-[600] text-menuSubHeadingColor">
               {storeName}
             </span>
           </p>
         </div>
-         {/* Desktop view buttons */}
+        {/* Desktop view buttons */}
         <div className="hidden md:flex flex items-center space-x-4 mb-3">
           <button
-            className="px-4 py-2 border border-borderCrossIcon text-[12px] font-inter font-[500] text-reject bg-bgCrossIcon rounded-custom38px flex items-center"
+            className="px-4 py-2 border-2 border-borderCrossIcon text-[12px] font-inter font-[500] text-reject bg-bgCrossIcon rounded-custom38px flex items-center"
             onClick={onReject}
           >
-            Print{" "}
+            Reject{" "}
             <span className="ml-2 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +162,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
             </span>
           </button>
           <button
-            className="px-4 py-2 border border-acceptButton text-[12px] font-inter font-[500] text-green bg-customBackgroundColor rounded-custom38px flex items-center"
+            className="px-4 py-2 border-2 border-acceptButton text-[12px] font-inter font-[500] text-green bg-customBackgroundColor rounded-custom38px flex items-center"
             onClick={onAccept}
           >
             Accept{" "}
@@ -235,7 +234,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         </div>
 
         {/* Mobile view 3-dots menu */}
-        <div className="md:hidden relative mt-[-48px] ">
+        <div className="md:hidden relative mt-[-40px] mr-8">
           <button
             className="p-2 rounded-custom border border-grey-border bg-backgroundWhite"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -343,10 +342,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           )}
         </div>
       </div>
-      
 
       {/* Main content - Two column layout */}
-      <div className="flex flex-col md:flex-row p-1 md:p-4 sm:p-4 lg:p-4 xl:p-4  " id="printableArea">
+      <div
+        className="flex flex-col md:flex-row p-4 md:p-4 sm:p-4 lg:p-4 xl:p-4  "
+        id="printableArea"
+      >
         {/* Left column - Order items */}
         <div className="w-full md:w-1/2 p-6 rounded-custom12px border border-subMenus  bg-white">
           <div className="flex justify-between items-center mb-4">
@@ -376,7 +377,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           </div>
 
           {/* Items list */}
-          <div className="space-y-4">
+          <div className="space-y-2">
             {items.map((item, index) => (
               <div
                 key={index}
@@ -387,7 +388,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
                     <img
                       src={item.image || Burger}
                       alt={item.name}
-                      className="w-8 h-8 object-contain"
+                      className="w-12 h-12 border rounded-custom border-grey-border bg-white pb-1 object-contain"
                     />
                   </div>
                   <div>
@@ -396,7 +397,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
                         {item.name}
                       </p>
                       <p className="text-[12px] font-inter font-[500] text-headding-color">
-                        x {item.quantity}
+                        x{" "}
+                        <span className="text-[12px] font-inter font-[500] text-cardValue">
+                          {item.quantity}
+                        </span>
                       </p>
                     </span>
                   </div>
@@ -409,75 +413,75 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
           </div>
 
           {/* Total amount */}
-          <div className="mt-6 pt-4 border-t ">
-            <div className="flex justify-between font-medium text-lg">
+          <div className="mt-2 pt-4 border-t border-grey-border">
+            <div className="flex justify-between font-inter text-lg">
               <span className="text-[14px] font-inter font-[600] text-cardValue">
                 Total amount
               </span>
-              <span className="text-[14px] font-inter font-[500] text-cardValue">
+              <span className="text-[14px] font-inter font-[600] text-cardValue">
                 {itemTotal}
               </span>
             </div>
           </div>
 
           {/* Bill Summary */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="mt-6 pt-6 border border-grey-border rounded-tl-custom8px rounded-tr-custom8px p-4">
             <h3 className="text-[12px] font-inter font-[500] text-headding-color mb-4 ">
               Bill Summary
             </h3>
 
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   Item Total:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   {itemTotal}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   GST:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   {gst}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   Processing Fee:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   {processingFee}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   Platform Fee:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   {platformFee}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   Delivery Charge:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-cardValue">
+                <span className="text-[12px] font-inter font-[600] text-cardValue">
                   {deliveryCharge}
                 </span>
               </div>
               <div className="flex justify-between text-red-500">
-                <span className="text-[12px] font-inter font-[500] text-discountColor">
+                <span className="text-[12px] font-inter font-[600] text-discountColor">
                   Discount:
                 </span>
-                <span className="text-[12px] font-inter font-[500] text-discountColor">
+                <span className="text-[12px] font-inter font-[600] text-discountColor">
                   {discount}
                 </span>
               </div>
             </div>
-
-            <div className="mt-4 pt-4 border-t flex justify-between font-inter p-4 rounded-custom4x bg-background-grey">
+            <div className="border border-grey-border my-5"></div>
+            <div className="mt-4 pt-4  flex justify-between font-inter p-4 rounded-custom4x bg-background-grey">
               <span className="text-[14px] font-inter font-[600] text-grandTotal ">
                 Grand Total
               </span>
@@ -489,24 +493,24 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
         </div>
 
         {/* Right column - Order details */}
-        <div className="w-full md:w-1/2 px-4">
-          <div className="bg-white p-4 rounded-custom12px border border-subMenus px-4">
-            <div className="space-y-8  p-4 rounded-custom12px border border-subMenus h-[300px] pr-40">
-              <div className="grid grid-cols-2 gap-y-6 gap-x-0">
+        <div className="w-full md:w-1/2 px-1 md:px-4 mt-5 md:mt-0">
+          <div className="bg-white p-4 rounded-custom12px shadow-custom px-4">
+            <div className="space-y-8 p-4 rounded-custom7px border border-grey-border h-[300px] pr-40">
+              <div className="grid grid-cols-2 gap-y-6 mt-2 ">
                 <div>
-                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
+                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor ">
                     Customer Id
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue md:whitespace-nowrap">
                     {customerId}
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
+                <div className="ml-14 md:ml-8">
+                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor whitespace-nowrap">
                     Store Name
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-bgButton whitespace-nowrap md:whitespace-nowrap">
                     {storeName}
                   </p>
                 </div>
@@ -515,34 +519,34 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
                   <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
                     Order Time
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue md:whitespace-nowrap">
                     {orderDate} at {orderTime}
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
+                <div className="ml-14 md:ml-8">
+                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor whitespace-nowrap">
                     Store Phone No.
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue whitespace-nowrap md:whitespace-nowrap">
                     {storePhone}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
+                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor whitespace-nowrap">
                     Customer Rating
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue md:whitespace-nowrap">
                     {customerRating}
                   </p>
                 </div>
 
-                <div>
+                <div className="ml-14 md:ml-8">
                   <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
                     Email
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] w-[80px] font-inter text-cardValue break-words md:whitespace-nowrap">
                     {customerEmail}
                   </p>
                 </div>
@@ -551,22 +555,61 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
                   <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
                     Delivery Mode
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue md:whitespace-nowrap">
                     {homeDelivery}
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor">
+                <div className="ml-14 md:ml-8">
+                  <h3 className="text-[12px] font-[500] font-inter text-menuSubHeadingColor whitespace-nowrap ">
                     Customer Rating
                   </h3>
-                  <p className="text-[12px] font-[500] font-inter text-cardValue">
+                  <p className="text-[12px] font-[500] font-inter text-cardValue md:whitespace-nowrap">
                     {customerRating}
                   </p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="md:hidden flex border-b border-grey-border py-4 mt-20   bg-white ">
+          <button className="flex bg-bgred text-white py-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-custom  mx-7 px-4">
+            Reject
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5 ml-4"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M3.00483 3.00507C3.2782 2.73171 3.72141 2.73171 3.99478 3.00507L6.9998 6.0101L10.0048 3.00507C10.2782 2.73171 10.7214 2.73171 10.9948 3.00507C11.2681 3.27844 11.2681 3.72166 10.9948 3.99502L7.98975 7.00005L10.9948 10.0051C11.2681 10.2784 11.2681 10.7217 10.9948 10.995C10.7214 11.2684 10.2782 11.2684 10.0048 10.995L6.9998 7.99L3.99478 10.995C3.72141 11.2684 3.2782 11.2684 3.00483 10.995C2.73146 10.7217 2.73146 10.2784 3.00483 10.0051L6.00986 7.00005L3.00483 3.99502C2.73146 3.72166 2.73146 3.27844 3.00483 3.00507Z"
+                fill="white"
+              />
+            </svg>
+          </button>
+          <button className="w-[200px] bg-bgActive text-white py-3 flex items-center justify-center font-inter font-[500] text-[12px] rounded-custom">
+            Accept
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5 ml-4"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.6946 3.70503C11.968 3.97839 11.968 4.42161 11.6946 4.69497L6.09458 10.295C5.82122 10.5683 5.378 10.5683 5.10463 10.295L2.30463 7.49497C2.03127 7.22161 2.03127 6.77839 2.30463 6.50503C2.578 6.23166 3.02122 6.23166 3.29458 6.50503L5.59961 8.81005L10.7046 3.70503C10.978 3.43166 11.4212 3.43166 11.6946 3.70503Z"
+                fill="white"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

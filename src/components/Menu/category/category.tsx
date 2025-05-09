@@ -21,11 +21,20 @@ import EditSubSubcategoryModal from "./modals/editsubsubcategorymodal";
 // Import assets
 import Vector from "../../../lib/Images/Vector.svg";
 import Product from "../../../lib/Images/product.png";
-const Category: React.FC = () => {
+
+interface CategoryProps {
+  hideHeader?: boolean;
+  hideScrollbar?: boolean; // Add new prop for controlling scrollbar
+}
+const Category: React.FC<CategoryProps> = ({ 
+  hideHeader = false, 
+  hideScrollbar = false 
+}) => {
   interface ProductViewProps {
     selectedItem: SelectedItemType | null;
     onAddProduct: () => void;
   }
+ 
   // State for categories and expanded states
   const [expandedCategories, setExpandedCategories] = useState<{
     [key: string]: boolean;
@@ -601,8 +610,10 @@ const Category: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background-grey flex-grow overflow-auto h-[calc(100vh-50px)]">
+
+      <div className={`${hideScrollbar ? 'overflow-hidden h-auto' : 'min-h-screen overflow-auto h-[calc(100vh-50px)]'} bg-background-grey flex-grow`}>
       {/* Header with title and location selector */}
+      {!hideHeader && (
       <div className="flex justify-between items-center py-4 px-4 bg-background-grey">
         <h1 className="text-cardValue text-[20px] font-inter font-[600]">
           Category
@@ -631,6 +642,7 @@ const Category: React.FC = () => {
           </div>
         </div>
       </div>
+         )}
 
       {/* Search and action buttons - Hide on mobile */}
       <div className="hidden md:flex justify-between items-center px-2 py-2 mx-4 rounded-custom10px p-4 bg-backgroundWhite">

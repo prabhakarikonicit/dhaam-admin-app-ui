@@ -274,7 +274,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         }}
         className={`
           hidden sm:inline-flex
-          relative h-5 md:w-10 sm:w-11 lg:w-11 xl:w-11 items-center rounded-full mt-[-10px]
+          relative h-6 md:w-11 sm:w-11 lg:w-11 xl:w-11 items-center rounded-full mt-[-10px]
           ${checked ? 'bg-bgButton' : 'bg-gray-200'}
           ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           transition-colors ease-in-out duration-200
@@ -282,8 +282,8 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
       >
         <span
           className={`
-            inline-block h-4 w-4 transform rounded-full bg-white
-            ${checked ? 'translate-x-7' : 'translate-x-1'}
+            inline-block h-5 w-5 transform rounded-full bg-white
+            ${checked ? 'translate-x-5 ' : 'translate-x-1'}
             transition ease-in-out duration-200
           `}
         />

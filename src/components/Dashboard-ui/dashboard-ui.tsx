@@ -623,6 +623,8 @@ const DashboardLayout = () => {
     if (currentView === "settings") {
       // Only show settings content when General is selected
       if (selectedSettingsItem === "General") {
+        console.log("selectedSettingsItem", selectedSettingsItem);
+
         return <GeneralComponent />;
       } else if (selectedSettingsItem === "Integration") {
         console.log("selectedSettingsItem", selectedSettingsItem);

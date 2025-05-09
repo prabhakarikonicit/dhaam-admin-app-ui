@@ -14,7 +14,7 @@ interface Store {
   name: string;
   address: string;
   rating: number;
-  status: "Active" | "Inactive";
+  status: "Active" | "Inactive" | "Pending";
   amount: string;
   createdDate?: string;
   items?: StoreItem[];
@@ -38,6 +38,12 @@ const Stores: React.FC = () => {
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
     null
   );
+  const [toggledRows, setToggledRows] = useState<{ [key: string]: boolean }>({
+    "3": true,
+    "5": true,
+    "6": true,
+    "7": true
+  });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [popoverStore, setPopoverStore] = useState<Store | null>(null);
@@ -241,7 +247,7 @@ const Stores: React.FC = () => {
         name: "Proxi",
         address: "2118 Thornridge Cir. Syracuse, Connecticut 35624",
         rating: 4.21,
-        status: "Active",
+        status: "Pending",
         amount: "₹300.00",
       },
     ];
@@ -381,94 +387,68 @@ const Stores: React.FC = () => {
       field: "toggle",
       headerName: "Rating",
       width: "120px",
-      renderCell: (value, row) => (
-        <div className="w-[50px]  flex items-center justify-center">
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              className="sr-only peer"
-              defaultChecked={
-                row.id === "3" ||
-                row.id === "5" ||
-                row.id === "6" ||
-                row.id === "7"
-              }
-            />
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="41"
-                height="24"
-                viewBox="0 0 41 24"
-                fill="none"
-              >
-                <path
-                  d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
-                  fill="#7C43DF"
-                  stroke="#7C43DF"
-                />
-                <g filter="url(#filter0_dd_7471_52700)">
-                  <circle cx="29" cy="11" r="9" fill="white" />
-                </g>
-                <defs>
-                  <filter
-                    id="filter0_dd_7471_52700"
-                    x="17"
-                    y="0"
-                    width="24"
-                    height="24"
-                    filterUnits="userSpaceOnUse"
-                    color-interpolation-filters="sRGB"
-                  >
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                    <feColorMatrix
-                      in="SourceAlpha"
-                      type="matrix"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                      result="hardAlpha"
-                    />
-                    <feOffset dy="1" />
-                    <feGaussianBlur stdDeviation="1" />
-                    <feColorMatrix
-                      type="matrix"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-                    />
-                    <feBlend
-                      mode="normal"
-                      in2="BackgroundImageFix"
-                      result="effect1_dropShadow_7471_52700"
-                    />
-                    <feColorMatrix
-                      in="SourceAlpha"
-                      type="matrix"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                      result="hardAlpha"
-                    />
-                    <feOffset dy="1" />
-                    <feGaussianBlur stdDeviation="1.5" />
-                    <feColorMatrix
-                      type="matrix"
-                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
-                    />
-                    <feBlend
-                      mode="normal"
-                      in2="effect1_dropShadow_7471_52700"
-                      result="effect2_dropShadow_7471_52700"
-                    />
-                    <feBlend
-                      mode="normal"
-                      in="SourceGraphic"
-                      in2="effect2_dropShadow_7471_52700"
-                      result="shape"
-                    />
-                  </filter>
-                </defs>
-              </svg>
-            </div>
-          </label>
-        </div>
-      ),
-    },
+      renderCell: (value, row) => {
+        const isChecked = toggledRows[row.id] || false;
+        
+        const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.stopPropagation(); // Stop event from bubbling to row selection
+          setToggledRows(prev => ({
+            ...prev,
+            [row.id]: !isChecked
+          }));
+          console.log(`Toggle for row ${row.id} changed to: ${!isChecked}`);
+        };
+        
+        return (
+          <div className="w-[50px] flex items-center justify-center">
+            <button 
+              onClick={handleToggle}
+              className="focus:outline-none"
+              aria-checked={isChecked}
+              role="switch"
+            >
+              {isChecked ? (
+                // ON state SVG (purple)
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="41"
+                  height="24"
+                  viewBox="0 0 41 24"
+                  fill="none"
+                >
+                  <path
+                    d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+                    fill="#7C43DF"
+                    stroke="#7C43DF"
+                  />
+                  <g>
+                    <circle cx="29" cy="11" r="9" fill="white" />
+                  </g>
+                </svg>
+              ) : (
+                // OFF state SVG (gray)
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="41"
+                  height="24"
+                  viewBox="0 0 41 24"
+                  fill="none"
+                >
+                  <path
+                    d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+                    fill="#E5E5E5"
+                    stroke="#E5E5E5"
+                  />
+                  <g>
+                    <circle cx="11" cy="11" r="9" fill="white" />
+                  </g>
+                </svg>
+              )}
+            </button>
+          </div>
+        );
+      },
+    }
 
   ];
 

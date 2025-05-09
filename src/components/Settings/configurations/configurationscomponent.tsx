@@ -340,10 +340,9 @@ const ConfigurationsComponent: React.FC = () => {
           {selectedItem === "Commission" && (
             <Commission onSave={() => {}} onCancel={() => {}} />
           )}
-          {selectedItem === "Store" &&  <Store 
-    onClose={() => {}} 
-    onSave={() => {}}
-  />}
+          {selectedItem === "Store" && (
+            <Store onClose={() => {}} onSave={() => {}} />
+          )}
           {selectedItem === "Branding" && <Branding /> && <LoginPage />}
           {selectedItem === "Login" && <LoginPage />}
 
@@ -387,10 +386,9 @@ const ConfigurationsComponent: React.FC = () => {
         {selectedItem === "Commission" && (
           <Commission onSave={() => {}} onCancel={() => {}} />
         )}
-        {selectedItem === "Store" &&  <Store 
-    onClose={() => {}} 
-    onSave={() => {}}
-  />}
+        {selectedItem === "Store" && (
+          <Store onClose={() => {}} onSave={() => {}} />
+        )}
         {selectedItem === "Branding" && <Branding />}
         {selectedItem === "Login" && <LoginPage />}
         {/*  {selectedItem === "Delivery Management System" && <Delivery />} */}

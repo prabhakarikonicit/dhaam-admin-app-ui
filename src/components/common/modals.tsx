@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-
+import Burger from "../../../src/lib/Images/Burger.png";
 // Define field types for form fields
 export type FieldType =
   | "text"
@@ -408,84 +408,79 @@ const PaymentDetails: React.FC<{
   };
 }> = ({ paymentDetails }) => {
   return (
-    <div className="px-4">
+    <div className="px-1">
       <div className="flex justify-between items-center ">
         <div className="flex items-center">
           <h2 className="text-[14px] font-inter font-[500] text-paragraphBlack">
-            {paymentDetails.orderId}
+            {/* {paymentDetails.orderId} */}
           </h2>
-          <div className="ml-2 px-3 py-1 bg-[#1A8917] text-white rounded-custom4px font-inter text-[12px] font-[500]">
+          {/* <div className="ml-2 px-3 py-1 bg-[#1A8917] text-white rounded-custom4px font-inter text-[12px] font-[500]">
             {paymentDetails.paymentMethod}
-          </div>
+          </div> */}
         </div>
       </div>
 
       <div className="mb-6">
-        <h3 className="text-[14px] font-inter font-[500] mb-3">Item Ordered</h3>
+        <h3 className="text-[14px] font-inter font-[500] text-headding-color mb-3">
+          Item Ordered
+        </h3>
         {paymentDetails.items.map((item, index) => (
-          <div
-            key={index}
-            className="flex justify-between items-center py-2 border-b border-gray-100"
-          >
+          <div key={index} className="flex justify-between items-center py-2 ">
             <div className="flex items-center">
-              <div className="bg-gray-100 w-8 h-8 rounded flex items-center justify-center mr-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"></path>
-                  <path d="M3 9l2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path>
-                </svg>
+              <div className="w-12 h-12 overflow-hidden mr-3 flex items-center justify-center">
+                <img
+                  src={Burger}
+                  alt={item.name}
+                  className="w-12 h-12 border rounded-custom border-grey-border bg-white pb-1"
+                />
               </div>
               <div>
-                <p className="text-[14px] font-inter font-[500] text-cardValue">
-                  {item.name}
-                </p>
-                <p className="text-[12px] font-inter font-[400] text-cardTitle">
-                  x {item.quantity}
-                </p>
+                <span className="flex items-center space-x-4">
+                  <p className="text-[12px] font-inter font-[500] text-cardValue">
+                    {item.name}
+                  </p>
+                  <p className="text-[12px] font-inter font-[500] text-headding-color">
+                    x{" "}
+                    <span className="text-[12px] font-inter font-[500] text-cardValue">
+                      {item.quantity}
+                    </span>
+                  </p>
+                </span>
               </div>
             </div>
-            <div className="text-[14px] font-inter font-[500] text-cardValue">
+            <div className="text-[12px] font-inter font-[500] text-cardValue">
               {item.price}
             </div>
           </div>
         ))}
-
-        <div className="flex justify-between mt-4 mb-6">
-          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">
+        <div className="border border-grey-border mt-2"></div>
+        <div className="flex justify-between mt-4 mb-6 ">
+          <div className="text-[12px] font-inter font-[600] text-paragraphBlack">
             Grand Total
           </div>
-          <div className="text-[14px] font-inter font-[600] text-paragraphBlack">
+          <div className="text-[12px] font-inter font-[600] text-paragraphBlack">
             {paymentDetails.total}
           </div>
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-md mb-6">
+        <div className="bg-background-grey p-4 rounded-custom8px mb-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+              <h4 className="text-[12px] font-inter font-[500] text-menuSubHeadingColor mb-1">
                 Store
               </h4>
               <p className="text-[14px] font-inter font-[500] text-cardValue">
                 {paymentDetails.store}
               </p>
               <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">
-                {paymentDetails.storeAddress}
+                {/* {paymentDetails.storeAddress} */}
               </p>
             </div>
             <div>
-              <h4 className="text-[12px] font-inter font-[500] text-paragraphBlack mb-1">
+              <h4 className="text-[12px] font-inter font-[500] text-menuSubHeadingColor mb-1">
                 Delivery Address
               </h4>
-              <p className="text-[12px] font-inter font-[400] text-cardTitle mt-1">
+              <p className="text-[12px] font-inter font-[400] text-cardValue mt-1">
                 {paymentDetails.deliveryAddress}
               </p>
             </div>
@@ -501,59 +496,49 @@ const PaymentDetails: React.FC<{
           </label>
           <select
             id="status"
-            className="w-full pl-3 pr-10 py-2 text-[14px] font-inter font-[400] text-cardTitle bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-3 pr-10 py-3 text-[14px] font-inter font-[400] text-reloadBorder bg-white border border-reloadBorder rounded-custom8px appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option
               value=""
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Select status
             </option>
             <option
               value="Pending"
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Pending
             </option>
             <option
               value="Completed"
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Completed
             </option>
             <option
               value="Dispatched"
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Dispatched
             </option>
             <option
               value="Out for delivery"
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Out for delivery
             </option>
             <option
               value="Cancelled"
-              className="text-[14px] font-inter font-[400] text-cardTitle"
+              className="text-[14px] font-inter font-[400] text-paragraphBlack"
             >
               Cancelled
             </option>
           </select>
-          <div className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
+          <div className="absolute inset-y-0 right-0 top-7 flex items-center pr-3 pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 7.79289C5.68342 7.40237 6.31658 7.40237 6.70711 7.79289L10 11.0858L13.2929 7.79289C13.6834 7.40237 14.3166 7.40237 14.7071 7.79289C15.0976 8.18342 15.0976 8.81658 14.7071 9.20711L10.7071 13.2071C10.3166 13.5976 9.68342 13.5976 9.29289 13.2071L5.29289 9.20711C4.90237 8.81658 4.90237 8.18342 5.29289 7.79289Z" fill="#949494"/>
+</svg>
           </div>
         </div>
       </div>
@@ -1033,7 +1018,20 @@ function CustomModal<T extends BaseItem>({
         <div className="bg-background-grey px-6 py-4 mt-0 border-b border-reloadBorder flex justify-between items-center">
           <div>
             <h3 className="text-[16px] font-inter font-[600] text-black">
-              {mode === "payment" ? modalTitle : modalTitle}
+              {modalTitle}
+              {mode === "payment" && paymentDetails && (
+                <span
+                  className={`ml-6 px-4 py-1 rounded-custom4px font-inter text-[12px] font-[500] ${
+                    paymentDetails.paymentMethod === "Cash"
+                      ? "bg-bgActive text-customWhiteColor"
+                      : paymentDetails.paymentMethod === "UPI"
+                      ? "bg-yellow text-yellow"
+                      : "bg-blueCredit text-primaryCredit"
+                  }`}
+                >
+                  {paymentDetails.paymentMethod}
+                </span>
+              )}
             </h3>
             {subtitle && (
               <p className="text-[12px] font-inter font-[500] text-paragraphBlack mt-1">
@@ -1074,9 +1072,9 @@ function CustomModal<T extends BaseItem>({
         <form
           onSubmit={handleSubmit}
           className="px-6 py-4 max-h-[calc(80vh-120px)] overflow-y-auto "
-          style={{ 
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#d1d5db transparent'
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "#d1d5db transparent",
           }}
         >
           {/* For payment modal */}
@@ -1133,14 +1131,14 @@ function CustomModal<T extends BaseItem>({
                       <button
                         type="button"
                         onClick={onClose}
-                        className="px-4 py-2 rounded-md text-sm font-inter font-[600] text-[12px] text-red-500 border border-red-500"
+                        className="px-6 py-2 text-[12px] font-[600] font-inter text-cardValue rounded-custom"
                       >
                         Discard
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-4 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 bg-bgButton text-whiteColor"
+                        className="px-4 py-2 rounded-custom text-[12px] font-[600] font-inter focus:outline-none focus:ring-2 focus:ring-offset-2 bg-bgButton text-whiteColor"
                       >
                         {isLoading ? "Processing..." : "Save"}
                       </button>

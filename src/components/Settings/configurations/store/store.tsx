@@ -25,10 +25,15 @@ interface CustomField {
 interface CheckoutProps {
   onClose: () => void;
   onSave: (data: any) => void;
+  hideHeader?: boolean;
 }
 
 // Store settings component
-const Store: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
+const Store: React.FC<CheckoutProps> = ({
+  onClose,
+  onSave,
+  hideHeader = false,
+}) => {
   // State for all toggles
   const [settings, setSettings] = useState({
     surgeDelivery: true,
@@ -169,20 +174,21 @@ const Store: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
   return (
     <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center mb-2 p-4 rounded-md mt-0 sm:mt-8 md:mt-8 lg:mt-8 xl:8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
-        <h1 className="text-[14px] font-inter font-[600] text-headding-color">
-          Store
-        </h1>
-        <div className="flex space-x-2">
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">
-            Discard
-          </button>
-          <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom">
-            Save
-          </button>
+      {!hideHeader && (
+        <div className="flex justify-between items-center mb-2 p-4 rounded-md mt-0 sm:mt-8 md:mt-8 lg:mt-8 xl:8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
+          <h1 className="text-[14px] font-inter font-[600] text-headding-color">
+            Store
+          </h1>
+          <div className="flex space-x-2">
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">
+              Discard
+            </button>
+            <button className="px-4 py-2 text-[12px] font-inter font-[600] text-whiteColor bg-bgButton border border-reloadBorder rounded-custom">
+              Save
+            </button>
+          </div>
         </div>
-      </div>
-
+      )}
       {/* Surge Delivery Section */}
       <div className="rounded-lg p-0 md:p-0 sm:p-0 lg:p-0 xl:p-0 mb-4">
         <div className="mb-10">

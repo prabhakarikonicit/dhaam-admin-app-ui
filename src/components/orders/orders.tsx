@@ -384,10 +384,20 @@ const Orders: React.FC = () => {
       <div
         className={`py-1 px-2 text-center whitespace-nowrap rounded-lg font-inter text-[14px] font-[500] ${styleClass} ${widthClass}`}
         onClick={
-          method === "Cash" ? () => handleOpenPaymentModal(row) : undefined
+          method === "Cash" || method === "UPI" || method === "Credit Card"
+            ? () => handleOpenPaymentModal(row)
+            : undefined
         }
-        role={method === "Cash" ? "button" : undefined}
-        aria-label={method === "Cash" ? "View payment details" : undefined}
+        role={
+          method === "Cash" || method === "UPI" || method === "Credit Card"
+            ? "button"
+            : undefined
+        }
+        aria-label={
+          method === "Cash" || method === "UPI"
+            ? "View payment details"
+            : undefined
+        }
       >
         {method}
       </div>
@@ -520,33 +530,34 @@ const Orders: React.FC = () => {
 
     return (
       <div
-        className="fixed z-50 bg-white rounded-lg shadow-xl w-[300px] border border-gray-200"
+        className="fixed z-50 bg-white rounded-custom12px shadow-popoverShadow w-[270px] "
         style={popoverStyle}
         onClick={(e) => e.stopPropagation()}
         onMouseDown={(e) => e.stopPropagation()}
       >
         {/* Store ID Header */}
-        <div className="flex justify-between items-center p-3 border-b">
-          <h2 className="text-headding-color text-[12px] font-inter font-[500] mb-3">
+        <div className="flex justify-between items-center p-4 border-b border-grey-border">
+          <h2 className="text-cardValue text-[12px] font-inter font-[500] mb-3">
             {store.orderId}
           </h2>
           <button
             onClick={handleShowFullDetails}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+            className="w-8 h-8 flex items-center justify-center rounded-custom border border-grey-border hover:bg-gray-100"
             onMouseDown={(e) => e.stopPropagation()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
             >
-              <path d="M9 18l6-6-6-6" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M5.10542 10.295C4.83205 10.0216 4.83205 9.57839 5.10542 9.30503L7.41044 7L5.10542 4.69497C4.83205 4.42161 4.83205 3.97839 5.10542 3.70503C5.37878 3.43166 5.822 3.43166 6.09537 3.70503L8.89537 6.50503C9.16873 6.77839 9.16873 7.22161 8.89537 7.49497L6.09537 10.295C5.822 10.5683 5.37878 10.5683 5.10542 10.295Z"
+                fill="#636363"
+              />
             </svg>
           </button>
         </div>
@@ -558,7 +569,7 @@ const Orders: React.FC = () => {
             <div>
               <div className="flex justify-between items-center">
                 <span className="text-headding-color text-[12px] font-inter font-[500] mb-3">
-                  Store Items
+                  Order Items
                 </span>
               </div>
 
@@ -569,16 +580,23 @@ const Orders: React.FC = () => {
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden mr-3 flex items-center justify-center">
-                        <img src={Burger} alt={item.name} className="w-8 h-8" />
+                      <div className="w-12 h-12 overflow-hidden mr-3 flex items-center justify-center">
+                        <img
+                          src={Burger}
+                          alt={item.name}
+                          className="w-12 h-12 border rounded-custom border-grey-border bg-white pb-1"
+                        />
                       </div>
                       <div>
-                        <span>
+                        <span className="flex items-center space-x-4">
                           <p className="text-[12px] font-inter font-[500] text-cardValue">
                             {item.name}
                           </p>
                           <p className="text-[12px] font-inter font-[500] text-headding-color">
-                            x {item.quantity}
+                            x{" "}
+                            <span className="text-[12px] font-inter font-[500] text-cardValue">
+                              {item.quantity}
+                            </span>
                           </p>
                         </span>
                       </div>
@@ -1241,6 +1259,7 @@ const Orders: React.FC = () => {
         </div>
       </div>
       {/* Stats cards */}
+      
       <div className="hidden md:grid grid-cols-2 md:grid-cols-6 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 gap-2 bg-backgroundWhite mx-6 p-4 pb-2 rounded-tl-custom8px rounded-tr-custom8px border-b-2 border-background-grey">
         <StatCard
           value="213"
@@ -1362,8 +1381,9 @@ const Orders: React.FC = () => {
           }
         />
       </div>
-
+   
       {/* Mobile View Horizontal Slider */}
+
       <div className="md:hidden rounded-custom8px">
         <div
           ref={scrollContainerRef}
@@ -1505,6 +1525,8 @@ const Orders: React.FC = () => {
           </div>
         </div>
       </div>
+
+        
       {/* Data grid section */}
       <div className="md:px-6 sm:px-6 lg:px-6 xl:px-6 pb-8 px-2 overflow-x-auto">
         <CustomDataGrid
@@ -1518,7 +1540,7 @@ const Orders: React.FC = () => {
           showActionColumn={false}
           enableDateFilters={true}
           densityFirst={true} // Change to false if you want export button before density
-          showBorder={false} 
+          showBorder={false}
           dateRange={{
             label: `Feb 10–31, 2025`,
             startDate: startDate,
@@ -1648,7 +1670,7 @@ const Orders: React.FC = () => {
             mode="payment"
             onSave={handleSave}
             title={selectedOrder?.orderId || "Order Details"}
-            size="sm"
+            size="md"
             showFooter={true}
             paymentDetails={preparePaymentDetails()}
             confirmText="Save"
