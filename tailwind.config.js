@@ -16,6 +16,15 @@ module.exports = {
       "4xl": "2560px",
     },
     extend: {
+      boxShadow: {
+        custom: '0px 1px 4px 0px rgba(12, 12, 13, 0.05)',
+        'custom-top': '0px -4px 20px 0px rgba(0, 0, 0, 0.11)',
+        'headerShadow': '0px 1px 8px 0px rgba(12, 12, 13, 0.10)',
+        'popoverShadow': '0px 1px 12px 0px rgba(12, 12, 13, 0.14)'
+      
+
+      },
+
       backgroundImage: {
         "linear-bg":
           "linear-gradient(to right, rgba(205, 150, 200, 0.9), rgba(194, 186, 194, 0.1))",
@@ -54,6 +63,8 @@ module.exports = {
         headingBlack: "000B33",
         maroon: "#9C1616",
         primaryCredit: "#EAEDFB",
+        reject: "#620E0E",
+        danger: "#E45270",
 
       },
       backgroundColor: {
@@ -64,34 +75,38 @@ module.exports = {
         bgActive: "#1D962B",
         bgCrossIcon: "#FBE9E9",
         reloadBorder: "#C2C2C2",
+        bgred: "#E14747",
         backgroundWhite: "#FFF",
         bgButton: "#7C43DF",
         subMenus: "#F2F2F2",
         orangeColor: "#FFF2CC",
         primary: "#EAEDFB",
         green: "#2C6333",
+        bgCardTitle: "#949494",
         yellow: "#FFD557",
         maroon: "#9C1616",
         purple: "#F2ECFC",
         blueCredit: "#506FDC",
+        tableFooter: "#F7F7F7",
       },
       borderColor: {
         "grey-border": "#DBDBDB",
         reloadBorder: "#C2C2C2",
         btnBorder: "#5D32A7",
         borderCrossIcon: "#F09E9E",
-       borderGreeen:  "#788C7A",
+        acceptButton:"#8ECC96",
+         borderGreeen:  "#788C7A",
         bgButton: "#7C43DF",
         cardTitle: "#949494",
         subMenus: "#F2F2F2",
+        greyBorder:"#F1F1F1",
         menuSubHeadingColor: "#4F4F4F",
       },
-      boxShadow: {
-        custom: "0px 1px 4px 0px rgba(12, 12, 13, 0.05)",
-      },
+
       borderRadius: {
         custom4px: "4px",
         custom: "6px",
+        
         custom4x: "4px",
         custom7px: "7px",
         custom8px: "8px",
@@ -100,10 +115,15 @@ module.exports = {
         custom16px: "16px",
         custom18px: "18px",
         custom28px: "28px",
+        custom30px: "30px",
+        custom160px: "160px",
+        custom36px: "36px",
+        custom38px: "38px",
         custom20px: "20px",
         custom44px: "44px",
         custom80px: "80px",
         custom100px: "100px",
+        
       },
     },
     fontFamily: {
@@ -139,5 +159,17 @@ module.exports = {
       "22px": "22px",
     },
   },
-  plugins: [],
+  plugins: [ // This plugin is using for scrolling functionality but won't display any visible scrollbars
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    }],
 };

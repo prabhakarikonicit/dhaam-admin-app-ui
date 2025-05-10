@@ -310,7 +310,7 @@ const AddStaff: React.FC<{
                 <select
                   // value={assignedStore}
                   // onChange={(e) => setAssignedStore(e.target.value)}
-                  className="w-full appearance-none px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
+                  className="w-full appearance-none px-3 py-4 border border-reloadBorder rounded-custom8px text-[14px] font-inter text-reloadBorder font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]"
                 >
                   <option value="" disabled className="text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]">Select Store</option>
                   <option value="store1" className="text-[14px] font-inter font-[400] pr-10 placeholder:text-reloadBorder placeholder:font-inter placeholder:font-[400]">Store 1</option>

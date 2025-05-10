@@ -4,6 +4,10 @@ import GeneralComponent from "../Settings/General/GeneralComponent";
 import IntegrationComponent from "../Settings/Integration/IntegrationComponent";
 import ConfigurationsComponent from "../Settings/configurations/configurationscomponent";
 import MarketPlaceDesignComponent from "../Settings/marketplacedesign/marketplacedesigncomponent";
+import Category from "../Menu/category/category";
+import ProductManagement from "../Menu/product/product";
+import AddonsManagement from "../Menu/addons/addons";
+import Combos from "../Menu/combos/combos";
 import Stores from "../stores/stores";
 import Orders from "../orders/orders";
 import { ChevronDown } from "lucide-react";
@@ -373,7 +377,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       onSubItemClick(item);
     }
   };
-
   return (
     <div>
       <div
@@ -423,12 +426,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 };
 interface SidebarNavProps {
   onSettingsSubItemClick: (item: string) => void;
+  onMenuSubItemClick: (item: string) => void;
   onItemClick: (view: string) => void;
   currentView: string;
 }
 
 const SidebarNav: React.FC<SidebarNavProps> = ({
   onSettingsSubItemClick,
+  onMenuSubItemClick,
   onItemClick,
   currentView,
 }) => {
@@ -439,12 +444,24 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     { text: "Configurations" },
     { text: "Marketplace Design" },
   ];
+  const menuSubItems = [
+    { text: "Category" },
+    { text: "Product" },
+    { text: "Add-ons" },
+    { text: "Combos" },
   
-  const handleSubItemClick = (item: string) => {
+  ];
+  const handleSubItemClick = (item: string, parentText: string) => {
     setSelectedSubItem(item);
-    onSettingsSubItemClick(item);
+
+    // Call the appropriate handler based on the parent menu item
+    if (parentText === "Settings") {
+      onSettingsSubItemClick(item);
+    } else if (parentText === "Menu") {
+      onMenuSubItemClick(item);
+    }
   };
-  
+
   return (
     <nav className="space-y-1">
       <SidebarItem
@@ -459,13 +476,26 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
         onClick={() => onItemClick("dashboard")}
         active={currentView === "dashboard"}
       />
-      <SidebarItem icon={<Order />} text="Orders" onClick={() => onItemClick("orders")}
-        active={currentView === "orders"}/>
-      <SidebarItem icon={<Menu />} text="Menu" hasSubmenu />
+      <SidebarItem
+        icon={<Order />}
+        text="Orders"
+        onClick={() => onItemClick("orders")}
+        active={currentView === "orders"}
+      />
+      <SidebarItem
+        icon={<Menu />}
+        text="Menu"
+        hasSubmenu={true}
+        subItems={menuSubItems}
+        selectedSubItem={selectedSubItem}
+        onSubItemClick={(item) => handleSubItemClick(item, "Menu")}
+        active={currentView === "menu"}
+      />
+
       <SidebarItem icon={<Customers />} text="Customers" />
-      <SidebarItem 
-        icon={<Store />} 
-        text="Stores" 
+      <SidebarItem
+        icon={<Store />}
+        text="Stores"
         onClick={() => onItemClick("stores")}
         active={currentView === "stores"}
       />
@@ -475,7 +505,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
         hasSubmenu={true}
         subItems={settingsSubItems}
         selectedSubItem={selectedSubItem}
-        onSubItemClick={handleSubItemClick}
+        onSubItemClick={(item) => handleSubItemClick(item, "Settings")}
         active={currentView === "settings"}
       />
     </nav>
@@ -492,7 +522,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
 //     { text: "Integration" },
 //     { text: "Configurations" },
 //     { text: "Marketplace Design" },
-    
+
 //   ];
 //   const handleSubItemClick = (item: string) => {
 //     setSelectedSubItem(item);
@@ -552,9 +582,14 @@ const DashboardLayout = () => {
   const [selectedSettingsItem, setSelectedSettingsItem] = useState<
     string | null
   >(null);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<string | null>(null);
   const handleSettingsSubItemClick = (item: string) => {
     setSelectedSettingsItem(item);
     setCurrentView("settings");
+  };
+  const handleMenuSubItemClick = (item: string) => {
+    setSelectedMenuItem(item);
+    setCurrentView("menu");
   };
   const handleItemClick = (view: string) => {
     setCurrentView(view);
@@ -577,7 +612,6 @@ const DashboardLayout = () => {
   const isLaptop = width > 835;
   const showCloseIcon = width < 375;
   const renderContent = () => {
-
     if (currentView === "stores") {
       // Directly render the Stores component when stores view is selected
       return <Stores />;
@@ -589,21 +623,33 @@ const DashboardLayout = () => {
     if (currentView === "settings") {
       // Only show settings content when General is selected
       if (selectedSettingsItem === "General") {
+        console.log("selectedSettingsItem", selectedSettingsItem);
+
         return <GeneralComponent />;
-      } 
-      else if (selectedSettingsItem === "Integration"){
-        console.log("selectedSettingsItem", selectedSettingsItem)
+      } else if (selectedSettingsItem === "Integration") {
+        console.log("selectedSettingsItem", selectedSettingsItem);
         return <IntegrationComponent />;
-      }
-      else if (selectedSettingsItem === "Configurations"){
-      
+      } else if (selectedSettingsItem === "Configurations") {
         return <ConfigurationsComponent />;
-      }
-      else if (selectedSettingsItem === "Marketplace Design"){
-      
+      } else if (selectedSettingsItem === "Marketplace Design") {
         return <MarketPlaceDesignComponent />;
       }
       return null;
+    }
+
+    if (currentView === "menu") {
+      // Handle menu view with the different submenu components
+      if (selectedMenuItem === "Category") {
+        return <Category />;
+      } else if (selectedMenuItem === "Product") {
+        return <ProductManagement />;
+      }
+     else if (selectedMenuItem === "Add-ons") {
+      return <AddonsManagement />;
+    }
+    else if (selectedMenuItem === "Combos") {
+      return <Combos />;
+    }
     }
 
     if (currentView === "dashboard") {
@@ -971,12 +1017,13 @@ const DashboardLayout = () => {
                 )}
               </div>
             )}
-              <SidebarNav
-                onSettingsSubItemClick={handleSettingsSubItemClick}
-                onItemClick={handleItemClick}
-                currentView={currentView}
-              />
-           
+            <SidebarNav
+              onSettingsSubItemClick={handleSettingsSubItemClick}
+              onMenuSubItemClick={handleMenuSubItemClick} // This was missing
+              onItemClick={handleItemClick}
+              currentView={currentView}
+            />
+
             {/* </nav> */}
           </div>
         </div>
