@@ -479,9 +479,9 @@ const MarketplaceFiles: React.FC = () => {
   };
 
   return (
-    <div className="max-w-full rounded-lg p-1 md:p-0 lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full  p-1 md:p-0 lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex items-center p-4 border-b mt-0 sm:mt-10 md:mt-10 lg:mt-10 xl:10 md:px-1 sm:px-1 lg:px-1 xl:px-1">
+      <div className="flex items-center p-4  mt-0 sm:mt-8 md:mt-8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <button className="mr-2  rounded-custom border border-reloadBorder p-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -504,8 +504,8 @@ const MarketplaceFiles: React.FC = () => {
       </div>
 
       {/* Sub header with tabs */}
-      <div className="bg-backgroundWhite flex items-center justify-between p-4">
-        <div className="flex items-center">
+      <div className="bg-backgroundWhite flex rounded-tl-custom12px rounded-tr-custom12px items-center justify-between p-4  md:border border-grey-border">
+        <div className="flex items-center ">
           <button className="font-inter font-[600] font-[14px] text-textHeading">
             Files
           </button>
@@ -517,16 +517,19 @@ const MarketplaceFiles: React.FC = () => {
             <svg
               className="w-5 h-6 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
               fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
             >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M6.4001 3.19961C4.63279 3.19961 3.2001 4.6323 3.2001 6.39961C3.2001 8.16692 4.63279 9.59961 6.4001 9.59961C8.16741 9.59961 9.6001 8.16692 9.6001 6.39961C9.6001 4.6323 8.16741 3.19961 6.4001 3.19961ZM1.6001 6.39961C1.6001 3.74864 3.74913 1.59961 6.4001 1.59961C9.05106 1.59961 11.2001 3.74864 11.2001 6.39961C11.2001 7.43627 10.8715 8.39618 10.3127 9.18084L14.1658 13.0339C14.4782 13.3463 14.4782 13.8529 14.1658 14.1653C13.8534 14.4777 13.3468 14.4777 13.0344 14.1653L9.18133 10.3122C8.39667 10.871 7.43676 11.1996 6.4001 11.1996C3.74913 11.1996 1.6001 9.05058 1.6001 6.39961Z"
+                fill="#949494"
+              />
             </svg>
+
             <input
               type="text"
               value={searchValue}
@@ -545,12 +548,13 @@ const MarketplaceFiles: React.FC = () => {
       </div>
 
       {/* Data grid */}
-      <div className="px-4 pb-4 bg-backgroundWhite ">
+      <div className="px-0 pb-0 overflow-hidden border-t md:border-l md:border-r  border-grey-border">
         <CustomDataGrid
           columns={fileColumns}
           rows={filteredFiles} // Change this from 'files' to 'filteredFiles'
           selectedRows={selectedRows}
           onSelectAll={handleSelectAll}
+          showCheckboxes={true}
           onSelectRow={handleSelectRow}
           hideToolbar={true} // Hide toolbar since we have our own search
         />
@@ -573,12 +577,12 @@ const MarketplaceFiles: React.FC = () => {
           item={
             selectedFile
               ? {
-                id: selectedFile.id,
-                name: selectedFile.name,
-                format: selectedFile.format,
-                altText: selectedFile.altText,
-                active: selectedFile.active,
-              }
+                  id: selectedFile.id,
+                  name: selectedFile.name,
+                  format: selectedFile.format,
+                  altText: selectedFile.altText,
+                  active: selectedFile.active,
+                }
               : undefined
           }
           onSave={handleSaveFile}
@@ -595,12 +599,12 @@ const MarketplaceFiles: React.FC = () => {
             modalMode === "add"
               ? "Save"
               : modalMode === "edit"
-                ? "Save Changes"
-                : modalMode === "delete"
-                  ? "Delete"
-                  : modalMode === "view"
-                    ? "Close"
-                    : "OK"
+              ? "Save Changes"
+              : modalMode === "delete"
+              ? "Delete"
+              : modalMode === "view"
+              ? "Close"
+              : "OK"
           }
         >
           {modalMode === "delete" && selectedFile && (

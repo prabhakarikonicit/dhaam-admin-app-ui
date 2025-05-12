@@ -245,7 +245,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
 
   return (
     <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible ">
-      <div className="flex items-center justify-between py-2 mt-0 sm:mt-4 md:mt-6 lg:mt-10 xl-mt-10">
+      <div className="flex items-center justify-between py-2 mt-0 sm:mt-7 md:mt-7">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Checkout
         </h2>
@@ -265,7 +265,7 @@ const Checkout: React.FC<CheckoutProps> = ({ onClose, onSave }) => {
         </div>
       </div>
 
-      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 space-y-6">
+      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 space-y-6 mt-2">
         {/* Side Order */}
         <div className="bg-backgroundWhite rounded-custom12px p-3 border border-gray-200 shadow-custom">
           <div className="flex items-center justify-between">

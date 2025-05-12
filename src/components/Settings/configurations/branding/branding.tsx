@@ -126,7 +126,7 @@ export const Branding: React.FC = () => {
 
   return (
     <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full  overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible  overflow-visible">
-      <div className="flex justify-between items-center p-4  mt-0 sm:mt-8 md:mt-8 lg:mt-8 xl:8 md:px-1 sm:px-1 lg:px-1 xl:px-1 ">
+      <div className="flex justify-between items-center p-4  mt-0 sm:mt-4 md:mt-4 md:px-1 sm:px-1 lg:px-1 xl:px-1 ">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
           Branding
         </h1>

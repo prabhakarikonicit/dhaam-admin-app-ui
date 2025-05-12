@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import ToggleSwitch from "../../../common/toggleSwitch";
 import CustomDropdown from "../../../common/customdropdown";
@@ -37,6 +36,7 @@ interface SurgeDeliveryProps {
   };
   initialDaysConfig?: Partial<DaysConfig>;
   title?: string;
+  showBorder?: boolean;
   description?: string;
   timeOptions?: string[];
   fixedValues?: string[];
@@ -118,6 +118,7 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
   percentageValues = defaultPercentageValues,
   onSettingsChange,
   onDaysConfigChange,
+  showBorder = false,
 }) => {
   // Initialize settings with props or defaults
   const [settings, setSettings] = useState({
@@ -244,15 +245,15 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
         timeSlots: prev[day].timeSlots.map((slot) =>
           slot.id === slotId
             ? {
-              ...slot,
-              [field]:
-                field === "type" ? (value as "Fixed" | "Percentage") : value,
-              // Reset value when type changes to ensure valid options
-              ...(field === "type" && {
-                value:
-                  value === "Fixed" ? fixedValues[0] : percentageValues[0],
-              }),
-            }
+                ...slot,
+                [field]:
+                  field === "type" ? (value as "Fixed" | "Percentage") : value,
+                // Reset value when type changes to ensure valid options
+                ...(field === "type" && {
+                  value:
+                    value === "Fixed" ? fixedValues[0] : percentageValues[0],
+                }),
+              }
             : slot
         ),
       },
@@ -260,18 +261,24 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
   };
 
   return (
-    <div className="bg-backgroundWhite rounded-custom12px max-w-full mx-auto">
-      <div className="p-4">
-        <div className="flex justify-between items-center">
+    <div className="bg-backgroundWhite rounded-custom12px max-w-full mx-auto overflow-hidden">
+      <div className={`${showBorder ? "p-0": "p-4"}`}>
+        <div className={`${showBorder ? "bg-background-grey p-2 border-b border-reloadBorder": ""}`}>
+        <div className="flex justify-between items-center ">
           {title && (
-            <h2 className="text-[14px] font-[500] font-inter text-textHeading">
+            <h2
+              className={`text-[14px] font-[500] font-inter text-textHeading ${
+                showBorder ? "pt-2 px-3" : "border-reloadBorder"
+              }`}
+            >
               {title}
             </h2>
           )}
           {title && (
             <div
-              className={`${!title ? "ml-auto" : ""
-                } mt-4 md:mt-0 sm:mt-0 lg:mt-0 xl:mt-0`}
+              className={`${
+                !title ? "ml-auto" : ""
+              } mt-4 md:mt-0 sm:mt-0 lg:mt-0 xl:mt-0`}
             >
               <ToggleSwitch
                 checked={settings.surgeDelivery}
@@ -282,15 +289,18 @@ const SurgeDelivery: React.FC<SurgeDeliveryProps> = ({
           )}
         </div>
         {description && (
-          <p className="text-[12px] font-[500] font-inter text-cardTitle mt-1">
+          <p className={`text-[12px] font-[500] font-inter text-cardTitle mt-1 ${showBorder ? "px-3": ""}`}>
             {description}
           </p>
         )}
+        </div>
 
         {settings.surgeDelivery && (
           <div
             className={
-              !title ? "" : "border border-reloadBorder rounded-custom12px mt-4"
+              showBorder || !title
+                ? ""
+                : "border border-reloadBorder rounded-custom12px mt-4"
             }
           >
             {/* Days of week */}

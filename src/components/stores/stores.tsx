@@ -3,11 +3,16 @@ import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
 // import StoreDetailPage from "../stores/storedetails";
-import StoreDetailPage from "../stores/showstoredetailsview";
+// import StoreDetailPage from "../stores/showstoredetailsview";
+import StoreDetailPage from '../stores/StoreDetail';
 
 import StorePopover from "../stores/storepopover";
 import { MoreVertical } from "lucide-react";
-
+interface ToggleButtonProps {
+  initialState: boolean;
+  rowId: string;
+  onStateChange?: (id: string, state: boolean) => void;
+}
 interface Store {
   id: string;
   storeId: string;
@@ -25,7 +30,74 @@ interface StoreItem {
   quantity: number;
   price: string;
 }
+const ToggleButton: React.FC<ToggleButtonProps> = ({
+  initialState,
+  rowId,
+  onStateChange,
+}) => {
+  // Use local state to ensure re-renders
+  const [isOn, setIsOn] = React.useState(initialState);
 
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const newState = !isOn;
+    setIsOn(newState);
+
+    // Notify parent component if needed
+    if (onStateChange) {
+      onStateChange(rowId, newState);
+    }
+  };
+
+  return (
+    <div className="w-[50px] flex items-center justify-center">
+      <button
+        onClick={handleToggle}
+        className="focus:outline-none"
+        aria-checked={isOn}
+        role="switch"
+      >
+        {isOn ? (
+          // ON state SVG (purple)
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="41"
+            height="24"
+            viewBox="0 0 41 24"
+            fill="none"
+          >
+            <path
+              d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+              fill="#7C43DF"
+              stroke="#7C43DF"
+            />
+            <g>
+              <circle cx="29" cy="11" r="9" fill="white" />
+            </g>
+          </svg>
+        ) : (
+          // OFF state SVG (gray)
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="41"
+            height="24"
+            viewBox="0 0 41 24"
+            fill="none"
+          >
+            <path
+              d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+              fill="#E5E5E5"
+              stroke="#E5E5E5"
+            />
+            <g>
+              <circle cx="11" cy="11" r="9" fill="white" />
+            </g>
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+};
 const Stores: React.FC = () => {
   // State management
   const [stores, setStores] = useState<Store[]>([]);
@@ -40,9 +112,9 @@ const Stores: React.FC = () => {
   );
   const [toggledRows, setToggledRows] = useState<{ [key: string]: boolean }>({
     "3": true,
+    "4": true,
     "5": true,
     "6": true,
-    "7": true
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -340,7 +412,7 @@ const Stores: React.FC = () => {
       width: "280px",
       renderCell: (value, row) => (
         <div className="w-[60px] pr-24 py-1 text-cardValue font-inter font-[500] text-[12px] lg:whitespace-nowrap md:whitespace-normal">
-           {value}
+          {value}
         </div>
       ),
     },
@@ -388,68 +460,30 @@ const Stores: React.FC = () => {
       headerName: "Rating",
       width: "120px",
       renderCell: (value, row) => {
-        const isChecked = toggledRows[row.id] || false;
-        
-        const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-          e.stopPropagation(); // Stop event from bubbling to row selection
-          setToggledRows(prev => ({
+        // Get initial state from toggledRows
+        const initialState = toggledRows[row.id] || false;
+
+        // Handle state changes from the toggle
+        const handleToggleChange = (id: string, newState: boolean) => {
+          // Update parent state if needed
+          setToggledRows((prev) => ({
             ...prev,
-            [row.id]: !isChecked
+            [id]: newState,
           }));
-          console.log(`Toggle for row ${row.id} changed to: ${!isChecked}`);
+          console.log(`Toggle for row ${id} changed to: ${newState}`);
         };
-        
+
+        // Each toggle has its own state, ensuring it re-renders independently
         return (
-          <div className="w-[50px] flex items-center justify-center">
-            <button 
-              onClick={handleToggle}
-              className="focus:outline-none"
-              aria-checked={isChecked}
-              role="switch"
-            >
-              {isChecked ? (
-                // ON state SVG (purple)
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="41"
-                  height="24"
-                  viewBox="0 0 41 24"
-                  fill="none"
-                >
-                  <path
-                    d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
-                    fill="#7C43DF"
-                    stroke="#7C43DF"
-                  />
-                  <g>
-                    <circle cx="29" cy="11" r="9" fill="white" />
-                  </g>
-                </svg>
-              ) : (
-                // OFF state SVG (gray)
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="41"
-                  height="24"
-                  viewBox="0 0 41 24"
-                  fill="none"
-                >
-                  <path
-                    d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
-                    fill="#E5E5E5"
-                    stroke="#E5E5E5"
-                  />
-                  <g>
-                    <circle cx="11" cy="11" r="9" fill="white" />
-                  </g>
-                </svg>
-              )}
-            </button>
-          </div>
+          <ToggleButton
+            initialState={initialState}
+            rowId={row.id}
+            onStateChange={handleToggleChange}
+            key={`toggle-${row.id}`} // Ensure unique key for React
+          />
         );
       },
-    }
-
+    },
   ];
 
   // Modal field definitions
@@ -675,7 +709,7 @@ const Stores: React.FC = () => {
   }
 
   return (
-    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto bg-background-grey">
+    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-[100vh] lg:max-h-[100vh] xl:max-h-[100vh] max-h-[80vh] overflow-y-auto bg-background-grey">
       {/* Header */}
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 pt-8">
         <h1 className="text-[20px] font-inter font-[600] text-cardValue">
@@ -1110,7 +1144,6 @@ const Stores: React.FC = () => {
 
       {/* Main content */}
       <div className="md:px-6 sm:px-6 lg:px-6 xl:px-6 pb-8 px-2 overflow-x-auto ">
-     
         <CustomDataGrid
           rows={paginatedData}
           columns={columns}
@@ -1123,7 +1156,7 @@ const Stores: React.FC = () => {
           showCheckboxes={true}
           enableDateFilters={true}
           densityFirst={true} // Change to false if you want export button before density
-          showBorder={false} 
+          showBorder={false}
           dateRange={{
             label: `Feb 10–31, 2025`,
             startDate: startDate,
@@ -1156,7 +1189,6 @@ const Stores: React.FC = () => {
             },
           }}
         />
-        
       </div>
       {/* StorePopover component */}
       <StorePopover

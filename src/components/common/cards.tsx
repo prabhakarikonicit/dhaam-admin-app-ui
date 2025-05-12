@@ -4,17 +4,20 @@ import ToggleSwitch from "./toggleSwitch";
 interface CardProps {
   title: string;
   description?: string;
+  showBorder?: boolean;
   toggleChecked?: boolean;
   onToggleChange?: (e: React.MouseEvent) => void;
   children?: React.ReactNode;
 }
 interface DeliveryModeProps {
   onSave?: () => void;
+  showBorder?:boolean;
 }
 
 // Main DeliveryMode Component
 export const DeliveryMode: React.FC<DeliveryModeProps> = ({
   onSave = () => {},
+  showBorder = false,
 }) => {
   // State for delivery modes and other settings
   const [settings, setSettings] = useState({
@@ -60,7 +63,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
   return (
     <div className="space-y-4">
       {/* Delivery Mode Card */}
-      <div className="bg-white rounded-lg p-6">
+      <div className={`bg-white rounded-custom12px p-6 ${showBorder ? "border border-reloadBorder rounded-custom12px": ""}`}>
         <div className="mb-4">
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">
             Delivery Mode
@@ -163,6 +166,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
         )}
 
         {/* Save Button */}
+        {!showBorder && (
         <div className="flex justify-end mt-4">
           <button
             onClick={handleSave}
@@ -171,10 +175,12 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
             Save
           </button>
         </div>
+        ) }
       </div>
 
       {/* Delivery Manager Card */}
-      <div className="bg-white rounded-lg p-6">
+      {!showBorder && (
+      <div className="bg-white rounded-custom12px p-6">
         <div className="flex justify-between items-center mb-2">
           <div>
             <h2 className="text-[14px] font-inter font-[500] text-textHeading">
@@ -265,6 +271,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
           </div>
         )}
       </div>
+      )}
     </div>
   );
 };
@@ -448,7 +455,9 @@ interface CardProps {
   title: string;
   description?: string;
   input?: string;
+  showBorder?: boolean;
   placeholder?: string;
+
   toggleChecked?: boolean;
   onToggleChange?: (e: React.MouseEvent) => void;
   actionButton?: React.ReactNode; // Added the actionButton property
@@ -459,10 +468,11 @@ interface CardProps {
 // InputCard component - this appears to already exist in your code as InputCardDemo
 export const InputCard: React.FC<CardProps> = ({
   title,
+  showBorder=false,
   placeholder = "Enter amount",
 }) => {
   return (
-    <div className="rounded-custom12px p-6 bg-white">
+    <div className={`rounded-custom12px p-6 bg-white ${showBorder ? "border border-reloadBorder": ""}`}>
       <h2 className="text-[14px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]  font-inter font-[500] text-textHeading">
         {title}
       </h2>
@@ -478,11 +488,12 @@ export const InputCard: React.FC<CardProps> = ({
 };
 
 // InputCardGrid component
-export const InputCardGrid: React.FC<{ cards: CardProps[] }> = ({ cards }) => {
+export const InputCardGrid: React.FC<{ cards: CardProps[], showBorder?: boolean }> = ({ cards, showBorder = false  }) => {
   return (
     <div className="grid md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 grid-cols-2 gap-4 ">
       {cards.map((card, index) => (
         <InputCard
+        showBorder={showBorder}
           key={index}
           title={card.title}
           placeholder={card.placeholder}
@@ -501,7 +512,7 @@ export const TimeInput: React.FC<{ placeholder: string }> = ({
       <input
         type="text"
         placeholder={placeholder}
-        className="w-full border border-reloadBorder rounded-custom8px px-3 py-2 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500"
+        className="w-full border border-reloadBorder rounded-custom8px px-3 py-3 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
         <svg
@@ -541,9 +552,11 @@ export const DisplayStoreTimingCard: React.FC<{
 // Order Placement Email Notification Card
 export const EmailNotificationCard: React.FC<{
   checked: boolean;
+  showBorder?: boolean;
   onChange: (e: React.MouseEvent) => void;
-}> = ({ checked, onChange }) => {
+}> = ({ checked, onChange, showBorder=false }) => {
   return (
+    <div className={`${showBorder ? "border border-reloadBorder rounded-custom12px": ""}`}>
     <ToggleCard
       title="Order Placement Email Notification"
       description="Send an email confirmation when an order is placed."
@@ -554,6 +567,7 @@ export const EmailNotificationCard: React.FC<{
         View Email Template
       </button>
     </ToggleCard>
+    </div>
   );
 };
 
@@ -566,6 +580,7 @@ export const DynamicCards: React.FC<{
   maxOrderLabel?: string;
   maxOrderPlaceholder?: string;
   value?: string;
+  showBorder?: boolean;
   actionButton?: React.ReactNode;
   variant?: "default" | "compact" | "WithInputBelow";
   onValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -576,12 +591,14 @@ export const DynamicCards: React.FC<{
   description = "Set the maximum number of orders allowed per time slot.",
   actionButton = null,
   variant = "default",
+  showBorder= false,
   maxOrderLabel = "Max Orders per Slot",
   maxOrderPlaceholder = "Enter the maximum order limit per slot",
   value = "",
   onValueChange = () => {}
 }) => {
   return (
+    <div className={`${showBorder? "border border-reloadBorder rounded-custom12px": ""}`}>
     <ToggleCard
     title={title}
     description={description}
@@ -604,6 +621,7 @@ export const DynamicCards: React.FC<{
         </div>
       )}
     </ToggleCard>
+    </div>
   );
 };
 // Order Control Card with Product Multi-Selection
@@ -612,14 +630,17 @@ export const OrderControlCard: React.FC<{
   onOrderControlChange: (e: React.MouseEvent) => void;
   productMultiSelectionChecked: boolean;
   onProductMultiSelectionChange: (e: React.MouseEvent) => void;
+  showBorder?: boolean;
 }> = ({
   orderControlChecked,
   onOrderControlChange,
   productMultiSelectionChecked,
   onProductMultiSelectionChange,
+  showBorder = false,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 mb-4">
+    <div className={`bg-white rounded-custom12px  mb-4 ${showBorder? "mx-1" : "p-6"}`}>
+      <div className={`${showBorder ? "border border-reloadBorder rounded-custom12px p-5" : " "}`}>
       <div className="flex justify-between items-center mb-2">
         <div>
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">
@@ -644,7 +665,7 @@ export const OrderControlCard: React.FC<{
           <TimeInput placeholder="Enter Time" />
         </div>
       )}
-
+      </div>
       <div className="pt-6 border-t">
         <div className="flex justify-between items-center">
           <div>
@@ -790,6 +811,7 @@ export const StoreTimingAvailability = ({
 // Scheduled Order Time Range Card
 export const ScheduledOrderCard: React.FC<{
   timeRangeChecked: boolean;
+  showBorder?: boolean;
   onTimeRangeChange: (e: React.MouseEvent) => void;
   minOrderChecked: boolean;
   onMinOrderChange: (e: React.MouseEvent) => void;
@@ -798,13 +820,14 @@ export const ScheduledOrderCard: React.FC<{
 }> = ({
   timeRangeChecked,
   onTimeRangeChange,
+  showBorder = false,
   minOrderChecked,
   onMinOrderChange,
   remindersChecked,
   onRemindersChange,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 mb-4">
+    <div className={`bg-white rounded-custom12px p-6 mb-4 ${showBorder ? "border border-reloadBorder rounded-custom12px" : ""}`}>
       <div className="flex justify-between items-center mb-2">
         <div>
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">

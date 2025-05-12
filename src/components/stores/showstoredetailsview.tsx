@@ -3,7 +3,7 @@ import StoreBanner from "../../lib/Images/storebanner.png";
 import ReactDOM from "react-dom";
 import ProductsTable from "../Menu/product/producttable";
 import Category from "../Menu/category/category";
-import Store from "../Settings/configurations/store/store";
+import Configurations from "./StoreDetail/configurations/configurations";
 import ProfileImage from "../../lib/Images/ProfileImage.png"; // use your own path
 
 // Define interface for store items
@@ -530,7 +530,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
   };
 
   return (
-    <div className="bg-whit rounded-lg">
+    <div className="bg-whit rounded-lg ">
       {/* Header with back button, store name and actions */}
       <div className="flex justify-between items-center p-4 bg-background-grey">
         <div className="flex items-center">
@@ -616,13 +616,13 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
         </div>
       </div>
 
-      <div className="border-b-2 bg-white mx-3 rounded-custom8px">
+      <div className="border-b-2 bg-white mx-4 rounded-tl-custom12px rounded-tr-custom12px ">
         <div className="flex justify-between items-center ">
           <div className="flex">
             <button
-              className={`px-6 py-4 font-inter text-[14px] font-[500] text-headding-color ${
+              className={`px-6 py-4  font-inter text-[14px] font-[500] text-headding-color ${
                 activeTab === "defaultSetting"
-                  ? "border-b-2 border-purple-500 text-verifyOtp"
+                  ? "border-b-2 border-bgButton text-verifyOtp"
                   : "text-gray-500"
               }`}
               onClick={() => setActiveTab("defaultSetting")}
@@ -651,7 +651,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
             </button>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center mr-4">
             <button className="mr-2 px-6 py-2 text-[12px] font-[600] font-inter rounded-custom border border-reloadBorder">
               Discard
             </button>
@@ -664,13 +664,13 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
 
       {/* Tab content */}
       {activeTab === "defaultSetting" && (
-        <div className="px-4 mx-3 pb-4 bg-white">
+        <div className="px-4 mx-4 pb-4 bg-white">
           <div className="flex flex-wrap">
             <div className="w-full lg:w-1/2 pr-2">
               {/* Left column */}
 
               {/* Personal Information Section */}
-              <div className="bg-white border border-reloadBorder rounded-custom8px mb-4 mt-4 overflow-hidden">
+              <div className="bg-white border border-reloadBorder rounded-custom8px mb-6 mt-4 overflow-hidden">
                 <div className="bg-background-grey p-4 border-b border-reloadBorder">
                   <h2 className="text-cardValue font-inter font-[14px] font-[600] tracking-wide">
                     Personal Information
@@ -685,7 +685,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <input
                         type="text"
                         placeholder="Aman Kumar"
-                        className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack"
                         // defaultValue="Aman Kumar"
                       />
                     </div>
@@ -695,7 +695,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       </label>
                       <input
                         type="email"
-                        className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
                         placeholder="amanofficial502@gmail.com"
                         // defaultValue="amanofficial502@gmail.com"
                       />
@@ -709,7 +709,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <div className="relative">
                         <input
                           type="text"
-                          className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
+                          className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
                           // defaultValue="6391 Elgin St. Celina, Delaware 10299"
                           placeholder="6391 Elgin St. Celina, Delaware 10299"
                         />
@@ -740,20 +740,19 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <label className="block text-[12px] font-[500] font-inter text-paragraphBlack mb-2">
                         Phone
                       </label>
-                      <div className="flex items-center border border-reloadBorder rounded-custom relative">
+                      <div className="flex items-center border border-reloadBorder rounded-custom overflow-hidden  relative">
                         {/* Country Code Selector - add ref here */}
                         <div className="relative">
                           <div
                             ref={countrySelectorRef}
-                            className="flex items-center px-3 py-2 cursor-pointer"
+                            className="flex items-center px-3 pb-3 pt-3 cursor-pointer"
                             onClick={() =>
                               setShowCountryDropdown((prev) => !prev)
                             }
                           >
-                            <span className="text-[16px] mr-1">
-                              {selectedCountry.flag}
+                            <span className="text-[12px] font-bold font-inter mr-1">
+                              {selectedCountry.code}
                             </span>
-                            {/* Only show the country code once */}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -770,14 +769,13 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                               />
                             </svg>
                           </div>
-
                           {/* Country Dropdown using Portal */}
                           {showCountryDropdown &&
                             countrySelectorRef.current &&
                             ReactDOM.createPortal(
                               <div
                                 ref={countryDropdownRef}
-                                className="bg-white border border-gray-200 rounded-md shadow-lg max-h-60 w-52 overflow-y-auto py-1"
+                                className="bg-white border border-grey-border rounded-md shadow-lg max-h-60 w-48 overflow-y-auto py-1"
                                 style={{
                                   position: "absolute",
                                   zIndex: 99999,
@@ -797,15 +795,32 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                                       setShowCountryDropdown(false);
                                     }}
                                   >
-                                    <span className="text-[16px] mr-2">
-                                      {country.flag}
-                                    </span>
-                                    <span className="text-[12px] font-[500] font-inter">
-                                      {country.code}
-                                    </span>
+                                    <div className="flex items-center flex-1">
+                                      <span className="text-[12px] font-bold font-inter ml-5">
+                                        {country.code}
+                                      </span>
+                                      {/* <span className="text-[12px] font-[400] font-inter">
+                                        {country.code}
+                                      </span> */}
+                                    </div>
                                     <span className="text-[12px] font-[400] font-inter ml-auto text-gray-500">
                                       {country.dialCode}
                                     </span>
+                                    {selectedCountry.code === country.code && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        className="ml-2"
+                                      >
+                                        <path
+                                          d="M6.5 10.5L3.5 7.5L4.5 6.5L6.5 8.5L11.5 3.5L12.5 4.5L6.5 10.5Z"
+                                          fill="#212121"
+                                        />
+                                      </svg>
+                                    )}
                                   </div>
                                 ))}
                               </div>,
@@ -826,7 +841,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
               </div>
 
               {/* Store Information Section */}
-              <div className="bg-white border border-reloadBorder rounded-custom8px mb-4 overflow-hidden">
+              <div className="bg-white border border-reloadBorder rounded-custom8px mb-6 overflow-hidden">
                 <div className="bg-background-grey p-4 border-b border-reloadBorder">
                   <h2 className="text-cardValue font-inter font-[14px] font-[600] tracking-wide">
                     Store Information
@@ -841,7 +856,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <input
                         type="text"
                         placeholder="Queenstown Public House"
-                        className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
                         // defaultValue={storeName}
                       />
                     </div>
@@ -852,7 +867,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <input
                         type="text"
                         placeholder="#20345"
-                        className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
                         // defaultValue={storeId}
                       />
                     </div>
@@ -866,7 +881,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <input
                         type="text"
                         placeholder="6391 Elgin St. Celina, Delaware 10299"
-                        className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[500] font-inter text-paragraphBlack placeholder:paragraphBlack"
                         // defaultValue={storeAddress}
                       />
                       <span className="absolute right-2 top-1/2 transform -translate-y-1/2  text-[12px] font-[400] font-inter text-cardTitle placeholder:cardTitle">
@@ -880,7 +895,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       Store Description
                     </label>
                     <textarea
-                      className="w-full p-2 border border-reloadBorder rounded-custom text-[12px] font-[400] font-inter text-paragraphBlack placeholder:paragraphBlack h-24 resize-none"
+                      className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[400] font-inter text-paragraphBlack placeholder:paragraphBlack h-24 resize-none"
                       placeholder="Text"
                     ></textarea>
                   </div>
@@ -893,7 +908,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       <input
                         type="text"
                         placeholder="queenstown-public-house"
-                        className="w-full py-3 px-2 border border-reloadBorder rounded-custom text-[12px] font-[400] font-inter text-paragraphBlack placeholder:paragraphBlack rounded-md"
+                        className="w-full py-3 px-3 border border-reloadBorder rounded-custom text-[12px] font-[400] font-inter text-paragraphBlack placeholder:paragraphBlack rounded-md"
                         // defaultValue="queenstown-public-house"
                       />
                       <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[12px] font-[400] font-inter text-cardTitle placeholder:cardTitle">
@@ -905,7 +920,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
               </div>
 
               {/* Serving Area */}
-              <div className="bg-white border border-reloadBorder rounded-custom8px mb-4 overflow-hidden">
+              <div className="bg-white border border-reloadBorder rounded-custom8px mb-6 overflow-hidden">
                 <div className="bg-background-grey p-4 border-b border-reloadBorder">
                   <h2 className="text-cardValue font-inter font-[14px] font-[600] whitespace-nowrap">
                     Serving Area{" "}
@@ -971,7 +986,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
             </div>
 
             <div className="w-full lg:w-1/2 pl-4 mt-4">
-              <div className="bg-background-grey p-4 rounded-custom8px">
+              <div className="bg-background-grey p-5 rounded-custom8px">
                 {/* Hidden file inputs */}
                 <input
                   type="file"
@@ -999,7 +1014,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                 <div className="flex justify-center mb-5">
                   <div className="relative">
                     <div
-                      className="w-40 h-40 rounded-custom160px overflow-hidden bg-gray-200 border border-gray-300 flex items-center justify-center relative cursor-pointer"
+                      className="w-48 h-48 rounded-custom160px overflow-hidden bg-gray-200 border border-gray-300 flex items-center justify-center relative cursor-pointer"
                       onClick={handleEditProfileImage}
                     >
                       {profileImagePreview ? (
@@ -1028,7 +1043,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       )}
                     </div>
                     <button
-                      className="absolute -right-3 bottom-0 bg-white rounded-custom30px p-3 border border-reloadBorder"
+                      className="absolute -right-1 bottom-0 bg-white rounded-custom30px p-3 border border-reloadBorder"
                       onClick={handleEditProfileImage}
                     >
                       <svg
@@ -1144,7 +1159,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                   </div>
 
                   {/* Store Banner Mobile */}
-                  <h2 className="text-textHeading font-inter font-[500] text-[14px] mb-2">
+                  <h2 className="text-textHeading font-inter font-[500] text-[14px] mb-3">
                     Store Banner Mobile{" "}
                     <span className="text-headding-color font-inter font-[500] text-[14px]">
                       (320×160 pixels)
@@ -1229,7 +1244,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                 </div>
               </div>
 
-              <div className="bg-white border border-grey-border rounded-custom8px mb-4 mt-5">
+              <div className="bg-white border border-grey-border rounded-custom8px mb-4 mt-6">
                 <div className="p-4">
                   <h2 className="font-inter font-[500] text-[14px] mb-2">
                     Payment Methods
@@ -1241,7 +1256,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
 
                   <div className="grid grid-cols-3 gap-4 mt-2">
                     {/* Cash Toggle */}
-                    <div className="flex items-center">
+                    <div className="flex items-center ">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -1249,8 +1264,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.cash}
                           onChange={() => handlePaymentMethodToggle("cash")}
                         />
-                        <div className="relative w-14 h-7 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 peer-checked:translate-x-7"></div>
+                        <div
+                          className={`relative w-14 h-7 ${
+                            paymentMethods.cash ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 ${
+                              paymentMethods.cash
+                                ? "translate-x-7"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-3 text-[14px] font-[500] font-inter text-textHeading">
                           Cash
@@ -1259,7 +1284,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                     </div>
 
                     {/* PG1 Toggle */}
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -1267,8 +1292,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.pg1}
                           onChange={() => handlePaymentMethodToggle("pg1")}
                         />
-                        <div className="relative w-14 h-7 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 peer-checked:translate-x-7"></div>
+                        <div
+                          className={`relative w-14 h-7 ${
+                            paymentMethods.pg1 ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 ${
+                              paymentMethods.pg1
+                                ? "translate-x-7"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-3 text-[14px] font-[500] font-inter text-textHeading">
                           PG1
@@ -1277,7 +1312,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                     </div>
 
                     {/* PG2 Toggle */}
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -1285,8 +1320,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.pg2}
                           onChange={() => handlePaymentMethodToggle("pg2")}
                         />
-                        <div className="relative w-14 h-7 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 peer-checked:translate-x-7"></div>
+                        <div
+                          className={`relative w-14 h-7 ${
+                            paymentMethods.pg2 ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-5 h-5 rounded-full transition-all duration-300 ${
+                              paymentMethods.pg2
+                                ? "translate-x-7"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-3 text-[14px] font-[500] font-inter text-textHeading">
                           PG2
@@ -1296,7 +1341,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                   </div>
 
                   <div className="lg:hidden flex flex-wrap gap-6 mt-2">
-                    {/* Cash Toggle */}
+                    {/* Cash Toggle - Mobile */}
                     <div className="flex items-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
@@ -1305,8 +1350,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.cash}
                           onChange={() => handlePaymentMethodToggle("cash")}
                         />
-                        <div className="relative w-11 h-6 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 peer-checked:translate-x-5"></div>
+                        <div
+                          className={`relative w-11 h-6 ${
+                            paymentMethods.cash ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 ${
+                              paymentMethods.cash
+                                ? "translate-x-5"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-2 text-[12px] font-[500] font-inter text-textHeading">
                           Cash
@@ -1314,7 +1369,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       </label>
                     </div>
 
-                    {/* PG1 Toggle */}
+                    {/* PG1 Toggle - Mobile */}
                     <div className="flex items-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
@@ -1323,8 +1378,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.pg1}
                           onChange={() => handlePaymentMethodToggle("pg1")}
                         />
-                        <div className="relative w-11 h-6 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 peer-checked:translate-x-5"></div>
+                        <div
+                          className={`relative w-11 h-6 ${
+                            paymentMethods.pg1 ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 ${
+                              paymentMethods.pg1
+                                ? "translate-x-5"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-2 text-[12px] font-[500] font-inter text-textHeading">
                           PG1
@@ -1332,7 +1397,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                       </label>
                     </div>
 
-                    {/* PG2 Toggle */}
+                    {/* PG2 Toggle - Mobile */}
                     <div className="flex items-center">
                       <label className="inline-flex items-center cursor-pointer">
                         <input
@@ -1341,8 +1406,18 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                           checked={paymentMethods.pg2}
                           onChange={() => handlePaymentMethodToggle("pg2")}
                         />
-                        <div className="relative w-11 h-6 bg-gray-300 peer-checked:bg-purple-600 rounded-full transition">
-                          <div className="absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 peer-checked:translate-x-5"></div>
+                        <div
+                          className={`relative w-11 h-6 ${
+                            paymentMethods.pg2 ? "bg-bgButton" : "bg-gray-300"
+                          } peer-focus:outline-none rounded-full transition-colors`}
+                        >
+                          <div
+                            className={`absolute inset-y-1 left-1 bg-white w-4 h-4 rounded-full transition-all duration-300 ${
+                              paymentMethods.pg2
+                                ? "translate-x-5"
+                                : "translate-x-0"
+                            }`}
+                          ></div>
                         </div>
                         <span className="ml-2 text-[12px] font-[500] font-inter text-textHeading">
                           PG2
@@ -1355,7 +1430,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
             </div>
             <div className="w-full">
               {/* Featured Listing Toggle from the second image */}
-              <div className="bg-white border border-reloadBorder rounded-custom8px mb-4">
+              <div className="bg-white border border-reloadBorder rounded-custom8px mb-6">
                 <div className="p-4">
                   <div className="flex items-center mb-2">
                     <button
@@ -1808,12 +1883,26 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                               {timeOptions.map((time) => (
                                 <div
                                   key={time}
-                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter"
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter flex justify-between items-center"
                                   onClick={() =>
                                     handleTimeSelect(time, "startTime")
                                   }
                                 >
                                   {time}
+                                  {selectedTimes.startTime === time && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 16 16"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M6.5 10.5L3.5 7.5L4.5 6.5L6.5 8.5L11.5 3.5L12.5 4.5L6.5 10.5Z"
+                                        fill="#212121"
+                                      />
+                                    </svg>
+                                  )}
                                 </div>
                               ))}
                             </div>
@@ -1846,10 +1935,7 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                               setEndTimeDropdownOpen(!endTimeDropdownOpen)
                             }
                           >
-                            <span
-                              className="text-[12px] font-[500] font-inter text-headding-color tracking-widest
-"
-                            >
+                            <span className="text-[12px] font-[500] font-inter text-headding-color tracking-widest">
                               {selectedTimes.endTime}
                             </span>
                             <svg
@@ -1878,12 +1964,26 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                               {timeOptions.map((time) => (
                                 <div
                                   key={time}
-                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter"
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter flex justify-between items-center"
                                   onClick={() =>
                                     handleTimeSelect(time, "endTime")
                                   }
                                 >
                                   {time}
+                                  {selectedTimes.endTime === time && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 16 16"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M6.5 10.5L3.5 7.5L4.5 6.5L6.5 8.5L11.5 3.5L12.5 4.5L6.5 10.5Z"
+                                        fill="#212121"
+                                      />
+                                    </svg>
+                                  )}
                                 </div>
                               ))}
                             </div>
@@ -1949,13 +2049,27 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
                               ].map((option) => (
                                 <li
                                   key={option}
-                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter"
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-[14px] font-inter flex justify-between items-center"
                                   onClick={() => {
                                     setSelectedFilter(option);
                                     setShowAllDropdown(false);
                                   }}
                                 >
                                   {option}
+                                  {selectedFilter === option && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 16 16"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M6.5 10.5L3.5 7.5L4.5 6.5L6.5 8.5L11.5 3.5L12.5 4.5L6.5 10.5Z"
+                                        fill="#212121"
+                                      />
+                                    </svg>
+                                  )}
                                 </li>
                               ))}
                             </ul>
@@ -2342,13 +2456,22 @@ const StoreDetailPage: React.FC<StoreDetailPageProps> = ({
       {activeTab === "catalogue" && (
         <div className="bg-white ">
           {/* <p>Catalogue content goes here...</p> */}
-          <Category hideHeader={true} hideScrollbar={true} />
+          <Category
+            hideHeader={true}
+            hideScrollbar={true}
+            normalBorder={true}
+          />
         </div>
       )}
-      <div className="bg-white mx-3">
+      <div className="bg-white mx-4">
         <div className="mt-0 px-5 md:w-2/3 bg-white mx-0 p-5">
           {activeTab === "configurations" && (
-            <Store onClose={() => {}} onSave={() => {}} hideHeader={true} />
+            <Configurations
+            onClose={() => {}}
+            onSave={() => {}}
+            onCancel={() => {}}
+            hideHeader={true}
+          />
           )}
         </div>
       </div>

@@ -25,10 +25,12 @@ import Product from "../../../lib/Images/product.png";
 interface CategoryProps {
   hideHeader?: boolean;
   hideScrollbar?: boolean; // Add new prop for controlling scrollbar
+  normalBorder?: boolean;
 }
 const Category: React.FC<CategoryProps> = ({ 
   hideHeader = false, 
-  hideScrollbar = false 
+  hideScrollbar = false,
+  normalBorder = false
 }) => {
   interface ProductViewProps {
     selectedItem: SelectedItemType | null;
@@ -645,7 +647,7 @@ const Category: React.FC<CategoryProps> = ({
          )}
 
       {/* Search and action buttons - Hide on mobile */}
-      <div className="hidden md:flex justify-between items-center px-2 py-2 mx-4 rounded-custom10px p-4 bg-backgroundWhite">
+      <div className={`hidden md:flex justify-between items-center px-2 py-2 mx-4 ${normalBorder ?"rounded-bl-custom10px rounded-br-custom10px" : "rounded-custom10px"} p-4 bg-backgroundWhite`}>
         {/* Search input */}
         <div className="relative w-full sm:w-auto sm:flex-1 max-w-lg">
           <input

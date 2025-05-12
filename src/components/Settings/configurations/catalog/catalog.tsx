@@ -337,7 +337,7 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
   return (
     <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 mt-0 sm:mt-6 md:mt-6 lg:mt-8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
+      <div className="flex justify-between items-center p-4 mt-0 sm:mt-4 md:mt-4 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <h1 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
           Catalog
         </h1>
