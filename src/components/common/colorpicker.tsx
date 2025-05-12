@@ -31,7 +31,7 @@ const ColorPicker: React.FC<{
   // Color picker component that we'll reuse
   const ColorPickerControl = () => (
     <div 
-      className="flex items-center border border-reloadBorder px-2 rounded-md overflow-hidden cursor-pointer"
+      className="flex items-center border border-reloadBorder px-2 rounded-md overflow-hidden cursor-pointer mb-4 md:mb-0 sm:mb-0 lg:mb-0 xl:mb-0"
       onClick={handleClick}
     >
       <input 
@@ -62,7 +62,7 @@ const ColorPicker: React.FC<{
             <ColorPickerControl />
           </div>
           {description && (
-            <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2 pr-2">
+            <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2 pr-2 font-[500]">
               {description}
             </p>
           )}
@@ -76,7 +76,7 @@ const ColorPicker: React.FC<{
             <h3 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[500] text-textHeading mb-1 ">{label}</h3>
             
             {description && (
-              <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter text-cardTitle mb-2 pr-2">
+              <p className="text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter font-[500] text-cardTitle mb-2 pr-2 ">
                 {description}
               </p>
             )}

@@ -552,16 +552,16 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
   );
 
   return (
-    <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 max-w-full rounded-custom12px sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 max-w-full rounded-custom12px sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center py-2 mt-0 sm:mt-6 md:mt-8 lg:mt-12">
+      <div className="flex justify-between items-center py-2 mt-0 sm:mt-8 md:mt-8 mb-2">
         <h1 className="text-[14px] font-inter font-[600] text-headding-color">
           Policies & Pages
         </h1>
       </div>
 
       {/* Main content */}
-      <div className="p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0">
+      <div className="p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0">
         {/* Policies Section */}
         <div className="bg-backgroundWhite p-5 rounded-custom12px">
           <div className="flex justify-between items-center mb-2">
@@ -599,7 +599,10 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
 
       {/* Full-width Modal for Policy editing */}
       {isModalOpen && modalMode !== "delete" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-50 p-4" style={{ 
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#d1d5db transparent'
+        }}>
           <div className="bg-white w-full rounded-lg shadow-lg overflow-hidden mt-[90%] md:mt-12 sm:mt-12 lg:mt-12 xl:mt-12">
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
               <h2 className="text-[16px] font-[600] font-inter text-black">
@@ -608,7 +611,7 @@ const PoliciesAndPages: React.FC<PoliciesAndPagesProps> = ({
               <div className="flex gap-4">
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-[12px] font-inter font-[500] text-cardValue bg-backgroundWhite"
+                  className="px-4 py-2 text-[12px] font-inter font-[600] text-cardValue bg-backgroundWhite"
                 >
                   Discard
                 </button>

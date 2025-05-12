@@ -4,6 +4,7 @@ interface LanguageOption {
   label: string;
   checked?: boolean;
 }
+
 const ArrowsIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -96,6 +97,7 @@ const InfoIcon = () => (
   </svg>
 );
 const LanguagesForm: React.FC = () => {
+  type LanguageKey = "english" | "spanish" | "french";
   const [languages, setLanguages] = useState<LanguageOption[]>([
     { value: "latvian", label: "Latvian", checked: true },
     { value: "mongolian", label: "Mongolian", checked: false },
@@ -156,6 +158,16 @@ const LanguagesForm: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Update your state variables to use this type
+  const [websiteLanguage, setWebsiteLanguage] =
+    useState<LanguageKey>("english");
+  const [adminLanguage, setAdminLanguage] = useState<LanguageKey>("english");
+  // Language display mapping
+  const languageDisplay: Record<LanguageKey, string> = {
+    english: "English",
+    spanish: "Spanish",
+    french: "French",
+  };
   const handleLanguageToggle = (value: string) => {
     setLanguages(
       languages.map((lang) =>
@@ -167,26 +179,50 @@ const LanguagesForm: React.FC = () => {
   const filteredLanguages = languages.filter((lang) =>
     lang.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  const handleLanguageChange = (language: string, context: string) => {
+    // Validate that the language is a valid key
+    if (language as LanguageKey) {
+      if (context === "website") {
+        console.log(`Website language changed to: ${language}`);
+        setWebsiteLanguage(language as LanguageKey);
+      } else if (context === "admin") {
+        console.log(`Admin dashboard language changed to: ${language}`);
+        setAdminLanguage(language as LanguageKey);
+      }
+    }
+  };
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-2 sm:p-2 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
+    <div className="max-w-full rounded-custom12px p-1 md:p-2 sm:p-2 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mt-0 sm:mt-9 md:mt-10">
       <h2 className="text-[14px] font-inter font-[600] text-headding-color mb-3">
         Languages
       </h2>
 
       <div className="space-y-4 ">
-        <div className="bg-backgroundWhite rounded-custom p-6">
+        <div className="bg-backgroundWhite rounded-custom p-3">
           <label className="block text-[12px] font-inter font-[500] text-paragraphBlack mb-3">
             Published language for website
           </label>
           <div className="relative">
-            <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center cursor-pointer">
+            {/* Hidden actual select for functionality */}
+            <select
+              className="absolute opacity-0 w-full h-full cursor-pointer z-10"
+              onChange={(e) => handleLanguageChange(e.target.value, "website")}
+              value={websiteLanguage}
+            >
+              <option value="english" className="ext-[12px] font-inter font-[500] text-paragraphBlack">English</option>
+              <option value="spanish" className="ext-[12px] font-inter font-[500] text-paragraphBlack">Spanish</option>
+              <option value="french" className="ext-[12px] font-inter font-[500] text-paragraphBlack">French</option>
+            </select>
+
+            {/* Visual representation */}
+            <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center">
               <span className="bg-subMenus font-inter text-headding-color px-2.5 py-0.5 font-[600] text-[12px] rounded-custom8px inline-block min-w-[60px] text-center">
                 Default
-              </span> &nbsp;&nbsp;
-
-
-              <span className="text-menuSubHeadingColor font-inter"> English</span>
+              </span>{" "}
+              &nbsp;&nbsp;
+              <span className="text-menuSubHeadingColor font-inter">
+                {languageDisplay[websiteLanguage]}
+              </span>
               <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                 <ArrowsIcon />
               </div>
@@ -198,12 +234,26 @@ const LanguagesForm: React.FC = () => {
               Published language for admin dashboard
             </label>
             <div className="relative">
-              <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center cursor-pointer">
+              {/* Hidden actual select for functionality */}
+              <select
+                className="absolute opacity-0 w-full h-full cursor-pointer z-10"
+                onChange={(e) => handleLanguageChange(e.target.value, "admin")}
+                value={adminLanguage}
+              >
+                <option value="english" className="ext-[12px] font-inter font-[500] text-paragraphBlack">English</option>
+                <option value="spanish" className="ext-[12px] font-inter font-[500] text-paragraphBlack">Spanish</option>
+                <option value="french" className="ext-[12px] font-inter font-[500] text-paragraphBlack">French</option>
+              </select>
+
+              {/* Visual representation */}
+              <div className="w-full p-3 pl-4 pr-10 font-inter appearance-none border border-reloadBorder rounded-custom8px text-[12px] bg-white flex items-center">
                 <span className="bg-subMenus font-inter text-headding-color px-2.5 py-0.5 font-[600] text-[12px] rounded-custom8px inline-block min-w-[60px] text-center">
                   Default
-                </span> &nbsp;&nbsp;
-
-                <span className="text-reloadBorder font-inter"> English</span>
+                </span>{" "}
+                &nbsp;&nbsp;
+                <span className="text-reloadBorder font-inter">
+                  {languageDisplay[adminLanguage]}
+                </span>
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
                   <ArrowsIcon />
                 </div>
@@ -274,8 +324,6 @@ const LanguagesForm: React.FC = () => {
             ))}
           </div>
         </div>
-
-
       </div>
       <div className="mt-8 bg-backgroundWhite p-6">
         <div className="flex items-center justify-between mb-4">

@@ -397,7 +397,7 @@ const SettingsComponent: React.FC = () => {
   return (
     <div className="h-[calc(100vh-64px)] flex gap-1 bg-background-grey overflow-y-auto">
       {/* Left Panel - Fixed */}
-      <div className="w-[290px] p-5 py-6">
+      <div className="w-[290px] max-h-full h-[700px] p-5 py-6">
         <h2 className="text-[20px] font-[600] font-inter text-cardValue mb-6">General</h2>
         <div className="space-y-2 bg-backgroundWhite p-4 pb-20  rounded-custom">
           {menuItems.map((item) => (

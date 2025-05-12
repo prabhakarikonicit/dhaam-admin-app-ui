@@ -64,9 +64,9 @@ const DomainIcon = () => (
 
 const AccountForm: React.FC  = () => {
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-2 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
 
-      <div className="flex justify-between items-center mb-3 mt-0 sm:mt-6 md:mt-8 lg:mt-12">
+      <div className="flex justify-between items-center mb-3 mt-0 sm:mt-9 md:mt-9">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Account Details
         </h2>

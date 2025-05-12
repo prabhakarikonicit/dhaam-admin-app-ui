@@ -45,8 +45,8 @@ const CustomerAppDesign: React.FC = () => {
   };
 
   return (
-    <div className="p-0 max-w-full rounded-lg p-1 md:p-0  lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-      <div className="flex justify-between items-center mb-6 mt-0 sm:mt-10 md:mt-10 lg:mt-10 xl:10 md:px-1 sm:px-1 lg:px-1 xl:px-1">
+    <div className="max-w-full rounded-lg p-1 md:p-0  lg:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+      <div className="flex justify-between items-center mb-5 mt-0 sm:mt-7 md:mt-8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <h1 className="md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] text-[12px] font-inter font-[600] text-headding-color">Branding</h1>
         <div className="flex space-x-2">
           <button className="px-4 py-2 text-[12px] font-inter font-[600] text-paragraphBlack">Discard</button>

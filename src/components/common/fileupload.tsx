@@ -70,12 +70,12 @@ const FileUpload: React.FC<{
 
         {fileInfo ? (
           <div
-            className={`border-2 border rounded-md p-3 flex items-center ${label.toLowerCase().includes("favicon")
-                ? "w-[50%] md:w-[40%] lg:w-[30%]" // Custom width for favicon
-                : "w-full" // Default width
+            className={`border-2 border rounded-md p-3  flex items-center ${label.toLowerCase().includes("favicon")
+                ? "w-[50%] md:w-[40%] lg:w-[40%]" // Custom width for favicon
+                : "w-full md:w-[60%] lg:w-[60%] " // Default width
               }`}
           >
-            <div className="flex items-center flex-1">
+            <div className="flex items-center flex-1 ">
               {label.toLowerCase().includes("favicon") ? (
                 <div className="w-12 h-12 bg-red-100 flex items-center justify-center rounded mr-2">
                   <span className="text-red-600 text-lg font-bold">A</span>

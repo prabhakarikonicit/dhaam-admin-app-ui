@@ -188,8 +188,8 @@ const BillingForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0">
-      <div className="flex justify-between items-center mb-8 mt-0 sm:mt-6 md:mt-8 lg:mt-12 xl-mt-12">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible mb-0">
+      <div className="flex justify-between items-center mb-6 mt-0 sm:mt-10 md:mt-10">
         <h2 className="text-[14px] font-inter font-[600] text-headding-color">
           Billing
         </h2>
@@ -325,7 +325,7 @@ const BillingForm: React.FC = () => {
         title="Billing Details"
         fields={billingFields}
         onSave={handleSaveBilling}
-        size="xl"
+        size="md"
         confirmText="Save"
         customFooter={
           <div className="w-full flex flex-col gap-6">
@@ -473,7 +473,7 @@ const BillingForm: React.FC = () => {
       {/* Add New Card Modal */}
       {isAddCardModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl w-full max-w-4xl shadow-xl rounded-t-3xl">
+          <div className="bg-white rounded-2xl w-full m-4 max-w-3xl shadow-xl rounded-t-3xl">
             {" "}
             {/* Slightly wider */}
             <div className="px-6 py-4 flex justify-between bg-background-grey items-center border-b border-gray-200 rounded-t-3xl">

@@ -221,8 +221,8 @@ const Payment: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
-        <div className="flex justify-between items-center p-0 mb-6 mt-0 sm:mt-6 md:mt-8 lg:mt-12">
+      <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[70vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+        <div className="flex justify-between items-center p-0 mb-4 mt-0 sm:mt-9 md:mt-9">
           <h2 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
             Payment Gateway 
           </h2>
@@ -443,7 +443,7 @@ const Payment: React.FC = () => {
                   ? "Edit"
                   : "View"
               } Payment Gateway`}
-            size="lg"
+            size="md"
             showToggle={modalMode !== "add"}
             toggleLabel="Gateway Active"
           />
@@ -451,7 +451,7 @@ const Payment: React.FC = () => {
           {/* Custom Gateway Modal */}
           {isCustomModalOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
-          <div className="bg-white rounded-custom18px w-full max-w-lg sm:max-w-xl lg:max-w-[600px]">
+          <div className="bg-white rounded-custom18px w-full max-w-md sm:max-w-xl lg:max-w-[600px]">
                 <div className=" bg-background-grey flex justify-between items-center p-4 rounded-t-custom18px">
                   <h3 className="text-[16px] font-inter font-[600] text-[#000000]">
                     Add Payment Gateway

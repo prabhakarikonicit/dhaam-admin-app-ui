@@ -4,17 +4,20 @@ import ToggleSwitch from "./toggleSwitch";
 interface CardProps {
   title: string;
   description?: string;
+  showBorder?: boolean;
   toggleChecked?: boolean;
   onToggleChange?: (e: React.MouseEvent) => void;
   children?: React.ReactNode;
 }
 interface DeliveryModeProps {
   onSave?: () => void;
+  showBorder?:boolean;
 }
 
 // Main DeliveryMode Component
 export const DeliveryMode: React.FC<DeliveryModeProps> = ({
   onSave = () => {},
+  showBorder = false,
 }) => {
   // State for delivery modes and other settings
   const [settings, setSettings] = useState({
@@ -60,7 +63,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
   return (
     <div className="space-y-4">
       {/* Delivery Mode Card */}
-      <div className="bg-white rounded-lg p-6">
+      <div className={`bg-white rounded-custom12px p-6 ${showBorder ? "border border-reloadBorder rounded-custom12px": ""}`}>
         <div className="mb-4">
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">
             Delivery Mode
@@ -81,7 +84,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
                 id="takeaway"
                 checked={settings.takeAway}
                 onChange={() => toggleSetting("takeAway")}
-                className="appearance-none h-5 w-5 rounded-md border border-gray-300 
+                className="appearance-none h-5 w-5 rounded-md border border-cardValue 
                   checked:bg-bgButton checked:border-bgButton focus:outline-none"
               />
               {settings.takeAway && (
@@ -117,7 +120,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
                 id="homeDelivery"
                 checked={settings.homeDelivery}
                 onChange={() => toggleSetting("homeDelivery")}
-                className="appearance-none h-5 w-5 rounded-md border border-gray-300 
+                className="appearance-none h-5 w-5 rounded-md border border-cardValue 
                   checked:bg-bgButton checked:border-bgButton focus:outline-none"
               />
               {settings.homeDelivery && (
@@ -157,12 +160,13 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
               placeholder="Enter Slot"
               value={slotInterval}
               onChange={handleSlotIntervalChange}
-              className="w-full border rounded-md px-3 py-2 border border-reloadBorder text-[12px] font-inter font-[400] text-reloadBorder rounded-custom8px focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full border rounded-md px-3 py-4 border border-reloadBorder text-[14px] font-inter font-[400] text-reloadBorder rounded-custom8px focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
         )}
 
         {/* Save Button */}
+        {!showBorder && (
         <div className="flex justify-end mt-4">
           <button
             onClick={handleSave}
@@ -171,18 +175,24 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
             Save
           </button>
         </div>
+        ) }
       </div>
 
       {/* Delivery Manager Card */}
-      <div className="bg-white rounded-lg p-6">
+      {!showBorder && (
+      <div className="bg-white rounded-custom12px p-6">
         <div className="flex justify-between items-center mb-2">
           <div>
             <h2 className="text-[14px] font-inter font-[500] text-textHeading">
               Delivery Manager
             </h2>
-            <p className="text-[12px] font-inter font-[500] text-cardTitle">
+            <p className="hidden md:block text-[12px] font-inter font-[500] text-cardTitle">
               Configure delivery management settings for order fulfillment and
               logistics.
+            </p>
+            <p className="block md:hidden text-[12px] font-inter font-[500] text-cardTitle">
+              Configure delivery management settings <br />
+              for order fulfillment and logistics.
             </p>
           </div>
           <ToggleSwitch
@@ -196,7 +206,8 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
         {settings.deliveryManager && (
           <div className="mt-4 space-y-4">
             <div className="flex items-center">
-              <div className="relative">
+              {/* Admin radio button */}
+              <div className="relative flex items-center">
                 <input
                   type="radio"
                   id="admin"
@@ -206,24 +217,26 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
                   className="sr-only"
                 />
                 <div
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                  onClick={() => setDeliveryManagement("admin")}
+                  className={`w-6 h-6 rounded-full border flex items-center justify-center cursor-pointer ${
                     settings.deliveryManagement === "admin"
-                      ? "border-1 border-bgButton"
-                      : "border border-gray-300"
+                      ? "border-1 border-bgButton rounded-custom36px"
+                      : "border border-cardValue rounded-custom28px"
                   }`}
                 >
                   {settings.deliveryManagement === "admin" && (
-                    <div className="w-2 h-2 rounded-full bg-bgButton"></div>
+                    <div className="w-3.5 h-3.5 rounded-full bg-bgButton"></div>
                   )}
                 </div>
+                <label
+                  htmlFor="admin"
+                  className="ml-3 text-[14px] font-inter font-[500] text-textHeading cursor-pointer"
+                >
+                  Admin
+                </label>
               </div>
-              <label
-                htmlFor="admin"
-                className="ml-3 text-[14px] font-inter font-[500] text-textHeading"
-              >
-                Admin
-              </label>
 
+              {/* Store radio button */}
               <div className="flex ml-4 items-center">
                 <div className="relative">
                   <input
@@ -235,20 +248,21 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
                     className="sr-only"
                   />
                   <div
-                    className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                    onClick={() => setDeliveryManagement("store")}
+                    className={`w-6 h-6 border flex items-center justify-center cursor-pointer ${
                       settings.deliveryManagement === "store"
-                        ? "border-1 border-bgButton"
-                        : "border border-gray-300"
+                        ? "border-1 border-bgButton rounded-custom36px"
+                        : "border border-cardValue rounded-custom28px"
                     }`}
                   >
                     {settings.deliveryManagement === "store" && (
-                      <div className="w-2 h-2 rounded-full bg-bgButton"></div>
+                      <div className="w-3.5 h-3.5 rounded-custom bg-bgButton"></div>
                     )}
                   </div>
                 </div>
                 <label
                   htmlFor="store"
-                  className="ml-3 text-[14px] font-inter font-[500] text-textHeading"
+                  className="ml-3 text-[14px] font-inter font-[500] text-textHeading cursor-pointer"
                 >
                   Store
                 </label>
@@ -257,40 +271,7 @@ export const DeliveryMode: React.FC<DeliveryModeProps> = ({
           </div>
         )}
       </div>
-
-      {/* Custom Order Fields Card */}
-      <div className="bg-white rounded-lg p-6">
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center space-x-2">
-            <h2 className="text-[14px] font-inter font-[500] text-textHeading">
-              Custom Order Fields
-            </h2>
-            <button className="rounded-full p-1 border border-gray-300 text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-          <ToggleSwitch
-            checked={settings.customOrderFields}
-            onChange={() => toggleSetting("customOrderFields")}
-            aria-labelledby="custom-order-fields"
-          />
-        </div>
-
-        <p className="text-[12px] font-inter font-[500] text-cardTitle">
-          Allow customers to enter additional information during checkout.
-        </p>
-      </div>
+      )}
     </div>
   );
 };
@@ -406,7 +387,7 @@ export const ToggleCard: React.FC<CardProps> = ({
               </p>
             )}
           </div>
-
+  
           <div className="flex items-center space-x-4">
             <ToggleSwitch
               checked={toggleChecked}
@@ -418,24 +399,24 @@ export const ToggleCard: React.FC<CardProps> = ({
             {actionButton}
           </div>
         </div>
-        <div className="mt-2">
-          <h2 className="text-[14px] font-inter font-[500] text-textHeading leading-[21px] mb-2">
-            {title}
-          </h2>
-        </div>
-        <div>
-          {input && (
-            <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-4">
-              {input}
-            </h3>
-          )}
-
-          <input
-            type="text"
-            className="w-full border border-reloadBorder bg-backgroundWhite rounded-custom8px px-3 py-2 text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-500 font-inter font-[400]"
-            placeholder="Enter the maximum order limit per slot"
-          />
-        </div>
+        
+        {toggleChecked && (
+          <>
+            <div className="mt-4">
+              <h3 className="text-[14px] font-inter font-[500] text-textHeading leading-[21px] mb-2">
+                {input}
+              </h3>
+            </div>
+            <div>
+              <input
+                type="text"
+                className="w-full border border-reloadBorder bg-backgroundWhite rounded-custom8px px-3 py-4 text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-500 font-inter font-[400]"
+                placeholder="Enter the maximum order limit per slot"
+              />
+            </div>
+          </>
+        )}
+        
         {children && <div className="mt-4">{children}</div>}
       </div>
     );
@@ -474,7 +455,9 @@ interface CardProps {
   title: string;
   description?: string;
   input?: string;
+  showBorder?: boolean;
   placeholder?: string;
+
   toggleChecked?: boolean;
   onToggleChange?: (e: React.MouseEvent) => void;
   actionButton?: React.ReactNode; // Added the actionButton property
@@ -485,10 +468,11 @@ interface CardProps {
 // InputCard component - this appears to already exist in your code as InputCardDemo
 export const InputCard: React.FC<CardProps> = ({
   title,
+  showBorder=false,
   placeholder = "Enter amount",
 }) => {
   return (
-    <div className="rounded-custom12px p-6 bg-white">
+    <div className={`rounded-custom12px p-6 bg-white ${showBorder ? "border border-reloadBorder": ""}`}>
       <h2 className="text-[14px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px]  font-inter font-[500] text-textHeading">
         {title}
       </h2>
@@ -496,7 +480,7 @@ export const InputCard: React.FC<CardProps> = ({
         <input
           type="text"
           placeholder={placeholder}
-          className="w-full border border-reloadBorder bg-backgroundWhite rounded-custom8px px-3 py-2 text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-500 font-inter font-[400] placeholder:text-reloadBorder"
+          className="w-full border border-reloadBorder bg-backgroundWhite rounded-custom8px px-3 py-4 text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-500 font-inter font-[400] placeholder:text-reloadBorder"
         />
       </div>
     </div>
@@ -504,11 +488,12 @@ export const InputCard: React.FC<CardProps> = ({
 };
 
 // InputCardGrid component
-export const InputCardGrid: React.FC<{ cards: CardProps[] }> = ({ cards }) => {
+export const InputCardGrid: React.FC<{ cards: CardProps[], showBorder?: boolean }> = ({ cards, showBorder = false  }) => {
   return (
-    <div className="grid md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 grid-cols-1 gap-4 ">
+    <div className="grid md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 grid-cols-2 gap-4 ">
       {cards.map((card, index) => (
         <InputCard
+        showBorder={showBorder}
           key={index}
           title={card.title}
           placeholder={card.placeholder}
@@ -527,7 +512,7 @@ export const TimeInput: React.FC<{ placeholder: string }> = ({
       <input
         type="text"
         placeholder={placeholder}
-        className="w-full border border-reloadBorder rounded-custom8px px-3 py-2 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500"
+        className="w-full border border-reloadBorder rounded-custom8px px-3 py-3 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
         <svg
@@ -567,9 +552,11 @@ export const DisplayStoreTimingCard: React.FC<{
 // Order Placement Email Notification Card
 export const EmailNotificationCard: React.FC<{
   checked: boolean;
+  showBorder?: boolean;
   onChange: (e: React.MouseEvent) => void;
-}> = ({ checked, onChange }) => {
+}> = ({ checked, onChange, showBorder=false }) => {
   return (
+    <div className={`${showBorder ? "border border-reloadBorder rounded-custom12px": ""}`}>
     <ToggleCard
       title="Order Placement Email Notification"
       description="Send an email confirmation when an order is placed."
@@ -580,6 +567,7 @@ export const EmailNotificationCard: React.FC<{
         View Email Template
       </button>
     </ToggleCard>
+    </div>
   );
 };
 
@@ -592,6 +580,7 @@ export const DynamicCards: React.FC<{
   maxOrderLabel?: string;
   maxOrderPlaceholder?: string;
   value?: string;
+  showBorder?: boolean;
   actionButton?: React.ReactNode;
   variant?: "default" | "compact" | "WithInputBelow";
   onValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -602,33 +591,37 @@ export const DynamicCards: React.FC<{
   description = "Set the maximum number of orders allowed per time slot.",
   actionButton = null,
   variant = "default",
-  // maxOrderLabel = "Max Orders per Slot",
-  // maxOrderPlaceholder = "Enter the maximum order limit per slot",
-  // value = "",
-  // onValueChange = () => {}
+  showBorder= false,
+  maxOrderLabel = "Max Orders per Slot",
+  maxOrderPlaceholder = "Enter the maximum order limit per slot",
+  value = "",
+  onValueChange = () => {}
 }) => {
   return (
+    <div className={`${showBorder? "border border-reloadBorder rounded-custom12px": ""}`}>
     <ToggleCard
-      title={title}
-      description={description}
-      toggleChecked={checked}
-      onToggleChange={onChange}
-      actionButton={actionButton}
-      variant={variant}
+    title={title}
+    description={description}
+    toggleChecked={checked}
+    onToggleChange={onChange}
+    actionButton={actionButton}
+    variant={variant}
+    input={maxOrderLabel}
     >
-      {/* {checked && (
+       {checked && variant !== "WithInputBelow" && (
         <div>
-          <h3 className="font-medium mb-2 ">{maxOrderLabel}</h3>
+          <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-2">{maxOrderLabel}</h3>
           <input
             type="text"
             placeholder={maxOrderPlaceholder}
             value={value}
             onChange={onValueChange}
-            className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 "
+            className="w-full border border-reloadBorder bg-backgroundWhite rounded-custom8px px-3 py-4 text-[14px] focus:outline-none focus:ring-2 focus:ring-purple-500 font-inter font-[400]"
           />
         </div>
-      )} */}
+      )}
     </ToggleCard>
+    </div>
   );
 };
 // Order Control Card with Product Multi-Selection
@@ -637,14 +630,17 @@ export const OrderControlCard: React.FC<{
   onOrderControlChange: (e: React.MouseEvent) => void;
   productMultiSelectionChecked: boolean;
   onProductMultiSelectionChange: (e: React.MouseEvent) => void;
+  showBorder?: boolean;
 }> = ({
   orderControlChecked,
   onOrderControlChange,
   productMultiSelectionChecked,
   onProductMultiSelectionChange,
+  showBorder = false,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 mb-4">
+    <div className={`bg-white rounded-custom12px  mb-4 ${showBorder? "mx-1" : "p-6"}`}>
+      <div className={`${showBorder ? "border border-reloadBorder rounded-custom12px p-5" : " "}`}>
       <div className="flex justify-between items-center mb-2">
         <div>
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">
@@ -669,7 +665,7 @@ export const OrderControlCard: React.FC<{
           <TimeInput placeholder="Enter Time" />
         </div>
       )}
-
+      </div>
       <div className="pt-6 border-t">
         <div className="flex justify-between items-center">
           <div>
@@ -677,8 +673,8 @@ export const OrderControlCard: React.FC<{
               Product Multi-Selection
             </h2>
             <p className="text-[12px] font-inter font-[500] text-cardTitle">
-              Allow customers to select multiple products within a category or
-              option group.
+              Allow customers to select multiple products
+              <br /> within a category or option group.
             </p>
           </div>
           <ToggleSwitch
@@ -734,60 +730,79 @@ export const StoreTimingAvailability = ({
       <div className="bg-backgroundWhite rounded-bl-custom8px rounded-br-custom8px border border-reloadBorder p-4 ">
         {/* Day Options */}
         <div className="py-4">
-  {dayOptions.map((option, index) => (
-    <div key={option.id} className={`py-3 ${index === 0 ? 'border-b border-grey-border' : ''}`}>
-      <label className="flex items-center cursor-pointer">
-        <div className="relative flex items-center">
-          <input
-            type="radio"
-            name="dayOption"
-            checked={selectedDayOption === option.id}
-            onChange={() => setSelectedDayOption(option.id)}
-            className="appearance-none checked:border-bgButton checked:border-1 w-5 h-5 rounded-full border border-gray-300 "
-          />
-          {selectedDayOption === option.id && (
-            <div className="absolute w-3 h-3 rounded-full bg-bgButton left-1 top-1"></div>
-          )}
+          {dayOptions.map((option, index) => (
+            <div
+              key={option.id}
+              className={`py-3 ${
+                index === 0 ? "border-b border-grey-border" : ""
+              }`}
+            >
+              <label className="flex items-center cursor-pointer">
+                <div className="relative flex items-center">
+                  <input
+                    type="radio"
+                    name="dayOption"
+                    checked={selectedDayOption === option.id}
+                    onChange={() => setSelectedDayOption(option.id)}
+                    className="sr-only"
+                  />
+                  <div
+                    className={`w-6 h-6 rounded-custom36px border mr-2 flex items-center justify-center ${
+                      selectedDayOption === option.id
+                        ? "border-1 border-bgButton"
+                        : "border border-cardValue  rounded-custom28px"
+                    }`}
+                  >
+                    {selectedDayOption === option.id && (
+                      <div className="w-3.5 h-3.5 rounded-custom36px bg-bgButton"></div>
+                    )}
+                  </div>
+                </div>
+                <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px] ">
+                  {option.label}
+                </span>
+              </label>
+            </div>
+          ))}
         </div>
-        <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px] ">
-          {option.label}
-        </span>
-      </label>
-    </div>
-  ))}
-</div>
 
         {/* Time Options */}
         <div className="border-t border-reloadBorder py-4">
-        {timeOptions.map((option, index) => (
-  <div key={option.id} className={`py-3 ${index === 0 ? 'border-b border-grey-border' : ''}`}>
-    <label className="flex items-center cursor-pointer">
-      <div className="relative">
-        <input
-          type="radio"
-          name="timeOption"
-          checked={selectedTimeOption === option.id}
-          onChange={() => setSelectedTimeOption(option.id)}
-          className="sr-only"
-        />
-        <div
-          className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-            selectedTimeOption === option.id
-              ? "border-1 border-[#7E3AF2]"
-              : "border border-gray-300"
-          }`}
-        >
-          {selectedTimeOption === option.id && (
-            <div className="w-3 h-3 rounded-full bg-[#7E3AF2]"></div>
-          )}
-        </div>
-      </div>
-      <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px]">
-        {option.label}
-      </span>
-    </label>
-  </div>
-))}
+          {timeOptions.map((option, index) => (
+            <div
+              key={option.id}
+              className={`py-3 ${
+                index === 0 ? "border-b border-grey-border" : ""
+              }`}
+            >
+              <label className="flex items-center cursor-pointer">
+                <div className="relative">
+                  <input
+                    type="radio"
+                    name="timeOption"
+                    checked={selectedTimeOption === option.id}
+                    onChange={() => setSelectedTimeOption(option.id)}
+                    className="sr-only"
+                  />
+
+                  <div
+                    className={`w-6 h-6 rounded-full border flex items-center justify-center ${
+                      selectedTimeOption === option.id
+                        ? "border-1 border-[#7E3AF2]"
+                        : "border border-cardValue  rounded-custom28px"
+                    }`}
+                  >
+                    {selectedTimeOption === option.id && (
+                      <div className="w-3.5 h-3.5 rounded-full bg-[#7E3AF2]"></div>
+                    )}
+                  </div>
+                </div>
+                <span className="ml-3 text-textHeading font-inter text-[14px] font-[500] leading-[21px]">
+                  {option.label}
+                </span>
+              </label>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -796,6 +811,7 @@ export const StoreTimingAvailability = ({
 // Scheduled Order Time Range Card
 export const ScheduledOrderCard: React.FC<{
   timeRangeChecked: boolean;
+  showBorder?: boolean;
   onTimeRangeChange: (e: React.MouseEvent) => void;
   minOrderChecked: boolean;
   onMinOrderChange: (e: React.MouseEvent) => void;
@@ -804,21 +820,26 @@ export const ScheduledOrderCard: React.FC<{
 }> = ({
   timeRangeChecked,
   onTimeRangeChange,
+  showBorder = false,
   minOrderChecked,
   onMinOrderChange,
   remindersChecked,
   onRemindersChange,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 mb-4">
+    <div className={`bg-white rounded-custom12px p-6 mb-4 ${showBorder ? "border border-reloadBorder rounded-custom12px" : ""}`}>
       <div className="flex justify-between items-center mb-2">
         <div>
           <h2 className="text-[14px] font-inter font-[500] text-textHeading">
             Scheduled Order Time Range
           </h2>
-          <p className="text-[12px] font-inter font-[500] text-cardTitle">
+          <p className="hidden md:block text-[12px] font-inter font-[500] text-cardTitle">
             Set a delivery time range for scheduled orders to ensure timely
             fulfillment.
+          </p>
+          <p className="block md:hidden text-[12px] font-inter font-[500] text-cardTitle">
+            Set a delivery time range for scheduled
+            <br /> orders to ensure timely fulfillment.
           </p>
         </div>
         <ToggleSwitch
@@ -834,11 +855,35 @@ export const ScheduledOrderCard: React.FC<{
             <h3 className="text-[14px] font-inter font-[500] text-textHeading mb-2">
               Delivery Time Range (Minutes)
             </h3>
-            <TimeInput placeholder="Enter time range for scheduled orders" />
+
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Enter time range for scheduled orders"
+                className="block w-full px-3 py-4 pr-10 focus:border-indigo-300 rounded-custom8px border border-reloadBorder font-inter font-[14px] font-[400] text-reloadBorder focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <path
+                    d="M10 6.66667V10L12.5 12.5M17.5 10C17.5 14.1421 14.1421 17.5 10 17.5C5.85786 17.5 2.5 14.1421 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5C14.1421 2.5 17.5 5.85786 17.5 10Z"
+                    stroke="#949494"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="mb-4 pt-4 border-t">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-1">
               <h3 className="text-[14px] font-inter font-[500] text-textHeading">
                 Set Minimum Order Amount
               </h3>
@@ -853,7 +898,7 @@ export const ScheduledOrderCard: React.FC<{
               <input
                 type="text"
                 placeholder="Enter amount"
-                className="w-full border border-reloadBorder rounded-custom8px px-3 py-2 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500 mt-2"
+                className="w-full border border-reloadBorder rounded-custom8px px-3 py-4 pr-10 text-[14px] font-inter font-[400] placeholder:text-reloadBorder focus:outline-none focus:ring-2 focus:ring-purple-500 mt-2"
               />
             )}
           </div>

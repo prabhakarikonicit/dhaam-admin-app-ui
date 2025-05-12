@@ -1,18 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown, Plus, Check, X } from "lucide-react";
 import CustomDataGrid from "../common/datagrid";
 import CustomModal, { FieldDefinition } from "../common/modals";
 import StatCard from "../common/statCard";
-import UnifiedPopover from "../common/DetailsModal";
+// import StoreDetailPage from "../stores/storedetails";
+// import StoreDetailPage from "../stores/showstoredetailsview";
+import StoreDetailPage from '../stores/StoreDetail';
 
+import StorePopover from "../stores/storepopover";
+import { MoreVertical } from "lucide-react";
+interface ToggleButtonProps {
+  initialState: boolean;
+  rowId: string;
+  onStateChange?: (id: string, state: boolean) => void;
+}
 interface Store {
   id: string;
   storeId: string;
   name: string;
   address: string;
   rating: number;
-  status: "Active" | "Inactive";
-  amount: string; // Add this property as optional
+  status: "Active" | "Inactive" | "Pending";
+  amount: string;
+  createdDate?: string;
   items?: StoreItem[];
 }
 
@@ -21,7 +30,74 @@ interface StoreItem {
   quantity: number;
   price: string;
 }
+const ToggleButton: React.FC<ToggleButtonProps> = ({
+  initialState,
+  rowId,
+  onStateChange,
+}) => {
+  // Use local state to ensure re-renders
+  const [isOn, setIsOn] = React.useState(initialState);
 
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const newState = !isOn;
+    setIsOn(newState);
+
+    // Notify parent component if needed
+    if (onStateChange) {
+      onStateChange(rowId, newState);
+    }
+  };
+
+  return (
+    <div className="w-[50px] flex items-center justify-center">
+      <button
+        onClick={handleToggle}
+        className="focus:outline-none"
+        aria-checked={isOn}
+        role="switch"
+      >
+        {isOn ? (
+          // ON state SVG (purple)
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="41"
+            height="24"
+            viewBox="0 0 41 24"
+            fill="none"
+          >
+            <path
+              d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+              fill="#7C43DF"
+              stroke="#7C43DF"
+            />
+            <g>
+              <circle cx="29" cy="11" r="9" fill="white" />
+            </g>
+          </svg>
+        ) : (
+          // OFF state SVG (gray)
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="41"
+            height="24"
+            viewBox="0 0 41 24"
+            fill="none"
+          >
+            <path
+              d="M11 0.5H29C34.799 0.5 39.5 5.20101 39.5 11C39.5 16.799 34.799 21.5 29 21.5H11C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5Z"
+              fill="#E5E5E5"
+              stroke="#E5E5E5"
+            />
+            <g>
+              <circle cx="11" cy="11" r="9" fill="white" />
+            </g>
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+};
 const Stores: React.FC = () => {
   // State management
   const [stores, setStores] = useState<Store[]>([]);
@@ -34,11 +110,28 @@ const Stores: React.FC = () => {
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLElement | null>(
     null
   );
+  const [toggledRows, setToggledRows] = useState<{ [key: string]: boolean }>({
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": true,
+  });
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [popoverStore, setPopoverStore] = useState<Store | null>(null);
   const [density, setDensity] = useState<
     "compact" | "standard" | "comfortable"
   >("standard");
 
+  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<
+    { field: string; value: string }[]
+  >([]);
+  const [searchText, setSearchText] = useState("");
+  const [startDate, setStartDate] = useState("2025-02-10");
+  const [endDate, setEndDate] = useState("2025-02-28");
+  // Add this new state to control view visibility
+  const [showStoreDetailsView, setShowStoreDetailsView] = useState(false);
   // Refs for outside click handling
   const densityMenuRef = useRef<HTMLDivElement>(null);
   const columnMenuRef = useRef<HTMLDivElement>(null);
@@ -55,7 +148,87 @@ const Stores: React.FC = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [storesDropdownOpen, setStoresDropdownOpen] = useState(false);
   const [actionsDropdownOpen, setActionsDropdownOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // Add this useEffect for handling clicks outside the mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowMobileMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Function to filter orders by date range
+  const filterByDateRange = (
+    ordersToFilter: Store[],
+    start: string,
+    end: string
+  ): Store[] => {
+    return ordersToFilter.filter((store) => {
+      if (!store.createdDate) return true;
+
+      const orderDate = new Date(store.createdDate);
+      const startDateObj = new Date(start);
+      const endDateObj = new Date(end);
+
+      return orderDate >= startDateObj && orderDate <= endDateObj;
+    });
+  };
+  // Function to apply all filters (search, date range, and column filters)
+  const applyAllFilters = () => {
+    let filteredData = [...stores];
+    // Apply date range filter
+    filteredData = filterByDateRange(filteredData, startDate, endDate);
+
+    // Apply search filter
+    if (searchText) {
+      const searchLower = searchText.toLowerCase();
+      filteredData = filteredData.filter((order) => {
+        return Object.entries(order).some(([key, value]) => {
+          // Skip id field
+          if (key === "id") return false;
+
+          // Check if column is visible
+          const column = columns.find((col) => col.field === key);
+          if (column && !visibleColumns.includes(key)) return false;
+
+          // Check if value contains search text
+          if (value == null) return false;
+          return String(value).toLowerCase().includes(searchLower);
+        });
+      });
+    }
+
+    // Apply column-specific filters
+    if (activeFilters.length > 0) {
+      filteredData = filteredData.filter((store) => {
+        return activeFilters.every((filter) => {
+          const value = store[filter.field as keyof Store];
+          if (value == null) return false;
+          return String(value)
+            .toLowerCase()
+            .includes(filter.value.toLowerCase());
+        });
+      });
+    }
+
+    setPaginatedData(filteredData);
+  };
+
+  // Apply filters whenever filter conditions change
+  useEffect(() => {
+    applyAllFilters();
+  }, [searchText, startDate, endDate, activeFilters, visibleColumns]);
   // Sample data initialization
   useEffect(() => {
     const mockStores: Store[] = [
@@ -146,14 +319,19 @@ const Stores: React.FC = () => {
         name: "Proxi",
         address: "2118 Thornridge Cir. Syracuse, Connecticut 35624",
         rating: 4.21,
-        status: "Active",
+        status: "Pending",
         amount: "₹300.00",
       },
     ];
     setStores(mockStores);
-    setPaginatedData(mockStores);
-  }, []);
+    // Filter by date range initially
+    const filtered = filterByDateRange(mockStores, startDate, endDate);
+    setPaginatedData(filtered);
 
+    // Initialize visible columns
+    const allColumnFields = columns.map((col) => col.field);
+    setVisibleColumns(allColumnFields);
+  }, []);
   // Define Column type to match your CustomDataGrid expectations
   interface Column {
     field: string;
@@ -195,6 +373,11 @@ const Stores: React.FC = () => {
     setPopoverOpen(true);
   };
 
+  // Handler for popover arrow click (show full details)
+  const handleShowFullDetails = () => {
+    setShowStoreDetailsView(true); // Now we hide the main view
+  };
+
   // DataGrid column definitions
   const columns: Column[] = [
     {
@@ -213,8 +396,8 @@ const Stores: React.FC = () => {
               fill="none"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M4.23431 5.83432C4.54673 5.5219 5.05327 5.5219 5.36569 5.83432L8 8.46864L10.6343 5.83432C10.9467 5.5219 11.4533 5.5219 11.7657 5.83432C12.0781 6.14674 12.0781 6.65327 11.7657 6.96569L8.56569 10.1657C8.25327 10.4781 7.74673 10.4781 7.43431 10.1657L4.23431 6.96569C3.9219 6.65327 3.9219 6.14674 4.23431 5.83432Z"
                 fill="#2B2B2B"
               />
@@ -226,49 +409,13 @@ const Stores: React.FC = () => {
     {
       field: "name",
       headerName: "Store",
-      width: "250px",
+      width: "280px",
+      renderCell: (value, row) => (
+        <div className="w-[60px] pr-24 py-1 text-cardValue font-inter font-[500] text-[12px] lg:whitespace-nowrap md:whitespace-normal">
+          {value}
+        </div>
+      ),
     },
-    // {
-    //   field: "status",
-    //   headerName: "Status",
-    //   width: "120px",
-    //   renderCell: (value, row) => (
-    //     <div className="flex items-center space-x-2">
-    //       <button className="p-1 rounded-custom border border-borderCrossIcon bg-bgCrossIcon">
-    //         <svg
-    //           xmlns="http://www.w3.org/2000/svg"
-    //           width="15"
-    //           height="14"
-    //           viewBox="0 0 15 14"
-    //           fill="none"
-    //         >
-    //           <path
-    //             fill-rule="evenodd"
-    //             clip-rule="evenodd"
-    //             d="M3.50501 3.00501C3.77838 2.73165 4.2216 2.73165 4.49496 3.00501L7.49999 6.01004L10.505 3.00501C10.7784 2.73165 11.2216 2.73165 11.495 3.00501C11.7683 3.27838 11.7683 3.7216 11.495 3.99496L8.48994 6.99999L11.495 10.005C11.7683 10.2784 11.7683 10.7216 11.495 10.995C11.2216 11.2683 10.7784 11.2683 10.505 10.995L7.49999 7.98994L4.49496 10.995C4.2216 11.2683 3.77838 11.2683 3.50501 10.995C3.23165 10.7216 3.23165 10.2784 3.50501 10.005L6.51004 6.99999L3.50501 3.99496C3.23165 3.7216 3.23165 3.27838 3.50501 3.00501Z"
-    //             fill="#620E0E"
-    //           />
-    //         </svg>
-    //       </button>
-    //       <button className="p-1 rounded-custom border border-borderGreeen bg-customBackgroundColor">
-    //         <svg
-    //           xmlns="http://www.w3.org/2000/svg"
-    //           width="15"
-    //           height="14"
-    //           viewBox="0 0 15 14"
-    //           fill="none"
-    //         >
-    //           <path
-    //             fill-rule="evenodd"
-    //             clip-rule="evenodd"
-    //             d="M12.1949 3.70503C12.4683 3.97839 12.4683 4.42161 12.1949 4.69497L6.59495 10.295C6.32158 10.5683 5.87837 10.5683 5.605 10.295L2.805 7.49497C2.53163 7.22161 2.53163 6.77839 2.805 6.50503C3.07837 6.23166 3.52158 6.23166 3.79495 6.50503L6.09998 8.81005L11.205 3.70503C11.4784 3.43166 11.9216 3.43166 12.1949 3.70503Z"
-    //             fill="#125E1B"
-    //           />
-    //         </svg>
-    //       </button>
-    //     </div>
-    //   ),
-    // },
     {
       field: "address",
       headerName: "Store Address",
@@ -301,12 +448,41 @@ const Stores: React.FC = () => {
     {
       field: "activeStatus",
       headerName: "Status",
-      width: "85px",
+      width: "100px",
       renderCell: (value, row) => (
-        <div className="px-1 py-1 rounded-custom4px bg-bgActive text-customWhiteColor text-[12px] font-[600] font-inter text-center">
+        <div className="w-[60px] px-1 py-1 rounded-custom4px bg-bgActive text-customWhiteColor text-[12px] font-[600] font-inter text-center">
           {row.status}
         </div>
       ),
+    },
+    {
+      field: "toggle",
+      headerName: "Rating",
+      width: "120px",
+      renderCell: (value, row) => {
+        // Get initial state from toggledRows
+        const initialState = toggledRows[row.id] || false;
+
+        // Handle state changes from the toggle
+        const handleToggleChange = (id: string, newState: boolean) => {
+          // Update parent state if needed
+          setToggledRows((prev) => ({
+            ...prev,
+            [id]: newState,
+          }));
+          console.log(`Toggle for row ${id} changed to: ${newState}`);
+        };
+
+        // Each toggle has its own state, ensuring it re-renders independently
+        return (
+          <ToggleButton
+            initialState={initialState}
+            rowId={row.id}
+            onStateChange={handleToggleChange}
+            key={`toggle-${row.id}`} // Ensure unique key for React
+          />
+        );
+      },
     },
   ];
 
@@ -440,17 +616,168 @@ const Stores: React.FC = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [popoverOpen, popoverAnchorEl]);
+  const handleReject = () => {
+    console.log("Store rejected");
+    alert("Store rejected");
+    // Add your reject logic here
+  };
+
+  const handleAccept = () => {
+    console.log("Store accepted");
+    alert("Store accepted");
+    // Add your accept logic here
+  };
+
+  const handleMoreActions = () => {
+    console.log("More actions requested");
+    alert("More actions menu");
+    // Implement menu display or other actions
+  };
+
+  // Handler for closing store details view
+  const handleCloseStoreDetails = () => {
+    // console.log("BACKBUTTON STORE")
+    setPopoverOpen(false);
+    setShowStoreDetailsView(false);
+  };
+
+  const handlePrint = () => {
+    console.log("Print button clicked");
+    // The component will handle printing with the default implementation
+    // If you want custom printing logic, uncomment and modify the code below:
+
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      alert("Please allow popups for printing functionality");
+      return;
+    }
+
+    // Make sure we have the store data from popoverStore
+    if (!popoverStore) {
+      alert("No store data available to print");
+      return;
+    }
+
+    // Custom print content
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Store Details - ${popoverStore.storeId}</title>
+          <style>
+            body { font-family: Arial, sans-serif; }
+            .print-header { text-align: center; margin-bottom: 20px; }
+        
+          </style>
+        </head>
+        <body>
+          <div class="print-header">
+            <h1>Store #${popoverStore.storeId}</h1>
+            <p>${popoverStore.name}</p>
+          </div>
+      
+          <script>
+            window.onload = function() { window.print(); }
+          </script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  };
+
+  // If store details view is active, only show the StoreDetailPage
+  if (showStoreDetailsView && popoverStore) {
+    return (
+      <div className="p-0 max-w-full rounded-l sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto bg-background-grey">
+        <StoreDetailPage
+          storeId={popoverStore.storeId}
+          storeName={popoverStore.name}
+          storeAddress={popoverStore.address}
+          rating={popoverStore.rating}
+          status={popoverStore.status}
+          phoneNumber="+91 810 230 8108" // Example or placeholder
+          email="info@designmart.com" // Example or placeholder
+          storeItems={popoverStore.items}
+          onBackClick={handleCloseStoreDetails}
+          onPrint={handlePrint}
+          onReject={handleReject}
+          onAccept={handleAccept}
+          onMoreActions={handleMoreActions}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="p-0 max-w-full rounded-l sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto bg-background-grey">
+    <div className="p-0 max-w-full rounded-lg p-1 md:p-6 lg:p-0 xl:p-0 sm:max-h-full md:max-h-[100vh] lg:max-h-[100vh] xl:max-h-[100vh] max-h-[80vh] overflow-y-auto bg-background-grey">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 px-8 pt-8">
+      <div className="flex justify-between items-center mb-6 px-4 md:px-8 pt-8">
         <h1 className="text-[20px] font-inter font-[600] text-cardValue">
           Stores
         </h1>
         <div className="flex space-x-2 relative">
-          {/* More actions dropdown */}
-          <div className="relative">
+          {/* For Mobile: Three Dots Menu */}
+          <div className="md:hidden relative flex mx-4 ">
+            <button
+              onClick={() => {
+                setShowMobileMenu(false);
+                handleAddStore();
+              }}
+              className="w-full text-left px-4 py-2 bg-bgButton text-whiteColor font-inter font-[12px] font-[600] border border-btnBorder rounded-md"
+            >
+              Add store
+            </button>
+
+            <button
+              className="p-2 mx-2 rounded-custom border border-grey-border bg-backgroundWhite"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
+              <MoreVertical size={20} />
+            </button>
+
+            {showMobileMenu && (
+              <div
+                ref={mobileMenuRef}
+                className="absolute right-0 top-10 bg-white shadow-lg rounded-md border border-gray-200 w-48 z-20"
+              >
+                <div className="py-1">
+                  <button
+                    onClick={() => {
+                      setShowMobileMenu(false);
+                      setDropdownOpen(!dropdownOpen);
+                    }}
+                    className="w-full text-left px-4 py-2 text-menuSubHeadingColor font-inter font-[16px] font-[500] hover:bg-gray"
+                  >
+                    More actions
+                  </button>
+
+                  <div className="py-1">
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap "
+                    >
+                      Import stores
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    >
+                      Create new view
+                    </a>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    >
+                      Hide analytics
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* For Desktop: Normal Buttons */}
+          <div className="hidden md:block relative">
             <button
               className="bg-backgroundWhite rounded-custom px-4 py-2 flex items-center text-menuSubHeadingColor font-inter font-[12px] font-[500] border border-reloadBorder shadow-sm"
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -465,8 +792,8 @@ const Stores: React.FC = () => {
                   fill="none"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M3.70503 5.10503C3.97839 4.83166 4.42161 4.83166 4.69497 5.10503L7 7.41005L9.30503 5.10503C9.57839 4.83166 10.0216 4.83166 10.295 5.10503C10.5683 5.37839 10.5683 5.82161 10.295 6.09498L7.49497 8.89498C7.22161 9.16834 6.77839 9.16834 6.50503 8.89498L3.70503 6.09498C3.43166 5.82161 3.43166 5.37839 3.70503 5.10503Z"
                     fill="#636363"
                   />
@@ -478,19 +805,19 @@ const Stores: React.FC = () => {
                 <div className="py-1">
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap hover:bg-background-grey hover:underline"
                   >
                     Import stores
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap hover:bg-background-grey hover:underline"
                   >
                     Create new view
                   </a>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap"
+                    className="block px-4 py-2 text-menuSubHeadingColor font-inter font-[12px] font-[500] whitespace-nowrap hover:bg-background-grey hover:underline"
                   >
                     Hide analytics
                   </a>
@@ -499,12 +826,11 @@ const Stores: React.FC = () => {
             )}
           </div>
 
-          {/* Add store button */}
+          {/* Add store button - visible only on desktop */}
           <button
-            className="bg-bgButton text-whiteColor font-inter font-[12px] font-[600] border border-btnBorder rounded-md px-4 py-2 flex items-center shadow-sm"
+            className="hidden md:flex bg-bgButton text-whiteColor font-inter font-[12px] font-[600] border border-btnBorder rounded-md px-4 py-2 items-center shadow-sm"
             onClick={handleAddStore}
           >
-            {/* <Plus size={16} className="mr-1" /> */}
             Add store
             <div className="ml-1">
               <svg
@@ -517,9 +843,9 @@ const Stores: React.FC = () => {
                 <path
                   d="M7.00004 2.33334V11.6667M11.6667 7L2.33337 7"
                   stroke="#D9D9D9"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
@@ -528,206 +854,359 @@ const Stores: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="  ">
-        <div className="grid grid-cols-2 md:grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-1 bg-backgroundWhite mx-8 ps-3 py-3 pe-3  rounded-custom8px">
-          
-          <StatCard
-            value="213"
-            description="Active Store"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M4 6V4H20V6H4ZM4 20V14H3V12L4 7H20L21 12V14H20V20H18V14H14V20H4ZM6 18H12V14H6V18Z"
-                  fill="#636363"
-                />
-              </svg>
-            }
-          />
-          <StatCard
-            value="245"
-            description="Inactive Stores"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="24"
-                viewBox="0 0 25 24"
-                fill="none"
-              >
-                <path
-                  d="M9.5333 6L7.5333 4H20.3333V6H9.5333ZM20.3333 16.8V14H21.3333V12L20.3333 7H10.5333L17.5333 14H18.3333V14.8L20.3333 16.8ZM22.4433 21.46L21.1733 22.73L14.3333 15.89V20H4.3333V14H3.3333V12L4.3333 7H5.4433L1.4433 3L2.7233 1.73L22.4433 21.46ZM12.3333 14H6.3333V18H12.3333V14Z"
-                  fill="#636363"
-                />
-              </svg>
-            }
-          />
-          <StatCard
-            value="111"
-            description="Open Stores"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="24"
-                viewBox="0 0 25 24"
-                fill="none"
-              >
-                <path
-                  d="M4.66669 6V4H20.6667V6H4.66669ZM4.66669 20V14H3.66669V12L4.66669 7H20.6667L21.6667 12V14H20.6667V20H18.6667V14H14.6667V20H4.66669ZM6.66669 18H12.6667V14H6.66669V18Z"
-                  fill="#636363"
-                />
-              </svg>
-            }
-          />
-          <StatCard
-            value="164"
-            description="Closed Store"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M20.4 6.28571C20.4 5.02857 19.32 4 18 4H15.6C14.94 4 14.4 4.51429 14.4 5.14286C14.4 5.77143 14.94 6.28571 15.6 6.28571H18V9.31429L13.824 14.2857H9.6V9.71429C9.6 9.08571 9.06 8.57143 8.4 8.57143H4.8C2.148 8.57143 0 10.6171 0 13.1429V15.4286C0 16.0571 0.54 16.5714 1.2 16.5714H2.4C2.4 18.4686 4.008 20 6 20C7.992 20 9.6 18.4686 9.6 16.5714H13.824C14.556 16.5714 15.24 16.2514 15.696 15.7143L19.872 10.7429C20.22 10.3314 20.4 9.82857 20.4 9.31429V6.28571ZM6 17.7143C5.34 17.7143 4.8 17.2 4.8 16.5714H7.2C7.2 17.2 6.66 17.7143 6 17.7143Z"
-                  fill="#636363"
-                />
-                <path
-                  d="M4.8 5.14286H8.4C9.06 5.14286 9.6 5.65714 9.6 6.28571C9.6 6.91429 9.06 7.42857 8.4 7.42857H4.8C4.14 7.42857 3.6 6.91429 3.6 6.28571C3.6 5.65714 4.14 5.14286 4.8 5.14286ZM20.4 13.1429C18.408 13.1429 16.8 14.6743 16.8 16.5714C16.8 18.4686 18.408 20 20.4 20C22.392 20 24 18.4686 24 16.5714C24 14.6743 22.392 13.1429 20.4 13.1429ZM20.4 17.7143C19.74 17.7143 19.2 17.2 19.2 16.5714C19.2 15.9429 19.74 15.4286 20.4 15.4286C21.06 15.4286 21.6 15.9429 21.6 16.5714C21.6 17.2 21.06 17.7143 20.4 17.7143Z"
-                  fill="#636363"
-                />
-              </svg>
-            }
-          />
-          <StatCard
-            value="164"
-            description="Verified"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="24"
-                viewBox="0 0 25 24"
-                fill="none"
-              >
-                <g clip-path="url(#clip0_6994_51368)">
-                  <path
-                    d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
-                    fill="#636363"
-                  />
-                  <path
-                    d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
-                    fill="#636363"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_6994_51368">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0.333252)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            }
-          />
-          <StatCard
-            value="50"
-            description="Verified"
-            descriptionFirst={true}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="24"
-                viewBox="0 0 25 24"
-                fill="none"
-              >
-                <g clip-path="url(#clip0_6994_51368)">
-                  <path
-                    d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
-                    fill="#636363"
-                  />
-                  <path
-                    d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
-                    fill="#636363"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_6994_51368">
-                    <rect
-                      width="24"
-                      height="24"
-                      fill="white"
-                      transform="translate(0.333252)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-            }
-          />
-        </div>
-
-        {/* Data grid section */}
-        <div className="px-8 pb-8 overflow-x-auto bg-background-grey ">
-          <CustomDataGrid
-            rows={paginatedData}
-            columns={columns}
-            selectedRows={selectedRows}
-            onSelectRow={handleSelectRow}
-            onSelectAll={handleSelectAll}
-            searchPlaceholder="Search store"
-            hideToolbar={false}
-            densityFirst={true} // Change to false if you want export button before density
-            densityOptions={{
-              currentDensity: density,
-              onDensityChange: (newDensity) => {
-                setDensity(newDensity);
-                // Apply any density-related styling changes here if needed
-              },
-            }}
-          />
-        </div>
-
-        <UnifiedPopover
-          isOpen={popoverOpen}
-          onClose={() => setPopoverOpen(false)}
-          data={popoverStore}
-          type="store"
-          anchorEl={popoverAnchorEl}
+      <div className="hidden md:grid grid-cols-2 md:grid-cols-6 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6 gap-2 bg-backgroundWhite ps-3 pe-3 mx-6 py-3 rounded-tl-custom8px rounded-tr-custom8px border-b-2 border-background-grey">
+        <StatCard
+          value="213"
+          description="Active Store"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M4 6V4H20V6H4ZM4 20V14H3V12L4 7H20L21 12V14H20V20H18V14H14V20H4ZM6 18H12V14H6V18Z"
+                fill="#636363"
+              />
+            </svg>
+          }
         />
-
-        {/* Modal */}
-        {isModalOpen && (
-          <CustomModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            mode={modalMode}
-            onSave={handleSave}
-            title={modalMode === "add" ? "Add Store" : "Edit Store"}
-            fields={modalFields}
-            size="md"
-            showToggle={false}
-            confirmText={modalMode === "add" ? "Add" : "Save"}
-          />
-        )}
+        <StatCard
+          value="245"
+          description="Inactive Stores"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="24"
+              viewBox="0 0 25 24"
+              fill="none"
+            >
+              <path
+                d="M9.5333 6L7.5333 4H20.3333V6H9.5333ZM20.3333 16.8V14H21.3333V12L20.3333 7H10.5333L17.5333 14H18.3333V14.8L20.3333 16.8ZM22.4433 21.46L21.1733 22.73L14.3333 15.89V20H4.3333V14H3.3333V12L4.3333 7H5.4433L1.4433 3L2.7233 1.73L22.4433 21.46ZM12.3333 14H6.3333V18H12.3333V14Z"
+                fill="#636363"
+              />
+            </svg>
+          }
+        />
+        <StatCard
+          value="111"
+          description="Open Stores"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="24"
+              viewBox="0 0 25 24"
+              fill="none"
+            >
+              <path
+                d="M4.66669 6V4H20.6667V6H4.66669ZM4.66669 20V14H3.66669V12L4.66669 7H20.6667L21.6667 12V14H20.6667V20H18.6667V14H14.6667V20H4.66669ZM6.66669 18H12.6667V14H6.66669V18Z"
+                fill="#636363"
+              />
+            </svg>
+          }
+        />
+        <StatCard
+          value="164"
+          description="Closed Store"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M20.4 6.28571C20.4 5.02857 19.32 4 18 4H15.6C14.94 4 14.4 4.51429 14.4 5.14286C14.4 5.77143 14.94 6.28571 15.6 6.28571H18V9.31429L13.824 14.2857H9.6V9.71429C9.6 9.08571 9.06 8.57143 8.4 8.57143H4.8C2.148 8.57143 0 10.6171 0 13.1429V15.4286C0 16.0571 0.54 16.5714 1.2 16.5714H2.4C2.4 18.4571 3.972 20 5.88 20C7.788 20 9.36 18.4571 9.36 16.5714H14.64C14.64 18.4571 16.212 20 18.12 20C20.028 20 21.6 18.4571 21.6 16.5714H22.8C23.46 16.5714 24 16.0571 24 15.4286V13.1429C24 9.02857 22.536 6.28571 20.4 6.28571ZM5.88 18.2857C4.944 18.2857 4.2 17.5429 4.2 16.5714C4.2 15.6 4.944 14.8571 5.88 14.8571C6.816 14.8571 7.56 15.6 7.56 16.5714C7.56 17.5429 6.816 18.2857 5.88 18.2857ZM18.12 18.2857C17.184 18.2857 16.44 17.5429 16.44 16.5714C16.44 15.6 17.184 14.8571 18.12 14.8571C19.056 14.8571 19.8 15.6 19.8 16.5714C19.8 17.5429 19.056 18.2857 18.12 18.2857ZM21.6 10.8571H14.4V8.57143H19.0848C19.32 8.57143 19.532 8.72 19.62 8.94286L21.6 10.8571Z"
+                fill="#636363"
+              />
+            </svg>
+          }
+        />
+        <StatCard
+          value="164"
+          description="Verified"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="24"
+              viewBox="0 0 25 24"
+              fill="none"
+            >
+              <g clipPath="url(#clip0_7339_55668)">
+                <path
+                  d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
+                  fill="#636363"
+                />
+                <path
+                  d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
+                  fill="#636363"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_7339_55668">
+                  <rect
+                    width="24"
+                    height="24"
+                    fill="white"
+                    transform="translate(0.333252)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          }
+        />
+        <StatCard
+          value="23"
+          description="Verified"
+          descriptionFirst={true}
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M21 16.5C21 16.8978 20.842 17.2794 20.5607 17.5607C20.2794 17.842 19.8978 18 19.5 18C19.1022 18 18.7206 17.842 18.4393 17.5607C18.158 17.2794 18 16.8978 18 16.5C18 16.1022 18.158 15.7206 18.4393 15.4393C18.7206 15.158 19.1022 15 19.5 15C19.8978 15 20.2794 15.158 20.5607 15.4393C20.842 15.7206 21 16.1022 21 16.5ZM21 9C21 9.39782 20.842 9.77936 20.5607 10.0607C20.2794 10.342 19.8978 10.5 19.5 10.5C19.1022 10.5 18.7206 10.342 18.4393 10.0607C18.158 9.77936 18 9.39782 18 9C18 8.60218 18.158 8.22064 18.4393 7.93934C18.7206 7.65804 19.1022 7.5 19.5 7.5C19.8978 7.5 20.2794 7.65804 20.5607 7.93934C20.842 8.22064 21 8.60218 21 9ZM15 12.75C15 13.1478 14.842 13.5294 14.5607 13.8107C14.2794 14.092 13.8978 14.25 13.5 14.25C13.1022 14.25 12.7206 14.092 12.4393 13.8107C12.158 13.5294 12 13.1478 12 12.75C12 12.3522 12.158 11.9706 12.4393 11.6893C12.7206 11.408 13.1022 11.25 13.5 11.25C13.8978 11.25 14.2794 11.408 14.5607 11.6893C14.842 11.9706 15 12.3522 15 12.75ZM15 5.25C15 5.64782 14.842 6.02936 14.5607 6.31066C14.2794 6.59196 13.8978 6.75 13.5 6.75C13.1022 6.75 12.7206 6.59196 12.4393 6.31066C12.158 6.02936 12 5.64782 12 5.25C12 4.85218 12.158 4.47064 12.4393 4.18934C12.7206 3.90804 13.1022 3.75 13.5 3.75C13.8978 3.75 14.2794 3.90804 14.5607 4.18934C14.842 4.47064 15 4.85218 15 5.25ZM15 20.25C15 20.6478 14.842 21.0294 14.5607 21.3107C14.2794 21.592 13.8978 21.75 13.5 21.75C13.1022 21.75 12.7206 21.592 12.4393 21.3107C12.158 21.0294 12 20.6478 12 20.25C12 19.8522 12.158 19.4706 12.4393 19.1893C12.7206 18.908 13.1022 18.75 13.5 18.75C13.8978 18.75 14.2794 18.908 14.5607 19.1893C14.842 19.4706 15 19.8522 15 20.25ZM9 16.5C9 16.8978 8.84196 17.2794 8.56066 17.5607C8.27936 17.842 7.89782 18 7.5 18C7.10218 18 6.72064 17.842 6.43934 17.5607C6.15804 17.2794 6 16.8978 6 16.5C6 16.1022 6.15804 15.7206 6.43934 15.4393C6.72064 15.158 7.10218 15 7.5 15C7.89782 15 8.27936 15.158 8.56066 15.4393C8.84196 15.7206 9 16.1022 9 16.5ZM9 9C9 9.39782 8.84196 9.77936 8.56066 10.0607C8.27936 10.342 7.89782 10.5 7.5 10.5C7.10218 10.5 6.72064 10.342 6.43934 10.0607C6.15804 9.77936 6 9.39782 6 9C6 8.60218 6.15804 8.22064 6.43934 7.93934C6.72064 7.65804 7.10218 7.5 7.5 7.5C7.89782 7.5 8.27936 7.65804 8.56066 7.93934C8.84196 8.22064 9 8.60218 9 9ZM19.125 3.75H4.875C4.17904 3.75 3.51169 4.02656 3.02252 4.51573C2.53335 5.0049 2.25679 5.67225 2.25679 6.36821C2.25679 7.06416 2.53335 7.73152 3.02252 8.22069C3.51169 8.70985 4.17904 8.98641 4.875 8.98641H19.125C19.821 8.98641 20.4883 8.70985 20.9775 8.22069C21.4667 7.73152 21.7432 7.06416 21.7432 6.36821C21.7432 5.67225 21.4667 5.0049 20.9775 4.51573C20.4883 4.02656 19.821 3.75 19.125 3.75Z"
+                fill="#636363"
+              />
+            </svg>
+          }
+        />
       </div>
 
+      {/* Mobile View Horizontal Slider */}
+      <div className="md:hidden rounded-custom8px">
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto scrollbar-hide py-2 px-1 bg-white"
+          style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+        >
+          <div className="flex space-x-3 w-max">
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100 ">
+              <StatCard
+                value="213"
+                description="Active Store"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M4 6V4H20V6H4ZM4 20V14H3V12L4 7H20L21 12V14H20V20H18V14H14V20H4ZM6 18H12V14H6V18Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="245"
+                description="Inactive Stores"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M9.5333 6L7.5333 4H20.3333V6H9.5333ZM20.3333 16.8V14H21.3333V12L20.3333 7H10.5333L17.5333 14H18.3333V14.8L20.3333 16.8ZM22.4433 21.46L21.1733 22.73L14.3333 15.89V20H4.3333V14H3.3333V12L4.3333 7H5.4433L1.4433 3L2.7233 1.73L22.4433 21.46ZM12.3333 14H6.3333V18H12.3333V14Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="111"
+                description="Open Stores"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M4.66669 6V4H20.6667V6H4.66669ZM4.66669 20V14H3.66669V12L4.66669 7H20.6667L21.6667 12V14H20.6667V20H18.6667V14H14.6667V20H4.66669ZM6.66669 18H12.6667V14H6.66669V18Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="164"
+                description="Closed Store"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M20.4 6.28571C20.4 5.02857 19.32 4 18 4H15.6C14.94 4 14.4 4.51429 14.4 5.14286C14.4 5.77143 14.94 6.28571 15.6 6.28571H18V9.31429L13.824 14.2857H9.6V9.71429C9.6 9.08571 9.06 8.57143 8.4 8.57143H4.8C2.148 8.57143 0 10.6171 0 13.1429V15.4286C0 16.0571 0.54 16.5714 1.2 16.5714H2.4C2.4 18.4571 3.972 20 5.88 20C7.788 20 9.36 18.4571 9.36 16.5714H14.64C14.64 18.4571 16.212 20 18.12 20C20.028 20 21.6 18.4571 21.6 16.5714H22.8C23.46 16.5714 24 16.0571 24 15.4286V13.1429C24 9.02857 22.536 6.28571 20.4 6.28571ZM5.88 18.2857C4.944 18.2857 4.2 17.5429 4.2 16.5714C4.2 15.6 4.944 14.8571 5.88 14.8571C6.816 14.8571 7.56 15.6 7.56 16.5714C7.56 17.5429 6.816 18.2857 5.88 18.2857ZM18.12 18.2857C17.184 18.2857 16.44 17.5429 16.44 16.5714C16.44 15.6 17.184 14.8571 18.12 14.8571C19.056 14.8571 19.8 15.6 19.8 16.5714C19.8 17.5429 19.056 18.2857 18.12 18.2857ZM21.6 10.8571H14.4V8.57143H19.0848C19.32 8.57143 19.532 8.72 19.62 8.94286L21.6 10.8571Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="164"
+                description="Verified"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                  >
+                    <g clipPath="url(#clip0_7339_55668)">
+                      <path
+                        d="M20.7333 6.28571C20.7333 5.02857 19.6533 4 18.3333 4H15.9333C15.2733 4 14.7333 4.51429 14.7333 5.14286C14.7333 5.77143 15.2733 6.28571 15.9333 6.28571H18.3333V9.31429L14.1573 14.2857H9.93325V9.71429C9.93325 9.08571 9.39325 8.57143 8.73325 8.57143H5.13325C2.48125 8.57143 0.333252 10.6171 0.333252 13.1429V15.4286C0.333252 16.0571 0.873252 16.5714 1.53325 16.5714H2.73325C2.73325 18.4686 4.34125 20 6.33325 20C8.32525 20 9.93325 18.4686 9.93325 16.5714H14.1573C14.8893 16.5714 15.5733 16.2514 16.0293 15.7143L20.2053 10.7429C20.5533 10.3314 20.7333 9.82857 20.7333 9.31429V6.28571ZM6.33325 17.7143C5.67325 17.7143 5.13325 17.2 5.13325 16.5714H7.53325C7.53325 17.2 6.99325 17.7143 6.33325 17.7143Z"
+                        fill="#636363"
+                      />
+                      <path
+                        d="M5.13325 5.14286H8.73325C9.39325 5.14286 9.93325 5.65714 9.93325 6.28571C9.93325 6.91429 9.39325 7.42857 8.73325 7.42857H5.13325C4.47325 7.42857 3.93325 6.91429 3.93325 6.28571C3.93325 5.65714 4.47325 5.14286 5.13325 5.14286ZM20.7333 13.1429C18.7413 13.1429 17.1333 14.6743 17.1333 16.5714C17.1333 18.4686 18.7413 20 20.7333 20C22.7253 20 24.3333 18.4686 24.3333 16.5714C24.3333 14.6743 22.7253 13.1429 20.7333 13.1429ZM20.7333 17.7143C20.0733 17.7143 19.5333 17.2 19.5333 16.5714C19.5333 15.9429 20.0733 15.4286 20.7333 15.4286C21.3933 15.4286 21.9333 15.9429 21.9333 16.5714C21.9333 17.2 21.3933 17.7143 20.7333 17.7143Z"
+                        fill="#636363"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_7339_55668">
+                        <rect
+                          width="24"
+                          height="24"
+                          fill="white"
+                          transform="translate(0.333252)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                }
+              />
+            </div>
+            <div className="min-w-[160px] whitespace-nowrap bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+              <StatCard
+                value="23"
+                description="Verified"
+                descriptionFirst={true}
+                icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M21 16.5C21 16.8978 20.842 17.2794 20.5607 17.5607C20.2794 17.842 19.8978 18 19.5 18C19.1022 18 18.7206 17.842 18.4393 17.5607C18.158 17.2794 18 16.8978 18 16.5C18 16.1022 18.158 15.7206 18.4393 15.4393C18.7206 15.158 19.1022 15 19.5 15C19.8978 15 20.2794 15.158 20.5607 15.4393C20.842 15.7206 21 16.1022 21 16.5ZM21 9C21 9.39782 20.842 9.77936 20.5607 10.0607C20.2794 10.342 19.8978 10.5 19.5 10.5C19.1022 10.5 18.7206 10.342 18.4393 10.0607C18.158 9.77936 18 9.39782 18 9C18 8.60218 18.158 8.22064 18.4393 7.93934C18.7206 7.65804 19.1022 7.5 19.5 7.5C19.8978 7.5 20.2794 7.65804 20.5607 7.93934C20.842 8.22064 21 8.60218 21 9ZM15 12.75C15 13.1478 14.842 13.5294 14.5607 13.8107C14.2794 14.092 13.8978 14.25 13.5 14.25C13.1022 14.25 12.7206 14.092 12.4393 13.8107C12.158 13.5294 12 13.1478 12 12.75C12 12.3522 12.158 11.9706 12.4393 11.6893C12.7206 11.408 13.1022 11.25 13.5 11.25C13.8978 11.25 14.2794 11.408 14.5607 11.6893C14.842 11.9706 15 12.3522 15 12.75ZM15 5.25C15 5.64782 14.842 6.02936 14.5607 6.31066C14.2794 6.59196 13.8978 6.75 13.5 6.75C13.1022 6.75 12.7206 6.59196 12.4393 6.31066C12.158 6.02936 12 5.64782 12 5.25C12 4.85218 12.158 4.47064 12.4393 4.18934C12.7206 3.90804 13.1022 3.75 13.5 3.75C13.8978 3.75 14.2794 3.90804 14.5607 4.18934C14.842 4.47064 15 4.85218 15 5.25ZM15 20.25C15 20.6478 14.842 21.0294 14.5607 21.3107C14.2794 21.592 13.8978 21.75 13.5 21.75C13.1022 21.75 12.7206 21.592 12.4393 21.3107C12.158 21.0294 12 20.6478 12 20.25C12 19.8522 12.158 19.4706 12.4393 19.1893C12.7206 18.908 13.1022 18.75 13.5 18.75C13.8978 18.75 14.2794 18.908 14.5607 19.1893C14.842 19.4706 15 19.8522 15 20.25ZM9 16.5C9 16.8978 8.84196 17.2794 8.56066 17.5607C8.27936 17.842 7.89782 18 7.5 18C7.10218 18 6.72064 17.842 6.43934 17.5607C6.15804 17.2794 6 16.8978 6 16.5C6 16.1022 6.15804 15.7206 6.43934 15.4393C6.72064 15.158 7.10218 15 7.5 15C7.89782 15 8.27936 15.158 8.56066 15.4393C8.84196 15.7206 9 16.1022 9 16.5ZM9 9C9 9.39782 8.84196 9.77936 8.56066 10.0607C8.27936 10.342 7.89782 10.5 7.5 10.5C7.10218 10.5 6.72064 10.342 6.43934 10.0607C6.15804 9.77936 6 9.39782 6 9C6 8.60218 6.15804 8.22064 6.43934 7.93934C6.72064 7.65804 7.10218 7.5 7.5 7.5C7.89782 7.5 8.27936 7.65804 8.56066 7.93934C8.84196 8.22064 9 8.60218 9 9ZM19.125 3.75H4.875C4.17904 3.75 3.51169 4.02656 3.02252 4.51573C2.53335 5.0049 2.25679 5.67225 2.25679 6.36821C2.25679 7.06416 2.53335 7.73152 3.02252 8.22069C3.51169 8.70985 4.17904 8.98641 4.875 8.98641H19.125C19.821 8.98641 20.4883 8.70985 20.9775 8.22069C21.4667 7.73152 21.7432 7.06416 21.7432 6.36821C21.7432 5.67225 21.4667 5.0049 20.9775 4.51573C20.4883 4.02656 19.821 3.75 19.125 3.75Z"
+                      fill="#636363"
+                    />
+                  </svg>
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="md:px-6 sm:px-6 lg:px-6 xl:px-6 pb-8 px-2 overflow-x-auto ">
+        <CustomDataGrid
+          rows={paginatedData}
+          columns={columns}
+          selectedRows={selectedRows}
+          onSelectRow={handleSelectRow}
+          onSelectAll={handleSelectAll}
+          searchPlaceholder="Search store"
+          hideToolbar={false}
+          showActionColumn={false}
+          showCheckboxes={true}
+          enableDateFilters={true}
+          densityFirst={true} // Change to false if you want export button before density
+          showBorder={false}
+          dateRange={{
+            label: `Feb 10–31, 2025`,
+            startDate: startDate,
+            endDate: endDate,
+            onDateChange: (start, end) => {
+              setStartDate(start);
+              setEndDate(end);
+              // Format the date range for display
+              const startObj = new Date(start);
+              const endObj = new Date(end);
+              const formattedStart = startObj.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              });
+              const formattedEnd = endObj.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+              // Apply date range filter
+              const filtered = filterByDateRange(stores, start, end);
+              setPaginatedData(filtered);
+            },
+          }}
+          densityOptions={{
+            currentDensity: density,
+            onDensityChange: (newDensity) => {
+              setDensity(newDensity);
+              // Apply any density-related styling changes here if needed
+            },
+          }}
+        />
+      </div>
+      {/* StorePopover component */}
+      <StorePopover
+        popoverOpen={popoverOpen}
+        popoverStore={popoverStore}
+        popoverAnchorEl={popoverAnchorEl}
+        showStoreDetailsView={showStoreDetailsView}
+        handleShowFullDetails={handleShowFullDetails}
+      />
+      {/* Add/Edit Modal */}
+      <CustomModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={modalMode === "add" ? "Add Store" : "Edit Store"}
+        fields={modalFields}
+        onSave={handleSave}
+        mode={modalMode} // Add this missing required prop
+      />
     </div>
   );
 };

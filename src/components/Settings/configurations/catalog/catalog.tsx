@@ -206,22 +206,46 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
       width: "25%",
       renderCell: (value: any, row: any) => (
         <div className="flex items-center justify-evenl">
-
           <span className="w-16 h-4" onClick={() => handleDeleteTag(row)}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.1999 1.59961C6.89689 1.59961 6.61988 1.77081 6.48436 2.04184L5.90548 3.19961H3.1999C2.75807 3.19961 2.3999 3.55778 2.3999 3.99961C2.3999 4.44144 2.75807 4.79961 3.1999 4.79961L3.1999 12.7996C3.1999 13.6833 3.91625 14.3996 4.7999 14.3996H11.1999C12.0836 14.3996 12.7999 13.6833 12.7999 12.7996V4.79961C13.2417 4.79961 13.5999 4.44144 13.5999 3.99961C13.5999 3.55778 13.2417 3.19961 12.7999 3.19961H10.0943L9.51545 2.04184C9.37993 1.77081 9.10292 1.59961 8.7999 1.59961H7.1999ZM5.5999 6.39961C5.5999 5.95778 5.95807 5.59961 6.3999 5.59961C6.84173 5.59961 7.1999 5.95778 7.1999 6.39961V11.1996C7.1999 11.6414 6.84173 11.9996 6.3999 11.9996C5.95807 11.9996 5.5999 11.6414 5.5999 11.1996V6.39961ZM9.5999 5.59961C9.15807 5.59961 8.7999 5.95778 8.7999 6.39961V11.1996C8.7999 11.6414 9.15807 11.9996 9.5999 11.9996C10.0417 11.9996 10.3999 11.6414 10.3999 11.1996V6.39961C10.3999 5.95778 10.0417 5.59961 9.5999 5.59961Z" fill="#2B2B2B"/>
-</svg>
-</span>
-           {/* <Trash2
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7.1999 1.59961C6.89689 1.59961 6.61988 1.77081 6.48436 2.04184L5.90548 3.19961H3.1999C2.75807 3.19961 2.3999 3.55778 2.3999 3.99961C2.3999 4.44144 2.75807 4.79961 3.1999 4.79961L3.1999 12.7996C3.1999 13.6833 3.91625 14.3996 4.7999 14.3996H11.1999C12.0836 14.3996 12.7999 13.6833 12.7999 12.7996V4.79961C13.2417 4.79961 13.5999 4.44144 13.5999 3.99961C13.5999 3.55778 13.2417 3.19961 12.7999 3.19961H10.0943L9.51545 2.04184C9.37993 1.77081 9.10292 1.59961 8.7999 1.59961H7.1999ZM5.5999 6.39961C5.5999 5.95778 5.95807 5.59961 6.3999 5.59961C6.84173 5.59961 7.1999 5.95778 7.1999 6.39961V11.1996C7.1999 11.6414 6.84173 11.9996 6.3999 11.9996C5.95807 11.9996 5.5999 11.6414 5.5999 11.1996V6.39961ZM9.5999 5.59961C9.15807 5.59961 8.7999 5.95778 8.7999 6.39961V11.1996C8.7999 11.6414 9.15807 11.9996 9.5999 11.9996C10.0417 11.9996 10.3999 11.6414 10.3999 11.1996V6.39961C10.3999 5.95778 10.0417 5.59961 9.5999 5.59961Z"
+                fill="#2B2B2B"
+              />
+            </svg>
+          </span>
+          {/* <Trash2
             className="w-4 h-4 text-gray-600 mr-3 cursor-pointer"
             onClick={() => handleDeleteTag(row)}
           /> */}
-<span className="w-16 h-4" onClick={() => handleEditTag(row)}>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path d="M13.9315 2.06824C13.3066 1.4434 12.2936 1.4434 11.6687 2.06824L5.6001 8.13687V10.3996H7.86284L13.9315 4.33098C14.5563 3.70614 14.5563 2.69308 13.9315 2.06824Z" fill="#2B2B2B"/>
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.6001 4.79961C1.6001 3.91595 2.31644 3.19961 3.2001 3.19961H6.4001C6.84193 3.19961 7.2001 3.55778 7.2001 3.99961C7.2001 4.44144 6.84193 4.79961 6.4001 4.79961H3.2001V12.7996H11.2001V9.59961C11.2001 9.15778 11.5583 8.79961 12.0001 8.79961C12.4419 8.79961 12.8001 9.15778 12.8001 9.59961V12.7996C12.8001 13.6833 12.0838 14.3996 11.2001 14.3996H3.2001C2.31644 14.3996 1.6001 13.6833 1.6001 12.7996V4.79961Z" fill="#2B2B2B"/>
-</svg> </span>
-          
+          <span className="w-16 h-4" onClick={() => handleEditTag(row)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M13.9315 2.06824C13.3066 1.4434 12.2936 1.4434 11.6687 2.06824L5.6001 8.13687V10.3996H7.86284L13.9315 4.33098C14.5563 3.70614 14.5563 2.69308 13.9315 2.06824Z"
+                fill="#2B2B2B"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M1.6001 4.79961C1.6001 3.91595 2.31644 3.19961 3.2001 3.19961H6.4001C6.84193 3.19961 7.2001 3.55778 7.2001 3.99961C7.2001 4.44144 6.84193 4.79961 6.4001 4.79961H3.2001V12.7996H11.2001V9.59961C11.2001 9.15778 11.5583 8.79961 12.0001 8.79961C12.4419 8.79961 12.8001 9.15778 12.8001 9.59961V12.7996C12.8001 13.6833 12.0838 14.3996 11.2001 14.3996H3.2001C2.31644 14.3996 1.6001 13.6833 1.6001 12.7996V4.79961Z"
+                fill="#2B2B2B"
+              />
+            </svg>{" "}
+          </span>
         </div>
       ),
     },
@@ -311,9 +335,9 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
     </button>
   );
   return (
-    <div className="max-w-full rounded-custom12px p-6 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[80vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
+    <div className="max-w-full rounded-custom12px p-1 md:p-0 sm:p-0 lg:p-0 xl:p-0 sm:max-h-full md:max-h-full lg:max-h-full xl:max-h-full max-h-[75vh] overflow-y-auto sm:overflow-visible md:overflow-visible lg:overflow-visible xl:overflow-visible">
       {/* Header */}
-      <div className="flex justify-between items-center p-4 mt-0 sm:mt-6 md:mt-6 lg:mt-8 md:px-1 sm:px-1 lg:px-1 xl:px-1">
+      <div className="flex justify-between items-center p-4 mt-0 sm:mt-4 md:mt-4 md:px-1 sm:px-1 lg:px-1 xl:px-1">
         <h1 className="text-headding-color font-inter text-[14px] font-[600] leading-[21px]">
           Catalog
         </h1>
@@ -348,9 +372,8 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
         </div>
 
         {/* Business Category Section */}
-    
-        <div className="mt-1 grid grid-cols-1 md:grid-cols-1  bg-white rounded-custom12px divide-y divide-grey-border  p-4">
-         
+
+        <div className="mt-1 grid grid-cols-1 md:grid-cols-1  bg-white rounded-custom12px divide-y divide-grey-border  p-1">
           <DynamicCards
             checked={businessCategoryToggle}
             onChange={() => setBusinessCategoryToggle(!businessCategoryToggle)}
@@ -358,34 +381,41 @@ const Catalog: React.FC<CatalogProps> = ({ onSave, onCancel }) => {
             description="Help restaurants map their products to business categories for a smoother customer checkout experience."
             variant="default"
           />
-       
 
-        {/* Active Business Categories */}
-        <div className="flex justify-between items-center   p-4 pt-4  mr-20 w-full ">
-          <div>
-            <p className="text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-textGreen ">
-              {activeCount} active business categories
-            </p>
-          </div>
-          <div className="flex w-full sm:w-auto md:w-auto lg-w-auto xl-w-auto gap-x-2">
-            <button
-              onClick={handleViewTags}
-              className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2 text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
-            >
-              View
-            </button>
-            <button
-              onClick={handleAddBusinessCategory}
-              className="px-4 py-2 text-[12px] font-inter font-[600] bg-bgButton text-white border border-bgButton rounded-custom"
-            >
-              Add New
-            </button>
+          {/* Active Business Categories */}
+          <div className="flex justify-between items-center  p-2 pt-4  mr-20 w-full ">
+            <div>
+              {/* Desktop version - hidden on mobile, shown on medium screens and up */}
+              <p className="hidden md:block text-[10px] md:text-[14px] sm:text-[14px] lg:text-[14px] xl:text-[14px] font-inter font-[500] text-textGreen">
+                {activeCount} active business categories
+              </p>
+
+              {/* Mobile version - shown on mobile, hidden on medium screens and up */}
+              <p className="block md:hidden text-[10px] font-inter font-[500] text-textGreen">
+                {activeCount} active business
+                <br /> categories
+              </p>
+            </div>
+
+            <div className="flex w- sm:w-auto md:w-auto lg-w-auto xl-w-auto gap-x-2">
+              <button
+                onClick={handleViewTags}
+                className="px-4 py-0 md:py-2 sm:py-2 lg:py-2 xl:py-2 text-[10px] md:text-[12px] sm:text-[12px] lg:text-[12px] xl:text-[12px] font-inter font-[600] bg-backgroundWhite border border-reloadBorder rounded-custom"
+              >
+                View
+              </button>
+              <button
+                onClick={handleAddBusinessCategory}
+                className="px-4 py-2 text-[12px] font-inter font-[600] bg-bgButton text-white border border-bgButton rounded-custom"
+              >
+                Add New
+              </button>
+            </div>
           </div>
         </div>
-        </div>
-      
+
         {/* User-Level Tags Section */}
-        <div className="mb-6 mt-4 bg-white p-6 rounded-md">
+        <div className="mb-6 mt-4 bg-white p-2 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
             <DynamicCards
               checked={userLevelTagsToggle}
